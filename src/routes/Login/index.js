@@ -1,85 +1,97 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import Animated from 'animated/lib/targets/react-dom';
+import { Icon, Button, Form, Input } from 'antd';
+import { routerRedux } from 'dva/router';
+
 import './login.less';
+
+const FormItem = Form.Item;
+// this.props.dispatch(routerRedux.push('/StandardOrder')); // 路由跳转
 
 
 class Login extends Component {
   constructor() {
     super();
     this.state = {
-      items: ['hello', 'world', 'click', 'me'],
-      transitionAppear: false,
-      anim: new Animated.Value(0),
+      collapsed: false,
+      userName: '123',
+      passWord: '',
     };
   }
-  handleClick = () => {
-    const { anim } = this.state;
-    anim.stopAnimation((value) => {
-      Animated.spring(anim, {
-        toValue: Math.round(value) + 2,
-      }).start();
-    });
+  componentDidMount() {
   }
-  handleRemove(i) {
-    const newItems = this.state.items.slice();
-    newItems.splice(i, 1);
-    this.setState({
-      items: newItems,
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFields((err) => {
+      if (!err) {
+        alert(0);
+        // this.props.dispatch(routerRedux.push({
+        //   pathname: 'index/home',
+        //   query: {
+        //     page: 2,
+        //   },
+        // }));
+        this.props.dispatch({
+          type: 'login/saveLoginMsg',
+          payload: {
+            userName: '2111100149',
+            passWord: '111111',
+          },
+          callback: () => {
+            this.props.dispatch({
+              type: 'login/savePassword',
+              payload: {
+                passWord: this.state.passWord,
+              },
+            });
+          },
+        });
+      }
     });
   }
   render() {
-    const { anim } = this.state;
-
-    const rotateDegree = anim.interpolate({
-      inputRange: [0, 2],
-      outputRange: ['0deg', '360deg'],
-    });
+    const { getFieldDecorator } = this.props.form;
     return (
-      <div>
-        <button
-          onMouseEnter={() => {
-            this.setState({
-              transitionAppear: true,
-            });
-          }}
-        >
-          展示</button>
-        <ReactCSSTransitionGroup
-          transitionName="example"
-          transitionAppear={this.state.transitionAppear}
-          transitionEnterTimeout={500}
-          transitionLeaveTimeout={300}
-        >
-          {
-            this.state.items.map((item, i) => {
-              return (
-                <div key={item} onClick={this.handleRemove.bind(this, i)}>
-                  {item}
-                </div>
-              );
-            })
-          }
-        </ReactCSSTransitionGroup>
-
-        <div>
-          <button onMouseEnter={this.handleClick} onMouseOut={this.handleClick}>向右翻转</button>
-          <Animated.div
-            style={{
-              transform: [{
-                rotateY: rotateDegree,
-              }],
-            }}
-            className="preivew-wrapper"
-          >
-            <div style={{ width: 100, height: 100, background: 'red' }}></div>
-          </Animated.div>
-        </div>
+      <div className="bootContent login">
+        <Form onSubmit={this.handleSubmit} className="login-form">
+          <FormItem hasFeedback className="login-form-item">
+            {getFieldDecorator('userName', {
+              rules: [{ required: true, message: 'Please input your username!' }],
+            })(
+              <Input
+                prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} placeholder="Username"
+                onChange={(e) => {
+                  this.setState({
+                    userName: e.target.value,
+                  });
+                }}
+              />
+            )}
+          </FormItem>
+          <FormItem hasFeedback className="login-form-item">
+            {getFieldDecorator('password', {
+              rules: [{ required: true, message: 'Please input your Password!' }],
+            })(
+              <Input
+                prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="Password"
+                onChange={(e) => {
+                  this.setState({
+                    passWord: e.target.value,
+                  });
+                }}
+              />
+            )}
+          </FormItem>
+          <FormItem className="login-form-item">
+            <Button type="primary" htmlType="submit" className="login-button">
+              登录
+            </Button>
+          </FormItem>
+          <a>注册</a>
+        </Form>
       </div>
     );
   }
-
 }
 
-export default connect(({ login }) => ({ login }))(Login);
+export default connect(({ login }) => ({ login }))(Form.create()(Login));
