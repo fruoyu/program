@@ -38,10 +38,7 @@ window.app = app;
 
 // 3. Model
 
-// app.model(require('./models/cart'));
 app.model(require('./models/login'));
-app.model(require('./models/home'));
-app.model(require('./models/index'));
 
 // 4. Router
 app.router(require('./routerConfig'));
