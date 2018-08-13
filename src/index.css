@@ -1,0 +1,49 @@
+html, body, :global(#root) {
+  height: 100%;
+  font-family: 'Hiragino Sans GB','Microsoft Yahei',Arial,sans-serif;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-size: 14px;
+  overflow:hidden;
+}
+ul, li {
+  list-style: none;
+}
+img, div, body, html, ul, li, a {
+  -webkit-touch-callout: none;
+}
+img input::-webkit-input-placeholder, img textarea::-webkit-input-placeholder, div input::-webkit-input-placeholder, div textarea::-webkit-input-placeholder, body input::-webkit-input-placeholder, body textarea::-webkit-input-placeholder, html input::-webkit-input-placeholder, html textarea::-webkit-input-placeholder, ul input::-webkit-input-placeholder, ul textarea::-webkit-input-placeholder, li input::-webkit-input-placeholder, li textarea::-webkit-input-placeholder, a input::-webkit-input-placeholder, a textarea::-webkit-input-placeholder {
+  color: #999;
+}
+input {
+  outline: 0;
+}
+a{
+  color: #ccc;
+}
+#root {
+  display: flex;
+}
+.bootContent{
+  flex:1;
+  display: flex;
+  width: 1100px;
+  flex-direction: column
+}
+
+img {
+	border: 0;
+}
+th {
+  background-color: #DEE1ED !important;
+  font-weight: 600 !important;
+}
+.ant-modal-footer{
+  text-align: center !important;
+}
+.ant-spin-nested-loading>.ant-spin-blur:after{
+  opacity: .95 !important;
+}
+.ant-select-dropdown{
+  max-width: 150px !important;
+}
