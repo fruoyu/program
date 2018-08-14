@@ -12,20 +12,34 @@
 
   .main{
     background:#fff;
-    width: 1100px;
-    height: 520px;
+    width: 382px;
+    height: 348px;
     display: flex;
     flex-direction: column;
     position: relative;;
   }
-
   .title{
     height: 43px;
-    background: #cccccc;
-    padding: 0 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+    font-size: 20px;
+    color:#333;
+    line-height: 43px;
+    position: relative;
+    span {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      right: 10px;
+      top:10px;
+      cursor: pointer;
+      text-align: center;
+      line-height: 20px;
+      color: #fff;
+      font-size: 12px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.3);
+    }
   }
   .buttonBox{
     width: 100%;
@@ -33,7 +47,16 @@
     position: absolute;
     justify-content: center;
     align-items: center;
-    bottom: 50px;
+    bottom: 0px;
+    button{
+      border:0;
+      background: #eff0ff;
+      color: #6a6a6a;
+    }
+    .cancle{
+      background: #afaaff;
+      color: #fff;
+    }
   }
 }
 

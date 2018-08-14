@@ -98,7 +98,7 @@
 }
 .shouye .icon-shouye {
     display: block;
-    transition: transform .5s linear;
+    transition: transform .5s linear!important;
     font-size: 22px;
     color: #812dc7;
 }
@@ -195,32 +195,47 @@
     display: inline-block;
     transform: rotate(-180deg);
     font-size: 12px;
-    transition:.2s;
+    transition:.2s!important;
 }
-.founder .trans-item , .task-state .trans-item {
+.founder .icon-qianwang {
+  top: 8px !important;
+}
+.founder .trans-item , .ant-dropdown-menu .task-state .trans-item, .ant-dropdown-menu {
     position: absolute;
-    top: 40px;
-    right: -10px;
-    width: 100px;
+    right: -36px!important;
+    width: 150px!important;
     height: auto;
-    display: none;
     text-align: center;
     border: 1px solid #0b01b8;
     background: rgba(20, 14, 62, 0.5);
     border-radius: 10px;
     font-size: 14px;
     z-index: 999;
+  .ant-dropdown-menu-item{
+    color: #fff!important;
+  }
+  .ant-dropdown-menu-item-active, .ant-dropdown-menu-item-disabled {
+    background: #4332ba!important;
+  }
+  .ant-dropdown-menu-item{
+    padding: 10px 0 !important;
+  }
+
 }
 .founder .trans-item {
     width: 145px;
-    padding: 15px 0;
     left: -60px;
 }
 .input-wrap {
     position: relative;
+  .anticon{
+    position: absolute;
+    right: 5px;
+  }
 }
 .input-founder {
     margin: 0;
+    width: 150px;
     float: none;
     text-align: left;
     width: 100%;
@@ -283,23 +298,13 @@
 .input-group , #daterange-btn{
     width: 100%;
 }
-#daterange-btn {
-    height: 35px;
-    color: #fff;
-    background: transparent;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
+.input-group {
+  .ant-calendar-picker{
+    width: 100% !important;
+    height: 35px !important;
+    border-bottom: 1px solid !important;
     border-image: linear-gradient(to right,#0b01b8 0,#b303fd 45%, #a43abd 50%, #b303fd 55% , #0b01b8) 5;
-    padding-right: 40px;
-}
-#daterange-btn:focus {
-    outline: none;
-}
-#daterange-btn .icon-rili {
-    position: absolute;
-    top: 2px;
-    right: 10px;
-    font-size: 20px;
+  }
 }
 
 .task-state-list .list-item:first-of-type {
@@ -394,7 +399,7 @@
     right: -25px;
     top: 2px;
     font-size: 20px;
-    transition: .3s;
+    transition: .3s!important;
 }
 .icon-paixu-rotate {
     transform: rotate(180deg);
@@ -501,11 +506,11 @@
     display: none;
 }
 
-.dataFont,.portraitFont{
+.dataFont, .portraitFont{
     font-size: 12px;
     position: absolute;
-    width: 35px;
-    height: 18px;
+    width: 35px!important;
+    height: 18px!important;
     line-height: 18px;
     left: -9px;
     top: 42px;
@@ -513,11 +518,33 @@
     border-radius:9px;
     color:#fff;
     font-weight: 100;
-    display: none;
+    display: none !important;
 }
 .data:hover .dataFont{
-    display: inline-block;
+    display: inline-block !important;
 }
 .portrait:hover .portraitFont{
-    display: inline-block;
+    display: inline-block!important;
+}
+.login-form{
+  padding: 0 20px!important;
+  >div p{
+    color: #333333;
+    padding: 10px 0;
+  }
+  >div{
+    position: relative;
+    span{
+      color:red;
+      position: absolute;
+      right: 5px;
+      top: 30px;
+    }
+    .ant-input{
+      border:none;
+      border-bottom: 1px solid #ccc;
+      border-radius: 0;
+    }
+  }
+
 }

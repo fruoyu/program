@@ -523,14 +523,14 @@
     z-index: 9999;
 }
 .shezhi .iconfont {
-    width: 100%;
     position: absolute;
-    bottom: 10px;
     left: 1px;
-    font-size: 30px;
+    font-size: 28px;
     color: #6466bc;
     text-align: center;
     transition: transform .5s linear;
+    border-radius: 50%;
+  border: 3px  solid #ccc;
 }
 .shezhi .shezhi-content {
     display: none;

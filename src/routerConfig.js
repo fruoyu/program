@@ -6,6 +6,7 @@ import { LocaleProvider } from 'antd';
 import App from './routes/App';
 import Login from './routes/Login';
 import History from './routes/History';
+import UserPortrait from './routes/UserPortrait';
 
 
 // 整体路由
@@ -16,6 +17,7 @@ function routerConfig({ history }) {
         <Route exact path="/" component={App} />
         <Route path="/login" component={Login} />
         <Route path="/history" component={History} />
+        <Route path="/userPortrait" component={UserPortrait} />
       </Router>
     </LocaleProvider>
   );

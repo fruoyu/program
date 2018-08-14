@@ -11,7 +11,7 @@ class App extends Component {
   }
   componentDidMount() {
     if (this.props.location.pathname === '/') {
-      this.props.dispatch(routerRedux.push('/history'));
+      this.props.dispatch(routerRedux.push('/userPortrait'));
     }
   }
   render() {
