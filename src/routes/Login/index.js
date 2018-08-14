@@ -24,7 +24,6 @@ class Login extends Component {
     e.preventDefault();
     this.props.form.validateFields((err) => {
       if (!err) {
-        alert(0);
         // this.props.dispatch(routerRedux.push({
         //   pathname: 'index/home',
         //   query: {

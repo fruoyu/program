@@ -18,6 +18,7 @@ npm install
 ├── public  项目index.html 入口
 └── src
    ├── assets  存储静态文件 (eg: image / js)
+     ├── components 公共组件封装
    ├── models 存储数据容器redux
    ├── routes 路由页面js、css
    ├── services 数据容器异步请求操作

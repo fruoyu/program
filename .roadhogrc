@@ -22,14 +22,6 @@
     }
   },
   "proxy": {
-    "/user": {
-      "target": "http://image.baidu.com/",
-      "changeOrigin": true
-    },
-    "/data":{
-     "target": "http://music.taihe.com/",
-      "changeOrigin": true
-    },
     "/boot":{
       "target": "http://114.112.96.62:8080/",
        "changeOrigin": true
