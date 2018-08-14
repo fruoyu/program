@@ -38,12 +38,3 @@ a{
   width: 1100px;
   flex-direction: column
 }
-.ant-modal-footer{
-  text-align: center !important;
-}
-.ant-spin-nested-loading>.ant-spin-blur:after{
-  opacity: .95 !important;
-}
-.ant-select-dropdown{
-  max-width: 150px !important;
-}
