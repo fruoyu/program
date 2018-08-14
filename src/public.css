@@ -1,0 +1,676 @@
+*::-webkit-scrollbar {
+    display: none;
+}
+/**::scroll*/
+#circleWrap{
+    width: 100%;
+    height: calc(100% - 65px);
+    position: absolute;
+    font-size: 12px;
+    background: url("./assets/image/danao.png") no-repeat bottom center/auto auto;
+}
+.circle,#circle-add{
+    position: absolute;
+    cursor: pointer;
+}
+.circle-delete{
+    font-size: 0;
+}
+.circle:hover{
+    animation: circle 1s linear infinite alternate;
+    z-index: 666;
+}
+.circle:hover .circle-delete{
+    font-size: 15px;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    line-height: 13px;
+    border: 3px solid;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+}
+#circle-add{
+    width: 120px;
+    height: 120px;
+    display: inline-block;
+    background: url("./assets/image/dayuan.png");
+    background-size: 100% 100%;
+    top: 32%;
+    right: 30%;
+    user-select: none;
+}
+#circle-add>span{
+    line-height: 40px;
+    font-size: 40px;
+    font-weight: 900;
+}
+.circle[number="0"]{
+    width: 110px;
+    height: 110px;
+    background: url("./assets/image/zhongyuan.png");
+    background-size: 100% 100%;
+    top: 36%;
+    right: 25%;
+}
+.circle[number="1"]{
+    width: 90px;
+    height: 90px;
+    background: url("./assets/image/xiaoyuan.png");
+    background-size: 100% 100%;
+    top: 42%;
+    left: 40%;
+}
+.circle[number="2"]{
+    width: 110px;
+    height: 110px;
+    background: url("./assets/image/zhongyuan.png");
+    background-size: 100% 100%;
+    top: 24%;
+    right: 31%;
+}
+.circle[number="3"]{
+    width: 90px;
+    height: 90px;
+    background: url("./assets/image/xiaoyuan.png");
+    background-size: 100% 100%;
+    top: 43%;
+    left: 17%;
+}
+.circle[number="4"]{
+    width: 90px;
+    height: 90px;
+    background: url("./assets/image/xiaoyuan.png");
+    background-size: 100% 100%;
+    top: 55%;
+    right: 25%;
+}
+.circle[number="5"]{
+    width: 110px;
+    height: 110px;
+    background: url("./assets/image/zhongyuan.png");
+    background-size: 100% 100%;
+    top: 45%;
+    left: 29%;
+}
+.circle[number="6"]{
+    width: 110px;
+    height: 110px;
+    background: url("./assets/image/zhongyuan.png");
+    background-size: 100% 100%;
+    top: 27%;
+    right: 14%;
+}
+.circle[number="7"]{
+    width: 90px;
+    height: 90px;
+    background: url("./assets/image/xiaoyuan.png");
+    background-size: auto auto;
+    background-size: 100% 100%;
+    top: 60%;
+    left: 22%;
+}
+.circle[number="8"]{
+    width: 110px;
+    height: 110px;
+    background: url("./assets/image/zhongyuan.png");
+    background-size: 100% 100%;
+    top: 41%;
+    right: 13%;
+}
+.circle[number="9"]{
+    width: 110px;
+    height: 110px;
+    background: url("./assets/image/zhongyuan.png");
+    background-size: 100% 100%;
+    top: 46%;
+    left: 5%;
+}
+.circle[number="10"]{
+    width: 90px;
+    height: 90px;
+    background: url("./assets/image/xiaoyuan.png");
+    background-size: 100% 100%;
+    top: 49%;
+    right: 5%;
+}
+.circle[number="11"]{
+    width: 90px;
+    height: 90px;
+    background: url("./assets/image/xiaoyuan.png");
+    background-size: 100% 100%;
+    top: 61%;
+    left: 13%;
+}
+.circle[number="12"]{
+    width: 90px;
+    height: 90px;
+    background: url("./assets/image/xiaoyuan.png");
+    background-size: 100% 100%;
+    top: 46%;
+    right: 38%;
+}
+.circle[number="13"]{
+    width: 90px;
+    height: 90px;
+    background: url("./assets/image/xiaoyuan.png");
+    background-size: 100% 100%;
+    top: 26%;
+    left: 20%;
+}
+.circle[number="14"]{
+    width: 90px;
+    height: 90px;
+    background: url("./assets/image/xiaoyuan.png");
+    background-size: 100% 100%;
+    top: 62%;
+    right: 16%;
+}
+.circle[number="15"]{
+    width: 90px;
+    height: 90px;
+    background: url("./assets/image/xiaoyuan.png");
+    background-size: 100% 100%;
+    left: 32%;
+    top: 32%;
+}
+.circle[number="16"]{
+    width: 110px;
+    height: 110px;
+    background: url("./assets/image/zhongyuan.png");
+    background-size: 100% 100%;
+    right: 43%;
+    top: 34%;
+}
+.bubble[number="16"]{
+    width: 50px;
+    height: 50px;
+    right: 18%;
+    top: 26%;
+}
+.bubble[number="17"]{
+    width: 50px;
+    height: 50px;
+    left: 10%;
+    top: 30%;
+}
+.bubble[number="18"]{
+    width: 50px;
+    height: 50px;
+    right: 5%;
+    top: 51%;
+}
+.bubble[number="19"]{
+    width: 50px;
+    height: 50px;
+    left: 43%;
+    top: 33%;
+}
+.bubble[number="20"]{
+    width: 50px;
+    height: 50px;
+    right: 27%;
+    top: 20%;
+}
+.qipao,.bubble{
+    position: absolute;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 0 30px inset aqua;
+    transition: height .5s linear,width .5s linear;
+    z-index: 666;
+}
+#circleWrap>.qipao:hover,#circleWrap>.bubble:hover,.popupCircleWrap>.qipao:hover,.popupCircleWrap>.bubble:hover{
+    width: 80px;
+    height: 80px;
+    animation: qipao .5s linear infinite alternate;
+    border-radius: 0;
+    box-shadow: none;
+    background: url("./assets/image/xiaoyuan.png");
+    background-size: 100% 100%;
+}
+.bubble:hover .circle-delete,.qipao:hover .circle-delete{
+    font-size: 15px;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    text-align: center;
+    line-height: 13px;
+    border: 3px solid;
+    border-radius: 50%;
+    position: absolute;
+    right: 0;
+}
+.qipao[number="1"]{
+    width: 50px;
+    height: 50px;
+    left: 35%;
+    top: 37%;
+}
+.qipao[number="2"]{
+    width: 40px;
+    height: 40px;
+    left: 45%;
+    top: 35%;
+}
+.qipao[number="3"]{
+    width: 50px;
+    height: 50px;
+    left: 53%;
+    top: 37%;
+}
+.qipao[number="4"]{
+    width: 50px;
+    height: 50px;
+    left: 47%;
+    top: 23%;
+}
+.qipao[number="5"]{
+    width: 50px;
+    height: 50px;
+    left: 59%;
+    top: 15%;
+}
+.qipao[number="6"]{
+    width: 50px;
+    height: 50px;
+    left: 64%;
+    top: 23%;
+}
+.qipao[number="7"]{
+    width: 40px;
+    height: 40px;
+    left: 30%;
+    top: 35%;
+}
+.qipao[number="8"]{
+    width: 40px;
+    height: 40px;
+    left: 71%;
+    top: 33%;
+}
+.qipao[number="9"]{
+    width: 40px;
+    height: 40px;
+    left: 76%;
+    top: 29%;
+}
+.qipao[number="10"]{
+    width: 40px;
+    height: 40px;
+    left: 28%;
+    top: 27%;
+}
+.qipao[number="11"]{
+    width: 40px;
+    height: 40px;
+    left: 84%;
+    top: 31%;
+}
+.qipao[number="12"]{
+    width: 40px;
+    height: 40px;
+    left: 37.3%;
+    top: 28%;
+}
+.qipao[number="13"]{
+    width: 40px;
+    height: 40px;
+    left: 75%;
+    top: 19%;
+}
+.qipao[number="14"]{
+    width: 50px;
+    height: 50px;
+    left: 21%;
+    top: 19%;
+}
+.qipao[number="15"]{
+    width: 40px;
+    height: 40px;
+    left: 72%;
+    top: 55%;
+}
+.qipao[number="16"]{
+    width: 40px;
+    height: 40px;
+    left: 24%;
+    top: 41%;
+}
+.qipao[number="17"]{
+    width: 40px;
+    height: 40px;
+    left: 82%;
+    top: 52%;
+}
+.qipao[number="18"]{
+    width: 30px;
+    height: 30px;
+    left: 23%;
+    top: 31%;
+}
+.qipao[number="19"]{
+    width: 40px;
+    height: 40px;
+    left: 88%;
+    top: 54%;
+}
+.qipao[number="20"]{
+    width: 30px;
+    height: 30px;
+    left: 75%;
+    top: 40%;
+}
+.qipao[number="21"]{
+    width: 30px;
+    height: 30px;
+    left: 27%;
+    top: 55%;
+}
+.qipao[number="22"]{
+    width: 30px;
+    height: 30px;
+    left: 79%;
+    top: 44%;
+}
+.qipao[number="23"]{
+    width: 30px;
+    height: 30px;
+    left: 18%;
+    top: 40%;
+}
+.qipao[number="24"]{
+    width: 30px;
+    height: 30px;
+    left: 71%;
+    top: 25%;
+}
+.qipao[number="25"]{
+    width: 30px;
+    height: 30px;
+    left: 13%;
+    top: 37%;
+}
+.qipao[number="26"]{
+    width: 30px;
+    height: 30px;
+    left: 86%;
+    top: 46%;
+}
+.qipao[number="27"]{
+    width: 30px;
+    height: 30px;
+    left: 36%;
+    top: 14%;
+}
+.qipao[number="28"]{
+    width: 30px;
+    height: 30px;
+    left: 67%;
+    top: 47%;
+}
+.qipao[number="29"]{
+    width: 30px;
+    height: 30px;
+    left: 21%;
+    top: 48%;
+}
+.qipao[number="30"]{
+    width: 30px;
+    height: 30px;
+    left: 74%;
+    top: 47%;
+}
+.qipao[number="31"]{
+    width: 30px;
+    height: 30px;
+    left: 18%;
+    top: 29%;
+}
+.qipao[number="32"]{
+    width: 30px;
+    height: 30px;
+    left: 50%;
+    top: 17.7%;
+}
+.qipao[number="33"]{
+    width: 30px;
+    height: 30px;
+    left: 81%;
+    top: 24%;
+}
+.qipao[number="34"]{
+    width: 30px;
+    height: 30px;
+    left: 10%;
+    top: 50%;
+}
+.qipao[number="35"]{
+    width: 30px;
+    height: 30px;
+    left: 58%;
+    top: 47%;
+}
+.qipao[number="36"]{
+    width: 30px;
+    height: 30px;
+    left: 54%;
+    top: 25%;
+}
+.qipao[number="37"]{
+    width: 30px;
+    height: 30px;
+    left: 28%;
+    top: 15%;
+}
+.qipao[number="38"]{
+    width: 30px;
+    height: 30px;
+    left: 33.4%;
+    top: 29%;
+}
+.qipao[number="39"]{
+    width: 30px;
+    height: 30px;
+    left: 90%;
+    top: 33%;
+}
+.qipao[number="40"]{
+    width: 30px;
+    height: 30px;
+    left: 9%;
+    top: 33%;
+}
+.qipao>.circle-text,.bubble>.circle-text{
+    position: absolute;
+    display: inline-block;
+    left:50%;
+    bottom: -5px;
+    transform: translate(-50%,100%);
+    width: 100%;
+    text-align: center;
+    transition: bottom .5s linear;
+}
+.circle>.circle-text,#circle-add>.circle-text{
+    position: absolute;
+    display: inline-block;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    padding: 5px;
+}
+/*@keyframes circle {*/
+/*from{transform: translate3d(0,0,0)}*/
+/*to{transform:  translate3d(0,-5%,0)}*/
+/*}*/
+/*@keyframes qipao {*/
+/*from{transform:  translate3d(0,0,0)}*/
+/*to{transform:  translate3d(0,-5%,0)}*/
+/*}*/
+
+.shezhi {
+    width: 40px;
+    height: 50px;
+    position: absolute;
+    top: 0;
+    right: 4%;
+    /*background: #2916bc;*/
+    border-radius: 0 0 25px 25px;
+    cursor: pointer;
+    z-index: 9999;
+}
+.shezhi .iconfont {
+    width: 100%;
+    position: absolute;
+    bottom: 10px;
+    left: 1px;
+    font-size: 30px;
+    color: #6466bc;
+    text-align: center;
+    transition: transform .5s linear;
+}
+.shezhi .shezhi-content {
+    display: none;
+    width: 80px;
+    position: absolute;
+    top: 50px;
+    left: -20px;
+    text-align: center;
+}
+.shezhi:hover .iconfont {
+    color: #adb0fe;
+    transform: rotateY(360deg);
+}
+.shezhi:hover .shezhi-content {
+    display: block;
+    font-size: 12px;
+}
+.shezhi-content p {
+    background-color: #29235a;
+    padding:8px;
+    margin: 0;
+}
+.shezhi-content p:hover {
+    background-color: #41388e;
+}
+.modify-password {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999999;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background: rgba(0,0,0,.6);
+}
+.prompt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -191px;
+    margin-top: -174px;
+    width: 382px;
+    height: 348px;
+    background: #fff;
+}
+.prompt .icon-htmal5icon19 {
+    color: #aaa;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+}
+.prompt .img {
+    width: 80px;
+    height: 60px;
+    position: absolute;
+    left: 50%;
+    top: -30px;
+    margin-left: -40px;
+    border-radius: 50%;
+    background: #fff;
+}
+.img span {
+    display: block;
+    width: 65%;
+    height: 100%;
+    margin: 15px auto;
+    color: #afaafd;
+    font-size: 50px;
+}
+.password-input {
+    width: 340px;
+    height: 230px;
+    margin: 70px auto;
+    color: #6a6a6a;
+}
+.password-input p {
+    margin-bottom: 10px;
+}
+.old-password,.new-password {
+    position: relative;
+    margin-bottom: 15px;
+}
+.confirm-password {
+    position: relative;
+}
+.confirm-password {
+    position: relative;
+}
+.password-error {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    color: red;
+    font-size: 12px;
+}
+.password-input input {
+    width: 100%;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid #9a98c5;
+    margin: 0;
+    text-align: left;
+    float: none;
+    height: auto;
+    line-height: normal;
+    color: #000;
+}
+.password-input input::placeholder {
+    color: #dde2e1;
+    font-size: 14px;
+}
+.mod_bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    color: #000;
+    /*display: none;*/
+}
+.mod_bottom .cancel {
+    width: 50%;
+    height: 100%;
+    font-size: 14px;
+    float: left;
+    text-align: center;
+    line-height: 50px;
+    background: #eff0ff;
+    color: #6a6a6a;
+}
+.mod_bottom .modify-confirm {
+    width: 50%;
+    height: 100%;
+    font-size: 14px;
+    float: left;
+    text-align: center;
+    line-height: 50px;
+    background: #afaaff;
+    color: #fff;
+}
