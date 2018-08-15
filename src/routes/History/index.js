@@ -6,6 +6,7 @@ import { routerRedux } from 'dva/router';
 import './history.less';
 import {
   PolyDialog,
+  CommonHeader,
 } from '../../components';
 
 const { RangePicker } = DatePicker;
@@ -122,24 +123,6 @@ class History extends Component {
     );
     return (
       <div className="bootContent">
-        <div
-          className="shouye"
-          onClick={() => {
-            // this.props.dispatch(routerRedux.push('/main')); // 跳转到首页
-          }}
-        >
-          <Icon type="home" className="iconfont icon-shouye" />
-          <span className="home" >首页</span>
-        </div>
-        <div
-          className="history"
-          onClick={() => {
-            this.props.dispatch(routerRedux.push('/history'));
-          }}
-        >
-          <Icon type="solution" className="iconfont icon-shouye" />
-          <span className="his">历史记录</span>
-        </div>
         <div className="shezhi">
           <Icon type="user" className="iconfont icon-yonghu2" />
           <div className="shezhi-content">
@@ -149,9 +132,11 @@ class History extends Component {
         </div>
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
-          <div className="header">
-            <div><span className="logo">M O X I 摩西洞察</span><span className="fenge">|</span>历史任务</div>
-          </div>
+          <CommonHeader
+            title="历史任务"
+            isMain
+            isUserPort
+          />
 
           <div id="content">
             <div className="content-head">
@@ -360,7 +345,7 @@ class History extends Component {
               // this.setState({ changePassword: false });
             }}
           >
-            <div className="login-form">
+            <div className="login-form-dailog">
               <div label="旧密码">
                 <p>旧密码</p>
                 <Input

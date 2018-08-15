@@ -39,13 +39,13 @@ class Login extends Component {
     this.props.dispatch({
       type: 'login/saveLoginMsg',
       payload: {
-        endTime:'',
-        fileName:''	,
-        name:'',
-        pageNum:0,
-        pageSize:10,
+        endTime: '',
+        fileName: '',
+        name: '',
+        pageNum: 0,
+        pageSize: 10,
         startTime: '',
-        status: ''
+        status: '',
       },
       callback: () => {
         // this.props.dispatch({
@@ -63,6 +63,7 @@ class Login extends Component {
     else window.localStorage.clear();
   }
   render() {
+    const { getFieldDecorator } = this.props.form;
     return (
       <div className="bootContent login">
         <Form onSubmit={this.handleSubmit} className="login-form">
