@@ -10,6 +10,9 @@
 .icon-qianwang:hover,.click-item:hover,.search-history:hover {
   cursor: pointer;
 }
+#popup{
+  box-sizing: content-box;
+}
 .header{
   width: 100%;
   height: 65px;
@@ -347,8 +350,7 @@ p {
   height: calc(~"100% - 125px");
   width: 100%;
   display: inline-block;
-  padding: 5px 20px 5px 5px;
-  overflow: auto;
+  padding: 5px 20px 20px 5px;
 }
 .insightTextWrap{
   height: calc(~"100% - 115px");
@@ -370,6 +372,8 @@ p {
   background: rgb(14, 27, 95);
   line-height: 12px;
   cursor: pointer;
+  height: auto;
+  color: #fff;
 }
 .insightTermTitle>span{
   display: inline-block;
@@ -392,6 +396,7 @@ p {
   line-height: 1;
   text-align: left;
   font-size: 12px;
+  display: inline;
 }
 .insightTermNamedit{
   cursor: pointer;
@@ -428,7 +433,7 @@ p {
   display: inline-block;
 }
 .digSentenceWrap>div{
-  display: inline-block;
+  //display: inline-block;
   vertical-align: middle;
 }
 .similarWrap:hover .digSentence {
@@ -446,12 +451,15 @@ p {
   border:2px solid rgba(0,0,0,0);
   position: relative;
   padding-left: 0;
+  display: flex;
+  flex-direction: row;
 }
 .digSentence>p{
   display: inline-block;
   vertical-align: top;
   line-height: 17px;
   margin-right: 5px;
+  color: #fff;
 }
 .digSentence>p:first-of-type {
   margin-right: 15px;
@@ -471,6 +479,7 @@ p {
 .digTitle,.similarTitle{
   padding: 10px 10px 5px;
   padding-left: 0;
+  color: #fff;
 }
 .arrow{
   display: none;
