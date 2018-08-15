@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-// import { MainWrapper } from '../../components';
+import { DanaoWrapper } from '../../components';
 import './main.less';
 import '../../assets/iconfont/iconfont.css';
 
@@ -52,15 +52,17 @@ class Main extends Component {
             <span className="upload-failed">*上传文件中断，请刷新重新上传</span>
           </div>
         </div>
-        <div className="circleWrap">
-          {
-            this.state.nameArr.map((item, index) => (
-              <div className="circle" data-number={index}>
-                <span>{item}</span>
-              </div>
-            ))
-          }
-        </div>
+        <DanaoWrapper>
+          <div className="circleWrap">
+            {
+              this.state.nameArr.map((item, index) => (
+                <div className="circle" data-number={index}>
+                  <span>{item}</span>
+                </div>
+              ))
+            }
+          </div>
+        </DanaoWrapper>
         {/*提示有未上传成功的文件*/}
         <div className="successWrap">
           <div className="success">

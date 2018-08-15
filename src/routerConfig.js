@@ -6,6 +6,7 @@ import { LocaleProvider } from 'antd';
 import App from './routes/App';
 import Login from './routes/Login';
 import Main from './routes/Main';
+import Popup from './routes/Popup';
 
 
 // 整体路由配置
@@ -16,6 +17,7 @@ function routerConfig({ history }) {
         <Route exact path="/" component={App} />
         <Route path="/login" component={Login} />
         <Route path="/main" component={Main} />
+        <Route path="/popup" component={Popup} />
       </Router>
     </LocaleProvider>
   );
