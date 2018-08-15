@@ -345,7 +345,7 @@ class History extends Component {
               // this.setState({ changePassword: false });
             }}
           >
-            <div className="login-form">
+            <div className="login-form-dailog">
               <div label="旧密码">
                 <p>旧密码</p>
                 <Input

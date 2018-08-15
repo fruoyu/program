@@ -63,6 +63,7 @@ class Login extends Component {
     else window.localStorage.clear();
   }
   render() {
+    const { getFieldDecorator } = this.props.form;
     return (
       <div className="bootContent login">
         <Form onSubmit={this.handleSubmit} className="login-form">
