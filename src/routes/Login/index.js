@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Icon, Button, Form, Input, Checkbox } from 'antd';
-// import { routerRedux } from 'dva/router';
-
+import { routerRedux } from 'dva/router';
 import './login.less';
 
 const FormItem = Form.Item;
@@ -37,25 +36,25 @@ class Login extends Component {
     }
   }
   handleSubmit = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err) => {
-      if (!err) {
-        this.props.dispatch({
-          type: 'login/saveLoginMsg',
-          payload: {
-            userName: '2111100149',
-            passWord: '111111',
-          },
-          callback: () => {
-            this.props.dispatch({
-              type: 'login/savePassword',
-              payload: {
-                passWord: this.state.passWord,
-              },
-            });
-          },
-        });
-      }
+    this.props.dispatch({
+      type: 'login/saveLoginMsg',
+      payload: {
+        endTime:'',
+        fileName:''	,
+        name:'',
+        pageNum:0,
+        pageSize:10,
+        startTime: '',
+        status: ''
+      },
+      callback: () => {
+        // this.props.dispatch({
+        //   type: 'login/savePassword',
+        //   payload: {
+        //     passWord: this.state.passWord,
+        //   },
+        // });
+      },
     });
   }
   handleCheck = (e) => {
@@ -64,7 +63,6 @@ class Login extends Component {
     else window.localStorage.clear();
   }
   render() {
-    const { getFieldDecorator } = this.props.form;
     return (
       <div className="bootContent login">
         <Form onSubmit={this.handleSubmit} className="login-form">
