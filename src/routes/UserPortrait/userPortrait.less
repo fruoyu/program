@@ -71,12 +71,12 @@
     display: block;
 }
 #main{
-    width: 80%;
-    height: auto;
-    position: absolute;
-    display: inline-block;
-    text-align: center;
-    font-weight: 100;
+  width: 100%;
+  height: calc(~"100% - 65px");
+  position: absolute;
+  display: inline-block;
+  text-align: center;
+  font-weight: 100;
 }
 .userPortrait{
     width: 930px;
@@ -92,6 +92,7 @@
     top: 15px;
     text-align: center;
     font-size: 24px;
+  color:#fff;
 }
 .userPortrait>.tab{
     position: absolute;
@@ -126,7 +127,16 @@
     padding-bottom: 10px;
     position: absolute;
     border-bottom: 2px dashed #34c6d8;
-    display: none;
+    //display: none;
+  .content{
+    ul{
+      li{
+        span{
+          color:#fff;
+        }
+      }
+    }
+  }
 }
 .dashed>.yuan{
     width: 10px;
@@ -177,10 +187,10 @@
     vertical-align: top;
 }
 .dashed>.content>.img{
-    width: 50px;
+
 }
 .dashed>.content>.ul{
-    width: calc(100% - 70px);
+    width: calc(~"100% - 70px");
 }
 .dashed>.content>.ul h3{
     color:#00fffc;
@@ -228,7 +238,7 @@
     position: absolute;
     left: 50%;
     bottom: 90px;
-    transform: translateX(calc(-50% + 2px));
+    transform: translateX(calc(~"-50% + 2px"));
 }
 .saomiao>.guangbiao{
     height: 20px;
@@ -240,8 +250,8 @@
 }
 @keyframes saomiao {
     0% {top:-10px;width: 20%;}
-    50% {top:calc(50% - 20px);width: 90%;}
-    100% {top:calc(100% - 20px);width: 50%;}
+    50% {top:calc(~"50% - 20px");width: 90%;}
+    100% {top:calc(~"100% - 20px");width: 50%;}
 }
 .tooltip {
     background: #90c9ff;

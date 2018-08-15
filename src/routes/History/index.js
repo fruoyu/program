@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Icon, DatePicker, Menu, Dropdown, Form, Input } from 'antd';
+import { Icon, DatePicker, Menu, Dropdown, Input, Pagination } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
-import locale from 'antd/lib/date-picker/locale/zh_CN';
 import { routerRedux } from 'dva/router';
 import './history.less';
 import {
@@ -10,18 +9,17 @@ import {
 } from '../../components';
 
 const { RangePicker } = DatePicker;
-const FormItem = Form.Item;
 
 class History extends Component {
   constructor() {
     super();
     this.state = {
-      disabled: true,
-      changePassword: false,
+      disabled: true, // 创建人dropdown是否可收缩
+      changePassword: false, // 是否显示修改密码弹框
       isDownOne: 'down',
       isDownTwo: 'down',
-      manager: '',
-      status: '任务状态',
+      searchMaker: '', // 创建人
+      status: '任务状态', // 状态选择
       statusList: [
         {
           key: '0',
@@ -39,27 +37,43 @@ class History extends Component {
           key: '3',
           status: '分析中',
         },
-      ],
-      oldPassword: '',
-      newPassword: '',
-      confirmPassword: '',
+      ], // 状态选择数组
+      oldPassword: '', // 旧密码
+      newPassword: '', // 新密码
+      confirmPassword: '', // 确定密码
     };
   }
   componentDidMount() {
   }
-  onChange(date, dateString) {
+  // 日历操作
+  onChangeFn(date, dateString) {
     console.log(date, dateString);
   }
+  // 分页器改变时接口操作
+  onChangePage(pageNumber) {
+    console.log('Page: ', pageNumber);
+  }
+  // 任务状态下拉操作
   choseStatus(item) {
     this.setState({
       status: this.state.statusList[item.key].status,
       isDownTwo: 'down',
     });
   }
+  // 点击创建人搜索框箭头操作
   searchMember() {
+    // 调用接口
     this.setState({
       disabled: false,
     });
+  }
+  // 退出登录操作
+  loginOut() {
+    this.props.dispatch(routerRedux.push('/login'));
+  }
+  // 进入画像界面操作
+  gotoUserPortrait() {
+    this.props.dispatch(routerRedux.push('/userPortrait'));
   }
   render() {
     const menu = (
@@ -81,13 +95,22 @@ class History extends Component {
     const menuUser = (
       <Menu>
         <Menu.Item key="0" className="list-item" disabled={this.state.disabled}>
-          <input type="text" className="input-founder" placeholder="输入创建人名称" />
+          <input
+            type="text"
+            className="input-founder"
+            placeholder="输入创建人名称"
+            onChange={(e) => {
+              this.setState({
+                searchMaker: e.target.value.trim(),
+              });
+            }}
+          />
           <Icon
-            type="right-circle-o"
+            type="left-circle-o"
             className="iconfont icon-qianwang"
             style={{
               position: 'absolute',
-              top: 12,
+              top: 14,
               right: 5,
               fontSize: 24,
               color: '#ccc',
@@ -99,22 +122,32 @@ class History extends Component {
     );
     return (
       <div className="bootContent">
-        <div className="shouye">
-          <Icon type="home" className="iconfont icon-lishijilu" />
+        <div
+          className="shouye"
+          onClick={() => {
+            // this.props.dispatch(routerRedux.push('/main')); // 跳转到首页
+          }}
+        >
+          <Icon type="home" className="iconfont icon-shouye" />
           <span className="home" >首页</span>
         </div>
-        <div className="history">
-          <Icon type="solution" className="iconfont icon-lishijilu" />
+        <div
+          className="history"
+          onClick={() => {
+            this.props.dispatch(routerRedux.push('/history'));
+          }}
+        >
+          <Icon type="solution" className="iconfont icon-shouye" />
           <span className="his">历史记录</span>
         </div>
         <div className="shezhi">
           <Icon type="user" className="iconfont icon-yonghu2" />
           <div className="shezhi-content">
             <p className="modify" onClick={() => { this.setState({ changePassword: true }); }}>修改密码</p>
-            <p className="exit">退出</p>
+            <p className="exit" onClick={this.loginOut.bind(this)}>退出</p>
           </div>
         </div>
-        <Scrollbars style={{ flex: 1, paddingLeft: 33, paddingRight: 133 }} autoHide>
+        <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
           <div className="header">
             <div><span className="logo">M O X I 摩西洞察</span><span className="fenge">|</span>历史任务</div>
@@ -125,7 +158,7 @@ class History extends Component {
               <div className="ch-top">
                 <div className="search-input">
                   <input type="text" placeholder="搜索内容" />
-                  <Icon type="right-circle-o" className="iconfont icon-qianwang" />
+                  <Icon type="left-circle-o" className="iconfont icon-qianwang" />
                 </div>
                 <div className="search-condition">
                   {/* 创建人搜索 */}
@@ -133,7 +166,7 @@ class History extends Component {
                     <Dropdown overlay={menuUser} trigger={['click']}>
                       <span className="ant-dropdown-link" href="#">
                         创建人
-                        <Icon type={this.state.isDownOne} />
+                        <Icon type={this.state.isDownOne}/>
                       </span>
                     </Dropdown>
                   </div>
@@ -151,7 +184,7 @@ class History extends Component {
                   <div className="form-group d_t_dater">
                     <div className="col-sm-12">
                       <div className="input-group">
-                        <RangePicker locale onChange={this.onChange.bind(this)} />
+                        <RangePicker onChange={this.onChangeFn.bind(this)} />
                       </div>
                     </div>
                   </div>
@@ -176,8 +209,7 @@ class History extends Component {
                 {/* 列表 */}
                 <ul className="content-lists">
                   <li className="content-item" data-id="'+ item2.id +'">
-                    <div className="item-title">战旗-王帅-录音笔-123456.WAV
-                    </div>
+                    <div className="item-title">战旗-王帅-录音笔-123456.WAV</div>
                     <div className="item-author">周晨</div>
                     <div className="item-state">已完成</div>
                     <div className="item-time">2018-08-14 14:15:28</div>
@@ -186,7 +218,11 @@ class History extends Component {
                       <span className="dataFont">数据</span>
                     </div>
                     <div className="portrait">
-                      <Icon type="user" className="iconfont icon-huaxiang" />
+                      <Icon
+                        type="user"
+                        className="iconfont icon-huaxiang"
+                        onClick={this.gotoUserPortrait.bind(this)}
+                      />
                       <span className="portraitFont">画像</span>
                     </div>
                   </li>
@@ -299,6 +335,14 @@ class History extends Component {
                 </ul>
               </div>
             </div>
+            {/* 分页器 */}
+            <Pagination
+              className="my-pagination"
+              defaultCurrent={1} total={50} showQuickJumper style={{ marginTop: 60 }}
+              onChange={(pageNumber) => {
+                this.onChangePage(pageNumber);
+              }}
+            />
           </div>
         </Scrollbars>
         {/* 修改密码弹框 */}
@@ -361,4 +405,4 @@ class History extends Component {
   }
 }
 
-export default connect(({ history }) => ({ history }))(Form.create()(History));
+export default connect(({ history }) => ({ history }))(History);

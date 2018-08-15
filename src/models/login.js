@@ -16,7 +16,7 @@ export default {
     },
     *saveLoginMsg({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
-      console.log(data);
+      console.log(data, 'result========');
       if (callback) callback();
       yield put({
         type: 'changeLoginMsg',

@@ -96,11 +96,12 @@
     text-align: center;
     z-index: 9999;
 }
-.shouye .icon-shouye {
+.shouye .icon-shouye, .history .icon-shouye {
     display: block;
     transition: transform .5s linear!important;
     font-size: 22px;
     color: #812dc7;
+    margin-top: 10px
 }
 .shouye .home {
     display: none;
@@ -125,8 +126,8 @@
 .shouye:hover .home {
     display: block;
 }
-.shouye:hover .icon-shouye {
-    transform:rotateY(360deg);
+.shouye:hover .icon-shouye,.history:hover .icon-shouye {
+    transform:rotateY(360deg)!important;
     color: #fff;
 }
 
@@ -164,9 +165,7 @@
     color: #fff;
     font-size: 24px;
     background: transparent;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-    border-width: 1px;
+    border-bottom: 1px solid;
     border-image:linear-gradient(to right,#0b01b8 0,#b303fd 25%, #f3c1ff 50%, #b303fd 75% , #0b01b8) 5;
 }
 .search-input input::placeholder{
@@ -197,8 +196,17 @@
     font-size: 12px;
     transition:.2s!important;
 }
-.founder .icon-qianwang {
-  top: 8px !important;
+.founder {
+  .icon-qianwang {
+    top: 8px !important;
+  }
+  .trans-item {
+    width: 145px;
+    left: -60px;
+  }
+  span{
+    color:#fff;
+  }
 }
 .founder .trans-item , .ant-dropdown-menu .task-state .trans-item, .ant-dropdown-menu {
     position: absolute;
@@ -221,10 +229,6 @@
     padding: 10px 0 !important;
   }
 
-}
-.founder .trans-item {
-    width: 145px;
-    left: -60px;
 }
 .input-wrap {
     position: relative;
@@ -547,4 +551,9 @@
     }
   }
 
+}
+.my-pagination{
+  .ant-pagination-options{
+    color: #fff !important;
+  }
 }
