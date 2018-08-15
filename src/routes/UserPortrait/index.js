@@ -7,6 +7,7 @@ import './userPortrait.less';
 import {
   PolyDialog,
 } from '../../components';
+import CommonHeader from "../../components/CommonHeader";
 
 
 class UserPortrait extends Component {
@@ -22,30 +23,20 @@ class UserPortrait extends Component {
   render() {
     return (
       <div className="bootContent">
+        {/* 用户退出 */}
+        <div className="shezhi">
+          <Icon type="user" className="iconfont icon-yonghu2" />
+          <div className="shezhi-content">
+            <p className="modify" onClick={() => { this.setState({ changePassword: true }); }}>修改密码</p>
+            <p className="exit">退出</p>
+          </div>
+        </div>
         <Scrollbars style={{ flex: 1 }} autoHide>
-          {/* 返回按钮 */}
-          <div
-            id="back"
-            onClick={() => {
-              this.props.dispatch(routerRedux.goBack());
-              console.log('返回');
-            }}
-          >
-            <Icon type="arrow-right" className="iconfont icon-qianwang" />
-            <span className="back">返回</span>
-          </div>
-          {/* 用户退出 */}
-          <div className="shezhi">
-            <Icon type="user" className="iconfont icon-yonghu2" />
-            <div className="shezhi-content">
-              <p className="modify" onClick={() => { this.setState({ changePassword: true }); }}>修改密码</p>
-              <p className="exit">退出</p>
-            </div>
-          </div>
           {/* 头部 */}
-          <div className="header">
-            <div><span className="logo">M O X I 摩西洞察</span><span className="fenge">|</span>用户画像</div>
-          </div>
+          <CommonHeader
+            title="用户画像"
+            goback
+          />
           {/* 画像 */}
           <div id="main">
             <div className="userPortrait">
