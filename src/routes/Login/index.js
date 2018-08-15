@@ -23,13 +23,13 @@ class Login extends Component {
     this.props.dispatch({
       type: 'login/saveLoginMsg',
       payload: {
-        endTime:'',
-        fileName:''	,
-        name:'',
-        pageNum:0,
-        pageSize:10,
+        endTime: '',
+        fileName: '',
+        name: '',
+        pageNum: 0,
+        pageSize: 10,
         startTime: '',
-        status: ''
+        status: '',
       },
       callback: () => {
         // this.props.dispatch({
@@ -44,9 +44,9 @@ class Login extends Component {
   render() {
     return (
       <div className="bootContent login">
-            <Button htmlType="submit" className="login-button" onClick={this.handleSubmit.bind(this)}>
-              登录
-            </Button>
+        <Button htmlType="submit" className="login-button" onClick={this.handleSubmit.bind(this)}>
+          登录
+        </Button>
       </div>
     );
   }
