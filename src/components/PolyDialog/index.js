@@ -22,11 +22,11 @@ export default class PolyDialog extends Component {
   }
   onOk = () => {
     this.props.onOk && this.props.onOk();
-    this.onClose();
+    // this.onClose();
   }
   onCancel = () => {
     this.props.onCancel && this.props.onCancel();
-    this.onClose();
+    // this.onClose();
   }
   render() {
     const {
@@ -39,22 +39,20 @@ export default class PolyDialog extends Component {
           {/* 标题 */}
           <p className="title">
             {this.state.title}
-            <span onClick={this.onClose.bind(this)} style={{ cursor: 'pointer', fontSize: 20 }}>X</span>
+            <span onClick={this.onClose.bind(this)}>X</span>
           </p>
           {/* 主要内容区域 */}
           <section style={{ flex: 1 }}>
             {this.props.children}
           </section>
-
-
           <div className="buttonBox">
             {/* 保存 */}
             {
-              onOk && <Button type="primary" size="large"onClick={this.onOk.bind(this)} style={{ marginRight: 10 }}>保存</Button>
+              onOk && <button onClick={this.onOk.bind(this)} style={{ flex: 1, height: 40 }}>保存</button>
             }
             {/* 取消 */}
             {
-              onCancel && <Button type="danger" size="large" onClick={this.onCancel.bind(this)} style={{ marginLeft: 10 }}>取消</Button>
+              onCancel && <button size="large" className="cancle" onClick={this.onCancel.bind(this)} style={{ flex: 1, height: 40 }}>取消</button>
             }
           </div>
         </div>

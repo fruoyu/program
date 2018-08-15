@@ -1,10 +1,17 @@
+*{
+  margin: 0;
+  padding: 0;
+}
 html, body, :global(#root) {
   height: 100%;
   font-family: 'Hiragino Sans GB','Microsoft Yahei',Arial,sans-serif;
   box-sizing: border-box;
   text-decoration: none;
   font-size: 14px;
-  overflow:hidden;
+  overflow: hidden;
+  background: transparent;
+  background: url("./assets/image/historyBc.png") no-repeat center center;
+  background-size: 100% 100%;
 }
 ul, li {
   list-style: none;
@@ -12,9 +19,11 @@ ul, li {
 img, div, body, html, ul, li, a {
   -webkit-touch-callout: none;
 }
+
 img input::-webkit-input-placeholder, img textarea::-webkit-input-placeholder, div input::-webkit-input-placeholder, div textarea::-webkit-input-placeholder, body input::-webkit-input-placeholder, body textarea::-webkit-input-placeholder, html input::-webkit-input-placeholder, html textarea::-webkit-input-placeholder, ul input::-webkit-input-placeholder, ul textarea::-webkit-input-placeholder, li input::-webkit-input-placeholder, li textarea::-webkit-input-placeholder, a input::-webkit-input-placeholder, a textarea::-webkit-input-placeholder {
   color: #999;
 }
+
 
 img {
   border: 0;
@@ -28,7 +37,9 @@ input {
 }
 a{
   color: #ccc;
+  text-decoration:none;
 }
+a:hover { text-decoration:underline; }
 #root {
   display: flex;
 }
@@ -36,14 +47,16 @@ a{
   flex:1;
   display: flex;
   width: 1100px;
-  flex-direction: column
+  flex-direction: column;
+  position: relative;
 }
-.ant-modal-footer{
-  text-align: center !important;
+.header{
+  color:#fff;
 }
-.ant-spin-nested-loading>.ant-spin-blur:after{
-  opacity: .95 !important;
-}
-.ant-select-dropdown{
-  max-width: 150px !important;
+.shezhi{
+  .shezhi-content{
+    p{
+      color:#fff;
+    }
+  }
 }

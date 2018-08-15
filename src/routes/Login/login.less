@@ -1,49 +1,81 @@
 .login{
-  background: url("../../assets/img/bg.png") no-repeat;
+  background: url("../../assets/img/login.png") no-repeat;
   background-size: 100% 100%;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   .login-form{
-    background: #fff;
-    border: 1px solid #cccccc;
-    margin-right: 50px;
-    width: 400px;
-    height: 240px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    background: url("../../assets/img/login-s.png") no-repeat;
+    width: 637px;
+    height: 441px;
+    .login-wrap{
+      margin-top: 140px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .mt{ margin-top: 20px;}
+    .ant-form-item{ 
+      font-size: 14px;
+      width: 362px;
+    }
     .login-form-item{
-      width: 70%;
-      .login-button{
-        width: 100%;
+      .ant-input-lg{
         height: 40px;
+        line-height: 40px;
+        font-size: 14px;
+      }
+      .login-button{
+        width: 362px;
+        height: 40px;
+        line-height: 40px;
+        font-size: 20px;
+        background: url("../../assets/img/denglu_23.png") no-repeat;
+        border:none;
       }
     }
+    .ant-input-affix-wrapper .ant-input-prefix, .ant-input-affix-wrapper .ant-input-suffix{
+      font-size: 16px;
+    }
+    .ant-form-item-control{
+      // height: 64px;
+    }
+    .has-error.has-feedback:after,.ant-form-item-control {
+      line-height: 40px;
+    }
+    
+    .ant-checkbox-wrapper{
+      color: #afaaff;
+      margin-left: 10px;
+      font-size: 14px;
+    }
+    // .ant-input-lg {
+    //   height: 40px;
+    // }
   }
 }
-.example-enter {
-  opacity: 0.01;
-}
+// .example-enter {
+//   opacity: 0.01;
+// }
 
-.example-enter.example-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
+// .example-enter.example-enter-active {
+//   opacity: 1;
+//   transition: opacity 500ms ease-in;
+// }
 
-.example-leave {
-  opacity: 1;
-}
+// .example-leave {
+//   opacity: 1;
+// }
 
-.example-leave.example-leave-active {
-  opacity: 0.01;
-  transition: opacity 300ms ease-in;
-}
-.example-appear {
-  opacity: 0.01;
-}
+// .example-leave.example-leave-active {
+//   opacity: 0.01;
+//   transition: opacity 300ms ease-in;
+// }
+// .example-appear {
+//   opacity: 0.01;
+// }
 
-.example-appear.example-appear-active {
-  opacity: 1;
-  transition: opacity .5s ease-in;
-}
+// .example-appear.example-appear-active {
+//   opacity: 1;
+//   transition: opacity .5s ease-in;
+// }

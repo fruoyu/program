@@ -1,4 +1,4 @@
-import { notifyError, notifySuccess } from '../services/app.js';
+// import { notifyError, notifySuccess } from '../services/app.js';
 import { Login } from '../services/login';
 
 export default {
@@ -16,7 +16,6 @@ export default {
     },
     *saveLoginMsg({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
-      console.log(data);
       if (callback) callback();
       yield put({
         type: 'changeLoginMsg',

@@ -1,6 +1,7 @@
 import dva from 'dva';
 import { message, notification } from 'antd';
-import './index.css';
+import './index.less';
+import './public.less';
 import { useRouterHistory } from 'dva/router';
 import { createHashHistory } from 'history';
 import {notifyError} from './services/app';
