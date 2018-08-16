@@ -1,0 +1,381 @@
+.mainShouye{
+  width: 100%;
+  height: 100%;
+  //background-color: #f00;
+  background: url('../../assets/img/main.png') no-repeat;
+  background-position: center center;
+  background-size: 100% 100%;
+  position: relative;
+  .mainHeader{
+    height: 65px;
+  }
+  #info{
+    width: 100%;
+    position:absolute;
+    top: 150px;
+    font-size: 34px;
+    text-align: center;
+    text-shadow: 0px 1px 0px #b509da;
+    line-height: 56px;
+    color: #fff;
+  }
+  /*启动洞察*/
+  #start-insight {
+    position: absolute;
+    bottom:54px;
+    left: 50%;
+    z-index: 999;
+    transform: translateX(-100px);
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: url("../../assets/img/start-insight.png");
+    background-size: 100% 100%;
+    cursor: pointer;
+  }
+  /*上传语音文件*/
+  #upload-voice {
+    display: none;
+    position: absolute;
+    left: 50%;
+    bottom: 175px;
+    transform: translateX(-250px);
+    width: 500px;
+    height: 280px;
+    background: rgba(5, 5, 99, 0.8);
+    z-index: 99999;
+    box-sizing: border-box;
+    border: 1px solid;
+    border-image:linear-gradient(#0b01b8 0,#b303fd 25%, #f3c1ff 50%, #b303fd 75% , #0b01b8) 5;
+    transition: .5s;
+    overflow: hidden;
+    .upload-top {
+      position: relative;
+      height: 30px;
+      width: 100%;
+    }
+    .upload-top .title {
+      width: 280px;
+      height: 30px;
+      position: relative;
+      top: -1px;
+      margin: 0 auto;
+      font-size: 16px;
+      color: #fff;
+      line-height: 30px;
+      text-align: center;
+      background: url('../../assets/img/title-head.png');
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+    }
+    .upload-top .icon-htmal5icon19 {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 30px;
+      height: 30px;
+      line-height: 30px;
+      text-align: center;
+      font-size: 24px;
+      color: #fff;
+    }
+
+    .upload-middle {
+      position: absolute;
+      width: 275px;
+      height: 132px;
+      top: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      box-sizing: border-box;
+      z-index: 9;
+      position: relative;
+      .upload-btn {
+        width:100%;
+        height: 100%;
+        border: 1px dashed #fff;
+        text-align: center;
+        cursor: pointer;
+        .icon-shangchuan {
+          font-size: 74px;
+          height: 74px;
+          line-height: 74px;
+          display: block;
+          color: #fff;
+        }
+        p {
+          font-size: 12px;
+          color: #fff;
+        }
+        input{
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 0;
+          opacity: 0;
+        }
+      }
+      .upload-num {
+        position: absolute;
+        right: -180px;
+        bottom: 0;
+        display: none;
+        font-size: 12px;
+        font-weight: 100;
+      }
+    }
+    .upload-bottom {
+      display: none;
+      position: relative;
+      width: 100%;
+      height: 255px;
+      overflow-y: scroll;
+      margin: 105px auto 0;
+      padding:25px 60px 0 20px;
+      box-sizing: border-box;
+    }
+    .upload-bottom .upload-failed {
+      display: none;
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      font-size: 12px;
+      color: #ff4800;
+    }
+    .upload-bottom .upload-item {
+      position: relative;
+      width: 100%;
+      padding: 12px 0;
+    }
+  }
+  .circleWrap{
+    width: 100%;
+    height: calc(~"100% - 65px");
+    background: url("../../assets/img/danao.png") no-repeat bottom center/auto 100%;
+    position: absolute;
+    font-size: 12px;
+    .circle{
+      width: 80px;
+      height: 80px;
+      border: 12px solid #93F3FB;
+      border-radius: 50%;
+      box-sizing: border-box;
+      box-shadow: 0 0 20px #fff, 0 0 20px #fff inset;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      text-align: center;
+      span{
+        display: block;
+        width: 50px;
+        color: #fff;
+        padding: 0 10px;
+        font-size: 12px;
+        line-height: 12px;
+      }
+    }
+    .circle[data-number="0"]{
+      width: 80px;
+      height: 80px;
+      top: 36%;
+      right: 25%;
+    }
+    .circle[data-number="1"]{
+      width: 60px;
+      height: 60px;
+      top: 42%;
+      left: 40%;
+      span{
+        padding: 0;
+      }
+    }
+    .circle[data-number="2"]{
+      width: 60px;
+      height: 60px;
+      top: 24%;
+      right: 31%;
+      span{
+        padding: 0;
+      }
+    }
+    .circle[data-number="3"]{
+      width: 80px;
+      height: 80px;
+      top: 43%;
+      left: 17%;
+    }
+    .circle[data-number="4"]{
+      width: 80px;
+      height: 80px;
+      top: 55%;
+      right: 25%;
+    }
+    .circle[data-number="5"]{
+      width: 80px;
+      height: 80px;
+      top: 45%;
+      left: 29%;
+    }
+    .circle[data-number="6"]{
+      width: 80px;
+      height: 80px;
+      top: 27%;
+      right: 14%;
+    }
+    .circle[data-number="7"]{
+      width: 80px;
+      height: 80px;
+      top: 60%;
+      left: 22%;
+    }
+    .circle[data-number="8"]{
+      width: 60px;
+      height: 60px;
+      top: 41%;
+      right: 13%;
+      span{
+        padding: 0;
+      }
+    }
+    .circle[data-number="9"]{
+      width: 80px;
+      height: 80px;
+      top: 46%;
+      left: 5%;
+    }
+    .circle[data-number="10"]{
+      width: 80px;
+      height: 80px;
+      top: 49%;
+      right: 5%;
+    }
+    .circle[data-number="11"]{
+      width: 80px;
+      height: 80px;
+      top: 61%;
+      left: 13%;
+    }
+    .circle[data-number="12"]{
+      width: 80px;
+      height: 80px;
+      top: 46%;
+      right: 38%;
+    }
+    .circle[data-number="13"]{
+      width: 80px;
+      height: 80px;
+      top: 26%;
+      left: 20%;
+    }
+    .circle[data-number="14"]{
+      width: 80px;
+      height: 80px;
+      top: 62%;
+      right: 16%;
+    }
+    .circle[data-number="15"]{
+      width: 80px;
+      height: 80px;
+      left: 32%;
+      top: 32%;
+    }
+    .circle[data-number="16"]{
+      width: 80px;
+      height: 80px;
+      right: 43%;
+      top: 34%;
+    }
+  }
+  /*关闭上传弹窗*/
+  .successWrap {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 999999;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background: rgba(0,0,0,.6);
+    .success {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -240px;
+      margin-top: -100px;
+      width: 480px;
+      height: 200px;
+      background: #fff;
+    }
+    .success .icon-htmal5icon19 {
+      color: #aaa;
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      font-size: 20px;
+    }
+    .img {
+      width: 80px;
+      height: 60px;
+      position: absolute;
+      left: 50%;
+      top: -30px;
+      margin-left: -40px;
+      border-radius: 50%;
+      background: #fff;
+    }
+    .img>img{
+      width: 65%;
+      height: auto;
+      margin: 15px auto;
+      display: block;
+    }
+    .successTop,.unSuccessTop {
+      width: 100%;
+      height: 100px;
+      background-color: #55a532;
+      line-height: 2;
+      padding: 40px;
+      box-sizing: border-box;
+      padding-top: 50px;
+      color: #aaa;
+      display: none;
+      text-align: center;
+      font-size: 16px;
+    }
+    .unSuccessTop {
+      padding-top: 75px;
+    }
+
+    .bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 50px;
+      color: #000;
+      display: none;
+    }
+    .bottom:hover {
+      cursor: pointer;
+    }
+    .bottom div {
+      width: 50%;
+      height: 100%;
+      font-size: 14px;
+      float: left;
+      text-align: center;
+      line-height: 50px;
+    }
+    .guanbi,.go-anyway {
+      background: #eff0ff;
+      color: #6a6a6a;
+    }
+    .toHistory,.wait {
+      background:#afaaff;
+      color: #fff;
+    }
+  }
+}
