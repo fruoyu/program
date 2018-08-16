@@ -3,9 +3,9 @@ import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import { DanaoWrapper } from '../../components';
 import { Scrollbars } from 'react-custom-scrollbars';
-import '../../assets/css/daterangepicker.css';
-import '../../assets/css/pagination.css';
-import '../../assets/css/public.css';
+// import '../../assets/css/daterangepicker.css';
+// import '../../assets/css/pagination.css';
+// import '../../assets/css/public.css';
 import './popup.less';
 import '../../assets/iconfont/iconfont.css';
 
@@ -15,130 +15,164 @@ class Popup extends Component {
     this.state = {
       fileList: [
         {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
+          createTime: "2018-08-14 14:15:28.0",
+          dialogueContent: "",
+          fileName: "战旗-王帅-录音笔-123456.WAV",
+          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
+          id: 24,
+          insightResult: "",
+          lastUpdateTime: "2018-08-14 14:15:28.0",
+          md5: "",
+          size: "9.5MB",
+          statusMessage: "done",
+          systemId: 0,
+          taskid: "",
+          userId: "11024400000050",
+          userName: "周晨",
         },
         {
-          fileName: '这几年比比基金比较比较死板计算我计算基金四季随机积极记笔记比赛即将司机设计师',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
+          createTime: "2018-08-14 14:15:28.0",
+          dialogueContent: "",
+          fileName: "战旗-王帅-录音笔-123456.WAV",
+          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
+          id: 24,
+          insightResult: "",
+          lastUpdateTime: "2018-08-14 14:15:28.0",
+          md5: "",
+          size: "9.5MB",
+          statusMessage: "done",
+          systemId: 0,
+          taskid: "",
+          userId: "11024400000050",
+          userName: "周晨",
         },
         {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
+          createTime: "2018-08-14 14:15:28.0",
+          dialogueContent: "",
+          fileName: "战旗-王帅-录音笔-123456.WAV",
+          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
+          id: 24,
+          insightResult: "",
+          lastUpdateTime: "2018-08-14 14:15:28.0",
+          md5: "",
+          size: "9.5MB",
+          statusMessage: "done",
+          systemId: 0,
+          taskid: "",
+          userId: "11024400000050",
+          userName: "周晨",
         },
         {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
+          createTime: "2018-08-14 14:15:28.0",
+          dialogueContent: "",
+          fileName: "战旗-王帅-录音笔-123456.WAV",
+          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
+          id: 24,
+          insightResult: "",
+          lastUpdateTime: "2018-08-14 14:15:28.0",
+          md5: "",
+          size: "9.5MB",
+          statusMessage: "done",
+          systemId: 0,
+          taskid: "",
+          userId: "11024400000050",
+          userName: "周晨",
         },
         {
-          fileName: '这几年比比基金比较比较死板计算我计算基金四季随机积极记笔记比赛即将司机设计师',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
+          createTime: "2018-08-14 14:15:28.0",
+          dialogueContent: "",
+          fileName: "战旗-王帅-录音笔-123456.WAV",
+          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
+          id: 24,
+          insightResult: "",
+          lastUpdateTime: "2018-08-14 14:15:28.0",
+          md5: "",
+          size: "9.5MB",
+          statusMessage: "done",
+          systemId: 0,
+          taskid: "",
+          userId: "11024400000050",
+          userName: "周晨",
         },
         {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
+          createTime: "2018-08-14 14:15:28.0",
+          dialogueContent: "",
+          fileName: "战旗-王帅-录音笔-123456.WAV",
+          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
+          id: 24,
+          insightResult: "",
+          lastUpdateTime: "2018-08-14 14:15:28.0",
+          md5: "",
+          size: "9.5MB",
+          statusMessage: "done",
+          systemId: 0,
+          taskid: "",
+          userId: "11024400000050",
+          userName: "周晨",
         },
         {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
+          createTime: "2018-08-14 14:15:28.0",
+          dialogueContent: "",
+          fileName: "战旗-王帅-录音笔-123456.WAV",
+          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
+          id: 24,
+          insightResult: "",
+          lastUpdateTime: "2018-08-14 14:15:28.0",
+          md5: "",
+          size: "9.5MB",
+          statusMessage: "done",
+          systemId: 0,
+          taskid: "",
+          userId: "11024400000050",
+          userName: "周晨",
         },
         {
-          fileName: '这几年比比基金比较比较死板计算我计算基金四季随机积极记笔记比赛即将司机设计师',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
+          createTime: "2018-08-14 14:15:28.0",
+          dialogueContent: "",
+          fileName: "战旗-王帅-录音笔-123456.WAV",
+          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
+          id: 24,
+          insightResult: "",
+          lastUpdateTime: "2018-08-14 14:15:28.0",
+          md5: "",
+          size: "9.5MB",
+          statusMessage: "done",
+          systemId: 0,
+          taskid: "",
+          userId: "11024400000050",
+          userName: "周晨",
         },
         {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
+          createTime: "2018-08-14 14:15:28.0",
+          dialogueContent: "",
+          fileName: "战旗-王帅-录音笔-123456.WAV",
+          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
+          id: 24,
+          insightResult: "",
+          lastUpdateTime: "2018-08-14 14:15:28.0",
+          md5: "",
+          size: "9.5MB",
+          statusMessage: "done",
+          systemId: 0,
+          taskid: "",
+          userId: "11024400000050",
+          userName: "周晨",
         },
         {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
-        },
-        {
-          fileName: '这几年比比基金比较比较死板计算我计算基金四季随机积极记笔记比赛即将司机设计师',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
-        },
-        {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
-        },
-        {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
-        },
-        {
-          fileName: '这几年比比基金比较比较死板计算我计算基金四季随机积极记笔记比赛即将司机设计师',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
-        },
-        {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
-        },
-        {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
-        },
-        {
-          fileName: '这几年比比基金比较比较死板计算我计算基金四季随机积极记笔记比赛即将司机设计师',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
-        },
-        {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
-        },
-        {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
-        },
-        {
-          fileName: '这几年比比基金比较比较死板计算我计算基金四季随机积极记笔记比赛即将司机设计师',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
-        },
-        {
-          fileName: 'jbubjijbi',
-          id: 0,
-          statusMessage: '已完成',
-          size: 20,
+          createTime: "2018-08-14 14:15:28.0",
+          dialogueContent: "",
+          fileName: "战旗-王帅-录音笔-123456.WAV",
+          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
+          id: 24,
+          insightResult: "",
+          lastUpdateTime: "2018-08-14 14:15:28.0",
+          md5: "",
+          size: "9.5MB",
+          statusMessage: "done",
+          systemId: 0,
+          taskid: "",
+          userId: "11024400000050",
+          userName: "周晨",
         },
       ],
       customer: {
@@ -165,7 +199,15 @@ class Popup extends Component {
         CONSUME_CAR: [],
         CONSUME_HOUSE: [],
         CUSTOMER_ADMIRE: [],
-        CUSTOMER_AGE: [],
+        CUSTOMER_AGE: [
+          {
+            context: "这个表姐。它说到后台的时候发后台呢就直接给我们那个后台推广部就直接到党了，因为它是属于拍摄那种，",
+            id: "78d9ff98-6233-4cfd-9c2d-a31b1352677e",
+            status: "true",
+            time: "31790",
+            type: "CUSTOMER_CHILD",
+          },
+        ],
         CUSTOMER_CHILD: [
           {
             context: "这个表姐。它说到后台的时候发后台呢就直接给我们那个后台推广部就直接到党了，因为它是属于拍摄那种，",
@@ -251,7 +293,7 @@ class Popup extends Component {
                 <div className="insightTermWrap">
                   {
                     Object.keys(this.state.customer).map((item, index) => (
-                      <div className="insightTerm" data-type={item}>
+                      <div className="insightTerm" data-type={item} key={index}>
                         <div className="insightTermTitle">
                           {this.state.customer[item]}:
                           <div>
@@ -266,7 +308,7 @@ class Popup extends Component {
                           <div className="digTitle">挖掘出的语句</div>
                           {
                             this.state.labellist[item].map((labelItem, labelIndex) => (
-                              <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={'已完成'}>
+                              <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={'已完成'} key={labelIndex}>
                                 <div className="digSentence">
                                   <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
                                   <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
@@ -316,7 +358,7 @@ class Popup extends Component {
               <ul id="file-list">
                 {
                   this.state.fileList.map((item, index) => (
-                    <li className={["file-item", index == 0 ? 'item-active-2' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage}>
+                    <li className={["file-item", index == 0 ? 'item-active-2' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index}>
                       <span className="item-name">{item.fileName}</span>
                       <span className="item-size">{item.size}</span>
                     </li>
