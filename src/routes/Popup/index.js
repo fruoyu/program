@@ -3,11 +3,14 @@ import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
 import { DanaoWrapper } from '../../components';
 import { Scrollbars } from 'react-custom-scrollbars';
+import $ from 'jquery';
 // import '../../assets/css/daterangepicker.css';
 // import '../../assets/css/pagination.css';
 // import '../../assets/css/public.css';
 import './popup.less';
 import '../../assets/iconfont/iconfont.css';
+import '../../plugs/audio/audio.js';
+import '../../plugs/audio/audio.css';
 
 class Popup extends Component {
   constructor() {
@@ -228,7 +231,9 @@ class Popup extends Component {
         INVESTMENT_TYPE: [],
         RISK_PREFERENCE: [],
         SOCIAL_SECURITY: [],
-      }
+      },
+      clickIndex: 0,
+      hoverIndex: -1,
     };
   }
   componentDidMount() {
@@ -236,6 +241,7 @@ class Popup extends Component {
       this.props.dispatch(routerRedux.push('/login'));
     }
   }
+
   formatSeconds = (s) => {
     let t;
     if (s > -1) {
@@ -259,6 +265,7 @@ class Popup extends Component {
     }
     return t;
   }
+
   render() {
     return (
       <div id="popup">
@@ -358,7 +365,27 @@ class Popup extends Component {
               <ul id="file-list">
                 {
                   this.state.fileList.map((item, index) => (
-                    <li className={["file-item", index == 0 ? 'item-active-2' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index}>
+                    <li 
+                      className={["file-item", index == this.state.clickIndex ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} 
+                      data-name={item.id} 
+                      data-status={item.statusMessage} 
+                      key={index}
+                      onClick={() => {
+                        this.setState({
+                          clickIndex: index
+                        })
+                      }}
+                      onMouseEnter={() => {
+                        this.setState({
+                          hoverIndex: index
+                        })
+                      }}
+                      onMouseLeave={() => {
+                        this.setState({
+                          hoverIndex: -1
+                        })
+                      }}
+                      >
                       <span className="item-name">{item.fileName}</span>
                       <span className="item-size">{item.size}</span>
                     </li>
