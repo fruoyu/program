@@ -81,14 +81,14 @@ class MainWrapper extends Component {
               this.setState({ changePassword: false });
             }}
             onOk={() => {
-              // this.setState({ changePassword: false });
+              this.setState({ changePassword: false });
             }}
             onCancel={() => {
-              // this.setState({ changePassword: false });
+              this.setState({ changePassword: false });
             }}
           >
             <div className="login-form-dailog">
-              <div label="旧密码">
+              <div className="line-item">
                 <p>旧密码</p>
                 <Input
                   type="password" placeholder="旧密码" value={this.state.oldPassword}
@@ -100,7 +100,7 @@ class MainWrapper extends Component {
                   this.state.oldPassword === '' && <span>请输入密码</span>
                 }
               </div>
-              <div label="新密码">
+              <div className="line-item">
                 <p>新密码</p>
                 <Input
                   type="password" placeholder="新密码" value={this.state.newPassword}
@@ -112,7 +112,7 @@ class MainWrapper extends Component {
                   this.state.newPassword === '' && <span>请输入密码</span>
                 }
               </div>
-              <div label="确认密码">
+              <div className="line-item">
                 <p>确认密码</p>
                 <Input
                   type="password" placeholder="确认密码" value={this.state.confirmPassword}
