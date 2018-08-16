@@ -315,7 +315,7 @@ class Popup extends Component {
                           <div className="digTitle">挖掘出的语句</div>
                           {
                             this.state.labellist[item].map((labelItem, labelIndex) => (
-                              <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={'已完成'} key={labelIndex}>
+                              <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
                                 <div className="digSentence">
                                   <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
                                   <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
