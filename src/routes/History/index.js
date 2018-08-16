@@ -89,7 +89,6 @@ class History extends Component {
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
           <CommonHeader title="历史任务" isMain isUserPort home />
-
           <div id="content">
             <div className="content-head">
               <div className="ch-top">

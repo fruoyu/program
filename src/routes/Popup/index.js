@@ -279,7 +279,6 @@ class Popup extends Component {
           <span className="tabPortrait iconfont icon-huaxiang" onClick={() => { this.props.dispatch(routerRedux.push('/userPortrait')); }}><span>画像</span></span>
         </div>
         <DanaoWrapper>
-          档案模态框
           <div id="archivesModal">
             <div className="originalTextOperate">
               <div className="retract">
@@ -353,7 +352,6 @@ class Popup extends Component {
               </Scrollbars>
             </div>
           </div>
-          已识别文件
           <div id="recognized-file">
             <div id="top">
               <div className="title">
