@@ -16,12 +16,13 @@ function routerConfig({ history }) {
   return (
     <LocaleProvider>
       <Router history={history}>
-        <Route exact path="/" component={App} />
-        <Route path="/login" component={Login} />
-        <Route path="/history" component={History} />
-        <Route path="/userPortrait" component={UserPortrait} />
-        <Route path="/main" component={Main} />
-        <Route path="/popup" component={Popup} />
+        <Route exact path="/" component={App}>
+          <Route path="/login" component={Login} />
+          <Route path="/history" component={History} />
+          <Route path="/userPortrait" component={UserPortrait} />
+          <Route path="/main" component={Main} />
+          <Route path="/popup"component={Popup} />
+        </Route>
       </Router>
     </LocaleProvider>
   );
