@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import {DatePicker, Pagination } from 'antd';
+import { DatePicker, Pagination } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import './history.less';
@@ -41,21 +41,20 @@ class History extends Component {
   componentDidMount() {
   }
   // 日历操作
-  onChangeFn(date, dateString) {
+  onChangeFn = (date, dateString) => {
     console.log(date, dateString);
   }
   // 分页器改变时接口操作
-  onChangePage(pageNumber) {
+  onChangePage = (pageNumber) => {
     console.log('Page: ', pageNumber);
   }
   // 点击创建人搜索
-  searchMember() {
+  searchMember = () => {
     // 调用接口
   }
   // 创建人下拉
-  makerSlide(e) {
+  makerSlide = (e) => {
     e.stopPropagation();
-    console.log(e.target.className);
     if (e.target.className !== 'input-founder' && e.target.className !== 'iconfont icon-qianwang') {
       $('.maker').find('.zhankai').toggleClass('rotate');
       $('.task-state').find('.zhankai').removeClass('rotate');
@@ -73,12 +72,12 @@ class History extends Component {
   gotoPopup() {
     this.props.dispatch(routerRedux.push('/popup'));
   }
-  documentClick(e) {
-    if ($('.trans-item-founder').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-founder').length == 0) {
+  documentClick =(e) => {
+    if ($('.trans-item-founder').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-founder').length === 0) {
       $('.trans-item-founder').siblings('.zhankai').removeClass('rotate');
       $('.trans-item-founder').removeClass('active')
       $('.trans-item-founder').slideUp();
-    }else if ($('.trans-item-state').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-state').length == 0) {
+    } else if ($('.trans-item-state').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-state').length === 0) {
       $('.trans-item-state').siblings('.zhankai').removeClass('rotate');
       $('.trans-item-state').removeClass('active')
       $('.trans-item-state').slideUp();
@@ -86,7 +85,7 @@ class History extends Component {
   }
   render() {
     return (
-      <div className="bootContent" onClick={(e) => { this.documentClick(e); }}>
+      <div className="bootContent historyContent" onClick={(e) => { this.documentClick(e); }}>
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
           <CommonHeader title="历史任务" isMain isUserPort home />
