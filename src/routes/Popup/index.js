@@ -275,11 +275,10 @@ class Popup extends Component {
         {/* 头部信息 */}
         <CommonHeader title="洞察结果" goback home />
         <div className="tab">
-          <span className="tabData iconfont icon-xiangqing1"><span>数是的据</span></span>
+          <span className="tabData iconfont icon-xiangqing1"><span>数据</span></span>
           <span className="tabPortrait iconfont icon-huaxiang" onClick={() => { this.props.dispatch(routerRedux.push('/userPortrait')); }}><span>画像</span></span>
         </div>
         <DanaoWrapper>
-          档案模态框
           <div id="archivesModal">
             <div className="originalTextOperate">
               <div className="retract">
@@ -293,7 +292,6 @@ class Popup extends Component {
             </div>
             <div className="modal-header text-center">
               <span>洞察档案</span>
-              <span className="pull-right archivesModalClose"><i className="iconfont icon-htmal5icon19"></i></span>
             </div>
             <div className="modal-content">
               <div className="archivesAudio">
@@ -354,7 +352,6 @@ class Popup extends Component {
               </Scrollbars>
             </div>
           </div>
-          已识别文件
           <div id="recognized-file">
             <div id="top">
               <div className="title">
@@ -370,10 +367,10 @@ class Popup extends Component {
               <ul id="file-list">
                 {
                   this.state.fileList.map((item, index) => (
-                    <li 
-                      className={["file-item", index == this.state.clickIndex ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} 
-                      data-name={item.id} 
-                      data-status={item.statusMessage} 
+                    <li
+                      className={["file-item", index == this.state.clickIndex ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')}
+                      data-name={item.id}
+                      data-status={item.statusMessage}
                       key={index}
                       onClick={() => {
                         this.setState({

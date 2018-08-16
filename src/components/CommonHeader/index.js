@@ -27,8 +27,8 @@ class MainWrapper extends Component {
         {/* 头部信息 */}
         <div className="header">
           <div>
-            <span className="logo">M O X I 摩西洞察</span><span className="fenge">|</span>{title}
-            </div>
+            <span className="logo">M O X I 摩西洞察</span>{title && <span className="fenge">|</span>}{title}
+          </div>
         </div>
         {
           isMain && <div
@@ -60,7 +60,7 @@ class MainWrapper extends Component {
               console.log('返回');
             }}
           >
-            <span className="iconfont icon-qianwang"></span>
+            <span className="iconfont icon-qianwang" />
             <span className="back">返回</span>
           </div>
         }

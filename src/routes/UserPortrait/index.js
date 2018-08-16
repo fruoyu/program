@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Icon, Input } from 'antd';
 import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import $ from 'jquery';
@@ -42,8 +41,8 @@ class UserPortrait extends Component {
                 <div className="guangbiao"></div>
               </div>
               <div className="dashed jiating leftdashed">
-                <div className="yuan"></div>
-                <div className="xiexian"></div>
+                <div className="yuan" />
+                <div className="xiexian" />
                 <div className="content">
                   <div className="img">
                     <img src={require('../../assets/image/icon_03.png')} style={{ width: '100%"' }} />
@@ -51,17 +50,36 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>家庭结构</h3>
                     <ul>
-                      <li><span className="item">子女 :</span><span className="CUSTOMER_CHILD">数据</span></li>
-                      <li><span>年龄 :</span><span className="CUSTOMER_AGE">18</span></li>
-                      <li><span>性别 :</span><span className="CUSTOMER_SEX"></span></li>
-                      <li><span>婚姻 :</span><span className="CUSTOMER_MERRIGE"></span></li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 1 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span className="item">子女 :</span>
+                        <span className="CUSTOMER_CHILD">数据</span>
+                        {
+                          this.state.key === 1 && <small style={{ background: '#ffc', padding: 5 }}>小程是sd的女生序</small>
+                        }
+
+                      </li>
+                      <li>
+                        <span>年龄 :</span>
+                        <span className="CUSTOMER_AGE">18</span>
+                      </li>
+                      <li>
+                        <span>性别 :</span>
+                        <span className="CUSTOMER_SEX"></span>
+                      </li>
+                      <li>
+                        <span>婚姻 :</span>
+                        <span className="CUSTOMER_MERRIGE" />
+                      </li>
                     </ul>
                   </div>
                 </div>
               </div>
               <div className="dashed goumaili leftdashed">
-                <div className="yuan"></div>
-                <div className="xiexian"></div>
+                <div className="yuan" />
+                <div className="xiexian" />
                 <div className="content">
                   <div className="img">
                     <img src={require('../../assets/image/icon_12.png')} style={{ width: '100%"' }} />
@@ -77,8 +95,8 @@ class UserPortrait extends Component {
                 </div>
               </div>
               <div className="dashed xingquaihao leftdashed">
-                <div className="yuan"></div>
-                <div className="xiexian"></div>
+                <div className="yuan" />
+                <div className="xiexian" />
                 <div className="content">
                   <div className="img">
                     <img src={require('../../assets/image/icon_05.png')}  />
@@ -93,8 +111,8 @@ class UserPortrait extends Component {
                 </div>
               </div>
               <div className="dashed baoxian rightdashed">
-                <div className="yuan rightyuan"></div>
-                <div className="xiexian leftxiexian"></div>
+                <div className="yuan rightyuan" />
+                <div className="xiexian leftxiexian" />
                 <div className="content">
                   <div className="img" style={{ float: 'right' }}>
                     <img src={require('../../assets/image/icon_14.png')} style={{ width: '100%"' }} />
@@ -110,8 +128,8 @@ class UserPortrait extends Component {
                 </div>
               </div>
               <div className="dashed touzi rightdashed">
-                <div className="yuan rightyuan"></div>
-                <div className="xiexian leftxiexian"></div>
+                <div className="yuan rightyuan" />
+                <div className="xiexian leftxiexian" />
                 <div className="content">
                   <div className="img" style={{ float: 'right' }}>
                     <img src={require('../../assets/image/icon_07.png')} style={{ width: '100%"' }} />
