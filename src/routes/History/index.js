@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Icon, DatePicker, Menu, Dropdown, Input, Pagination } from 'antd';
+import { Icon, DatePicker, Input, Pagination } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import './history.less';
+import '../../assets/iconfont/iconfont.css';
+import $ from 'jquery';
 import {
   PolyDialog,
   CommonHeader,
@@ -77,54 +79,20 @@ class History extends Component {
     this.props.dispatch(routerRedux.push('/userPortrait'));
   }
   render() {
-    const menu = (
-      <Menu
-        onClick={(item) => {
-          this.choseStatus(item);
-        }}
-      >
-        {
-          this.state.statusList.map((item) => {
-            return (
-              <Menu.Item key={item.key} className="list-item">{item.status}</Menu.Item>
-            );
-          })
-        }
-      </Menu>
-    );
-
-    const menuUser = (
-      <Menu>
-        <Menu.Item key="0" className="list-item" disabled={this.state.disabled}>
-          <input
-            type="text"
-            className="input-founder"
-            placeholder="输入创建人名称"
-            onChange={(e) => {
-              this.setState({
-                searchMaker: e.target.value.trim(),
-              });
-            }}
-          />
-          <Icon
-            type="left-circle-o"
-            className="iconfont icon-qianwang"
-            style={{
-              position: 'absolute',
-              top: 14,
-              right: 5,
-              fontSize: 24,
-              color: '#ccc',
-            }}
-            onClick={this.searchMember.bind(this)}
-          />
-        </Menu.Item>
-      </Menu>
-    );
     return (
-      <div className="bootContent">
+      <div className="bootContent" onClick={(e) => {
+        if($('.trans-item-founder').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-founder').length == 0) {
+          $('.trans-item-founder').siblings('.zhankai').removeClass('rotate');
+          $('.trans-item-founder').removeClass('active')
+          $('.trans-item-founder').slideUp();
+        }else if($('.trans-item-state').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-state').length == 0) {
+          $('.trans-item-state').siblings('.zhankai').removeClass('rotate');
+          $('.trans-item-state').removeClass('active')
+          $('.trans-item-state').slideUp();
+        }
+      }}>
         <div className="shezhi">
-          <Icon type="user" className="iconfont icon-yonghu2" />
+          <span className="iconfont icon-yonghu2" />
           <div className="shezhi-content">
             <p className="modify" onClick={() => { this.setState({ changePassword: true }); }}>修改密码</p>
             <p className="exit" onClick={this.loginOut.bind(this)}>退出</p>
@@ -143,26 +111,57 @@ class History extends Component {
               <div className="ch-top">
                 <div className="search-input">
                   <input type="text" placeholder="搜索内容" />
-                  <Icon type="left-circle-o" className="iconfont icon-qianwang" />
+                  <span className="iconfont icon-qianwang" />
                 </div>
                 <div className="search-condition">
                   {/* 创建人搜索 */}
                   <div className="founder click-item founders">
-                    <Dropdown overlay={menuUser} trigger={['click']}>
-                      <span className="ant-dropdown-link" href="#">
-                        创建人
-                        <Icon type={this.state.isDownOne}/>
-                      </span>
-                    </Dropdown>
+                    <div
+                      className="founder click-item maker"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        $('.maker').find('.zhankai').toggleClass('rotate');
+                        $('.maker').find('.trans-item').slideToggle().toggleClass('active');
+                        $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+                      }}
+                    >
+                      <span className="mr-15">创建人</span>
+                      <span className="iconfont icon-down-trangle zhankai" />
+
+                      <div className="trans-item trans-item-founder">
+                        <div className="input-wrap">
+                          <input type="text" className="input-founder" placeholder="输入创建人名称" />
+                          <span className="iconfont icon-qianwang" onClick={this.searchMember.bind(this)} />
+                        </div>
+                        <div className="founder-list" />
+                      </div>
+
+                    </div>
                   </div>
                   {/* 任务状态 */}
                   <div className="founder click-item">
-                    <Dropdown overlay={menu} trigger={['click']}>
-                      <span className="ant-dropdown-link" href="#">
-                        {this.state.status}
-                        <Icon type={this.state.isDownTwo} />
-                      </span>
-                    </Dropdown>
+                    <div
+                      className="task-state click-item"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        $('.task-state').find('.zhankai').toggleClass('rotate');
+                        $('.task-state').find('.trans-item').slideToggle().toggleClass('active');
+                        $('.task-state').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+                    }}>
+                      <span className="mr-15">{this.state.status}</span>
+                      <span className="iconfont icon-down-trangle zhankai" />
+                      <div className="trans-item trans-item-state">
+                        <div className="task-state-list">
+                          {
+                            this.state.statusList.map((item) => {
+                              return (
+                                <span key={item.key} className="list-item" onClick={() => { this.setState({ status: item.status }); }}>{item.status}</span>
+                              );
+                            })
+                          }
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="search-calendar">

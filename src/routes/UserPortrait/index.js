@@ -3,11 +3,12 @@ import { connect } from 'dva';
 import { Icon, Input } from 'antd';
 import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
+import $ from 'jquery';
 import './userPortrait.less';
 import {
   PolyDialog,
+  CommonHeader,
 } from '../../components';
-import CommonHeader from "../../components/CommonHeader";
 
 
 class UserPortrait extends Component {
@@ -18,6 +19,9 @@ class UserPortrait extends Component {
     };
   }
   componentDidMount() {
+    setTimeout(() => {
+      $('.dashed').slideDown('slow');
+    }, 1000);
   }
 
   render() {
@@ -60,8 +64,8 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>家庭结构</h3>
                     <ul>
-                      <li><span className="item">子女 :</span><span className="CUSTOMER_CHILD"></span></li>
-                      <li><span>年龄 :</span><span className="CUSTOMER_AGE"></span></li>
+                      <li><span className="item">子女 :</span><span className="CUSTOMER_CHILD">数据</span></li>
+                      <li><span>年龄 :</span><span className="CUSTOMER_AGE">18</span></li>
                       <li><span>性别 :</span><span className="CUSTOMER_SEX"></span></li>
                       <li><span>婚姻 :</span><span className="CUSTOMER_MERRIGE"></span></li>
                     </ul>
