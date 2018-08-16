@@ -16,11 +16,11 @@ export default {
     },
     *saveLoginMsg({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
-      if (callback) callback();
-      yield put({
-        type: 'changeLoginMsg',
-        payload: data,
-      });
+      // yield put({
+      //   type: 'changeLoginMsg',
+      //   payload: data,
+      // });
+      if (callback) callback(data);
     },
   },
   reducers: {

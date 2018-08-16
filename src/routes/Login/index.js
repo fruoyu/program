@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Icon, Button, Form, Input, Checkbox } from 'antd';
 import { routerRedux } from 'dva/router';
+
 import './login.less';
 
 const FormItem = Form.Item;
@@ -39,21 +40,11 @@ class Login extends Component {
     this.props.dispatch({
       type: 'login/saveLoginMsg',
       payload: {
-        endTime: '',
-        fileName: '',
-        name: '',
-        pageNum: 0,
-        pageSize: 10,
-        startTime: '',
-        status: '',
+        userName: this.state.userName,
+        password: this.passWord,
       },
-      callback: () => {
-        // this.props.dispatch({
-        //   type: 'login/savePassword',
-        //   payload: {
-        //     passWord: this.state.passWord,
-        //   },
-        // });
+      callback: (data) => {
+        if (data === true) this.props.dispatch(routerRedux.push('/userPortrait'));
       },
     });
   }
