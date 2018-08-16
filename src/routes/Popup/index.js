@@ -295,7 +295,7 @@ class Popup extends Component {
                     Object.keys(this.state.customer).map((item, index) => (
                       <div className="insightTerm" data-type={item} key={index}>
                         <div className="insightTermTitle">
-                          {this.state.customer[item]}:
+                          <p>{this.state.customer[item]}:</p>
                           <div>
                             <input data-name={item} type="text" className="insightName" disabled></input>
                           </div>
@@ -351,7 +351,7 @@ class Popup extends Component {
             </div>
             <div id="search">
               <div className="total">
-                共计 <span className="total-number">0</span> 个文件
+                共计 <span className="total-number">{this.state.fileList.length}</span> 个文件
               </div>
             </div>
             <Scrollbars>
