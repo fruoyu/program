@@ -13,7 +13,8 @@ class Main extends Component {
     super();
     this.state = {
       nameArr: ['子女信息','年龄','性别','婚姻状况', '从事行业','房产情况','车辆情况','社保','商保',
-        '保险购买人','投资类型', '投资打理人','投资占比','投资时长','理财偏好','爱好活动','欣赏什么样的人']
+        '保险购买人','投资类型', '投资打理人','投资占比','投资时长','理财偏好','爱好活动','欣赏什么样的人'],
+      uploadDialog: false,
     };
   }
   componentDidMount() {
@@ -31,6 +32,22 @@ class Main extends Component {
         <div
           id="start-insight"
           onClick={() => {
+            console.log('上传文件', this)
+            this.setState({
+              uploadDialog: true,
+            })
+          }}></div>
+        {/*上传文件*/}
+        {
+          this.state.uploadDialog &&
+          <div id="upload-voice">
+            <div className="upload-top">
+              <div className="title">上传语音文件</div>
+              <span className="close iconfont icon-htmal5icon19" onClick={() => {
+                this.setState({
+                  uploadDialog: false,
+                })
+              }}></span>
             console.log('启动洞察');
           }}
         />
@@ -48,15 +65,24 @@ class Main extends Component {
               <p style={{ marginBottom: '10px' }}>上传文件</p>
               <p>支持扩展名 .wav .mp3</p>
             </div>
-            <div className="upload-num">
-              <span className="total">共<span className="total-num">0</span>个文件</span>
-              <span className="already">已完成<span className="uploaded-number">0</span>个</span>
+            <div className="upload-middle">
+              <div className="upload-btn">
+                {/*<accept="audio/wav, audio/mp3">*/}
+                <input id="upload" type="file" name="file" multiple="multiple" accept="audio/wav, audio/mp3" hidden />
+                <span className="iconfont icon-shangchuan"></span>
+                <p style={{marginBottom: '10px'}}>上传文件</p>
+                <p>支持扩展名 .wav .mp3</p>
+              </div>
+              <div className="upload-num">
+                <span className="total">共<span className="total-num">0</span>个文件</span>
+                <span className="already">已完成<span className="uploaded-number">0</span>个</span>
+              </div>
+            </div>
+            <div className="upload-bottom">
+              <span className="upload-failed">*上传文件中断，请刷新重新上传</span>
             </div>
           </div>
-          <div className="upload-bottom">
-            <span className="upload-failed">*上传文件中断，请刷新重新上传</span>
-          </div>
-        </div>
+        }
         <DanaoWrapper>
           <div className="circleWrap">
             {
