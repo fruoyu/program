@@ -25,7 +25,7 @@ class MainWrapper extends Component {
               // this.props.dispatch(routerRedux.push('/main')); // 跳转到首页
             }}
           >
-            <Icon type="home" className="iconfont icon-shouye" />
+            <span className="iconfont icon-shouye"></span>
             <span className="home" >首页</span>
           </div>
         }
@@ -36,7 +36,7 @@ class MainWrapper extends Component {
               this.props.dispatch(routerRedux.push('/history'));
             }}
           >
-            <Icon type="solution" className="iconfont icon-shouye" />
+            <i className="iconfont icon-lishijilu" />
             <span className="his">历史记录</span>
           </div>
         }

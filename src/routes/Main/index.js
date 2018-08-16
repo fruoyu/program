@@ -68,7 +68,7 @@ class Main extends Component {
           <div className="success">
             <span className="iconfont icon-htmal5icon19"></span>
             <div className="img">
-              <img src={require('../../assets/img/yun.png')} alt="" />
+              <img src={require('../../assets/image/yun.png')} alt="" />
             </div>
             <div className="successTop">
               您已成功上传<span className="successNum"></span>个文件，现在可以去往历史任务页面查看分析结果。
