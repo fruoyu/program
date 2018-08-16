@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { routerRedux } from 'dva/router';
 import { connect } from 'dva';
-import { DanaoWrapper } from '../../components';
+import {
+  DanaoWrapper,
+  CommonHeader,
+} from '../../components';
 import { Scrollbars } from 'react-custom-scrollbars';
 import $ from 'jquery';
 // import '../../assets/css/daterangepicker.css';
@@ -245,13 +248,13 @@ class Popup extends Component {
   formatSeconds = (s) => {
     let t;
     if (s > -1) {
-      let hour = Math.floor(s/3600);
-      let min = Math.floor(s/60) % 60;
-      let sec = s % 60;
+      const hour = Math.floor(s / 3600);
+      const min = Math.floor(s / 60) % 60;
+      const sec = s % 60;
       if (hour < 10) {
-        t = '0'+ hour + ":";
+        t = '0' + hour + ':';
       } else {
-        t = hour + ":";
+        t = hour + ':';
       }
 
       if (min < 10) {
@@ -269,12 +272,14 @@ class Popup extends Component {
   render() {
     return (
       <div id="popup">
+        {/* 头部信息 */}
+        <CommonHeader title="洞察结果" goback home />
         <div className="tab">
-          <span className="tabData iconfont icon-xiangqing1"><span>数据</span></span>
-          <span className="tabPortrait iconfont icon-huaxiang"><span>画像</span></span>
+          <span className="tabData iconfont icon-xiangqing1"><span>数是的据</span></span>
+          <span className="tabPortrait iconfont icon-huaxiang" onClick={() => { this.props.dispatch(routerRedux.push('/userPortrait')); }}><span>画像</span></span>
         </div>
         <DanaoWrapper>
-          {/*档案模态框*/}
+          档案模态框
           <div id="archivesModal">
             <div className="originalTextOperate">
               <div className="retract">
@@ -288,7 +293,7 @@ class Popup extends Component {
             </div>
             <div className="modal-header text-center">
               <span>洞察档案</span>
-              {/*<span className="pull-right archivesModalClose"><i className="iconfont icon-htmal5icon19"></i></span>*/}
+              <span className="pull-right archivesModalClose"><i className="iconfont icon-htmal5icon19"></i></span>
             </div>
             <div className="modal-content">
               <div className="archivesAudio">
@@ -315,7 +320,7 @@ class Popup extends Component {
                           <div className="digTitle">挖掘出的语句</div>
                           {
                             this.state.labellist[item].map((labelItem, labelIndex) => (
-                              <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={'已完成'} key={labelIndex}>
+                              <div key={labelIndex} className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={'已完成'}>
                                 <div className="digSentence">
                                   <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
                                   <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
@@ -349,7 +354,7 @@ class Popup extends Component {
               </Scrollbars>
             </div>
           </div>
-          {/*已识别文件*/}
+          已识别文件
           <div id="recognized-file">
             <div id="top">
               <div className="title">

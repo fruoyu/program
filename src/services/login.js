@@ -2,9 +2,9 @@ import request from '../utils/request';
 import { headersPost, headersGet } from '../utils/Constants';
 
 export async function Login(params) {
-  return request('/openApi/voiceQuality/getFilesListByid', {
+  return request(`/user/login?userName=${params.userName}&password=${params.password}`, {
     method: 'post',
-    headers: headersPost,
-    body: JSON.stringify(params),
+    headers: headersGet,
+// stringify(params),
   });
 }
