@@ -373,13 +373,15 @@ p {
   cursor: pointer;
   height: auto;
   color: #fff;
+  display: flex;
+  align-items: center;
 }
 .insightTermTitle>span{
   display: inline-block;
   padding: 15px 0;
 }
 .insightTermTitle>div{
-  width: 70%;
+  flex: 1;
   display: inline-block;
   padding: 15px 0;
 }
@@ -536,8 +538,8 @@ p {
 
 /*已识别文件*/
 #recognized-file {
-  width: 360px;
-  height: 590px;
+  width: 300px;
+  height: 480px;
   overflow: hidden;
   background: rgba(20, 14, 62, 0.8);
   position: absolute;
@@ -559,14 +561,14 @@ p {
   width: 100%;
 }
 #top .title {
-  width: 225px;
-  height: 44px;
+  width: 150px;
+  height: 30px;
   position: relative;
   top: -1px;
   margin: 0 auto;
-  font-size: 16px;
+  font-size: 14px;
   color: #fff;
-  line-height: 40px;
+  line-height: 30px;
   text-align: center;
   background: url('../../assets/image/title-head.png') no-repeat 100% 100%;
 }
@@ -635,7 +637,7 @@ p {
 }
 #file-list .file-item {
   position: relative;
-  width: 320px;
+  width: 270px;
   box-sizing: border-box;
   margin-top: 14px;
   padding: 7px 0px 8px 25px;
@@ -643,6 +645,7 @@ p {
   background: #0e37de;
   border-bottom-right-radius: 40px;
   border-top-right-radius: 40px;
+  cursor: pointer;
 }
 .file-item span {
   position: relative;
@@ -651,7 +654,7 @@ p {
 .file-item .item-name {
   height: 20px;
   line-height: 20px;
-  width: 200px;
+  width: 150px;
   overflow: hidden;
   display: block;
   text-overflow: ellipsis;
