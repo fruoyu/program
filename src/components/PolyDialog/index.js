@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from 'antd';
 import './PolyDialog.less';
 
 export default class PolyDialog extends Component {
