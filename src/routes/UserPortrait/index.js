@@ -3,46 +3,37 @@ import { connect } from 'dva';
 import { Icon, Input } from 'antd';
 import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
+import $ from 'jquery';
 import './userPortrait.less';
 import {
-  PolyDialog,
+  CommonHeader,
 } from '../../components';
-import CommonHeader from "../../components/CommonHeader";
 
 
 class UserPortrait extends Component {
   constructor() {
     super();
     this.state = {
-      changePassword: false,
     };
   }
   componentDidMount() {
+    setTimeout(() => {
+      $('.dashed').slideDown('slow');
+    }, 1000);
   }
 
   render() {
     return (
       <div className="bootContent">
-        {/* 用户退出 */}
-        <div className="shezhi">
-          <Icon type="user" className="iconfont icon-yonghu2" />
-          <div className="shezhi-content">
-            <p className="modify" onClick={() => { this.setState({ changePassword: true }); }}>修改密码</p>
-            <p className="exit">退出</p>
-          </div>
-        </div>
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部 */}
-          <CommonHeader
-            title="用户画像"
-            goback
-          />
+          <CommonHeader title="用户画像" goback home />
           {/* 画像 */}
           <div id="main">
             <div className="userPortrait">
               <div className="tab">
-                <span className="tabData iconfont icon-xiangqing1"><Icon type="solution" /><span>数据</span></span>
-                <span className="tabPortrait iconfont icon-huaxiang"><Icon type="user" /><span>画像</span></span>
+                <span className="tabData iconfont icon-xiangqing1" onClick={() => { this.props.dispatch(routerRedux.push('/popup')); }}><span>数据</span></span>
+                <span className="tabPortrait iconfont icon-huaxiang"><span>画像</span></span>
               </div>
               <div className="title">
                 用户画像
@@ -60,8 +51,8 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>家庭结构</h3>
                     <ul>
-                      <li><span className="item">子女 :</span><span className="CUSTOMER_CHILD"></span></li>
-                      <li><span>年龄 :</span><span className="CUSTOMER_AGE"></span></li>
+                      <li><span className="item">子女 :</span><span className="CUSTOMER_CHILD">数据</span></li>
+                      <li><span>年龄 :</span><span className="CUSTOMER_AGE">18</span></li>
                       <li><span>性别 :</span><span className="CUSTOMER_SEX"></span></li>
                       <li><span>婚姻 :</span><span className="CUSTOMER_MERRIGE"></span></li>
                     </ul>
@@ -140,61 +131,6 @@ class UserPortrait extends Component {
             </div>
           </div>
         </Scrollbars>
-        {/* 修改密码弹框 */}
-        {
-          this.state.changePassword && <PolyDialog
-            title="修改密码"
-            visible={this.state.changePassword}
-            onClose={() => {
-              this.setState({ changePassword: false });
-            }}
-            onOk={() => {
-              this.setState({ changePassword: false });
-            }}
-            onCancel={() => {
-              this.setState({ changePassword: false });
-            }}
-          >
-            <div className="login-form">
-              <div label="旧密码">
-                <p>旧密码</p>
-                <Input
-                  type="password" placeholder="旧密码" value={this.state.oldPassword}
-                  onChange={(e) => {
-                    this.setState({ oldPassword: e.target.value.trim() });
-                  }}
-                />
-                {
-                  this.state.oldPassword === '' && <span>请输入密码</span>
-                }
-              </div>
-              <div label="新密码">
-                <p>新密码</p>
-                <Input
-                  type="password" placeholder="新密码" value={this.state.newPassword}
-                  onChange={(e) => {
-                    this.setState({ newPassword: e.target.value.trim() });
-                  }}
-                />
-                {
-                  this.state.newPassword === '' && <span>请输入密码</span>
-                }
-              </div>
-              <div label="确认密码">
-                <p>确认密码</p>
-                <Input
-                  type="password" placeholder="确认密码" value={this.state.confirmPassword}
-                  onChange={(e) => {
-                    this.setState({ confirmPassword: e.target.value.trim() });
-                  }}
-                />
-                {
-                  this.state.confirmPassword === '' && <span>请确认密码</span>
-                }
-              </div>
-            </div>
-          </PolyDialog>
-        }
       </div>
     );
   }

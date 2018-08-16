@@ -1,7 +1,7 @@
 import MainWrapper from './MainWrapper';
 import PolyDialog from './PolyDialog';
 import CommonHeader from './CommonHeader';
-import DanaoWrapper from './DanaoWrapper'
+import DanaoWrapper from './DanaoWrapper';
 
 export {
   MainWrapper,
