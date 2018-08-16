@@ -32,7 +32,7 @@ class UserPortrait extends Component {
           <div id="main">
             <div className="userPortrait">
               <div className="tab">
-                <span className="tabData iconfont icon-xiangqing1"><span>数据</span></span>
+                <span className="tabData iconfont icon-xiangqing1" onClick={() => { this.props.dispatch(routerRedux.push('/popup')); }}><span>数据</span></span>
                 <span className="tabPortrait iconfont icon-huaxiang"><span>画像</span></span>
               </div>
               <div className="title">

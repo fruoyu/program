@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Icon, DatePicker, Input, Pagination } from 'antd';
+import {DatePicker, Pagination } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import './history.less';
@@ -48,12 +48,6 @@ class History extends Component {
   onChangePage(pageNumber) {
     console.log('Page: ', pageNumber);
   }
-  // 任务状态下拉操作
-  choseStatus(item) {
-    this.setState({
-      status: this.state.statusList[item.key].status,
-    });
-  }
   // 点击创建人搜索
   searchMember() {
     // 调用接口
@@ -61,10 +55,15 @@ class History extends Component {
   // 创建人下拉
   makerSlide(e) {
     e.stopPropagation();
-    $('.maker').find('.zhankai').toggleClass('rotate');
-    $('.task-state').find('.zhankai').removeClass('rotate');
-    $('.maker').find('.trans-item').slideToggle().toggleClass('active');
-    $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+    console.log(e.target.className);
+    if (e.target.className !== 'input-founder' && e.target.className !== 'iconfont icon-qianwang') {
+      $('.maker').find('.zhankai').toggleClass('rotate');
+      $('.task-state').find('.zhankai').removeClass('rotate');
+      $('.maker').find('.trans-item').slideToggle().toggleClass('active');
+      $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+    } else if (e.target.className === 'iconfont icon-qianwang') {
+      // 搜索
+    }
   }
   // 进入画像界面操作
   gotoUserPortrait() {
@@ -87,7 +86,7 @@ class History extends Component {
   }
   render() {
     return (
-      <div className="bootContent" onClick={(e) => { this.documentClick.bind(this, e); }}>
+      <div className="bootContent" onClick={(e) => { this.documentClick(e); }}>
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
           <CommonHeader title="历史任务" isMain isUserPort home />
@@ -101,13 +100,13 @@ class History extends Component {
                 </div>
                 <div className="search-condition">
                   {/* 创建人搜索 */}
-                    <div className="founder click-item maker">
-                      <span className="mr-15" onClick={(e) => { this.makerSlide(e); }}>创建人</span>
-                      <span className="iconfont icon-down-trangle zhankai" onClick={(e) => { this.makerSlide(e); }}/>
+                    <div className="founder click-item maker"onClick={(e) => { this.makerSlide(e); }}>
+                      <span className="mr-15">创建人</span>
+                      <span className="iconfont icon-down-trangle zhankai" />
 
                       <div className="trans-item trans-item-founder">
                         <div className="input-wrap">
-                          <input type="text" className="input-founder" placeholder="输入创建人名称" />
+                          <input type="text" className="input-founder" placeholder="输入创建人名称" onChange={(e) => { this.setState({ searchMaker: e.target.value.trim() }); }} />
                           <span className="iconfont icon-qianwang" onClick={this.searchMember.bind(this)} />
                         </div>
                         <div className="founder-list" />
@@ -115,30 +114,30 @@ class History extends Component {
 
                     </div>
                   {/* 任务状态 */}
-                    <div
-                      className="founder task-state click-item"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        $('.task-state').find('.zhankai').toggleClass('rotate');
-                        $('.maker').find('.zhankai').removeClass('rotate');
-                        $('.task-state').find('.trans-item').slideToggle().toggleClass('active');
-                        $('.task-state').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
-                      }}
-                    >
-                      <span className="mr-15">{this.state.status}</span>
-                      <span className="iconfont icon-down-trangle zhankai" />
-                      <div className="trans-item trans-item-state">
-                        <div className="task-state-list">
-                          {
-                            this.state.statusList.map((item) => {
-                              return (
-                                <span key={item.key} className="list-item" onClick={() => { this.setState({ status: item.status }); }}>{item.status}</span>
-                              );
-                            })
-                          }
-                        </div>
+                  <div
+                    className="founder task-state click-item"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      $('.task-state').find('.zhankai').toggleClass('rotate');
+                      $('.maker').find('.zhankai').removeClass('rotate');
+                      $('.task-state').find('.trans-item').slideToggle().toggleClass('active');
+                      $('.task-state').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+                    }}
+                  >
+                    <span className="mr-15">{this.state.status}</span>
+                    <span className="iconfont icon-down-trangle zhankai" />
+                    <div className="trans-item trans-item-state">
+                      <div className="task-state-list">
+                        {
+                          this.state.statusList.map((item) => {
+                            return (
+                              <span key={item.key} className="list-item" onClick={() => { this.setState({ status: item.status }); }}>{item.status}</span>
+                            );
+                          })
+                        }
                       </div>
                     </div>
+                  </div>
                 </div>
                 <div className="search-calendar">
                   <div className="form-group d_t_dater">
