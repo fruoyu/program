@@ -186,7 +186,7 @@ class Popup extends Component {
         INVESTMENT_TYPE: [],
         RISK_PREFERENCE: [],
         SOCIAL_SECURITY: [],
-      }
+      },
     };
   }
   componentDidMount() {
@@ -251,7 +251,7 @@ class Popup extends Component {
                 <div className="insightTermWrap">
                   {
                     Object.keys(this.state.customer).map((item, index) => (
-                      <div className="insightTerm" data-type={item}>
+                      <div className="insightTerm" data-type={item} key={index}>
                         <div className="insightTermTitle">
                           {this.state.customer[item]}:
                           <div>
@@ -266,7 +266,7 @@ class Popup extends Component {
                           <div className="digTitle">挖掘出的语句</div>
                           {
                             this.state.labellist[item].map((labelItem, labelIndex) => (
-                              <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={'已完成'}>
+                              <div key={labelIndex} className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={'已完成'}>
                                 <div className="digSentence">
                                   <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
                                   <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
@@ -316,7 +316,7 @@ class Popup extends Component {
               <ul id="file-list">
                 {
                   this.state.fileList.map((item, index) => (
-                    <li className={["file-item", index == 0 ? 'item-active-2' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage}>
+                    <li key={index} className={["file-item", index === 0 ? 'item-active-2' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage}>
                       <span className="item-name">{item.fileName}</span>
                       <span className="item-size">{item.size}</span>
                     </li>
