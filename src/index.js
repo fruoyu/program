@@ -40,6 +40,7 @@ window.app = app;
 // 3. Model
 
 app.model(require('./models/login'));
+app.model(require('./models/history'));
 
 // 4. Router
 app.router(require('./routerConfig'));

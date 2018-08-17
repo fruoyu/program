@@ -23,10 +23,10 @@ class UserPortrait extends Component {
 
   render() {
     return (
-      <div className="bootContent">
+      <div className="bootContent userPortrait">
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部 */}
-          <CommonHeader title="用户画像" goback home />
+          <CommonHeader title="用户画像" goback home path={this.props.route.path} />
           {/* 画像 */}
           <div id="main">
             <div className="userPortrait">
