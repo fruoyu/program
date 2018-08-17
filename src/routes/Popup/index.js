@@ -322,7 +322,6 @@ class Popup extends Component {
                       </div>
                     </div>
                     <div className="wx-audio-left">
-<<<<<<< HEAD
                       <i className={['iconfont', this.state.isPlay ? 'icon-zanting' : 'icon-bofang'].join(' ')}></i>
                     </div>
                   </div>
