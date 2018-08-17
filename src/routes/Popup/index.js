@@ -244,11 +244,6 @@ class Popup extends Component {
     if (this.props.location.pathname === '/') {
       this.props.dispatch(routerRedux.push('/login'));
     }
-    if (this.state.isPlay) {
-      $('#audio-content')[0].pause();
-    } else {
-      $('#audio-content')[0].play();
-    }
   }
 
   formatSeconds = (s) => {
