@@ -68,6 +68,17 @@ class Main extends Component {
               uploadDialog: true,
             })
           }}></div>
+        <DanaoWrapper>
+          <div className="circleWrap">
+            {
+              this.state.nameArr.map((item, index) => (
+                <div className="circle" data-number={index} key={index}>
+                  <span>{item}</span>
+                </div>
+              ))
+            }
+          </div>
+        </DanaoWrapper>
         {/*上传文件*/}
         {
           this.state.uploadDialog && this.renderUpload()
