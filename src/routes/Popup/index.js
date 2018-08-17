@@ -237,6 +237,7 @@ class Popup extends Component {
       },
       clickIndex: 0,
       hoverIndex: -1,
+      isPlay: false,
     };
   }
   componentDidMount() {
@@ -316,7 +317,7 @@ class Popup extends Component {
                       </div>
                     </div>
                     <div className="wx-audio-left">
-                      <i className="iconfont icon-bofang"></i>
+                      <i className={['iconfont', this.state.isPlay ? 'icon-zanting' : 'icon-bofang'].join(' ')}></i>
                     </div>
                   </div>
                 </div>
