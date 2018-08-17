@@ -324,21 +324,6 @@ class Popup extends Component {
                     <div className="wx-audio-left">
 <<<<<<< HEAD
                       <i className={['iconfont', this.state.isPlay ? 'icon-zanting' : 'icon-bofang'].join(' ')}></i>
-=======
-                      <i className={['iconfont', this.state.isPlay ? "icon-zanting" : "icon-bofang"].join(' ')} onClick={() => {
-                        if (this.state.isPlay) {
-                          console.log('暂停');
-                          this.setState({
-                            isPlay: false,
-                          })
-                        } else {
-                          console.log('播放');
-                          this.setState({
-                            isPlay: true,
-                          })
-                        }
-                      }}></i>
->>>>>>> be43e683a55c65b22c016270d8d69158ab37e6cc
                     </div>
                   </div>
                 </div>
