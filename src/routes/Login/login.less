@@ -13,6 +13,11 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      input{
+        float: none;
+        margin: 0;
+        text-align: left;
+      }
     }
     .mt{ margin-top: 20px;}
     .ant-form-item{
@@ -23,6 +28,7 @@
       .ant-input-lg{
         height: 40px;
         line-height: 40px;
+        text-align: left;
         font-size: 14px;
       }
       .login-button{
@@ -37,10 +43,7 @@
     .ant-input-affix-wrapper .ant-input-prefix, .ant-input-affix-wrapper .ant-input-suffix{
       font-size: 16px;
     }
-    .ant-form-item-control{
-      // height: 64px;
-    }
-    .has-error.has-feedback:after,.ant-form-item-control {
+    .has-error.has-feedback:after,.ant-form-item-control,.has-success.has-feedback:after {
       line-height: 40px;
     }
 

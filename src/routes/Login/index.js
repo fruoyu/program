@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Icon, Button, Form, Input, Checkbox } from 'antd';
 import { routerRedux } from 'dva/router';
+import { notifyError } from '../../services/app.js';
+
 import './login.less';
 
 const FormItem = Form.Item;
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       collapsed: false,
       userName: '123',
@@ -21,46 +23,31 @@ class Login extends Component {
     const pword = storage.getItem('password');
     if (uname) { this.setState({ userName: uname, passWord: pword }); }
   }
-  handleStorage = (props) => {
-    const storage = window.localStorage;
-    if (!props) {
-      return {
-        userName: storage.getItem('username'),
-        passWord: storage.getItem('password'),
-      };
-    } else {
-      return {
-        userName: storage.setItem('username', props.userName),
-        passWord: storage.setItem('password', props.passWord),
-      };
-    }
-  }
+
   handleSubmit = (e) => {
-    this.props.dispatch({
-      type: 'login/saveLoginMsg',
-      payload: {
-        endTime: '',
-        fileName: '',
-        name: '',
-        pageNum: 0,
-        pageSize: 10,
-        startTime: '',
-        status: '',
-      },
-      callback: () => {
-        // this.props.dispatch({
-        //   type: 'login/savePassword',
-        //   payload: {
-        //     passWord: this.state.passWord,
-        //   },
-        // });
-      },
+    e.preventDefault();
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        /* 浏览器是否保存密码 */
+        if (values.remember) {
+          const storage = window.localStorage;
+          storage.username = this.state.userName;
+          storage.password = this.state.passWord;
+        } else window.localStorage.clear();
+        /* 提交登录 */
+        this.props.dispatch({
+          type: 'login/saveLoginMsg',
+          payload: {
+            userName: this.state.userName,
+            password: this.state.passWord,
+          },
+          callback: (data) => {
+            if (data) this.props.dispatch(routerRedux.push('/main'));
+            else notifyError('账户或密码错误！');
+          },
+        });
+      }
     });
-  }
-  handleCheck = (e) => {
-    const tar = e.target.checked;
-    if (tar) this.handleStorage({ userName: this.state.userName, passWord: this.state.passWord });
-    else window.localStorage.clear();
   }
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -79,7 +66,7 @@ class Login extends Component {
                       userName: e.target.value,
                     });
                   }}
-                />
+                />,
               )}
             </FormItem>
             <FormItem hasFeedback className="login-form-item">
@@ -93,7 +80,7 @@ class Login extends Component {
                       passWord: e.target.value,
                     });
                   }}
-                />
+                />,
               )}
             </FormItem>
             <FormItem className="login-form-item mt">
@@ -106,7 +93,7 @@ class Login extends Component {
                 valuePropName: 'checked',
                 initialValue: false,
               })(
-                <Checkbox onChange={this.handleCheck}>记住密码</Checkbox>
+                <Checkbox>记住密码</Checkbox>,
               )}
             </FormItem>
           </div>
