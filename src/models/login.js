@@ -23,7 +23,6 @@ export default {
           type: 'LoginMsg',
         });
         if (callback) callback();
-        notifySuccess('退出成功');
       } else {
         notifyError('退出失败!');
       }

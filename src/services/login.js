@@ -10,14 +10,14 @@ export async function Login(params) {
 export async function LoginOut(params) {
   return request('/user/loginout', {
     method: 'post',
-    headers: headersGet,
+    headers: headersPost,
     body: JSON.stringify(params),
   });
 }
 export async function ChangePwd(params) {
   return request('/user/changePwd', {
     method: 'post',
-    headers: headersGet,
+    headers: headersPost,
     body: JSON.stringify(params),
   });
 }
