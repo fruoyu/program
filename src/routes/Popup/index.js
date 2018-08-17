@@ -303,7 +303,7 @@ class Popup extends Component {
               <div className="archivesAudio">
                 <div id="audioEle">
                   <div className="wx-audio-content" style={{ width: '100%' }}>
-                    <audio className="wx-audio-content" src={{uri: "http://47.95.113.97:8660/file/20180810211904920战旗-王丽-苗女士-13611323882.mp3"}} ref='audioContent' id='audio-content'></audio>
+                    <audio className="wx-audio-content" src={{uri: "http://47.95.113.97:8660/file/20180817121908967空战军-测试-张玉龙-1234.mp3"}}></audio>
                     <div className="wx-audio-right">
                       <p className="middleX"></p>
                       <div className="wx-audio-time">
