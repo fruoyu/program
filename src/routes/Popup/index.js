@@ -295,7 +295,31 @@ class Popup extends Component {
             </div>
             <div className="modal-content">
               <div className="archivesAudio">
-                <div id="audioEle"></div>
+                <div id="audioEle">
+                  <div className="wx-audio-content" style={{ width: '100%' }}>
+                    <audio className="wx-audio-content" src={{uri: "http://47.95.113.97:8660/file/20180817121908967空战军-测试-张玉龙-1234.mp3"}}></audio>
+                    <div className="wx-audio-right">
+                      <p className="middleX"></p>
+                      <div className="wx-audio-time">
+                        <span className="current-t">00:00</span>
+                        <span className="duration-t">32:22</span>
+                      </div>
+                      <div className="wx-audio-progrees">
+                        <div className="wx-progrees-detail">
+                          <span className="wx-voice-p"></span>
+                          <span className="wx-buffer-p" style={{ width: '0%' }}></span>
+                          <span className="wx-loading">
+                            <span className="wx-loading-wrapper"></span>
+                          </span>
+                        </div>
+                        <div className="wx-audio-origin"></div>
+                      </div>
+                    </div>
+                    <div className="wx-audio-left">
+                      <i className="iconfont icon-bofang"></i>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="insightTextWrap" style={{ boxSizing: 'border-box'}}>
               </div>
