@@ -13,6 +13,201 @@ class UserPortrait extends Component {
   constructor() {
     super();
     this.state = {
+      clickIndex: 0,
+      fileList: [
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 24,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 24,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 24,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 24,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 24,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 24,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 24,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 24,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 24,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 22,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 24,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+        {
+          createTime: '2018-08-14 14:15:28.0',
+          dialogueContent: '',
+          fileName: '战旗-王帅-录音笔-123456.WAV',
+          filePath: '/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV',
+          id: 28,
+          insightResult: '',
+          lastUpdateTime: '2018-08-14 14:15:28.0',
+          md5: '',
+          size: '9.5MB',
+          statusMessage: 'done',
+          systemId: 0,
+          taskid: '',
+          userId: '11024400000050',
+          userName: '周晨',
+        },
+      ],
     };
   }
   componentDidMount() {
@@ -143,6 +338,47 @@ class UserPortrait extends Component {
                 </div>
               </div>
             </div>
+          </div>
+          <div id="recognized-file">
+            <div id="top">
+              <div className="title">
+                已识别文件
+              </div>
+            </div>
+            <div id="search">
+              <div className="total">
+                共计 <span className="total-number">{this.state.fileList.length}</span> 个文件
+              </div>
+            </div>
+            <Scrollbars>
+              <ul id="file-list">
+                {
+                  this.state.fileList.map((item, index) => (
+                    <li
+                      className={['file-item', index === this.state.clickIndex ? 'item-active-2' : '', index === this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index}
+                      onClick={() => {
+                        this.setState({
+                          clickIndex: index,
+                        });
+                      }}
+                      onMouseEnter={() => {
+                        this.setState({
+                          hoverIndex: index,
+                        });
+                      }}
+                      onMouseLeave={() => {
+                        this.setState({
+                          hoverIndex: -1,
+                        });
+                      }}
+                    >
+                      <span className="item-name">{item.fileName}</span>
+                      <span className="item-size">{item.size}</span>
+                    </li>
+                  ))
+                }
+              </ul>
+            </Scrollbars>
           </div>
         </Scrollbars>
       </div>

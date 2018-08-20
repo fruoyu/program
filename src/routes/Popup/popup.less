@@ -495,11 +495,16 @@ p {
   height: 480px;
   overflow: hidden;
   background: rgba(20, 14, 62, 0.8);
-  position: absolute;
-  bottom: 0;
+  position: fixed;
+  bottom: -440px;
+  transition: transform .5s linear !important;
   left: 0;
-  border: 2px solid transparent;
+  border: 2px solid #0c067d;
   z-index: 999;
+
+}
+#recognized-file:hover{
+  transform: translateY(-440px);
   border-image:linear-gradient(#0b01b8 0,#b303fd 25%, #f3c1ff 50%, #b303fd 75% , #0b01b8) 30;
 }
 .bi-30{
@@ -583,8 +588,8 @@ p {
 
 #file-list {
   width: 100%;
-  height: calc(~"100% - 90px");
-  padding: 0 20px 20px 0;
+  height: auto;
+  padding: 0 20px 100px 0;
   box-sizing: border-box;
   font-size: 12px;
 }
