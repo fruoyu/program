@@ -112,6 +112,10 @@ p {
   -moz-backface-visibility: visible;
   transition: 500ms;
 }
+.archivesBigModal {
+  width: calc(~"100% - 30px")!important;
+  background:url('../../assets/image/danganmianban1.png') center center/100% 100% no-repeat!important;
+}
 .originalTextOperate{
   position: absolute;
   width: calc(~"100% - 40px");
@@ -153,7 +157,7 @@ p {
 }
 .originalTextOperate>.retract{
   left: 2%;
-  display: none;
+  display: show;
 }
 .originalText{
   display: inline-block;
@@ -293,8 +297,8 @@ p {
   height: 100%;
 }
 .archivesAudio{
-  height: 80px;
-  padding: 0 5px 45px;
+  height: auto;
+  padding: 0 5px;
   position: relative;
   top: 20px;
 }
@@ -305,7 +309,7 @@ p {
   padding: 25px 20px 20px 5px;
 }
 .insightTextWrap{
-  height: calc(~"100% - 115px");
+  height: calc(~"100% - 120px");
   width: 63%;
   padding: 10px 5px;
   overflow: auto;

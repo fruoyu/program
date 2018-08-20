@@ -238,6 +238,7 @@ class Popup extends Component {
       clickIndex: 0,
       hoverIndex: -1,
       isPlay: false,
+      isOriginal: false,
     };
   }
   componentDidMount() {
@@ -270,6 +271,113 @@ class Popup extends Component {
     return t;
   }
 
+  renderTermWrap = () => {
+    return (
+      <div className="insightTermWrap">
+        <Scrollbars>
+            {
+              Object.keys(this.state.customer).map((item, index) => (
+                <div className="insightTerm" data-type={item} key={index}>
+                  <div className="insightTermTitle">
+                    <p>{this.state.customer[item]}:</p>
+                    <div>
+                      <input data-name={item} type="text" className="insightName" disabled></input>
+                    </div>
+                    <span className="insightTermNamedit pull-right" data-type={item}>
+                      <i className="iconfont icon-xiugai"></i>
+                      <i className="iconfont icon-gou1"></i>
+                    </span>
+                  </div>
+                  <div className="insightTermContent">
+                    <div className="digTitle">挖掘出的语句</div>
+                    {
+                      this.state.labellist[item].map((labelItem, labelIndex) => (
+                        <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
+                          <div className="digSentence">
+                            <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
+                            <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
+                              {labelItem.context}
+                              <i className="audioJump iconfont icon-yuyin1-copy"></i>
+                            </p>
+                            <div className="arrow">
+                              <i className="iconfont icon-sanjiaoright"></i>
+                            </div>
+                          </div>
+                          <div className="border-wrap"></div>
+                          {
+                            labelItem.status == 'true' ?
+                              <div className="sentenceDel" data-name={0}>
+                                <i className="iconfont icon-cuowu"></i>
+                              </div> :
+                              <div className="sentenceRight" data-name={0}>
+                                <i className="iconfont icon-gou1"></i>
+                              </div>
+                          }
+                        </div>
+
+                      ))
+                    }
+
+                  </div>
+                </div>
+              ))
+            }
+        </Scrollbars>
+      </div>
+    )
+  }
+
+  renderTextWrap = () => {
+    return (
+      <div className="insightTextWrap" style={{ boxSizing: 'border-box', }}>
+      </div>
+    )
+  }
+
+  renderAudio = () => {
+    return (
+      <div className="archivesAudio">
+        <div id="audioEle">
+          <div className="wx-audio-content" style={{ width: '100%' }}>
+            <audio className="wx-audio-content" src={{uri: "http://47.95.113.97:8660/file/20180817121908967空战军-测试-张玉龙-1234.mp3"}}></audio>
+            <div className="wx-audio-right">
+              <p className="middleX"></p>
+              <div className="wx-audio-time">
+                <span className="current-t">00:00</span>
+                <span className="duration-t">33:44</span>
+              </div>
+              <div className="wx-audio-progrees">
+                <div className="wx-progrees-detail">
+                  <span className="wx-voice-p"></span>
+                  <span className="wx-buffer-p"></span>
+                  <span className="wx-loading">
+                    <span className="wx-loading-wrapper"></span>
+                  </span>
+                </div>
+                <div className="wx-audio-origin"></div>
+              </div>
+            </div>
+            <div className="wx-audio-left">
+              <i className={['iconfont', this.state.isPlay ? "icon-zanting" : "icon-bofang"].join(' ')} onClick={() => {
+                if (this.state.isPlay) {
+                  console.log('暂停');
+                  this.setState({
+                    isPlay: false,
+                  })
+                } else {
+                  console.log('播放');
+                  this.setState({
+                    isPlay: true,
+                  })
+                }
+              }}></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   render() {
     return (
       <div id="popup">
@@ -280,101 +388,38 @@ class Popup extends Component {
           <span className="tabPortrait iconfont icon-huaxiang" onClick={() => { this.props.dispatch(routerRedux.push('/userPortrait')); }}><span>画像</span></span>
         </div>
         <DanaoWrapper>
-          <div id="archivesModal">
+          <div id="archivesModal" className={this.state.isOriginal ? "archivesBigModal" : ""}>
             <div className="originalTextOperate">
-              <div className="retract">
-                <i className="iconfont icon-shouqi" style={{ fontSize: '16px'}}></i>
-                <span className="retractSpan">收起</span>
-              </div>
-              <div className="view">
-                <i className="iconfont icon-wenbenzhantie"></i>
-                <span className="viewSpan">查看原文</span>
-              </div>
+              {
+                this.state.isOriginal ?
+                <div className="retract" onClick={() => {
+                  this.setState({
+                    isOriginal: false,
+                  })
+                }}>
+                  <i className="iconfont icon-shouqi" style={{ fontSize: '16px'}}></i>
+                  <span className="retractSpan">收起</span>
+                </div> :
+                <div className="view" onClick={() => {
+                  this.setState({
+                    isOriginal: true,
+                  })
+                }}>
+                  <i className="iconfont icon-wenbenzhantie"></i>
+                  <span className="viewSpan">查看原文</span>
+                </div>
+              }
             </div>
-            <div className="modal-header text-center">
+            <div className="modal-header text-center" style={{top: this.state.isOriginal ? "1.4%" : ""}}>
               <span>洞察档案</span>
             </div>
             <div className="modal-content">
-              <div className="archivesAudio">
-                <div id="audioEle">
-                  <div className="wx-audio-content" style={{ width: '100%' }}>
-                    <audio className="wx-audio-content" src={{uri: "http://47.95.113.97:8660/file/20180817121908967空战军-测试-张玉龙-1234.mp3"}}></audio>
-                    <div className="wx-audio-right">
-                      <p className="middleX"></p>
-                      <div className="wx-audio-time">
-                        <span className="current-t">00:00</span>
-                        <span className="duration-t">33:44</span>
-                      </div>
-                      <div className="wx-audio-progrees">
-                        <div className="wx-progrees-detail">
-                          <span className="wx-voice-p"></span>
-                          <span className="wx-buffer-p"></span>
-                          <span className="wx-loading">
-                            <span className="wx-loading-wrapper"></span>
-                          </span>
-                        </div>
-                        <div className="wx-audio-origin"></div>
-                      </div>
-                    </div>
-                    <div className="wx-audio-left">
-                      <i className={['iconfont', this.state.isPlay ? 'icon-zanting' : 'icon-bofang'].join(' ')}></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="insightTextWrap" style={{ boxSizing: 'border-box' }}>
-              </div>
-              <Scrollbars>
-                <div className="insightTermWrap">
-                  {
-                    Object.keys(this.state.customer).map((item, index) => (
-                      <div className="insightTerm" data-type={item} key={index}>
-                        <div className="insightTermTitle">
-                          <p>{this.state.customer[item]}:</p>
-                          <div>
-                            <input data-name={item} type="text" className="insightName" disabled></input>
-                          </div>
-                          <span className="insightTermNamedit pull-right" data-type={item}>
-                            <i className="iconfont icon-xiugai"></i>
-                            <i className="iconfont icon-gou1"></i>
-                          </span>
-                        </div>
-                        <div className="insightTermContent">
-                          <div className="digTitle">挖掘出的语句</div>
-                          {
-                            this.state.labellist[item].map((labelItem, labelIndex) => (
-                              <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
-                                <div className="digSentence">
-                                  <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
-                                  <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
-                                    {labelItem.context}
-                                    <i className="audioJump iconfont icon-yuyin1-copy"></i>
-                                  </p>
-                                  <div className="arrow">
-                                    <i className="iconfont icon-sanjiaoright"></i>
-                                  </div>
-                                </div>
-                                <div className="border-wrap"></div>
-                                {
-                                  labelItem.status == 'true' ?
-                                    <div className="sentenceDel" data-name={0}>
-                                      <i className="iconfont icon-cuowu"></i>
-                                    </div> :
-                                    <div className="sentenceRight" data-name={0}>
-                                      <i className="iconfont icon-gou1"></i>
-                                    </div>
-                                }
-                              </div>
-
-                            ))
-                          }
-
-                        </div>
-                      </div>
-                    ))
-                  }
-                </div>
-              </Scrollbars>
+              {
+                this.renderAudio()
+              }
+              {
+                this.state.isOriginal ? this.renderTextWrap() : this.renderTermWrap()
+              }
             </div>
           </div>
           <div id="recognized-file">
