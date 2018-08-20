@@ -217,12 +217,13 @@ p {
 .originalText>.fristLine>span{
   display: inline-block;
   margin-right: 10px;
+  color: #fff;
 }
 .originalText>.secondLine{
   position: relative;
   cursor: pointer;
   color:#000;
-  padding: 10px;
+  padding: 5px 10px;
   margin-bottom: 10px;
   background: linear-gradient(to right,rgb(106, 120, 255),rgb(226, 177, 255));
 }
@@ -237,6 +238,7 @@ p {
 }
 .rightText>.fristLine{
   text-align: right;
+  color: #fff;
 }
 .originalText>.secondLine:hover {
   box-shadow: 0 0 20px #fff;
@@ -290,7 +292,6 @@ p {
 .biaozhuLi{
   padding: 2px 5px;
   border-radius: 5px;
-  display: none;
   position: absolute;
   height: 100px;
   background: #fff;
@@ -350,17 +351,16 @@ p {
   top: 20px;
 }
 .insightTermWrap{
-  height: calc(~"100% - 50px");
+  height: calc(~"100% - 5px");
   width: 100%;
   display: inline-block;
   padding: 25px 20px 20px 5px;
 }
 .insightTextWrap{
-  height: calc(~"100% - 120px");
+  height: calc(~"100% - 5px");
   width: 63%;
   padding: 10px 5px;
   overflow: auto;
-  display: none;
 }
 .insightTerm{
   width: 100%;
@@ -402,6 +402,7 @@ p {
   text-align: left;
   font-size: 12px;
   display: inline;
+  padding-left: 5px;
 }
 .insightTermNamedit{
   cursor: pointer;
@@ -704,3 +705,10 @@ p {
   top: 65px;
 }
 
+.modal-box{
+  display: flex;
+  height: calc(~"100% - 50px");
+}
+.insightTermWrapWidth{
+  width: 33%;
+}

@@ -235,10 +235,381 @@ class Popup extends Component {
         RISK_PREFERENCE: [],
         SOCIAL_SECURITY: [],
       },
+      keylist: [
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"COMMERCIAL_INSURANCE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CONSUME_CAR",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CONSUME_HOUSE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_ADMIRE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_AGE",
+        },
+
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_CHILD",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_HOBBY",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_JOB",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_MERRIGE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_SEX",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"INSURANCE_PURCHASER",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"INVESTMENT_DURATION",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"INVESTMENT_PURCHASER",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"INVESTMENT_RATIO",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"INVESTMENT_TYPE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"RISK_PREFERENCE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"SOCIAL_SECURITY",
+        },
+      ],
+      originalList: [
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:[],
+          role:"USER",
+          startTime:0,
+          types:[],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+      ],
       clickIndex: 0,
       hoverIndex: -1,
       isPlay: false,
       isOriginal: false,
+      isInputEdit: true,
+      isBiaozhu: false,
+      biaozhuIndex: -1,
     };
   }
   componentDidMount() {
@@ -273,15 +644,25 @@ class Popup extends Component {
 
   renderTermWrap = () => {
     return (
-      <div className="insightTermWrap">
+      <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')}>
         <Scrollbars>
             {
               Object.keys(this.state.customer).map((item, index) => (
                 <div className="insightTerm" data-type={item} key={index}>
                   <div className="insightTermTitle">
                     <p>{this.state.customer[item]}:</p>
-                    <div>
-                      <input data-name={item} type="text" className="insightName" disabled></input>
+                    <div onClick={() => {
+                      this.setState({
+                        isInputEdit: false
+                      })
+                    }}>
+                      {
+                        this.state.keylist.map((keylistItem, keylistIndex) => {
+                          if (keylistItem.type == item) {
+                            return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit}></input>
+                          }
+                        })
+                      }
                     </div>
                     <span className="insightTermNamedit pull-right" data-type={item}>
                       <i className="iconfont icon-xiugai"></i>
@@ -330,6 +711,57 @@ class Popup extends Component {
   renderTextWrap = () => {
     return (
       <div className="insightTextWrap" style={{ boxSizing: 'border-box', }}>
+        <Scrollbars>
+          {
+            this.state.originalList.map((item, index) => (
+              <div key={index} className={['originalText', item.role == 'USER' ? 'rightText' : 'leftText'].join(' ')}>
+                <div className="fristLine">
+                  <span>{item.role == 'USER' ? '用户' : '销售'}</span>
+                  <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
+                </div>
+                <div className="secondLine">
+                  <span className="context">{item.voiceContent}</span>
+                  <span className="laba">
+                    <i className="iconfont icon-yuyin1-copy"></i>
+                  </span>
+                  <span className="originalTextBiaozhu" onClick={() => {
+                    console.log('点击出现')
+                    this.setState({
+                      biaozhuIndex: index,
+                    })
+                  }}>
+                    <i className="iconfont icon-tab2biaozhu"></i>
+                  </span>
+                  {
+                    index == this.state.biaozhuIndex &&
+                    <ul className="biaozhuLi">
+                      <input />
+                      <p>
+                        标注该句属于下
+                        <br />列哪个洞察项：
+                      </p>
+                      {
+                        Object.keys(this.state.customer).map((customerItem, customerIndex) => (
+                          <li>{this.state.customer[customerItem]}</li>
+                        ))
+                      }
+                    </ul>
+                  }
+                </div>
+                <div className="ThirdLine" data-type-arr="">
+                  {
+                    item.types.length > 0 && item.types.map((typeItem, itemIndex) => (
+                      <span className="tags" key={itemIndex}>
+                        {this.state.customer[item.types[itemIndex]]}
+                        <i className="iconfont icon-shanchu1"></i>
+                      </span>
+                    ))
+                  }
+                </div>
+              </div>
+            ))
+          }
+        </Scrollbars>
       </div>
     )
   }
@@ -402,6 +834,15 @@ class Popup extends Component {
                   this.setState({
                     isOriginal: true,
                   })
+                  this.props.dispatch({
+                    type: 'popup/getPictureDetails',
+                    payload: {
+                      taskid: '3'
+                    },
+                    callback: (data) => {
+                      console.log(data)
+                    }
+                  })
                 }}>
                   <i className="iconfont icon-wenbenzhantie"></i>
                   <span className="viewSpan">查看原文</span>
@@ -415,9 +856,14 @@ class Popup extends Component {
               {
                 this.renderAudio()
               }
-              {
-                this.state.isOriginal ? this.renderTextWrap() : this.renderTermWrap()
-              }
+              <div className="modal-box">
+                {
+                  this.state.isOriginal && this.renderTextWrap()
+                }
+                {
+                  this.renderTermWrap()
+                }
+              </div>
             </div>
           </div>
           <div id="recognized-file">

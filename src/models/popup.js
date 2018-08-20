@@ -1,20 +1,26 @@
-// import { notifyError, notifySuccess } from '../services/app.js';
-import { Login } from '../services/login';
+import { notifyError, notifySuccess } from '../services/app.js';
+import { ChangePictureDetails } from '../services/popup';
 
 export default {
-  namespace: 'login',
+  namespace: 'popup',
   state: {
-    userName: '',
+    pictureDetails: [],
     passWord: '',
   },
   effects: {
-    *savePassword({ payload, callback }, { call, put }) {
-      yield put({
-        type: 'changePassword',
-        payload: { ...payload },
-      });
+    *getPictureDetails({ payload, callback }, { call, put }) {
+      const { data } = yield call(ChangePictureDetails, payload);
+      if (data.result) {
+        yield put({
+          type: 'changePictureDetails',
+          payload: { ...payload },
+        });
+        callback && callback(data);
+      } else {
+        notifyError(data.errMsg);
+      }
     },
-    *saveLoginMsg({ payload, callback }, { call, put }) {
+    *getAudioResultApi({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
       // yield put({
       //   type: 'changeLoginMsg',
@@ -24,8 +30,8 @@ export default {
     },
   },
   reducers: {
-    changePassword(state, { payload }) {
-      return { ...state, passWord: payload.passWord };
+    changePictureDetails(state, { payload }) {
+      return { ...state, pictureDetails: payload.result };
     },
     changeLoginMsg(state, { payload }) {
       return { ...state, userName: payload.userName };
