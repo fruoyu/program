@@ -46,7 +46,6 @@ export default {
     /* 单条录音请求 */
     *getSingleData({ payload, callback }, { call, put }) {
       const { data } = yield call(getSingleData, payload);
-      console.log(data);
       if (data.result) {
         yield put({
           type: 'changeSingleData',
