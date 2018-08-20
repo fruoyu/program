@@ -25,80 +25,35 @@
     margin-left: 30px;
     margin-right: 30px;
   }
-  #back {
-    color: #fff;
-    width: 40px;
-    height: 50px;
-    position: fixed;
-    top: 0;
-    right: 15%;
-    background: #088998;
-    border-radius: 0 0 25px 25px;
-    cursor: pointer;
-    line-height: 50px;
-    text-align: center;
-  }
-  .icon-qianwang {
-    display: inline-block;
-    font-size: 25px;
-    color: #34c8d9;
-    transform: rotateY(180deg);
-    transition: transform .5s linear !important;
-  }
-  #back:hover {
-    background: #03d2eb !important;
-  }
-  #back:hover .icon-qianwang {
-    transform: rotateY(540deg);
-    color: #fff;
-  }
-  #back > .back {
-    position: absolute;
-    width: 55px;
-    line-height: 20px;
-    font-size: 12px;
-    text-align: center;
-    top: 50px;
-    left: -7px;
-    color: #fff;
-    border: 1px solid #4332ba;
-    border-radius: 20px;
-    margin-top: 8px;
-    box-sizing: border-box;
-    background: #1a1b3a;
-    display: none;
-  }
-  #back:hover .back {
-    display: block;
-  }
   #main {
     width: 100%;
     height: calc(~"100% - 65px");
-    position: absolute;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
     font-weight: 100;
   }
   .userPortrait {
-    width: 930px;
-    height: 650px;
+    width: 70%;
+    height: 85%;
     position: absolute;
     left: 50%;
-    top: 15%;
+    //top: 5%;
     transform: translateX(-50%);
     background: url("../../assets/image/dairen.png") center center/100% 100%;
   }
   .userPortrait > .title {
     position: relative;
-    top: 15px;
+    top: 2%;
     text-align: center;
-    font-size: 24px;
+    font-size: 20px;
     color: #fff;
   }
-  .userPortrait > .tab {
+/*  .userPortrait > .tab {
     position: absolute;
     right: 20px;
-    top: -60px;
+    top: -10px;
   }
   .userPortrait > .tab > span {
     width: 70px;
@@ -116,7 +71,7 @@
     position: relative;
     top: 2px;
     right: 5px;
-  }
+  }*/
   .tabData > span, .tabPortrait > span {
     padding-left: 3px;
   }
@@ -200,7 +155,7 @@
   }
   .dashed > .content > .ul > ul > li {
     white-space: nowrap;
-    margin-top: 5px;
+    //margin-top: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -269,5 +224,66 @@
     font-size: 12px;
     padding: 5px;
     max-width: 200px;
+  }
+
+  .history {
+    width: 40px;
+    height: 50px;
+    position: fixed;
+    top: 0;
+    right: 15%;
+    background: #2916bc;
+    border-radius: 0 0 25px 25px;
+    cursor: pointer;
+    z-index: 9999;
+  }
+  .history {
+    width: 40px;
+    height: 50px;
+    position: fixed;
+    top: 0;
+    right: 15%;
+    background: #2916bc;
+    border-radius: 0 0 25px 25px;
+    cursor: pointer;
+    z-index: 9999;
+  }
+  .history-not-hover {
+    background: #12086c;
+  }
+  .history-not-hover .his {
+    display: none;
+  }
+  .history-not-hover .icon-lishijilu {
+    color: #4f42c0;
+  }
+  .history .icon-lishijilu {
+    width: 100%;
+    position: absolute;
+    bottom: 10px;
+    left: 1px;
+    text-align: center;
+    font-size: 22px;
+  }
+  .history .his {
+    position: absolute;
+    width: 60px;
+    line-height: 13px;
+    height: 22px;
+    font-size: 12px;
+    padding: 4px;
+    text-align: center;
+    top: 50px;
+    left: -7px;
+    color: #fff;
+    border: 1px solid #4332ba;
+    border-radius: 20px;
+    margin-top: 8px;
+    box-sizing: border-box;
+    background: #1a1b3a;
+    display: none;
+  }
+  .history:hover .his {
+    display: block;
   }
 }

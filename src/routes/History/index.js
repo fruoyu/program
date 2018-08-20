@@ -151,20 +151,6 @@ class History extends Component {
       },
     });
   }
-  // 点击创建人搜索
-  searchMember = () => {
-    // 调用接口
-  }
-  // 创建人下拉
-  makerSlide = (e) => {
-    e.stopPropagation();
-    if (e.target.className !== 'input-founder' && e.target.className !== 'iconfont icon-qianwang') {
-      $('.maker').find('.zhankai').toggleClass('rotate');
-      $('.task-state').find('.zhankai').removeClass('rotate');
-      $('.maker').find('.trans-item').slideToggle().toggleClass('active');
-      $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
-    }
-  }
   render() {
     const {
       filesList,
@@ -189,23 +175,23 @@ class History extends Component {
                 </div>
                 <div className="search-condition">
                   {/* 创建人 */}
-                  <div className="founder click-item maker"onClick={(e) => { this.makerSlide(e); }}>
+                  <div
+                    className="founder click-item maker"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      $('.maker').find('.zhankai').toggleClass('rotate');
+                      $('.task-state').find('.zhankai').removeClass('rotate');
+                      $('.maker').find('.trans-item').slideToggle().toggleClass('active');
+                      $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+                    }}
+                  >
                     <span className="mr-15">{this.state.maker}</span>
                     <span className="iconfont icon-down-trangle zhankai" />
 
                     <div className="trans-item trans-item-founder">
-                      <div className="input-wrap">
-                        <input
-                          type="text" className="input-founder" placeholder="输入创建人名称" value={this.state.searchMaker}
-                          onChange={(e) => {
-                            this.updataState('searchMaker', e.target.value.trim(), () => this.getName());
-                          }}
-                        />
-                        <span className="iconfont icon-qianwang" onClick={this.searchMember.bind(this)} />
-                      </div>
                       <div className="founder-list">
                         {
-                          this.state.searchMaker.length > 0 && nameList.map((item, index) => {
+                          this.state.statusList.map((item, index) => {
                             return (
                               <span
                                 key={index} className="list-item"
@@ -214,7 +200,7 @@ class History extends Component {
                                     this.sendRequest();
                                   });
                                 }}
-                              >{item}</span>
+                              >{item.status}</span>
                             );
                           })
                         }

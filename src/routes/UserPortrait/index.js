@@ -26,14 +26,10 @@ class UserPortrait extends Component {
       <div className="bootContent userPortrait">
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部 */}
-          <CommonHeader title="用户画像" goback home path={this.props.route.path} />
+          <CommonHeader title="用户画像" goback home isUserPort isMain path={this.props.route.path} />
           {/* 画像 */}
           <div id="main">
             <div className="userPortrait">
-              <div className="tab">
-                <span className="tabData iconfont icon-xiangqing1" onClick={() => { this.props.dispatch(routerRedux.push('/popup')); }}><span>数据</span></span>
-                <span className="tabPortrait iconfont icon-huaxiang"><span>画像</span></span>
-              </div>
               <div className="title">
                 用户画像
               </div>
