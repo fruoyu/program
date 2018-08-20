@@ -16,9 +16,8 @@ class History extends Component {
   constructor() {
     super();
     this.state = {
-      searchMaker: '', // 创建人 用户名称
       statusContent: '任务状态', // 状态选择
-      maker: '创建人',
+      name: '创建人',
       statusList: [
         {
           key: '0',
@@ -54,7 +53,7 @@ class History extends Component {
     this.getName = this.getName.bind(this);
   }
   componentDidMount() {
-    this.sendRequest();
+    // this.sendRequest();
   }
   // 日历操作
   onChangeFn = (date, dateString) => {
@@ -73,10 +72,6 @@ class History extends Component {
     }, () => {
       this.sendRequest();
     });
-  }
-  // 进入画像界面操作
-  gotoUserPortrait() {
-    this.props.dispatch(routerRedux.push('/userPortrait'));
   }
   // 进入数据界面
   gotoPopup(id) {
@@ -132,7 +127,7 @@ class History extends Component {
     this.props.dispatch({
       type: 'history/getName',
       payload: {
-        name: this.state.searchMaker,
+        name: this.state.name,
       },
     });
   }
@@ -143,7 +138,7 @@ class History extends Component {
       payload: {
         endTime: this.state.endTime,
         fileName: this.state.fileName,
-        name: this.state.searchMaker,
+        name: this.state.name,
         pageNum: this.state.pageNum - 1,
         pageSize: this.state.pageSize,
         startTime: this.state.startTime,
@@ -151,19 +146,9 @@ class History extends Component {
       },
     });
   }
-  // 点击创建人搜索
-  searchMember = () => {
-    // 调用接口
-  }
-  // 创建人下拉
-  makerSlide = (e) => {
-    e.stopPropagation();
-    if (e.target.className !== 'input-founder' && e.target.className !== 'iconfont icon-qianwang') {
-      $('.maker').find('.zhankai').toggleClass('rotate');
-      $('.task-state').find('.zhankai').removeClass('rotate');
-      $('.maker').find('.trans-item').slideToggle().toggleClass('active');
-      $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
-    }
+  // 进入画像界面操作
+  gotoUserPortrait =() => {
+    this.props.dispatch(routerRedux.push('/userPortrait'));
   }
   render() {
     const {
@@ -189,32 +174,32 @@ class History extends Component {
                 </div>
                 <div className="search-condition">
                   {/* 创建人 */}
-                  <div className="founder click-item maker"onClick={(e) => { this.makerSlide(e); }}>
-                    <span className="mr-15">{this.state.maker}</span>
+                  <div
+                    className="founder click-item maker"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      $('.maker').find('.zhankai').toggleClass('rotate');
+                      $('.task-state').find('.zhankai').removeClass('rotate');
+                      $('.maker').find('.trans-item').slideToggle().toggleClass('active');
+                      $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+                    }}
+                  >
+                    <span className="mr-15">{this.state.name}</span>
                     <span className="iconfont icon-down-trangle zhankai" />
 
                     <div className="trans-item trans-item-founder">
-                      <div className="input-wrap">
-                        <input
-                          type="text" className="input-founder" placeholder="输入创建人名称" value={this.state.searchMaker}
-                          onChange={(e) => {
-                            this.updataState('searchMaker', e.target.value.trim(), () => this.getName());
-                          }}
-                        />
-                        <span className="iconfont icon-qianwang" onClick={this.searchMember.bind(this)} />
-                      </div>
                       <div className="founder-list">
                         {
-                          this.state.searchMaker.length > 0 && nameList.map((item, index) => {
+                          this.state.statusList.map((item, index) => {
                             return (
                               <span
                                 key={index} className="list-item"
                                 onClick={() => {
-                                  this.updataState({ searchMaker: item, maker: item }, () => {
+                                  this.updataState({ name: item.status }, () => {
                                     this.sendRequest();
                                   });
                                 }}
-                              >{item}</span>
+                              >{item.status}</span>
                             );
                           })
                         }
@@ -282,14 +267,56 @@ class History extends Component {
             </div> */}
             {/* 内容区域 */}
             <div className="content-body">
-              {
+              <div className="content-main">
+                {/* 表头 */}
+                <div className="content-header" style={{ marginBottom: 0 }}>
+                  <div className="item-title">录音名称</div>
+                  <div className="item-author">销售人员</div>
+                  <div className="item-state">任务状态</div>
+                  <div className="item-time">上传时间</div>
+                  <div className="data">操作</div>
+                </div>
+                {/* 列表 */}
+                <ul className="content-lists">
+                  <li className="content-item" data-id="'+ item2.id +'">
+                    <div className="item-title">战旗-王帅-录音笔-123456.WAV</div>
+                    <div className="item-author">周晨</div>
+                    <div className="item-state">已完成</div>
+                    <div className="item-time">2018-08-14 14:15:28</div>
+                    <div className="data">
+                      <span className="iconfont icon-xiangqing1" />
+                      <span className="dataFont">数据</span>
+                    </div>
+                    <div className="portrait">
+                      <span className="iconfont icon-huaxiang" onClick={this.gotoUserPortrait.bind(this)} />
+                      <span className="portraitFont">画像</span>
+                    </div>
+                  </li>
+                  <li className="content-item" data-id="'+ item2.id +'">
+                    <div className="item-title">战旗-王帅-录音笔-123456.WAV
+                    </div>
+                    <div className="item-author">周晨</div>
+                    <div className="item-state">已完成</div>
+                    <div className="item-time">2018-08-14 14:15:28</div>
+                    <div className="data">
+                      <span className="iconfont icon-xiangqing1" />
+                      <span className="dataFont">数据</span>
+                    </div>
+                    <div className="portrait">
+                      <sapn className="iconfont icon-huaxiang" />
+                      <span className="portraitFont">画像</span>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              {/*{
                 filesList.length > 0 ? filesList.map((item, index) => {
                   return (
                     <div className="content-main" key={index}>
                       <span className="dashed-circle" />
-                      {/* 时间title */}
+                       时间title
                       <div className="content-time">{item.createTime}</div>
-                      {/* 列表 */}
+                       列表
                       <ul className="content-lists">
                         {
                           item.list.map((content, key) => {
@@ -315,10 +342,18 @@ class History extends Component {
                     </div>
                   );
                 }) : null
-              }
+              }*/}
+
+              {/* 分页器 */}
+              <Pagination
+                className="my-pagination"
+                defaultCurrent={1} total={50} showQuickJumper style={{ marginTop: 60 }}
+                onChange={(pageNumber) => {
+                  this.onChangePage(pageNumber);
+                }}
+              />
             </div>
-            {/* 分页器 */}
-            {
+           {/* {
               filesList.length > 0 && <Pagination
                 className="my-pagination"
                 defaultCurrent={1} total={50} showQuickJumper style={{ marginTop: 60 }}
@@ -326,7 +361,7 @@ class History extends Component {
                   this.onChangePage(pageNumber);
                 }}
               />
-            }
+            }*/}
           </div>
         </Scrollbars>
       </div>

@@ -380,13 +380,13 @@ class Popup extends Component {
 
   render() {
     return (
-      <div id="popup">
+      <div id="popup" className="bootContent">
         {/* 头部信息 */}
         <CommonHeader title="洞察结果" goback home />
-        <div className="tab">
+        {/* <div className="tab">
           <span className="tabData iconfont icon-xiangqing1"><span>数据</span></span>
           <span className="tabPortrait iconfont icon-huaxiang" onClick={() => { this.props.dispatch(routerRedux.push('/userPortrait')); }}><span>画像</span></span>
-        </div>
+        </div> */}
         <DanaoWrapper>
           <div id="archivesModal" className={this.state.isOriginal ? "archivesBigModal" : ""}>
             <div className="originalTextOperate">

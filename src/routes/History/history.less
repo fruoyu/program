@@ -82,7 +82,7 @@
   .history:hover .his {
     display: block;
   }
-  .shouye {
+  /*.shouye {
     color: #fff;
     width: 40px;
     height: 50px;
@@ -120,7 +120,7 @@
     background: #1a1b3a;
     color: #fff;
   }
-  .shouye:hover {
+  .shouye:hoverhover {
     background: #7e0fdb;
   }
   .shouye:hover .home {
@@ -129,7 +129,7 @@
   .shouye:hover .icon-shouye, .history:hover .icon-shouye {
     transform: rotateY(360deg) !important;
     color: #fff;
-  }
+  }*/
 
   /*内容区*/
   #content {
@@ -269,7 +269,7 @@
     overflow-y: scroll;
   }
   .founder-list .list-item {
-    text-align: left;
+    text-align: center;
     padding-left: 10px;
   }
   .search-condition .list-item:hover {
@@ -295,10 +295,26 @@
     .ant-calendar-picker {
       width: 100% !important;
       height: 35px !important;
-      border-bottom: 1px solid !important;
-      border-image: linear-gradient(to right, #0b01b8 0, #b303fd 45%, #a43abd 50%, #b303fd 55%, #0b01b8) 5;
+      border-width: 1px;
+      border-style: solid;
+      border-image: linear-gradient(to right,#0b01b8 0,#b303fd 45%, #a43abd 50%, #b303fd 55% , #0b01b8) 5;
+    }
+    .ant-input{
+      background: none !important;
+      border: 0!important;
+    }
+    .ant-calendar-range-picker-input::placeholder{
+      color: #fff!important;
+    }
+    .ant-calendar-range-picker-separator{
+      color: #fff;
+    }
+    .ant-calendar-picker-clear, .ant-calendar-picker-icon:after {
+        color: #fff !important;
+        font-size: 18px;
     }
   }
+
 
   .task-state-list .list-item:first-of-type {
     border-top-left-radius: 10px;
@@ -398,13 +414,13 @@
     transform: rotate(180deg);
   }
 
-  .content-body .content-main, .content-body .content-lists, .content-body .content-item {
+  .content-body .content-main, .content-body .content-lists, .content-body .content-item, .content-body .content-header  {
     width: 100%;
   }
   .content-body .content-main {
     position: relative;
   }
-  .content-main .dashed-circle {
+  /*.content-main .dashed-circle {
     position: absolute;
     top: 4px;
     left: -9px;
@@ -413,8 +429,8 @@
     border-radius: 100%;
     border: 1px dashed #fff;
     box-sizing: border-box;
-  }
-  .content-main:before {
+  }*/
+  /*.content-main:before {
     content: '';
     display: block;
     position: absolute;
@@ -423,26 +439,26 @@
     height: 100%;
     width: 0;
     border-left: 1px dashed #fff;
-  }
-  .content-body .content-time {
+  }*/
+ /* .content-body .content-time {
     font-size: 24px;
     color: #fff;
-    margin-bottom: 40px;
+    margin-bottom: 10px;
     padding-left: 30px;
-  }
+  }*/
   .content-time-color {
     color: #93f3fb !important;
   }
-  .content-body .content-item {
+  .content-body .content-item, .content-body .content-header {
     position: relative;
     height: 40px;
     line-height: 40px;
     display: flex;
-    text-align: center;
+    //text-align: center;
     color: #fff;
     font-size: 14px;
-    padding-left: 40px;
-    margin-bottom: 30px;
+    padding-left: 10px;
+    margin-bottom: 10px;
     box-sizing: border-box;
   }
   .content-body .content-item:last-of-type {
@@ -455,7 +471,13 @@
   .content-item:hover .iconfont {
     color: #93f3fb;
   }
-  .content-item:hover .item-title:before {
+  .content-header {
+    >div{
+      color: #0ec5ff;
+    }
+
+  }
+  /*.content-item:hover .item-title:before {
     position: absolute;
     top: 50%;
     left: -5px;
@@ -465,24 +487,24 @@
     height: 10px;
     background: #93f3fb;
     border-radius: 100%;
-  }
-  .content-item .item-title {
+  }*/
+  .content-item .item-title, .content-header .item-title{
     width: 40%;
     text-align: left;
   }
   .content-item .item-title:hover {
     cursor: pointer;
   }
-  .content-item .item-author {
+  .content-item .item-author, .content-header .item-author {
     width: 10%;
   }
-  .content-item .item-state {
+  .content-item .item-state, .content-header .item-state {
     width: 13.3%;
   }
-  .content-item .item-time {
+  .content-item .item-time, .content-header .item-time {
     width: 30%;
   }
-  .content-item .data {
+  .content-item .data, .content-header .data {
     margin-right: 20px;
   }
   .content-item .data, .content-item .portrait {
@@ -520,8 +542,34 @@
     display: inline-block !important;
   }
   .my-pagination {
+    position: absolute !important;
+    right: 0;
+    bottom: -80px;
     .ant-pagination-options {
       color: #fff !important;
+    }
+    .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
+      background: rgba(0,0,0,0) !important;
+      border-color: #4332ba !important;
+      color: #fff;
+      font-size: 20px!important;
+    }
+    .ant-pagination-item {
+      background: rgba(0,0,0,0) !important;
+      border-color: #4332ba !important;
+      a{
+        color: #fff;
+      }
+    }
+    .ant-pagination-item-active{
+      background-color: #4332ba !important;
+      border-color: #4332ba !important;
+    }
+    .ant-pagination-options-quick-jumper input{
+      text-align: center;
+      color: #fff;
+      background: rgba(0,0,0,0);
+      border-color: #4332ba !important;
     }
   }
 }
