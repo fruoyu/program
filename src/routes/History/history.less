@@ -82,7 +82,7 @@
   .history:hover .his {
     display: block;
   }
-  .shouye {
+  /*.shouye {
     color: #fff;
     width: 40px;
     height: 50px;
@@ -129,7 +129,7 @@
   .shouye:hover .icon-shouye, .history:hover .icon-shouye {
     transform: rotateY(360deg) !important;
     color: #fff;
-  }
+  }*/
 
   /*内容区*/
   #content {
@@ -295,10 +295,26 @@
     .ant-calendar-picker {
       width: 100% !important;
       height: 35px !important;
-      border-bottom: 1px solid !important;
-      border-image: linear-gradient(to right, #0b01b8 0, #b303fd 45%, #a43abd 50%, #b303fd 55%, #0b01b8) 5;
+      border-width: 1px;
+      border-style: solid;
+      border-image: linear-gradient(to right,#0b01b8 0,#b303fd 45%, #a43abd 50%, #b303fd 55% , #0b01b8) 5;
+    }
+    .ant-input{
+      background: none !important;
+      border: 0!important;
+    }
+    .ant-calendar-range-picker-input::placeholder{
+      color: #fff!important;
+    }
+    .ant-calendar-range-picker-separator{
+      color: #fff;
+    }
+    .ant-calendar-picker-clear, .ant-calendar-picker-icon:after {
+        color: #fff !important;
+        font-size: 18px;
     }
   }
+
 
   .task-state-list .list-item:first-of-type {
     border-top-left-radius: 10px;
@@ -526,8 +542,34 @@
     display: inline-block !important;
   }
   .my-pagination {
+    position: absolute !important;
+    right: 0;
+    bottom: -80px;
     .ant-pagination-options {
       color: #fff !important;
+    }
+    .ant-pagination-prev .ant-pagination-item-link, .ant-pagination-next .ant-pagination-item-link{
+      background: rgba(0,0,0,0) !important;
+      border-color: #4332ba !important;
+      color: #fff;
+      font-size: 20px!important;
+    }
+    .ant-pagination-item {
+      background: rgba(0,0,0,0) !important;
+      border-color: #4332ba !important;
+      a{
+        color: #fff;
+      }
+    }
+    .ant-pagination-item-active{
+      background-color: #4332ba !important;
+      border-color: #4332ba !important;
+    }
+    .ant-pagination-options-quick-jumper input{
+      text-align: center;
+      color: #fff;
+      background: rgba(0,0,0,0);
+      border-color: #4332ba !important;
     }
   }
 }

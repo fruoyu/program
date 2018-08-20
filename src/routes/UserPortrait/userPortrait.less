@@ -286,4 +286,13 @@
   .history:hover .his {
     display: block;
   }
+  /*已识别文件动画*/
+  #recognized-file{
+    bottom: -440px;
+    transition: transform .5s linear !important;
+  }
+  #recognized-file:hover{
+    transform: translateY(-440px);
+    border-image:linear-gradient(#0b01b8 0,#b303fd 25%, #f3c1ff 50%, #b303fd 75% , #0b01b8) 30;
+  }
 }

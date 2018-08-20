@@ -16,9 +16,8 @@ class History extends Component {
   constructor() {
     super();
     this.state = {
-      searchMaker: '', // 创建人 用户名称
       statusContent: '任务状态', // 状态选择
-      maker: '创建人',
+      name: '创建人',
       statusList: [
         {
           key: '0',
@@ -74,10 +73,6 @@ class History extends Component {
       this.sendRequest();
     });
   }
-  // 进入画像界面操作
-  gotoUserPortrait() {
-    this.props.dispatch(routerRedux.push('/userPortrait'));
-  }
   // 进入数据界面
   gotoPopup(id) {
     this.props.dispatch({
@@ -132,7 +127,7 @@ class History extends Component {
     this.props.dispatch({
       type: 'history/getName',
       payload: {
-        name: this.state.searchMaker,
+        name: this.state.name,
       },
     });
   }
@@ -143,13 +138,17 @@ class History extends Component {
       payload: {
         endTime: this.state.endTime,
         fileName: this.state.fileName,
-        name: this.state.searchMaker,
+        name: this.state.name,
         pageNum: this.state.pageNum - 1,
         pageSize: this.state.pageSize,
         startTime: this.state.startTime,
         status: this.state.status,
       },
     });
+  }
+  // 进入画像界面操作
+  gotoUserPortrait =() => {
+    this.props.dispatch(routerRedux.push('/userPortrait'));
   }
   render() {
     const {
@@ -185,7 +184,7 @@ class History extends Component {
                       $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
                     }}
                   >
-                    <span className="mr-15">{this.state.maker}</span>
+                    <span className="mr-15">{this.state.name}</span>
                     <span className="iconfont icon-down-trangle zhankai" />
 
                     <div className="trans-item trans-item-founder">
@@ -196,7 +195,7 @@ class History extends Component {
                               <span
                                 key={index} className="list-item"
                                 onClick={() => {
-                                  this.updataState({ searchMaker: item, maker: item }, () => {
+                                  this.updataState({ name: item.status }, () => {
                                     this.sendRequest();
                                   });
                                 }}
@@ -344,9 +343,17 @@ class History extends Component {
                   );
                 }) : null
               }*/}
+
+              {/* 分页器 */}
+              <Pagination
+                className="my-pagination"
+                defaultCurrent={1} total={50} showQuickJumper style={{ marginTop: 60 }}
+                onChange={(pageNumber) => {
+                  this.onChangePage(pageNumber);
+                }}
+              />
             </div>
-            {/* 分页器 */}
-            {
+           {/* {
               filesList.length > 0 && <Pagination
                 className="my-pagination"
                 defaultCurrent={1} total={50} showQuickJumper style={{ marginTop: 60 }}
@@ -354,7 +361,7 @@ class History extends Component {
                   this.onChangePage(pageNumber);
                 }}
               />
-            }
+            }*/}
           </div>
         </Scrollbars>
       </div>

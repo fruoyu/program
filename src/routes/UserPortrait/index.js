@@ -258,11 +258,11 @@ class UserPortrait extends Component {
                       </li>
                       <li>
                         <span>性别 :</span>
-                        <span className="CUSTOMER_SEX"></span>
+                        <span className="CUSTOMER_SEX">无</span>
                       </li>
                       <li>
                         <span>婚姻 :</span>
-                        <span className="CUSTOMER_MERRIGE" />
+                        <span className="CUSTOMER_MERRIGE">无</span>
                       </li>
                     </ul>
                   </div>
@@ -278,9 +278,9 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>购买力</h3>
                     <ul>
-                      <li><span>从事行业 :</span><span className="CUSTOMER_JOB"></span></li>
-                      <li><span>房产情况 :</span><span className="CONSUME_HOUSE"></span></li>
-                      <li><span>车辆情况 :</span><span className="CONSUME_CAR"></span></li>
+                      <li><span>从事行业 :</span><span className="CUSTOMER_JOB">无</span></li>
+                      <li><span>房产情况 :</span><span className="CONSUME_HOUSE">无</span></li>
+                      <li><span>车辆情况 :</span><span className="CONSUME_CAR">无</span></li>
                     </ul>
                   </div>
                 </div>
@@ -295,8 +295,8 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>兴趣爱好</h3>
                     <ul>
-                      <li><span>爱好的活动 :</span><span className="CUSTOMER_HOBBY"></span></li>
-                      <li><span>欣赏什么样的人 :</span><span className="CUSTOMER_ADMIRE"></span></li>
+                      <li><span>爱好的活动 :</span><span className="CUSTOMER_HOBBY">无</span></li>
+                      <li><span>欣赏什么样的人 :</span><span className="CUSTOMER_ADMIRE">无</span></li>
                     </ul>
                   </div>
                 </div>
@@ -311,9 +311,9 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>保险情况</h3>
                     <ul>
-                      <li><span>社保 :</span><span className="SOCIAL_SECURITY"></span></li>
-                      <li><span>商保 :</span><span className="COMMERCIAL_INSURANCE"></span></li>
-                      <li><span>保险购买人 :</span><span className="INSURANCE_PURCHASER"></span></li>
+                      <li><span>社保 :</span><span className="SOCIAL_SECURITY">无</span></li>
+                      <li><span>商保 :</span><span className="COMMERCIAL_INSURANCE">无</span></li>
+                      <li><span>保险购买人 :</span><span className="INSURANCE_PURCHASER">无</span></li>
                     </ul>
                   </div>
                 </div>
@@ -328,11 +328,11 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>投资情况</h3>
                     <ul>
-                      <li><span>投资类型 :</span><span className="INVESTMENT_TYPE"></span></li>
-                      <li><span>投资打理人 :</span><span className="INVESTMENT_PURCHASER"></span></li>
-                      <li><span>各项投资占比 :</span><span className="INVESTMENT_RATIO"></span></li>
-                      <li><span>投资时长 :</span><span className="INVESTMENT_DURATION"></span></li>
-                      <li><span>理财风险偏好 :</span><span className="RISK_PREFERENCE"></span></li>
+                      <li><span>投资类型 :</span><span className="INVESTMENT_TYPE">无</span></li>
+                      <li><span>投资打理人 :</span><span className="INVESTMENT_PURCHASER">无</span></li>
+                      <li><span>各项投资占比 :</span><span className="INVESTMENT_RATIO">无</span></li>
+                      <li><span>投资时长 :</span><span className="INVESTMENT_DURATION">无</span></li>
+                      <li><span>理财风险偏好 :</span><span className="RISK_PREFERENCE">无</span></li>
                     </ul>
                   </div>
                 </div>
