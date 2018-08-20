@@ -1,6 +1,8 @@
 import { notifyError, notifySuccess } from '../services/app.js';
 import { Login, LoginOut, ChangePwd } from '../services/login';
-
+import { routerRedux } from 'dva/router';
+// import url from 'url';
+// import qs from 'qs';
 export default {
   namespace: 'login',
   state: {
@@ -46,6 +48,18 @@ export default {
     },
     LoginMsg(state) {
       return { ...state, userName: '', passWord: '' };
+    },
+  },
+  subscriptions: {
+    setup({ dispatch, history }) {
+      return history.listen(({ pathname }) => {
+        // const { query } = url.parse(search);
+        // const oPath = qs.parse(query)
+        console.log(pathname);
+        if (pathname === '/') {
+          dispatch(routerRedux.push('/login'));
+        }
+      });
     },
   },
 };
