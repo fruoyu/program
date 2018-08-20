@@ -1,5 +1,5 @@
-// import { notifyError, notifySuccess } from '../services/app.js';
-import { Login } from '../services/login';
+import { notifyError, notifySuccess } from '../services/app.js';
+import { Login, LoginOut, ChangePwd } from '../services/login';
 
 export default {
   namespace: 'login',
@@ -8,12 +8,6 @@ export default {
     passWord: '',
   },
   effects: {
-    *savePassword({ payload, callback }, { call, put }) {
-      yield put({
-        type: 'changePassword',
-        payload: { ...payload },
-      });
-    },
     *saveLoginMsg({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
       // yield put({
@@ -22,13 +16,36 @@ export default {
       // });
       if (callback) callback(data);
     },
+    *loginOut({ payload, callback }, { call, put }) {
+      const { data } = yield call(LoginOut);
+      if (data) {
+        yield put({
+          type: 'LoginMsg',
+        });
+        if (callback) callback();
+      } else {
+        notifyError('退出失败!');
+      }
+    },
+    *resolvePassword({ payload, callback }, { call, put }) {
+      const { data } = yield call(ChangePwd, payload);
+      console.log(data);// errMsg ,retCode
+      if (callback) callback(data);
+      if (data.result) {
+        yield put({
+          type: 'LoginMsg',
+        });
+      } else {
+        notifyError(data.errMsg);
+      }
+    },
   },
   reducers: {
-    changePassword(state, { payload }) {
-      return { ...state, passWord: payload.passWord };
-    },
     changeLoginMsg(state, { payload }) {
       return { ...state, userName: payload.userName };
+    },
+    LoginMsg(state) {
+      return { ...state, userName: '', passWord: '' };
     },
   },
 };

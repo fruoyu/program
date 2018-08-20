@@ -18,13 +18,19 @@ class MainWrapper extends Component {
   }
   // 退出登录操作
   loginOut() {
-    this.props.dispatch(routerRedux.push('/login'));
+    this.props.dispatch({
+      type: 'login/loginOut',
+      payload: {},
+      callback: () => {
+        this.props.dispatch(routerRedux.push('/login'));
+      },
+    });
   }
   render() {
-    const { title, isMain, isUserPort, goback,home } = this.props;
+    const { title, isMain, isUserPort, goback, home } = this.props;
     return (
       <div>
-        {/* 头部信息 */}
+        {/* 头部信息s */}
         <div className="header">
           <div>
             <span className="logo">M O X I 摩西洞察</span>{title && <span className="fenge">|</span>}{title}
@@ -56,8 +62,7 @@ class MainWrapper extends Component {
           goback && <div
             id="back"
             onClick={() => {
-              this.props.dispatch(routerRedux.goBack());
-              console.log('返回');
+              this.props.dispatch(routerRedux.push('/history'));
             }}
           >
             <span className="iconfont icon-qianwang" />
@@ -81,7 +86,19 @@ class MainWrapper extends Component {
               this.setState({ changePassword: false });
             }}
             onOk={() => {
-              this.setState({ changePassword: false });
+              this.props.dispatch({
+                type: 'login/resolvePassword',
+                payload: {
+                  oldPwd: this.state.oldPassword,
+                  newPwd: this.state.newPassword,
+                },
+                callback: (res) => {
+                  if (res.result) {
+                    this.props.dispatch(routerRedux.push('/login'));
+                  }
+                  this.setState({ changePassword: false });
+                },
+              });
             }}
             onCancel={() => {
               this.setState({ changePassword: false });

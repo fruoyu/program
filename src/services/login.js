@@ -5,6 +5,19 @@ export async function Login(params) {
   return request(`/user/login?userName=${params.userName}&password=${params.password}`, {
     method: 'post',
     headers: headersGet,
-// stringify(params),
+  });
+}
+export async function LoginOut(params) {
+  return request('/user/loginout', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}
+export async function ChangePwd(params) {
+  return request('/user/changePwd', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
   });
 }

@@ -13,7 +13,7 @@ export function notifyError(messageInfo, title = 'Error') {
   notification.error({
     message: title,
     description: messageInfo,
-    duration: 5,
+    duration: 2,
     style: { width: 500, marginLeft: 335 - 500, overflowX: 'auto' },
   });
 }
@@ -40,5 +40,6 @@ export function notifySuccess(messageInfo, title = 'Success') {
   notification.success({
     message: title,
     description: messageInfo,
+    duration: 1,
   });
 }
