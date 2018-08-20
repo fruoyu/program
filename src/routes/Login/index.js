@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Icon, Button, Form, Input, Checkbox } from 'antd';
 import { routerRedux } from 'dva/router';
+import $ from 'jquery';
+import './md5.js';
 import { notifyError } from '../../services/app.js';
 
 import './login.less';
@@ -21,7 +23,7 @@ class Login extends Component {
     const storage = window.localStorage;
     const uname = storage.getItem('username');
     const pword = storage.getItem('password');
-    if (uname) { this.setState({ userName: uname, passWord: pword }); }
+    if (uname) { this.setState({ userName: uname, passWord: $.md5(pword) }); }
   }
 
   handleSubmit = (e) => {
@@ -77,7 +79,7 @@ class Login extends Component {
                   prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码"
                   onChange={(e) => {
                     this.setState({
-                      passWord: e.target.value,
+                      passWord: $.md5(e.target.value),
                     });
                   }}
                 />,
