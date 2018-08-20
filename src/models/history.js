@@ -61,7 +61,7 @@ export default {
   reducers: {
     changeFilesList(state, { payload }) {
       // 数据分类处理
-      let sortArr = [];
+      /*let sortArr = [];
       payload.reslist.map((d) => {
         if (!sortArr.filter((item) => item.createTime.split(' ')[0] === d.createTime.split(' ')[0]).length) {
           const alphaObj = {
@@ -72,8 +72,8 @@ export default {
           sortArr.unshift(alphaObj);
         }
         return sortArr;
-      });
-      return { ...state, filesList: sortArr };
+      });*/
+      return { ...state, filesList: payload.reslist };
     },
     changeName(state, { payload }) {
       return { ...state, nameList: payload };
