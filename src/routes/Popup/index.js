@@ -715,10 +715,18 @@ class Popup extends Component {
           {
             this.state.originalList.map((item, index) => (
               <div key={index} className={['originalText', item.role == 'USER' ? 'rightText' : 'leftText'].join(' ')}>
-                <div className="fristLine">
-                  <span>{item.role == 'USER' ? '用户' : '销售'}</span>
-                  <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
-                </div>
+                {
+                  item.role == 'USER' ?
+                  <div className="fristLine">
+                    <span>用户</span>
+                    <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
+                  </div> :
+                  <div className="fristLine">
+                    <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
+                    <span>销售</span>
+                  </div>
+                }
+                
                 <div className="secondLine">
                   <span className="context">{item.voiceContent}</span>
                   <span className="laba">
