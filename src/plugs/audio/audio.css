@@ -106,6 +106,7 @@
   background: url("./bowen.png") left center/auto 100%;
   z-index: 2;
   border-right: 2px solid rgb(19, 243, 247);
+  box-sizing: content-box;
   /*animation: bowen 2s linear infinite;*/
 }
 /*@keyframes bowen {*/
