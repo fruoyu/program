@@ -610,12 +610,39 @@ class Popup extends Component {
       isInputEdit: true,
       isBiaozhu: false,
       biaozhuIndex: -1,
+      isPaused:false,
+      totalTime:0,
+      playPer:0,
+      bufferedPer:0,
+      playedLeft:0,
+      volumnLeft:0,
+      remainTime:0,
+      angle:0,
+      mouseDown:false,
+      musicListShow:false,
+      currentMusic:{},
+      isPlayed:false
     };
+    this.clickChangeTime = this.clickChangeTime.bind(this);
+    this.slideChangeTime = this.slideChangeTime.bind(this);
+    this.slideChangeTime = this.slideChangeTime.bind(this);
   }
   componentDidMount() {
     if (this.props.location.pathname === '/') {
       this.props.dispatch(routerRedux.push('/login'));
     }
+    let audio = this.refs.audio;
+    audio.addEventListener('canplay',()=>{
+      //获取总时间
+      let totalTime = parseInt(this.refs.audio.duration);
+      this.setState({
+        totalTime:this.formatSeconds(totalTime),
+        remainTime:this.formatSeconds(0),
+        playedLeft:this.refs.played.getBoundingClientRect().left,
+        // volumnLeft:this.refs.totalVolume.getBoundingClientRect().left
+      });
+      //
+  })
   }
 
   formatSeconds = (s) => {
@@ -774,40 +801,105 @@ class Popup extends Component {
     )
   }
 
+  clickChangeTime (e) {
+    console.log(e.pageX)
+    if(!e.pageX){
+      return
+    }
+    this.setTimeOnPc(e)
+  }
+
+  setTimeOnPc = (e) => {
+    let audio = this.refs.audio;
+    if(audio.currentTime !== 0) {
+      let audio = this.refs.audio;
+      let newWidth = (e.pageX - this.state.playedLeft) / this.refs.progress.offsetWidth;
+      this.refs.played.style.width = newWidth * 100 + "%";
+      audio.currentTime = newWidth * audio.duration;
+      this.refs.circle.style.left = newWidth * 100 + "%";
+    }
+  }
+
+  // 音频播放事件
+  play = () => {
+    let audio = this.refs.audio;
+    console.log(audio.paused)
+    if (audio.paused) {
+      audio.play()
+      this.setState({
+        isPlay: true,
+      })
+    } else {
+      audio.pause()
+      this.setState({
+        isPlay: false
+      })
+    }
+
+    audio.addEventListener('timeupdate',()=>{
+      //设置播放进度条
+      let playPer = audio.currentTime/audio.duration;
+      this.refs.played.style.width = playPer*100+"%";
+      this.refs.circle.style.left = playPer*100+"%";
+      //设置剩余时间
+      let remainTime = parseInt(audio.duration - audio.currentTime);
+
+      this.setState({
+          remainTime:this.formatSeconds(parseInt(audio.currentTime)),
+      });
+    });
+  }
+
+  // 音频拖拽事件
+  mouseDown = () => {
+    this.setState({
+      mouseDown:true
+    });
+  }
+  slideChangeTime(e){
+    if(this.state.mouseDown){
+      this.setTimeOnPc(e)
+    }
+  }
+  mouseUp = () => {
+    this.setState({
+      mouseDown:false
+    });
+  }
+  mouseLeave = () => {
+    this.setState({
+      mouseDown:false
+    });
+  }
+
   renderAudio = () => {
     return (
       <div className="archivesAudio">
         <div id="audioEle">
           <div className="wx-audio-content" style={{ width: '100%' }}>
-            <audio className="wx-audio-content" src={{uri: "http://47.95.113.97:8660/file/20180817121908967空战军-测试-张玉龙-1234.mp3"}}></audio>
+            <audio className="wx-audio-content" src={require('../../assets/Universe.mp3')} ref='audio'></audio>
             <div className="wx-audio-right">
               <p className="middleX"></p>
               <div className="wx-audio-time">
-                <span className="current-t">00:00</span>
-                <span className="duration-t">33:44</span>
+                <span className="current-t">{true ? this.state.remainTime : '00:00'}</span>
+                <span className="duration-t">{true ? this.state.totalTime : '00:00'}</span>
               </div>
-              <div className="wx-audio-progrees">
+              <div className="wx-audio-progrees" ref='progress' onClick={this.clickChangeTime} onMouseDown={() => {
+                this.mouseDown()
+              }} onMouseMove={this.slideChangeTime} onMouseUp={this.mouseUp} onMouseLeave={this.mouseLeave}>
                 <div className="wx-progrees-detail">
-                  <span className="wx-voice-p"></span>
+                  <span className="wx-voice-p" ref='played'></span>
                   <span className="wx-buffer-p"></span>
                   <span className="wx-loading">
                     <span className="wx-loading-wrapper"></span>
                   </span>
                 </div>
-                <div className="wx-audio-origin"></div>
+                <div className="wx-audio-origin" ref='circle'></div>
               </div>
             </div>
             <div className="wx-audio-left">
               <i className={['iconfont', this.state.isPlay ? "icon-zanting" : "icon-bofang"].join(' ')} onClick={() => {
-                if (this.state.isPlay) {
-                  this.setState({
-                    isPlay: false,
-                  })
-                } else {
-                  this.setState({
-                    isPlay: true,
-                  })
-                }
+                this.play()
               }}></i>
             </div>
           </div>
