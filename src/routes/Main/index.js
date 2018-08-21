@@ -53,7 +53,7 @@ class Main extends Component {
           <span className="upload-failed">*上传文件中断，请刷新重新上传</span>
         </div>
       </div>
-    )
+    );
   }
   render() {
     return (

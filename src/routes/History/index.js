@@ -1,11 +1,11 @@
+import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { DatePicker, Pagination } from 'antd';
+import { DatePicker } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import './history.less';
 import '../../assets/iconfont/iconfont.css';
-import $ from 'jquery';
 import {
   CommonHeader,
   CommonTable,

@@ -31,12 +31,11 @@ export default {
     },
     *resolvePassword({ payload, callback }, { call, put }) {
       const { data } = yield call(ChangePwd, payload);
-      console.log(data);// errMsg ,retCode
-      if (callback) callback(data);
       if (data.result) {
         yield put({
           type: 'LoginMsg',
         });
+        if (callback) callback();
       } else {
         notifyError(data.errMsg);
       }

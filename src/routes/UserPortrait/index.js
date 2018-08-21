@@ -296,7 +296,7 @@ class UserPortrait extends Component {
                 <div className="xiexian" />
                 <div className="content">
                   <div className="img">
-                    <img src={require('../../assets/image/icon_05.png')}  />
+                    <img src={require('../../assets/image/icon_05.png')} />
                   </div>
                   <div className="ul">
                     <h3>兴趣爱好</h3>

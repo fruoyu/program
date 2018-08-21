@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Pagination } from "antd";
+import { Pagination } from 'antd';
 
 class CommonTable extends Component {
   constructor() {
