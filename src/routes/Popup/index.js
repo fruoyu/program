@@ -242,9 +242,12 @@ class Popup extends Component {
     };
   }
   componentDidMount() {
-    if (this.props.location.pathname === '/') {
-      this.props.dispatch(routerRedux.push('/login'));
-    }
+    this.props.dispatch({
+      type: 'history/getSingleData',
+      payload: {
+        taskid: this.props.history.taskId,
+      },
+    });
   }
 
   formatSeconds = (s) => {
@@ -452,7 +455,8 @@ class Popup extends Component {
                         this.setState({
                           hoverIndex: -1,
                         });
-                      }}>
+                      }}
+                    >
                       <span className="item-name">{item.fileName}</span>
                       <span className="item-size">{item.size}</span>
                     </li>
@@ -466,4 +470,4 @@ class Popup extends Component {
     );
   }
 }
-export default connect(({ home }) => ({ home }))(Popup);
+export default connect(({ history }) => ({ history }))(Popup);

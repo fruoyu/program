@@ -214,6 +214,12 @@ class UserPortrait extends Component {
     setTimeout(() => {
       $('.dashed').slideDown('slow');
     }, 1000);
+    this.props.dispatch({
+      type: 'history/getQueryKeyItem',
+      payload: {
+        taskid: this.props.history.taskId,
+      },
+    });
   }
 
   render() {
@@ -229,7 +235,7 @@ class UserPortrait extends Component {
                 用户画像
               </div>
               <div className="saomiao">
-                <div className="guangbiao"></div>
+                <div className="guangbiao" />
               </div>
               <div className="dashed jiating leftdashed">
                 <div className="yuan" />
@@ -386,4 +392,4 @@ class UserPortrait extends Component {
   }
 }
 
-export default connect(({ login }) => ({ login }))(UserPortrait);
+export default connect(({ history }) => ({ history }))(UserPortrait);

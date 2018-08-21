@@ -8,6 +8,7 @@ import '../../assets/iconfont/iconfont.css';
 import $ from 'jquery';
 import {
   CommonHeader,
+  CommonTable,
 } from '../../components';
 
 const { RangePicker } = DatePicker;
@@ -51,6 +52,7 @@ class History extends Component {
     this.updataState = this.updataState.bind(this);
     this.getStatus = this.getStatus.bind(this);
     this.getName = this.getName.bind(this);
+    this.onChangePage = this.onChangePage.bind(this);
   }
   componentDidMount() {
     this.sendRequest();
@@ -91,18 +93,12 @@ class History extends Component {
   // 进入数据界面
   gotoPopup(id) {
     this.props.dispatch({
-      type: 'history/getSingleData',
+      type: 'history/saveTaskId',
       payload: {
         taskId: id,
       },
       callback: () => {
-        this.props.dispatch({
-          type: 'history/saveTaskId',
-          payload: {
-            taskId: id,
-          },
-        });
-        // this.props.dispatch(routerRedux.push('/popup'));
+        this.props.dispatch(routerRedux.push('/popup'));
       },
     });
   }
@@ -148,14 +144,23 @@ class History extends Component {
     });
   }
   // 进入画像界面操作
-  gotoUserPortrait = () => {
-    this.props.dispatch(routerRedux.push('/userPortrait'));
+  gotoUserPortrait = (id) => {
+    this.props.dispatch({
+      type: 'history/saveTaskId',
+      payload: {
+        taskId: id,
+      },
+      callback: () => {
+        this.props.dispatch(routerRedux.push('/userPortrait'));
+      },
+    });
   }
   render() {
     const {
       filesList,
       nameList,
     } = this.props.history;
+    const tabHead = ['录音名称', '销售人员', '任务状态', '上传时间', '操作'];
     return (
       <div className="bootContent historyContent" onClick={(e) => { this.documentClick(e); }}>
         <Scrollbars style={{ flex: 1 }} autoHide>
@@ -270,52 +275,32 @@ class History extends Component {
               </div>
             </div> */}
             {/* 内容区域 */}
-            <div className="content-body">
-              <div className="content-main">
-                {/* 表头 */}
-                <div className="content-header" style={{ marginBottom: 0 }}>
-                  <div className="item-title">录音名称</div>
-                  <div className="item-author">销售人员</div>
-                  <div className="item-state">任务状态</div>
-                  <div className="item-time">上传时间</div>
-                  <div className="data">操作</div>
-                </div>
-                {/* 列表 */}
-                <ul className="content-lists">
-                  {
-                    filesList.map((item, index) => {
-                      return (
-                        <li className="content-item" data-id="'+ item2.id +'" key={index}>
-                          <div className="item-title" onClick={this.gotoPopup.bind(this, item.id)}>{item.fileName}</div>
-                          <div className="item-author">{item.userName}</div>
-                          <div className="item-state">{this.getStatus(item.statusMessage)}</div>
-                          <div className="item-time">{item.createTime}</div>
-                          <div className="data">
-                            <span className="iconfont icon-xiangqing1" onClick={this.gotoPopup.bind(this)} />
-                            <span className="dataFont">数据</span>
-                          </div>
-                          <div className="portrait">
-                            <span className="iconfont icon-huaxiang" onClick={this.gotoUserPortrait.bind(this)} />
-                            <span className="portraitFont">画像</span>
-                          </div>
-                        </li>
-                      );
-                    })
-                  }
-                </ul>
-              </div>
-
-              {/* 分页器 */}
+            <CommonTable
+              filesList={filesList}
+              tabHead={tabHead}
+              onChangePage={(pageNumber) => { this.onChangePage(pageNumber); }}
+            >
               {
-              filesList.length > 0 && <Pagination
-                className="my-pagination"
-                defaultCurrent={1} total={20} showQuickJumper style={{ marginTop: 60 }}
-                onChange={(pageNumber) => {
-                  this.onChangePage(pageNumber);
-                }}
-              />
-            }
-            </div>
+                filesList.map((item, index) => {
+                  return (
+                    <li className="content-item" data-id="'+ item2.id +'" key={index}>
+                      <div className="item-title" onClick={this.gotoPopup.bind(this, item.id)}>{item.fileName}</div>
+                      <div className="item-author">{item.userName}</div>
+                      <div className="item-state">{this.getStatus(item.statusMessage)}</div>
+                      <div className="item-time">{item.createTime}</div>
+                      <div className="data">
+                        <span className="iconfont icon-xiangqing1" onClick={this.gotoPopup.bind(this, item.id)} />
+                        <span className="dataFont">数据</span>
+                      </div>
+                      <div className="portrait">
+                        <span className="iconfont icon-huaxiang" onClick={this.gotoUserPortrait.bind(this, item.id)} />
+                        <span className="portraitFont">画像</span>
+                      </div>
+                    </li>
+                  );
+                })
+              }
+            </CommonTable>
           </div>
         </Scrollbars>
       </div>

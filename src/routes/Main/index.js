@@ -59,7 +59,7 @@ class Main extends Component {
     return (
       <div className="mainShouye">
         {/* 头部信息 */}
-        <CommonHeader isUserPort home />
+        <CommonHeader isMain isUserPort home />
         <div id="info">告诉MOXI你想要挖掘的信息</div>
         {/* 启动洞察 */}
         <div
