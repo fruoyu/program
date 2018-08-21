@@ -17,7 +17,7 @@ class History extends Component {
     super();
     this.state = {
       statusContent: '任务状态', // 状态选择
-      name: '创建人',
+      name: '',
       statusList: [
         {
           key: '0',
@@ -53,7 +53,8 @@ class History extends Component {
     this.getName = this.getName.bind(this);
   }
   componentDidMount() {
-    // this.sendRequest();
+    this.sendRequest();
+    this.getName();
   }
   // 日历操作
   onChangeFn = (date, dateString) => {
@@ -73,6 +74,20 @@ class History extends Component {
       this.sendRequest();
     });
   }
+  // 获取模糊查询name列表
+  getName = () => {
+    this.props.dispatch({
+      type: 'history/getName',
+      payload: {
+        name: this.state.name,
+      },
+    });
+  }
+  // 列表中完成状态
+  getStatus = (status) => {
+    const statusMessage = this.state.statusList.filter(item => item.retCode === status)[0].status;
+    return statusMessage;
+  }
   // 进入数据界面
   gotoPopup(id) {
     this.props.dispatch({
@@ -91,20 +106,20 @@ class History extends Component {
       },
     });
   }
-  documentClick =(e) => {
+  documentClick = (e) => {
     if ($('.trans-item-founder').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-founder').length === 0) {
       $('.trans-item-founder').siblings('.zhankai').removeClass('rotate');
-      $('.trans-item-founder').removeClass('active')
+      $('.trans-item-founder').removeClass('active');
       $('.trans-item-founder').slideUp();
     } else if ($('.trans-item-state').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-state').length === 0) {
       $('.trans-item-state').siblings('.zhankai').removeClass('rotate');
-      $('.trans-item-state').removeClass('active')
+      $('.trans-item-state').removeClass('active');
       $('.trans-item-state').slideUp();
     }
   }
   updataState(key, data, callback) {
     let object = {};
-    if (typeof(key) === 'string') {
+    if (typeof (key) === 'string') {
       object[key] = data;
     } else {
       object = key;
@@ -113,26 +128,12 @@ class History extends Component {
       ...this.state,
       ...object,
     }, () => {
-      if (typeof(key) === 'object' && data) data();
-      if (typeof(key) === 'string' && callback) callback();
-    });
-  }
-  // 列表中完成状态
-  getStatus = (status) => {
-    const statusMessage = this.state.statusList.filter(item => item.retCode === status)[0].status;
-    return statusMessage;
-  }
-  // 获取模糊查询name列表
-  getName=() => {
-    this.props.dispatch({
-      type: 'history/getName',
-      payload: {
-        name: this.state.name,
-      },
+      if (typeof (key) === 'object' && data) data();
+      if (typeof (key) === 'string' && callback) callback();
     });
   }
   // 请求
-  sendRequest =() => {
+  sendRequest = () => {
     this.props.dispatch({
       type: 'history/getFilesList',
       payload: {
@@ -147,7 +148,7 @@ class History extends Component {
     });
   }
   // 进入画像界面操作
-  gotoUserPortrait =() => {
+  gotoUserPortrait = () => {
     this.props.dispatch(routerRedux.push('/userPortrait'));
   }
   render() {
@@ -184,22 +185,25 @@ class History extends Component {
                       $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
                     }}
                   >
-                    <span className="mr-15">{this.state.name}</span>
+                    <span className="mr-15">
+                      {
+                        this.state.name.length > 0 ? this.state.name : '创建人'
+                      }
+                    </span>
                     <span className="iconfont icon-down-trangle zhankai" />
-
                     <div className="trans-item trans-item-founder">
                       <div className="founder-list">
                         {
-                          this.state.statusList.map((item, index) => {
+                          nameList.map((item, index) => {
                             return (
                               <span
                                 key={index} className="list-item"
                                 onClick={() => {
-                                  this.updataState({ name: item.status }, () => {
+                                  this.updataState({ name: item }, () => {
                                     this.sendRequest();
                                   });
                                 }}
-                              >{item.status}</span>
+                              >{item}</span>
                             );
                           })
                         }
@@ -278,90 +282,40 @@ class History extends Component {
                 </div>
                 {/* 列表 */}
                 <ul className="content-lists">
-                  <li className="content-item" data-id="'+ item2.id +'">
-                    <div className="item-title">战旗-王帅-录音笔-123456.WAV</div>
-                    <div className="item-author">周晨</div>
-                    <div className="item-state">已完成</div>
-                    <div className="item-time">2018-08-14 14:15:28</div>
-                    <div className="data">
-                      <span className="iconfont icon-xiangqing1" />
-                      <span className="dataFont">数据</span>
-                    </div>
-                    <div className="portrait">
-                      <span className="iconfont icon-huaxiang" onClick={this.gotoUserPortrait.bind(this)} />
-                      <span className="portraitFont">画像</span>
-                    </div>
-                  </li>
-                  <li className="content-item" data-id="'+ item2.id +'">
-                    <div className="item-title">战旗-王帅-录音笔-123456.WAV
-                    </div>
-                    <div className="item-author">周晨</div>
-                    <div className="item-state">已完成</div>
-                    <div className="item-time">2018-08-14 14:15:28</div>
-                    <div className="data">
-                      <span className="iconfont icon-xiangqing1" />
-                      <span className="dataFont">数据</span>
-                    </div>
-                    <div className="portrait">
-                      <sapn className="iconfont icon-huaxiang" />
-                      <span className="portraitFont">画像</span>
-                    </div>
-                  </li>
+                  {
+                    filesList.map((item, index) => {
+                      return (
+                        <li className="content-item" data-id="'+ item2.id +'" key={index}>
+                          <div className="item-title" onClick={this.gotoPopup.bind(this, item.id)}>{item.fileName}</div>
+                          <div className="item-author">{item.userName}</div>
+                          <div className="item-state">{this.getStatus(item.statusMessage)}</div>
+                          <div className="item-time">{item.createTime}</div>
+                          <div className="data">
+                            <span className="iconfont icon-xiangqing1" onClick={this.gotoPopup.bind(this)} />
+                            <span className="dataFont">数据</span>
+                          </div>
+                          <div className="portrait">
+                            <span className="iconfont icon-huaxiang" onClick={this.gotoUserPortrait.bind(this)} />
+                            <span className="portraitFont">画像</span>
+                          </div>
+                        </li>
+                      );
+                    })
+                  }
                 </ul>
               </div>
-              {/*{
-                filesList.length > 0 ? filesList.map((item, index) => {
-                  return (
-                    <div className="content-main" key={index}>
-                      <span className="dashed-circle" />
-                       时间title
-                      <div className="content-time">{item.createTime}</div>
-                       列表
-                      <ul className="content-lists">
-                        {
-                          item.list.map((content, key) => {
-                            return (
-                              <li className="content-item" data-id="'+ item2.id +'" key={key}>
-                                <div className="item-title" onClick={this.gotoPopup.bind(this, content.id)}>{content.fileName}</div>
-                                <div className="item-author">{content.userName}</div>
-                                <div className="item-state">{this.getStatus(content.statusMessage)}</div>
-                                <div className="item-time">{content.createTime}</div>
-                                <div className="data">
-                                  <span className="iconfont icon-xiangqing1" onClick={this.gotoPopup.bind(this)} />
-                                  <span className="dataFont">数据</span>
-                                </div>
-                                <div className="portrait">
-                                  <span className="iconfont icon-huaxiang" onClick={this.gotoUserPortrait.bind(this)} />
-                                  <span className="portraitFont">画像</span>
-                                </div>
-                              </li>
-                            );
-                          })
-                        }
-                      </ul>
-                    </div>
-                  );
-                }) : null
-              }*/}
 
               {/* 分页器 */}
-              <Pagination
-                className="my-pagination"
-                defaultCurrent={1} total={50} showQuickJumper style={{ marginTop: 60 }}
-                onChange={(pageNumber) => {
-                  this.onChangePage(pageNumber);
-                }}
-              />
-            </div>
-           {/* {
+              {
               filesList.length > 0 && <Pagination
                 className="my-pagination"
-                defaultCurrent={1} total={50} showQuickJumper style={{ marginTop: 60 }}
+                defaultCurrent={1} total={20} showQuickJumper style={{ marginTop: 60 }}
                 onChange={(pageNumber) => {
                   this.onChangePage(pageNumber);
                 }}
               />
-            }*/}
+            }
+            </div>
           </div>
         </Scrollbars>
       </div>
