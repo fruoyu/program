@@ -28,18 +28,20 @@ class Main extends Component {
       <div id="upload-voice">
         <div className="upload-top">
           <div className="title">上传语音文件</div>
-          <span className="close iconfont icon-htmal5icon19" onClick={() => {
-            this.setState({
-              uploadDialog: false,
-            })
-          }}></span>
+          <span
+            className="close iconfont icon-htmal5icon19" onClick={() => {
+              this.setState({
+                uploadDialog: false,
+              });
+            }}
+          />
         </div>
         <div className="upload-middle">
           <div className="upload-btn">
-            {/*<accept="audio/wav, audio/mp3">*/}
+            {/* <accept="audio/wav, audio/mp3">*/}
             <input id="upload" type="file" name="file" multiple="multiple" accept="audio/wav, audio/mp3" hidden />
-            <span className="iconfont icon-shangchuan"></span>
-            <p style={{marginBottom: '10px'}}>上传文件</p >
+            <span className="iconfont icon-shangchuan" />
+            <p style={{ marginBottom: '10px' }}>上传文件</p >
             <p>支持扩展名 .wav .mp3</p >
           </div>
           <div className="upload-num">
@@ -57,7 +59,7 @@ class Main extends Component {
     return (
       <div className="mainShouye">
         {/* 头部信息 */}
-        <CommonHeader isMain isUserPort home />
+        <CommonHeader isUserPort home />
         <div id="info">告诉MOXI你想要挖掘的信息</div>
         {/* 启动洞察 */}
         <div
@@ -66,8 +68,9 @@ class Main extends Component {
             console.log('上传文件', this)
             this.setState({
               uploadDialog: true,
-            })
-          }}></div>
+            });
+          }}
+        />
         <DanaoWrapper>
           <div className="circleWrap">
             {
@@ -79,7 +82,7 @@ class Main extends Component {
             }
           </div>
         </DanaoWrapper>
-        {/*上传文件*/}
+        {/* 上传文件*/}
         {
           this.state.uploadDialog && this.renderUpload()
         }

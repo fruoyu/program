@@ -2,7 +2,7 @@ import dva from 'dva';
 import { message, notification } from 'antd';
 import './index.less';
 import './public.less';
-import { useRouterHistory } from 'dva/router';
+import { useRouterHistory, browserHistory } from 'dva/router';
 import { createHashHistory } from 'history';
 import {notifyError} from './services/app';
 
@@ -15,8 +15,8 @@ message.config({
 
 // 1. Initialize
 const app = dva({
-  /* history: browserHistory,*/
-  history: useRouterHistory(createHashHistory)({ queryKey: false }),
+  history: browserHistory,
+  // history: useRouterHistory(createHashHistory)({ queryKey: false }),
   onError(e) { /* Global exception handler scope is dva framework only*/
     // console.error('Uncaught in dva: \n', e);
     if (e.response) {
@@ -25,7 +25,6 @@ const app = dva({
         message.error(`Server error ${status}, ${statusText}, please try again later.`, 2);
       }
     }
-
     if (window.location.port === '9090') {
       message.error(`Uncaught in dva: \n${e}`, 2);
     }

@@ -51,53 +51,6 @@
 .icon-yuyin1-copy {
   color:#d0d2ff;
 }
-#popup #back {
-  color: #fff;
-  width: 40px;
-  height: 50px;
-  position: absolute;
-  top: 0;
-  right: 15%;
-  background: #088998;
-  border-radius: 0 0 25px 25px;
-  cursor: pointer;
-  line-height: 50px;
-  text-align: center;
-}
-#popup .icon-qianwang {
-  display: inline-block;
-  font-size: 25px;
-  color: #34c8d9;
-  transform: rotateY(180deg);
-  transition:transform .5s linear;
-}
-#back:hover {
-  background: #03d2eb!important;
-}
-#back .fanhui{
-  position: absolute;
-  width: 55px;
-  line-height: 20px;
-  height: 20px;
-  font-size: 12px;
-  text-align: center;
-  top: 50px;
-  left: -7px;
-  color: #fff;
-  border: 1px solid #4332ba;
-  border-radius: 20px;
-  margin-top: 8px;
-  box-sizing: border-box;
-  background: #1a1b3a;
-  display: none;
-}
-#back:hover .fanhui {
-  display: block;
-}
-#back:hover .icon-qianwang {
-  transform: rotateY(540deg);
-  color: #fff;
-}
 
 #popup>.tab{
   position: absolute;
@@ -547,12 +500,12 @@ p {
   height: 480px;
   overflow: hidden;
   background: rgba(20, 14, 62, 0.8);
-  position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
-  border: 2px solid transparent;
+  border: 2px solid #0c067d;
   z-index: 999;
-  border-image:linear-gradient(#0b01b8 0,#b303fd 25%, #f3c1ff 50%, #b303fd 75% , #0b01b8) 30;
+
 }
 .bi-30{
   border-image:linear-gradient(#0b01b8 0,#b303fd 25%, #f3c1ff 50%, #b303fd 75% , #0b01b8) 30;
@@ -636,8 +589,8 @@ p {
 
 #file-list {
   width: 100%;
-  height: calc(~"100% - 90px");
-  padding: 0 20px 20px 0;
+  height: auto;
+  padding: 0 20px 100px 0;
   box-sizing: border-box;
   font-size: 12px;
 }
