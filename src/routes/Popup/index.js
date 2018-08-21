@@ -686,12 +686,21 @@ class Popup extends Component {
                       {
                         this.state.keylist.map((keylistItem, keylistIndex) => {
                           if (keylistItem.type == item) {
-                            return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit}></input>
+                            return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit} ref={'input' + index} onBlur={() => {
+                              console.log('失去焦点')
+                            }}></input>
                           }
                         })
                       }
                     </div>
-                    <span className="insightTermNamedit pull-right" data-type={item}>
+                    <span className="insightTermNamedit pull-right" data-type={item} onClick={() => {
+                      this.setState({
+                        isInputEdit: false
+                      }, () => {
+                        let input = this.refs['input' + index];
+                        input.focus();
+                      })
+                    }}>
                       <i className="iconfont icon-xiugai"></i>
                       <i className="iconfont icon-gou1"></i>
                     </span>
@@ -705,7 +714,9 @@ class Popup extends Component {
                             <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
                             <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
                               {labelItem.context}
-                              <i className="audioJump iconfont icon-yuyin1-copy"></i>
+                              <i className="audioJump iconfont icon-yuyin1-copy" onClick={() => {
+                                this.playMusic(labelItem.time)
+                              }}></i>
                             </p>
                             <div className="arrow">
                               <i className="iconfont icon-sanjiaoright"></i>
@@ -802,7 +813,6 @@ class Popup extends Component {
   }
 
   clickChangeTime (e) {
-    console.log(e.pageX)
     if(!e.pageX){
       return
     }
@@ -811,19 +821,18 @@ class Popup extends Component {
 
   setTimeOnPc = (e) => {
     let audio = this.refs.audio;
-    if(audio.currentTime !== 0) {
-      let audio = this.refs.audio;
-      let newWidth = (e.pageX - this.state.playedLeft) / this.refs.progress.offsetWidth;
-      this.refs.played.style.width = newWidth * 100 + "%";
-      audio.currentTime = newWidth * audio.duration;
-      this.refs.circle.style.left = newWidth * 100 + "%";
-    }
+    let newWidth = (e.pageX - this.state.playedLeft) / this.refs.progress.offsetWidth;
+    this.refs.played.style.width = newWidth * 100 + "%";
+    audio.currentTime = newWidth * audio.duration;
+    this.setState({
+      remainTime: this.formatSeconds(parseInt(newWidth * audio.duration / 1000))
+    })
+    this.refs.circle.style.left = newWidth * 100 + "%";
   }
 
   // 音频播放事件
   play = () => {
     let audio = this.refs.audio;
-    console.log(audio.paused)
     if (audio.paused) {
       audio.play()
       this.setState({
@@ -841,8 +850,6 @@ class Popup extends Component {
       let playPer = audio.currentTime/audio.duration;
       this.refs.played.style.width = playPer*100+"%";
       this.refs.circle.style.left = playPer*100+"%";
-      //设置剩余时间
-      let remainTime = parseInt(audio.duration - audio.currentTime);
 
       this.setState({
           remainTime:this.formatSeconds(parseInt(audio.currentTime)),
@@ -872,6 +879,14 @@ class Popup extends Component {
     });
   }
 
+  playMusic = (startTime) => {
+    let audio = this.refs.audio;
+    audio.currentTime = parseInt(startTime / 1000);
+    let playPer = audio.currentTime/audio.duration;
+    this.refs.played.style.width = playPer*100+"%";
+    this.refs.circle.style.left = playPer*100+"%";
+  }
+
   renderAudio = () => {
     return (
       <div className="archivesAudio">
@@ -881,8 +896,8 @@ class Popup extends Component {
             <div className="wx-audio-right">
               <p className="middleX"></p>
               <div className="wx-audio-time">
-                <span className="current-t">{true ? this.state.remainTime : '00:00'}</span>
-                <span className="duration-t">{true ? this.state.totalTime : '00:00'}</span>
+                <span className="current-t">{true ? this.state.remainTime : '00:00:00'}</span>
+                <span className="duration-t">{true ? this.state.totalTime : '00:00:00'}</span>
               </div>
               <div className="wx-audio-progrees" ref='progress' onClick={this.clickChangeTime} onMouseDown={() => {
                 this.mouseDown()
