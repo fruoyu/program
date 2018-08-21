@@ -109,11 +109,11 @@ class History extends Component {
   documentClick = (e) => {
     if ($('.trans-item-founder').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-founder').length === 0) {
       $('.trans-item-founder').siblings('.zhankai').removeClass('rotate');
-      $('.trans-item-founder').removeClass('active')
+      $('.trans-item-founder').removeClass('active');
       $('.trans-item-founder').slideUp();
     } else if ($('.trans-item-state').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-state').length === 0) {
       $('.trans-item-state').siblings('.zhankai').removeClass('rotate');
-      $('.trans-item-state').removeClass('active')
+      $('.trans-item-state').removeClass('active');
       $('.trans-item-state').slideUp();
     }
   }
@@ -306,23 +306,16 @@ class History extends Component {
               </div>
 
               {/* 分页器 */}
-              <Pagination
+              {
+              filesList.length > 0 && <Pagination
                 className="my-pagination"
                 defaultCurrent={1} total={20} showQuickJumper style={{ marginTop: 60 }}
                 onChange={(pageNumber) => {
                   this.onChangePage(pageNumber);
                 }}
               />
+            }
             </div>
-            {/* {
-              filesList.length > 0 && <Pagination
-                className="my-pagination"
-                defaultCurrent={1} total={50} showQuickJumper style={{ marginTop: 60 }}
-                onChange={(pageNumber) => {
-                  this.onChangePage(pageNumber);
-                }}
-              />
-            }*/}
           </div>
         </Scrollbars>
       </div>

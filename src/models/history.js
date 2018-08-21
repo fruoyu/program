@@ -60,13 +60,15 @@ export default {
   reducers: {
     changeFilesList(state, { payload }) {
       // 数据分类处理
-      /*let sortArr = [];
+      /* let sortArr = [];
       payload.reslist.map((d) => {
-        if (!sortArr.filter((item) => item.createTime.split(' ')[0] === d.createTime.split(' ')[0]).length) {
+        if (!sortArr.filter((item) =>
+        item.createTime.split(' ')[0] === d.createTime.split(' ')[0]).length) {
           const alphaObj = {
             createTime: d.createTime.split(' ')[0],
           };
-          const arr = payload.reslist.filter((item) => item.createTime.split(' ')[0] === d.createTime.split(' ')[0]);
+          const arr = payload.reslist.filter((item) =>
+          item.createTime.split(' ')[0] === d.createTime.split(' ')[0]);
           alphaObj.list = arr;
           sortArr.unshift(alphaObj);
         }
