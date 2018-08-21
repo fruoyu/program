@@ -211,13 +211,16 @@ class UserPortrait extends Component {
     };
   }
   componentDidMount() {
-    setTimeout(() => {
-      $('.dashed').slideDown('slow');
-    }, 1000);
+    console.log(this.props)
     this.props.dispatch({
       type: 'history/getQueryKeyItem',
       payload: {
-        taskid: this.props.history.taskId,
+        taskid: this.props.location.query.taskId,
+      },
+      callback: () => {
+        setTimeout(() => {
+          $('.dashed').slideDown('slow');
+        }, 1000);
       },
     });
   }

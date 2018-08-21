@@ -29,6 +29,14 @@ const app = dva({
       message.error(`Uncaught in dva: \n${e}`, 2);
     }
   },
+  onReducer: r => (state, action) => {
+    const newState = r(state, action);
+    // 'login/logout' 为 models 目录文件中 effect 中的方法名
+    if (action.type === 'login/loginOut') {
+      return { login: {}, history: {}, routing: { locationBeforeTransitions: null } };
+    }
+    return newState;
+  },
 });
 
 window.app = app;

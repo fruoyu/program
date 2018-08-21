@@ -17,7 +17,7 @@ export default {
           type: 'changeFilesList',
           payload: data.result,
         });
-        // if (callback) callback();
+        if (callback) callback();
       } else {
         notifyError(data.errMsg);
       }

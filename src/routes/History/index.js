@@ -92,15 +92,12 @@ class History extends Component {
   }
   // 进入数据界面
   gotoPopup(id) {
-    this.props.dispatch({
-      type: 'history/saveTaskId',
-      payload: {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/popup',
+      query: {
         taskId: id,
       },
-      callback: () => {
-        this.props.dispatch(routerRedux.push('/popup'));
-      },
-    });
+    }));
   }
   documentClick = (e) => {
     if ($('.trans-item-founder').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-founder').length === 0) {
@@ -145,15 +142,12 @@ class History extends Component {
   }
   // 进入画像界面操作
   gotoUserPortrait = (id) => {
-    this.props.dispatch({
-      type: 'history/saveTaskId',
-      payload: {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/userPortrait',
+      query: {
         taskId: id,
       },
-      callback: () => {
-        this.props.dispatch(routerRedux.push('/userPortrait'));
-      },
-    });
+    }));
   }
   render() {
     const {

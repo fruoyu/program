@@ -245,7 +245,7 @@ class Popup extends Component {
     this.props.dispatch({
       type: 'history/getSingleData',
       payload: {
-        taskid: this.props.history.taskId,
+        taskid: this.props.location.query.taskId,
       },
     });
   }
