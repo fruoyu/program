@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 import { routerRedux } from 'dva/router';
+import { Scrollbars } from 'react-custom-scrollbars';
 import { connect } from 'dva';
 import {
   DanaoWrapper,
   CommonHeader,
 } from '../../components';
-import { Scrollbars } from 'react-custom-scrollbars';
-import $ from 'jquery';
 // import '../../assets/css/daterangepicker.css';
 // import '../../assets/css/pagination.css';
 // import '../../assets/css/public.css';
@@ -628,9 +628,12 @@ class Popup extends Component {
     this.slideChangeTime = this.slideChangeTime.bind(this);
   }
   componentDidMount() {
-    if (this.props.location.pathname === '/') {
-      this.props.dispatch(routerRedux.push('/login'));
-    }
+    /*this.props.dispatch({
+      type: 'history/getSingleData',
+      payload: {
+        taskid: this.props.location.query.taskId,
+      },
+    });*/
     let audio = this.refs.audio;
     //获取总时间
     audio.addEventListener('canplay',()=>{
@@ -796,7 +799,7 @@ class Popup extends Component {
                     <span>销售</span>
                   </div>
                 }
-                
+
                 <div className="secondLine">
                   <span className="context">{originalList[item].voiceContent}</span>
                   <span className="laba" onClick={() => {
@@ -985,7 +988,7 @@ class Popup extends Component {
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
-        <CommonHeader title="洞察结果" goback home />
+        <CommonHeader title="洞察结果" goback home isUserPort photograph />
         {/* <div className="tab">
           <span className="tabData iconfont icon-xiangqing1"><span>数据</span></span>
           <span className="tabPortrait iconfont icon-huaxiang" onClick={() => { this.props.dispatch(routerRedux.push('/userPortrait')); }}><span>画像</span></span>

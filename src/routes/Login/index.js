@@ -14,7 +14,7 @@ class Login extends Component {
     this.state = {
       collapsed: false,
       userName: '123',
-      passWord: '',
+      password: '',
     };
   }
   componentWillMount() {

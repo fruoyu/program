@@ -22,3 +22,10 @@ export async function getSingleData(params) {
     body: JSON.stringify(params),
   });
 }
+export async function getQueryKeyItem(params) {
+  return request('/openApi/voiceQuality/QueryKeyItemBytaskId', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}

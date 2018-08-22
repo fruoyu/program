@@ -1,5 +1,5 @@
 import { notifyError, notifySuccess } from '../services/app.js';
-import { getFilesList, getName, getSingleData } from '../services/history';
+import { getFilesList, getName, getSingleData, getQueryKeyItem } from '../services/history';
 
 export default {
   namespace: 'history',
@@ -10,20 +10,20 @@ export default {
   },
   effects: {
     /* 录音列表 */
-    *getFilesList({ payload, callback }, { call, put }) {
+    * getFilesList({ payload, callback }, { call, put }) {
       const { data } = yield call(getFilesList, payload);
       if (data.result) {
         yield put({
           type: 'changeFilesList',
           payload: data.result,
         });
-        // if (callback) callback();
+        if (callback) callback();
       } else {
         notifyError(data.errMsg);
       }
     },
     /* 模糊查询用户列表 */
-    *getName({ payload, callback }, { call, put }) {
+    * getName({ payload, callback }, { call, put }) {
       const { data } = yield call(getName, payload);
       if (data.result) {
         yield put({
@@ -36,7 +36,7 @@ export default {
       }
     },
     /* 单条录音id */
-    *saveTaskId({ payload, callback }, { call, put }) {
+    * saveTaskId({ payload, callback }, { call, put }) {
       yield put({
         type: 'changeTaskId',
         payload: payload.taskId,
@@ -44,11 +44,24 @@ export default {
       if (callback) callback();
     },
     /* 单条录音请求 */
-    *getSingleData({ payload, callback }, { call, put }) {
+    * getSingleData({ payload, callback }, { call, put }) {
       const { data } = yield call(getSingleData, payload);
       if (data.result) {
         yield put({
           type: 'changeSingleData',
+          payload: data.result,
+        });
+        if (callback) callback();
+      } else {
+        notifyError(data.errMsg);
+      }
+    },
+    /* 单条画像信息请求*/
+    * getQueryKeyItem({ payload, callback }, { call, put }) {
+      const { data } = yield call(getQueryKeyItem, payload);
+      if (data.result) {
+        yield put({
+          type: 'changeQueryKeyItem',
           payload: data.result,
         });
         if (callback) callback();
@@ -84,6 +97,9 @@ export default {
     },
     changeSingleData(state, { payload }) {
       return { ...state, singleData: payload };
+    },
+    changeQueryKeyItem(state, { payload }) {
+      return { ...state, keyItemData: payload };
     },
   },
 };

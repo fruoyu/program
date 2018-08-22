@@ -1,5 +1,8 @@
 import dva from 'dva';
 import { message, notification } from 'antd';
+import {
+  delCookie,
+} from './utils/cookie';
 import './index.less';
 import './public.less';
 import { useRouterHistory, browserHistory } from 'dva/router';
@@ -25,9 +28,23 @@ const app = dva({
         message.error(`Server error ${status}, ${statusText}, please try again later.`, 2);
       }
     }
-    if (window.location.port === '9090') {
+    /* if (window.location.port === '9090') {
       message.error(`Uncaught in dva: \n${e}`, 2);
+    }*/
+  },
+  onReducer: r => (state, action) => {
+    const newState = r(state, action);
+    // 'login/logout' 为 models 目录文件中 effect 中的方法名
+    if (action.type === 'login/loginOut') {
+      // 登出删除token
+      delCookie('token');
+      return {
+        login: { loginOut: true },
+        history: {},
+        routing: { locationBeforeTransitions: null },
+      };
     }
+    return newState;
   },
 });
 

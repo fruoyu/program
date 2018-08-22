@@ -211,6 +211,17 @@ class UserPortrait extends Component {
     };
   }
   componentDidMount() {
+    /*this.props.dispatch({
+      type: 'history/getQueryKeyItem',
+      payload: {
+        taskid: this.props.location.query.taskId,
+      },
+      callback: () => {
+        setTimeout(() => {
+          $('.dashed').slideDown('slow');
+        }, 1000);
+      },
+    });*/
     setTimeout(() => {
       $('.dashed').slideDown('slow');
     }, 1000);
@@ -221,7 +232,7 @@ class UserPortrait extends Component {
       <div className="bootContent userPortrait">
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部 */}
-          <CommonHeader title="用户画像" goback home isUserPort isMain path={this.props.route.path} />
+          <CommonHeader title="用户画像" goback isUserPort photograph home />
           {/* 画像 */}
           <div id="main">
             <div className="userPortrait">
@@ -229,7 +240,7 @@ class UserPortrait extends Component {
                 用户画像
               </div>
               <div className="saomiao">
-                <div className="guangbiao"></div>
+                <div className="guangbiao" />
               </div>
               <div className="dashed jiating leftdashed">
                 <div className="yuan" />
@@ -290,7 +301,7 @@ class UserPortrait extends Component {
                 <div className="xiexian" />
                 <div className="content">
                   <div className="img">
-                    <img src={require('../../assets/image/icon_05.png')}  />
+                    <img src={require('../../assets/image/icon_05.png')} />
                   </div>
                   <div className="ul">
                     <h3>兴趣爱好</h3>
@@ -386,4 +397,4 @@ class UserPortrait extends Component {
   }
 }
 
-export default connect(({ login }) => ({ login }))(UserPortrait);
+export default connect(({ history }) => ({ history }))(UserPortrait);

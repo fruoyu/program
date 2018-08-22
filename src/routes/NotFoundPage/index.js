@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { routerRedux } from 'dva/router';
-import { MainWrapper } from '../../components';
 
 class NotRoundPage extends Component {
   constructor() {
