@@ -70,7 +70,13 @@ export default {
           if (err) { // cookie 超时了;
             if (pathname !== '/login') {
               console.log('err', err);
-              location.href = '/login';
+              dispatch({
+                type: 'login/loginOut',
+                payload: {},
+                callback: () => {
+                  window.location.pathname = '/login';
+                },
+              });
             }
           } else {
             console.log('decoded');
