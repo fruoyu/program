@@ -516,7 +516,7 @@
     height: 50px;
     position: fixed!important;
     top: 0;
-    right: 4%;
+    right: calc(~"15% - 50px");
     border-radius: 0 0 25px 25px;
     cursor: pointer;
     z-index: 9999;
@@ -527,6 +527,12 @@
     color: #6466bc!important;
     text-align: center;
     transition: transform .5s linear;
+  }
+  .userName{
+    color: #fff;
+    position: absolute;
+    right: -40px;
+    top: 10px;
   }
   .shezhi-content {
     display: none;
@@ -702,7 +708,7 @@
 }
 .bootContent{
   /* goback 样式*/
-  #back {
+  #back, .shouye, .kehu, .huaxiang, .history{
     color: #fff;
     width: 40px;
     height: 50px;
@@ -749,53 +755,120 @@
     display: block;
   }
   /* 首页样式 */
-  .shouye {
-    color: #fff;
-    width: 40px;
-    height: 50px;
-    position: fixed;
-    top: 0;
-    right:calc(~"15% + 50px");
+  .shouye{
+    right:calc(~"15% + 100px");
     background: #400b6c;
-    border-radius: 0 0 25px 25px;
-    cursor: pointer;
-    font-size: 25px;
-    line-height: 50px;
-    text-align: center;
-    z-index: 9999;
-  }
-  .shouye .icon-shouye, .history .icon-shouye {
-    display: block;
-    transition: transform .5s linear !important;
-    font-size: 22px;
-    color: #812dc7;
-  }
-  .shouye .home {
-    display: none;
-    position: absolute;
-    width: 50px;
-    line-height: 20px;
-    height: 20px;
-    font-size: 12px;
-    text-align: center;
-    top: 50px;
-    left: -5px;
-    border: 1px solid #4332ba;
-    border-radius: 20px;
-    margin-top: 8px;
-    box-sizing: border-box;
-    background: #1a1b3a;
-    color: #fff;
+    .home {
+      display: none;
+      position: absolute;
+      width: 50px;
+      line-height: 20px;
+      height: 20px;
+      font-size: 12px;
+      text-align: center;
+      top: 50px;
+      left: -5px;
+      border: 1px solid #4332ba;
+      border-radius: 20px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      background: #1a1b3a;
+      color: #fff;
+    }
+    .icon-shouye{
+      display: block;
+      transition: transform .5s linear !important;
+      font-size: 22px;
+      color: #812dc7;
+    }
   }
   .shouye:hover {
     background: #7e0fdb;
+    .home {
+      display: block;
+    }
+    .icon-shouye {
+      transform: rotateY(360deg) !important;
+      color: #fff;
+    }
   }
-  .shouye:hover .home {
-    display: block;
+
+ /* .history{
+    right: calc(~"15% + 50px");
+    background: #13086c;
+    .icon-lishijilu{
+      display: block;
+      transition: transform .5s linear !important;
+      font-size: 22px;
+      color: #4f42c0;
+    }
+    .his {
+      display: none;
+      position: absolute;
+      width: 60px;
+      line-height: 13px;
+      height: 22px;
+      padding: 4px;
+      font-size: 12px;
+      text-align: center;
+      top: 50px;
+      left: -7px;
+      color: #fff;
+      border: 1px solid #4332ba;
+      border-radius: 20px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      background: #1a1b3a;
+    }
   }
-  .shouye:hover .icon-shouye, .history:hover .icon-shouye {
-    transform: rotateY(360deg) !important;
-    color: #fff;
+  .history:hover {
+    background: #2916bc;
+    .icon-lishijilu{
+      transform:rotateY(360deg);
+      color: #fff;
+    }
+    .his {
+      display: block;
+    }
+  }*/
+
+  /* 客户列表样式 */
+  .kehu {
+    right:15%;
+    background: #113b8d;
+    .icon-iconfontyonghu {
+      display: block;
+      transition: transform .5s linear !important;
+      font-size: 22px;
+      color: #2d9bff;
+    }
+    .customer {
+      display: none;
+      position: absolute;
+      width: 60px;
+      line-height: 20px;
+      height: 20px;
+      font-size: 12px;
+      text-align: center;
+      top: 50px;
+      left: -5px;
+      border: 1px solid #4332ba;
+      border-radius: 20px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      background: #1a1b3a;
+      color: #fff;
+    }
+  }
+  .kehu:hover {
+    background: #2d9bff;
+    .customer {
+      display: block;
+    }
+    .icon-iconfontyonghu {
+      transform: rotateY(360deg) !important;
+      color: #fff;
+    }
   }
 
 }

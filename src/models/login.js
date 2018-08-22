@@ -66,24 +66,28 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
-        jwt.verify(getCookie('token'), 'moxilogin', (err) => {
-          if (err) { // cookie 超时了;
-            if (pathname !== '/login') {
-              console.log('err', err);
-              dispatch({
-                type: 'login/loginOut',
-                payload: {},
-                callback: () => {
-                  window.location.pathname = '/login';
-                },
-              });
-            }
-          } else {
-            console.log('decoded');
-          }
-        });
         if (pathname === '/') {
           dispatch(routerRedux.push('/login'));
+        }
+        if (getCookie('token')) {
+          jwt.verify(getCookie('token'), 'moxilogin', (err) => {
+            if (err) { // cookie 超时了;
+              if (pathname !== '/login') {
+                console.log('err', err);
+                dispatch({
+                  type: 'login/loginOut',
+                  payload: {},
+                  callback: () => {
+                    window.location.pathname = '/login';
+                  },
+                });
+              }
+            } else {
+              console.log('decoded');
+            }
+          });
+        } else if (pathname !== '/login') {
+          window.location.pathname = '/login';
         }
       });
     },
