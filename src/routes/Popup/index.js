@@ -16,8 +16,8 @@ import '../../assets/iconfont/iconfont.css';
 import '../../plugs/audio/audio.css';
 
 class Popup extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       fileList: [
         {
@@ -603,7 +603,7 @@ class Popup extends Component {
           voiceContent:"嗯。",
         },
       ],
-      clickIndex: 0,
+      clickIndex: this.props.history.taskId && 51,
       hoverIndex: -1,
       isPlay: false,
       isOriginal: false,
@@ -632,17 +632,31 @@ class Popup extends Component {
       this.props.dispatch(routerRedux.push('/login'));
     }
     let audio = this.refs.audio;
-    audio.addEventListener('canplay',()=>{
-      //获取总时间
-      let totalTime = parseInt(this.refs.audio.duration);
-      this.setState({
-        totalTime:this.formatSeconds(totalTime),
-        remainTime:this.formatSeconds(0),
-        playedLeft:this.refs.played.getBoundingClientRect().left,
-        // volumnLeft:this.refs.totalVolume.getBoundingClientRect().left
-      });
-      //
-  })
+    //获取总时间
+    let totalTime = parseInt(this.refs.audio.duration);
+    this.setState({
+      totalTime:this.formatSeconds(totalTime),
+      remainTime:this.formatSeconds(0),
+      playedLeft:this.refs.played.getBoundingClientRect().left,
+    });
+    this.props.dispatch({
+      type: 'popup/getFilesListByid',
+      payload: {
+        taskid: '3'
+      },
+      callback: (data) => {
+        console.log(this.props.popup.filesList)
+      }
+    })
+    this.props.dispatch({
+      type: 'popup/getFileResultApi',
+      payload: {
+        taskid: '3'
+      },
+      callback: (data) => {
+        
+      }
+    })
   }
 
   formatSeconds = (s) => {
@@ -669,7 +683,14 @@ class Popup extends Component {
     return t;
   }
 
+  // 渲染画像数据
   renderTermWrap = () => {
+    let {
+      fileResult: {
+        keylist,
+        labellist,
+      } = {}
+    } = this.props.popup
     return (
       <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')}>
         <Scrollbars>
@@ -684,10 +705,13 @@ class Popup extends Component {
                       })
                     }}>
                       {
-                        this.state.keylist.map((keylistItem, keylistIndex) => {
+                        keylist && keylist.length && keylist.map((keylistItem, keylistIndex) => {
                           if (keylistItem.type == item) {
                             return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit} ref={'input' + index} onBlur={() => {
                               console.log('失去焦点')
+                              this.setState({
+                                isInputEdit: true,
+                              })
                             }}></input>
                           }
                         })
@@ -708,7 +732,7 @@ class Popup extends Component {
                   <div className="insightTermContent">
                     <div className="digTitle">挖掘出的语句</div>
                     {
-                      this.state.labellist[item].map((labelItem, labelIndex) => (
+                      keylist && labellist[item].map((labelItem, labelIndex) => (
                         <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
                           <div className="digSentence">
                             <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
@@ -746,32 +770,37 @@ class Popup extends Component {
     )
   }
 
+  // 渲染销售与用户对话
   renderTextWrap = () => {
+    let {
+      originalList
+    } = this.props.popup
     return (
       <div className="insightTextWrap" style={{ boxSizing: 'border-box', }}>
         <Scrollbars>
           {
-            this.state.originalList.map((item, index) => (
-              <div key={index} className={['originalText', item.role == 'USER' ? 'rightText' : 'leftText'].join(' ')}>
+            Object.keys(originalList).map((item, index) => (
+              <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')}>
                 {
-                  item.role == 'USER' ?
+                  originalList[item].role == 'USER' ?
                   <div className="fristLine">
                     <span>用户</span>
-                    <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
+                    <span>{this.formatSeconds(parseInt(originalList[item].startTime / 1000))}</span>
                   </div> :
                   <div className="fristLine">
-                    <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
+                    <span>{this.formatSeconds(parseInt(originalList[item].startTime / 1000))}</span>
                     <span>销售</span>
                   </div>
                 }
                 
                 <div className="secondLine">
-                  <span className="context">{item.voiceContent}</span>
-                  <span className="laba">
+                  <span className="context">{originalList[item].voiceContent}</span>
+                  <span className="laba" onClick={() => {
+                    this.playMusic(originalList[item].startTime)
+                  }}>
                     <i className="iconfont icon-yuyin1-copy"></i>
                   </span>
                   <span className="originalTextBiaozhu" onClick={() => {
-                    console.log('点击出现')
                     this.setState({
                       biaozhuIndex: index,
                     })
@@ -796,9 +825,9 @@ class Popup extends Component {
                 </div>
                 <div className="ThirdLine" data-type-arr="">
                   {
-                    item.types.length > 0 && item.types.map((typeItem, itemIndex) => (
+                    originalList[item].types.length > 0 && originalList[item].types.map((typeItem, itemIndex) => (
                       <span className="tags" key={itemIndex}>
-                        {this.state.customer[item.types[itemIndex]]}
+                        {this.state.customer[originalList[item].types[itemIndex]]}
                         <i className="iconfont icon-shanchu1"></i>
                       </span>
                     ))
@@ -812,6 +841,7 @@ class Popup extends Component {
     )
   }
 
+  // 音频进度条点击事件
   clickChangeTime (e) {
     if(!e.pageX){
       return
@@ -819,6 +849,7 @@ class Popup extends Component {
     this.setTimeOnPc(e)
   }
 
+  // 改变音频播放时间与进度条
   setTimeOnPc = (e) => {
     let audio = this.refs.audio;
     let newWidth = (e.pageX - this.state.playedLeft) / this.refs.progress.offsetWidth;
@@ -852,7 +883,7 @@ class Popup extends Component {
       this.refs.circle.style.left = playPer*100+"%";
 
       this.setState({
-          remainTime:this.formatSeconds(parseInt(audio.currentTime)),
+        remainTime:this.formatSeconds(parseInt(audio.currentTime)),
       });
     });
   }
@@ -879,14 +910,19 @@ class Popup extends Component {
     });
   }
 
+  // 点击某一条录音播放
   playMusic = (startTime) => {
     let audio = this.refs.audio;
     audio.currentTime = parseInt(startTime / 1000);
+    this.setState({
+      remainTime:this.formatSeconds(parseInt(startTime / 1000)),
+    });
     let playPer = audio.currentTime/audio.duration;
     this.refs.played.style.width = playPer*100+"%";
     this.refs.circle.style.left = playPer*100+"%";
   }
 
+  // 渲染音频播放器
   renderAudio = () => {
     return (
       <div className="archivesAudio">
@@ -896,8 +932,8 @@ class Popup extends Component {
             <div className="wx-audio-right">
               <p className="middleX"></p>
               <div className="wx-audio-time">
-                <span className="current-t">{true ? this.state.remainTime : '00:00:00'}</span>
-                <span className="duration-t">{true ? this.state.totalTime : '00:00:00'}</span>
+                <span className="current-t">{this.props.popup.fileResult.filePath ? this.state.remainTime : '00:00:00'}</span>
+                <span className="duration-t">{this.props.popup.fileResult.filePath ? this.state.totalTime : '00:00:00'}</span>
               </div>
               <div className="wx-audio-progrees" ref='progress' onClick={this.clickChangeTime} onMouseDown={() => {
                 this.mouseDown()
@@ -924,6 +960,9 @@ class Popup extends Component {
   }
 
   render() {
+    let {
+      filesList
+    } = this.props.popup
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
@@ -946,16 +985,15 @@ class Popup extends Component {
                   <span className="retractSpan">收起</span>
                 </div> :
                 <div className="view" onClick={() => {
-                  this.setState({
-                    isOriginal: true,
-                  })
                   this.props.dispatch({
-                    type: 'popup/getPictureDetails',
+                    type: 'popup/getOriginalList',
                     payload: {
                       taskid: '3'
                     },
                     callback: (data) => {
-                      console.log(data)
+                      this.setState({
+                        isOriginal: true,
+                      })
                     }
                   })
                 }}>
@@ -989,17 +1027,23 @@ class Popup extends Component {
             </div>
             <div id="search">
               <div className="total">
-                共计 <span className="total-number">{this.state.fileList.length}</span> 个文件
+                共计 <span className="total-number">{filesList.length}</span> 个文件
               </div>
             </div>
             <Scrollbars>
               <ul id="file-list">
                 {
-                  this.state.fileList.map((item, index) => (
-                    <li className={['file-item', index == this.state.clickIndex ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index}
+                  filesList.map((item, index) => (
+                    <li className={['file-item', item.id == this.props.history.taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index}
                       onClick={() => {
-                        this.setState({
-                          clickIndex: index,
+                        this.props.dispatch({
+                          type: 'history/saveTaskId',
+                          payload: {
+                            taskId: item.id,
+                          },
+                          callback: () => {
+                            console.log(this.props.history.taskId, item.id)
+                          }
                         });
                       }}
                       onMouseEnter={() => {
@@ -1025,4 +1069,4 @@ class Popup extends Component {
     );
   }
 }
-export default connect(({ home }) => ({ home }))(Popup);
+export default connect(({ popup, history }) => ({ popup, history }))(Popup);

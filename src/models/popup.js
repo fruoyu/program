@@ -1,40 +1,62 @@
 import { notifyError, notifySuccess } from '../services/app.js';
-import { ChangePictureDetails } from '../services/popup';
+import { changeOriginalList, changeFilesListByid, changeFileResultApi } from '../services/popup';
 
 export default {
   namespace: 'popup',
   state: {
     pictureDetails: [],
+    originalList: {},
+    filesList: [],
+    fileResult: [],
     passWord: '',
   },
   effects: {
-    *getPictureDetails({ payload, callback }, { call, put }) {
-      const { data } = yield call(ChangePictureDetails, payload);
+    *getOriginalList({ payload, callback }, { call, put }) {
+      const { data } = yield call(changeOriginalList, payload);
       if (data.result) {
         yield put({
-          type: 'changePictureDetails',
-          payload: { ...payload },
+          type: 'changeOriginalList',
+          payload: { ...data },
         });
         callback && callback(data);
       } else {
         notifyError(data.errMsg);
       }
     },
-    *getAudioResultApi({ payload, callback }, { call, put }) {
-      const { data } = yield call(Login, payload);
-      // yield put({
-      //   type: 'changeLoginMsg',
-      //   payload: data,
-      // });
-      if (callback) callback(data);
+    *getFilesListByid({ payload, callback }, { call, put }) {
+      const { data } = yield call(changeFilesListByid, payload);
+      if (data.result) {
+        yield put({
+          type: 'changeFilesListByid',
+          payload: { ...data },
+        });
+        callback && callback(data);
+      } else {
+        notifyError(data.errMsg);
+      }
+    },
+    *getFileResultApi({ payload, callback }, { call, put }) {
+      const { data } = yield call(changeFileResultApi, payload);
+      if (data.result) {
+        yield put({
+          type: 'changeFileResultApi',
+          payload: { ...data },
+        });
+        callback && callback(data);
+      } else {
+        notifyError(data.errMsg);
+      }
     },
   },
   reducers: {
-    changePictureDetails(state, { payload }) {
-      return { ...state, pictureDetails: payload.result };
+    changeOriginalList(state, { payload }) {
+      return { ...state, originalList: payload.result.result };
     },
-    changeLoginMsg(state, { payload }) {
-      return { ...state, userName: payload.userName };
+    changeFilesListByid(state, { payload }) {
+      return { ...state, filesList: payload.result.reslist };
+    },
+    changeFileResultApi(state, { payload }) {
+      return { ...state, fileResult: payload.result };
     },
   },
 };

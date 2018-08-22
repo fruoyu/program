@@ -1,16 +1,22 @@
 import request from '../utils/request';
 import { headersPost, headersGet } from '../utils/Constants';
 
-export async function ChangePictureDetails(params) {
-  console.log(params)
+export async function changeOriginalList(params) {
   return request('/openApi/voiceQuality/getAudioResultApi', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),
   });
 }
-export async function ChangePwd(params) {
-  return request('/user/changePwd', {
+export async function changeFilesListByid(params) {
+  return request('/openApi/voiceQuality/getFilesListByid', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}
+export async function changeFileResultApi(params) {
+  return request('/openApi/voiceQuality/getFileResultApi', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),
