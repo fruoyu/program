@@ -235,11 +235,397 @@ class Popup extends Component {
         RISK_PREFERENCE: [],
         SOCIAL_SECURITY: [],
       },
+      keylist: [
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"COMMERCIAL_INSURANCE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CONSUME_CAR",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CONSUME_HOUSE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_ADMIRE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_AGE",
+        },
+
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_CHILD",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_HOBBY",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_JOB",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_MERRIGE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"CUSTOMER_SEX",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"INSURANCE_PURCHASER",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"INVESTMENT_DURATION",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"INVESTMENT_PURCHASER",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"INVESTMENT_RATIO",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"INVESTMENT_TYPE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"RISK_PREFERENCE",
+        },
+        {
+          context:"没有",
+          creat_time:"2018-08-10 11:01:52.0",
+          kehuName:"王爱琪",
+          phonenum:"13683229972",
+          status:"false",
+          taskid:"3",
+          type:"SOCIAL_SECURITY",
+        },
+      ],
+      originalList: [
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:[],
+          role:"USER",
+          startTime:0,
+          types:[],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+        {
+          emotionType:"UNKNOWN",
+          endTime:310,
+          id:1,
+          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role:"KEFU",
+          startTime:0,
+          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent:"嗯。",
+        },
+      ],
       clickIndex: 0,
       hoverIndex: -1,
       isPlay: false,
       isOriginal: false,
+      isInputEdit: true,
+      isBiaozhu: false,
+      biaozhuIndex: -1,
+      isPaused:false,
+      totalTime:0,
+      playPer:0,
+      bufferedPer:0,
+      playedLeft:0,
+      volumnLeft:0,
+      remainTime:0,
+      angle:0,
+      mouseDown:false,
+      musicListShow:false,
+      currentMusic:{},
+      isPlayed:false
     };
+    this.clickChangeTime = this.clickChangeTime.bind(this);
+    this.slideChangeTime = this.slideChangeTime.bind(this);
+    this.slideChangeTime = this.slideChangeTime.bind(this);
   }
   componentDidMount() {
     this.props.dispatch({
@@ -248,6 +634,19 @@ class Popup extends Component {
         taskid: this.props.location.query.taskId,
       },
     });
+    let audio = this.refs.audio;
+    audio.addEventListener('canplay',()=>{
+      //获取总时间
+      let totalTime = parseInt(this.refs.audio.duration);
+      this.setState({
+        totalTime:this.formatSeconds(totalTime),
+        remainTime:this.formatSeconds(0),
+        playedLeft:this.refs.played.getBoundingClientRect().left,
+        // volumnLeft:this.refs.totalVolume.getBoundingClientRect().left
+      });
+      //
+  })
+    
   }
 
   formatSeconds = (s) => {
@@ -276,38 +675,56 @@ class Popup extends Component {
 
   renderTermWrap = () => {
     return (
-      <div className="insightTermWrap">
+      <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')}>
         <Scrollbars>
-          {
-            Object.keys(this.state.customer).map((item, index) => (
-              <div className="insightTerm" data-type={item} key={index}>
-                <div className="insightTermTitle">
-                  <p>{this.state.customer[item]}:</p>
-                  <div>
-                    <input data-name={item} type="text" className="insightName" disabled></input>
+            {
+              Object.keys(this.state.customer).map((item, index) => (
+                <div className="insightTerm" data-type={item} key={index}>
+                  <div className="insightTermTitle">
+                    <p>{this.state.customer[item]}:</p>
+                    <div onClick={() => {
+                      this.setState({
+                        isInputEdit: false
+                      })
+                    }}>
+                      {
+                        this.state.keylist.map((keylistItem, keylistIndex) => {
+                          if (keylistItem.type == item) {
+                            return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit} ref={'input' + index} onBlur={() => {
+                              console.log('失去焦点')
+                            }}></input>
+                          }
+                        })
+                      }
+                    </div>
+                    <span className="insightTermNamedit pull-right" data-type={item} onClick={() => {
+                      this.setState({
+                        isInputEdit: false
+                      }, () => {
+                        let input = this.refs['input' + index];
+                        input.focus();
+                      })
+                    }}>
+                      <i className="iconfont icon-xiugai"></i>
+                      <i className="iconfont icon-gou1"></i>
+                    </span>
                   </div>
-                  <span className="insightTermNamedit pull-right" data-type={item}>
-                    <i className="iconfont icon-xiugai"></i>
-                    <i className="iconfont icon-gou1"></i>
-                  </span>
-                </div>
-                <div className="insightTermContent">
-                  <div className="digTitle">挖掘出的语句</div>
-                  {
-                    this.state.labellist[item].map((labelItem, labelIndex) => (
-                      <div
-                        className="digSentenceWrap"
-                        data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status}
-                        key={labelIndex}
-                      >
-                        <div className="digSentence">
-                          <p className={labelItem.status === 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
-                          <p className={['content', labelItem.status === 'true' ? '' : 'line-through'].join(' ')}>
-                            {labelItem.context}
-                            <i className="audioJump iconfont icon-yuyin1-copy"></i>
-                          </p>
-                          <div className="arrow">
-                            <i className="iconfont icon-sanjiaoright"></i>
+                  <div className="insightTermContent">
+                    <div className="digTitle">挖掘出的语句</div>
+                    {
+                      this.state.labellist[item].map((labelItem, labelIndex) => (
+                        <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
+                          <div className="digSentence">
+                            <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
+                            <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
+                              {labelItem.context}
+                              <i className="audioJump iconfont icon-yuyin1-copy" onClick={() => {
+                                this.playMusic(labelItem.time)
+                              }}></i>
+                            </p>
+                            <div className="arrow">
+                              <i className="iconfont icon-sanjiaoright"></i>
+                            </div>
                           </div>
                         </div>
                         <div className="border-wrap"></div>
@@ -336,8 +753,143 @@ class Popup extends Component {
 
   renderTextWrap = () => {
     return (
-      <div className="insightTextWrap" style={{ boxSizing: 'border-box' }} />
-    );
+      <div className="insightTextWrap" style={{ boxSizing: 'border-box', }}>
+        <Scrollbars>
+          {
+            this.state.originalList.map((item, index) => (
+              <div key={index} className={['originalText', item.role == 'USER' ? 'rightText' : 'leftText'].join(' ')}>
+                {
+                  item.role == 'USER' ?
+                  <div className="fristLine">
+                    <span>用户</span>
+                    <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
+                  </div> :
+                  <div className="fristLine">
+                    <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
+                    <span>销售</span>
+                  </div>
+                }
+                
+                <div className="secondLine">
+                  <span className="context">{item.voiceContent}</span>
+                  <span className="laba">
+                    <i className="iconfont icon-yuyin1-copy"></i>
+                  </span>
+                  <span className="originalTextBiaozhu" onClick={() => {
+                    console.log('点击出现')
+                    this.setState({
+                      biaozhuIndex: index,
+                    })
+                  }}>
+                    <i className="iconfont icon-tab2biaozhu"></i>
+                  </span>
+                  {
+                    index == this.state.biaozhuIndex &&
+                    <ul className="biaozhuLi">
+                      <input />
+                      <p>
+                        标注该句属于下
+                        <br />列哪个洞察项：
+                      </p>
+                      {
+                        Object.keys(this.state.customer).map((customerItem, customerIndex) => (
+                          <li>{this.state.customer[customerItem]}</li>
+                        ))
+                      }
+                    </ul>
+                  }
+                </div>
+                <div className="ThirdLine" data-type-arr="">
+                  {
+                    item.types.length > 0 && item.types.map((typeItem, itemIndex) => (
+                      <span className="tags" key={itemIndex}>
+                        {this.state.customer[item.types[itemIndex]]}
+                        <i className="iconfont icon-shanchu1"></i>
+                      </span>
+                    ))
+                  }
+                </div>
+              </div>
+            ))
+          }
+        </Scrollbars>
+      </div>
+    )
+  }
+
+  clickChangeTime (e) {
+    if(!e.pageX){
+      return
+    }
+    this.setTimeOnPc(e)
+  }
+
+  setTimeOnPc = (e) => {
+    let audio = this.refs.audio;
+    let newWidth = (e.pageX - this.state.playedLeft) / this.refs.progress.offsetWidth;
+    this.refs.played.style.width = newWidth * 100 + "%";
+    audio.currentTime = newWidth * audio.duration;
+    this.setState({
+      remainTime: this.formatSeconds(parseInt(newWidth * audio.duration / 1000))
+    })
+    this.refs.circle.style.left = newWidth * 100 + "%";
+  }
+
+  // 音频播放事件
+  play = () => {
+    let audio = this.refs.audio;
+    if (audio.paused) {
+      audio.play()
+      this.setState({
+        isPlay: true,
+      })
+    } else {
+      audio.pause()
+      this.setState({
+        isPlay: false
+      })
+    }
+
+    audio.addEventListener('timeupdate',()=>{
+      //设置播放进度条
+      let playPer = audio.currentTime/audio.duration;
+      this.refs.played.style.width = playPer*100+"%";
+      this.refs.circle.style.left = playPer*100+"%";
+
+      this.setState({
+          remainTime:this.formatSeconds(parseInt(audio.currentTime)),
+      });
+    });
+  }
+
+  // 音频拖拽事件
+  mouseDown = () => {
+    this.setState({
+      mouseDown:true
+    });
+  }
+  slideChangeTime(e){
+    if(this.state.mouseDown){
+      this.setTimeOnPc(e)
+    }
+  }
+  mouseUp = () => {
+    this.setState({
+      mouseDown:false
+    });
+  }
+  mouseLeave = () => {
+    this.setState({
+      mouseDown:false
+    });
+  }
+
+  playMusic = (startTime) => {
+    let audio = this.refs.audio;
+    audio.currentTime = parseInt(startTime / 1000);
+    let playPer = audio.currentTime/audio.duration;
+    this.refs.played.style.width = playPer*100+"%";
+    this.refs.circle.style.left = playPer*100+"%";
   }
 
   renderAudio = () => {
@@ -345,41 +897,30 @@ class Popup extends Component {
       <div className="archivesAudio">
         <div id="audioEle">
           <div className="wx-audio-content" style={{ width: '100%' }}>
-            <audio className="wx-audio-content" src={{ uri: 'http://47.95.113.97:8660/file/20180817121908967空战军-测试-张玉龙-1234.mp3' }} />
+            <audio className="wx-audio-content" src={require('../../assets/Universe.mp3')} ref='audio'></audio>
             <div className="wx-audio-right">
               <p className="middleX" />
               <div className="wx-audio-time">
-                <span className="current-t">00:00</span>
-                <span className="duration-t">33:44</span>
+                <span className="current-t">{true ? this.state.remainTime : '00:00:00'}</span>
+                <span className="duration-t">{true ? this.state.totalTime : '00:00:00'}</span>
               </div>
-              <div className="wx-audio-progrees">
+              <div className="wx-audio-progrees" ref='progress' onClick={this.clickChangeTime} onMouseDown={() => {
+                this.mouseDown()
+              }} onMouseMove={this.slideChangeTime} onMouseUp={this.mouseUp} onMouseLeave={this.mouseLeave}>
                 <div className="wx-progrees-detail">
-                  <span className="wx-voice-p" />
-                  <span className="wx-buffer-p" />
+                  <span className="wx-voice-p" ref='played'></span>
+                  <span className="wx-buffer-p"></span>
                   <span className="wx-loading">
                     <span className="wx-loading-wrapper" />
                   </span>
                 </div>
-                <div className="wx-audio-origin" />
+                <div className="wx-audio-origin" ref='circle'></div>
               </div>
             </div>
             <div className="wx-audio-left">
-              <i
-                className={['iconfont', this.state.isPlay ? 'icon-zanting' : 'icon-bofang'].join(' ')}
-                onClick={() => {
-                  if (this.state.isPlay) {
-                    console.log('暂停');
-                    this.setState({
-                      isPlay: false,
-                    });
-                  } else {
-                    console.log('播放');
-                    this.setState({
-                      isPlay: true,
-                    });
-                  }
-                }}
-              />
+              <i className={['iconfont', this.state.isPlay ? "icon-zanting" : "icon-bofang"].join(' ')} onClick={() => {
+                this.play()
+              }}></i>
             </div>
           </div>
         </div>
@@ -397,27 +938,31 @@ class Popup extends Component {
             <div className="originalTextOperate">
               {
                 this.state.isOriginal ?
-                  <div
-                    className="retract"
-                    onClick={() => {
-                      this.setState({
-                        isOriginal: false,
-                      });
-                    }}
-                  >
-                    <i className="iconfont icon-shouqi" style={{ fontSize: '16px' }} />
-                    <span className="retractSpan">收起</span>
-                  </div> :
-                  <div
-                    className="view" onClick={() => {
-                      this.setState({
-                        isOriginal: true,
-                      });
-                    }}
-                  >
-                    <i className="iconfont icon-wenbenzhantie" />
-                    <span className="viewSpan">查看原文</span>
-                  </div>
+                <div className="retract" onClick={() => {
+                  this.setState({
+                    isOriginal: false,
+                  })
+                }}>
+                  <i className="iconfont icon-shouqi" style={{ fontSize: '16px'}}></i>
+                  <span className="retractSpan">收起</span>
+                </div> :
+                <div className="view" onClick={() => {
+                  this.setState({
+                    isOriginal: true,
+                  })
+                  this.props.dispatch({
+                    type: 'popup/getPictureDetails',
+                    payload: {
+                      taskid: '3'
+                    },
+                    callback: (data) => {
+                      console.log(data)
+                    }
+                  })
+                }}>
+                  <i className="iconfont icon-wenbenzhantie"></i>
+                  <span className="viewSpan">查看原文</span>
+                </div>
               }
             </div>
             <div className="modal-header text-center" style={{top: this.state.isOriginal ? '1.4%' : '' }}>
@@ -427,9 +972,14 @@ class Popup extends Component {
               {
                 this.renderAudio()
               }
-              {
-                this.state.isOriginal ? this.renderTextWrap() : this.renderTermWrap()
-              }
+              <div className="modal-box">
+                {
+                  this.state.isOriginal && this.renderTextWrap()
+                }
+                {
+                  this.renderTermWrap()
+                }
+              </div>
             </div>
           </div>
           <div id="recognized-file">
