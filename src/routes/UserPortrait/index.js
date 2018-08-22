@@ -211,9 +211,18 @@ class UserPortrait extends Component {
     };
   }
   componentDidMount() {
-    setTimeout(() => {
-      $('.dashed').slideDown('slow');
-    }, 1000);
+    console.log(this.props)
+    this.props.dispatch({
+      type: 'history/getQueryKeyItem',
+      payload: {
+        taskid: this.props.location.query.taskId,
+      },
+      callback: () => {
+        setTimeout(() => {
+          $('.dashed').slideDown('slow');
+        }, 1000);
+      },
+    });
   }
 
   render() {
@@ -229,7 +238,7 @@ class UserPortrait extends Component {
                 用户画像
               </div>
               <div className="saomiao">
-                <div className="guangbiao"></div>
+                <div className="guangbiao" />
               </div>
               <div className="dashed jiating leftdashed">
                 <div className="yuan" />
@@ -290,7 +299,7 @@ class UserPortrait extends Component {
                 <div className="xiexian" />
                 <div className="content">
                   <div className="img">
-                    <img src={require('../../assets/image/icon_05.png')}  />
+                    <img src={require('../../assets/image/icon_05.png')} />
                   </div>
                   <div className="ul">
                     <h3>兴趣爱好</h3>
@@ -386,4 +395,4 @@ class UserPortrait extends Component {
   }
 }
 
-export default connect(({ login }) => ({ login }))(UserPortrait);
+export default connect(({ history }) => ({ history }))(UserPortrait);

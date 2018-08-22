@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Input } from 'antd';
-import { routerRedux } from "dva/router";
-import { connect } from "dva";
-import PolyDialog from "../PolyDialog";
+import { Input, message } from 'antd';
+import { routerRedux } from 'dva/router';
+import { connect } from 'dva';
+import PolyDialog from '../PolyDialog';
 
 class MainWrapper extends Component {
   constructor() {
@@ -16,8 +16,41 @@ class MainWrapper extends Component {
   }
   componentDidMount() {
   }
+  onOk= () => {
+    // 输入框非空判断
+    const {
+      oldPassword,
+      newPassword,
+      confirmPassword,
+    } = this.state;
+    if (!oldPassword || !newPassword || !confirmPassword) return false;
+    if (newPassword !== confirmPassword) {
+      message.info('新密码与确认密码不一致');
+      return false;
+    }
+    if (oldPassword === newPassword) {
+      message.info('新旧密码不能一致');
+      return false;
+    }
+    this.props.dispatch({
+      type: 'login/resolvePassword',
+      payload: {
+        oldPwd: this.state.oldPassword,
+        newPwd: this.state.newPassword,
+      },
+      callback: () => {
+        this.props.dispatch(routerRedux.push('/login'));
+        this.setState({
+          oldPassword: '',
+          newPassword: '',
+          confirmPassword: '',
+          changePassword: false,
+        });
+      },
+    });
+  }
   // 退出登录操作
-  loginOut() {
+  loginOut= () => {
     this.props.dispatch({
       type: 'login/loginOut',
       payload: {},
@@ -43,7 +76,7 @@ class MainWrapper extends Component {
               this.props.dispatch(routerRedux.push('/main')); // 跳转到首页
             }}
           >
-            <span className="iconfont icon-shouye"></span>
+            <span className="iconfont icon-shouye" />
             <span className="home" >首页</span>
           </div>
         }
@@ -83,25 +116,21 @@ class MainWrapper extends Component {
             title="修改密码"
             visible={this.state.changePassword}
             onClose={() => {
-              this.setState({ changePassword: false });
-            }}
-            onOk={() => {
-              this.props.dispatch({
-                type: 'login/resolvePassword',
-                payload: {
-                  oldPwd: this.state.oldPassword,
-                  newPwd: this.state.newPassword,
-                },
-                callback: (res) => {
-                  if (res.result) {
-                    this.props.dispatch(routerRedux.push('/login'));
-                  }
-                  this.setState({ changePassword: false });
-                },
+              this.setState({
+                oldPassword: '',
+                newPassword: '',
+                confirmPassword: '',
+                changePassword: false,
               });
             }}
+            onOk={this.onOk.bind(this)}
             onCancel={() => {
-              this.setState({ changePassword: false });
+              this.setState({
+                oldPassword: '',
+                newPassword: '',
+                confirmPassword: '',
+                changePassword: false,
+              });
             }}
           >
             <div className="login-form-dailog">

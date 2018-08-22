@@ -1,29 +1,43 @@
+import jwt from 'jsonwebtoken';
 import { notifyError, notifySuccess } from '../services/app.js';
 import { Login, LoginOut, ChangePwd } from '../services/login';
 import { routerRedux } from 'dva/router';
+import {
+  setCookie,
+  getCookie,
+} from "../utils/cookie";
 // import url from 'url';
 // import qs from 'qs';
 export default {
   namespace: 'login',
   state: {
     userName: '',
-    passWord: '',
+    password: '',
   },
   effects: {
     *saveLoginMsg({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
-      // yield put({
-      //   type: 'changeLoginMsg',
-      //   payload: data,
-      // });
-      if (callback) callback(data);
+      if (data) {
+        const token = jwt.sign({
+          exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1h
+          data: payload,
+        }, 'moxilogin');
+        setCookie('token', token);
+        yield put({
+          type: 'changeLoginMsg',
+          payload,
+        });
+        if (callback) callback(data);
+      } else {
+        notifyError('登录失败!');
+      }
     },
     *loginOut({ payload, callback }, { call, put }) {
       const { data } = yield call(LoginOut);
       if (data) {
-        yield put({
-          type: 'LoginMsg',
-        });
+        //  yield put({
+        //   type: 'LoginMsg',
+        // });
         if (callback) callback();
       } else {
         notifyError('退出失败!');
@@ -31,12 +45,11 @@ export default {
     },
     *resolvePassword({ payload, callback }, { call, put }) {
       const { data } = yield call(ChangePwd, payload);
-      console.log(data);// errMsg ,retCode
-      if (callback) callback(data);
       if (data.result) {
         yield put({
           type: 'LoginMsg',
         });
+        if (callback) callback();
       } else {
         notifyError(data.errMsg);
       }
@@ -44,7 +57,7 @@ export default {
   },
   reducers: {
     changeLoginMsg(state, { payload }) {
-      return { ...state, userName: payload.userName };
+      return { ...state, userName: payload.userName, password: payload.password };
     },
     LoginMsg(state) {
       return { ...state, userName: '', passWord: '' };
@@ -53,9 +66,22 @@ export default {
   subscriptions: {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
-        // const { query } = url.parse(search);
-        // const oPath = qs.parse(query)
-        console.log(pathname);
+        jwt.verify(getCookie('token'), 'moxilogin', (err) => {
+          if (err) { // cookie 超时了;
+            if (pathname !== '/login') {
+              console.log('err', err);
+              dispatch({
+                type: 'login/loginOut',
+                payload: {},
+                callback: () => {
+                  window.location.pathname = '/login';
+                },
+              });
+            }
+          } else {
+            console.log('decoded');
+          }
+        });
         if (pathname === '/') {
           dispatch(routerRedux.push('/login'));
         }
