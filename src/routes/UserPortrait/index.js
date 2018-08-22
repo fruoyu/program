@@ -211,8 +211,7 @@ class UserPortrait extends Component {
     };
   }
   componentDidMount() {
-    console.log(this.props)
-    this.props.dispatch({
+    /*this.props.dispatch({
       type: 'history/getQueryKeyItem',
       payload: {
         taskid: this.props.location.query.taskId,
@@ -222,7 +221,10 @@ class UserPortrait extends Component {
           $('.dashed').slideDown('slow');
         }, 1000);
       },
-    });
+    });*/
+    setTimeout(() => {
+      $('.dashed').slideDown('slow');
+    }, 1000);
   }
 
   render() {
@@ -230,7 +232,7 @@ class UserPortrait extends Component {
       <div className="bootContent userPortrait">
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部 */}
-          <CommonHeader title="用户画像" goback home isUserPort isMain path={this.props.route.path} />
+          <CommonHeader title="用户画像" goback isUserPort photograph home />
           {/* 画像 */}
           <div id="main">
             <div className="userPortrait">

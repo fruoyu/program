@@ -628,12 +628,12 @@ class Popup extends Component {
     this.slideChangeTime = this.slideChangeTime.bind(this);
   }
   componentDidMount() {
-    this.props.dispatch({
+    /*this.props.dispatch({
       type: 'history/getSingleData',
       payload: {
         taskid: this.props.location.query.taskId,
       },
-    });
+    });*/
     let audio = this.refs.audio;
     audio.addEventListener('canplay', () => {
       // 获取总时间
@@ -939,7 +939,7 @@ class Popup extends Component {
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
-        <CommonHeader title="洞察结果" goback home />
+        <CommonHeader title="洞察结果" goback home isUserPort photograph />
         {/* <div className="tab">
           <span className="tabData iconfont icon-xiangqing1"><span>数据</span></span>
           <span className="tabPortrait iconfont icon-huaxiang" onClick={() => { this.props.dispatch(routerRedux.push('/userPortrait')); }}><span>画像</span></span>
@@ -1037,4 +1037,4 @@ class Popup extends Component {
     );
   }
 }
-export default connect(({ popup }) => ({ popup }))(Popup);
+export default connect(({ popup, history }) => ({ popup, history }))(Popup);

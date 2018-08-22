@@ -1,3 +1,5 @@
+import $ from 'jquery';
+import '../../utils/md5.js';
 import React, { Component } from 'react';
 import { Input, message } from 'antd';
 import { routerRedux } from 'dva/router';
@@ -35,8 +37,8 @@ class MainWrapper extends Component {
     this.props.dispatch({
       type: 'login/resolvePassword',
       payload: {
-        oldPwd: this.state.oldPassword,
-        newPwd: this.state.newPassword,
+        oldPwd: $.md5(this.state.oldPassword),
+        newPwd: $.md5(this.state.newPassword),
       },
       callback: () => {
         this.props.dispatch(routerRedux.push('/login'));
@@ -60,7 +62,8 @@ class MainWrapper extends Component {
     });
   }
   render() {
-    const { title, isMain, isUserPort, goback, home } = this.props;
+    const { title, isMain, isUserPort, goback, home, customer, photograph } = this.props;
+    const { userName } = this.props.login;
     return (
       <div>
         {/* 头部信息s */}
@@ -88,7 +91,7 @@ class MainWrapper extends Component {
             }}
           >
             <i className="iconfont icon-lishijilu" />
-            <span className="his">历史记录</span>
+            <span className="his">录音列表</span>
           </div>
         }
         {
@@ -105,12 +108,33 @@ class MainWrapper extends Component {
         {
           home && <div className="shezhi">
             <span className="iconfont icon-yonghu2" />
+            {/* <span className="userName">{userName}</span>*/}
             <div className="shezhi-content">
               <p className="modify" onClick={() => { this.setState({ changePassword: true }); }}>修改密码</p>
               <p className="exit" onClick={this.loginOut.bind(this)}>退出</p>
             </div>
           </div>
         }
+        {/* 客户列表 */}
+        {
+          customer && <div className="kehu">
+            <span className="iconfont icon-iconfontyonghu" />
+            <span className="customer">客户列表</span>
+          </div>
+        }
+        {/*  画像 */}
+        {
+          photograph && <div
+            className="huaxiang"
+            onClick={() => {
+              this.props.dispatch(routerRedux.push('/userPortrait'));
+            }}
+          >
+            <span className="iconfont icon-huaxiang" />
+            <span className="photograph">画像</span>
+          </div>
+        }
+        {/* 修改密码弹框 */}
         {
           this.state.changePassword && <PolyDialog
             title="修改密码"
