@@ -633,9 +633,13 @@ class Popup extends Component {
     }
     let audio = this.refs.audio;
     //获取总时间
-    let totalTime = parseInt(this.refs.audio.duration);
+    audio.addEventListener('canplay',()=>{
+      let totalTime = parseInt(this.refs.audio.duration);
+      this.setState({
+        totalTime:this.formatSeconds(totalTime),
+      })
+    })
     this.setState({
-      totalTime:this.formatSeconds(totalTime),
       remainTime:this.formatSeconds(0),
       playedLeft:this.refs.played.getBoundingClientRect().left,
     });
@@ -810,14 +814,29 @@ class Popup extends Component {
                   {
                     index == this.state.biaozhuIndex &&
                     <ul className="biaozhuLi">
-                      <input />
                       <p>
                         标注该句属于下
                         <br />列哪个洞察项：
                       </p>
                       {
                         Object.keys(this.state.customer).map((customerItem, customerIndex) => (
-                          <li>{this.state.customer[customerItem]}</li>
+                          <li onClick={() => {
+                            this.props.dispatch({
+                              type: 'popup/editItemLeft',
+                              payload: {
+                                taskid: '3',
+                                type: customerItem,
+                                operaType: 'add',
+                                startLine: originalList[item].id + '',
+                                endLine: originalList[item].id + '',
+                                context: originalList[item].voiceContent
+                              },
+                              callback: (data) => {
+                                console.log(data)
+                              }
+                            })
+                            console.log(customerItem, originalList[item].id)
+                          }} key={customerIndex}>{this.state.customer[customerItem]}</li>
                         ))
                       }
                     </ul>
@@ -1042,7 +1061,15 @@ class Popup extends Component {
                             taskId: item.id,
                           },
                           callback: () => {
-                            console.log(this.props.history.taskId, item.id)
+                            this.props.dispatch({
+                              type: 'popup/getFileResultApi',
+                              payload: {
+                                taskid: item.id
+                              },
+                              callback: (data) => {
+                                
+                              }
+                            })
                           }
                         });
                       }}

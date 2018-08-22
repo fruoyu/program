@@ -22,3 +22,11 @@ export async function changeFileResultApi(params) {
     body: JSON.stringify(params),
   });
 }
+export async function editItemLeft(params) {
+  return request('/openApi/voiceQuality/ItemEditLeft', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}
+

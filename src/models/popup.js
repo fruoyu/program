@@ -1,14 +1,12 @@
 import { notifyError, notifySuccess } from '../services/app.js';
-import { changeOriginalList, changeFilesListByid, changeFileResultApi } from '../services/popup';
+import { changeOriginalList, changeFilesListByid, changeFileResultApi, editItemLeft } from '../services/popup';
 
 export default {
   namespace: 'popup',
   state: {
-    pictureDetails: [],
     originalList: {},
     filesList: [],
     fileResult: [],
-    passWord: '',
   },
   effects: {
     *getOriginalList({ payload, callback }, { call, put }) {
@@ -40,6 +38,17 @@ export default {
       if (data.result) {
         yield put({
           type: 'changeFileResultApi',
+          payload: { ...data },
+        });
+        callback && callback(data);
+      } else {
+        notifyError(data.errMsg);
+      }
+    },
+    *editItemLeft({ payload, callback }, { call, put }) {
+      const { data } = yield call(editItemLeft, payload);
+      if (data.result) {
+        yield put({
           payload: { ...data },
         });
         callback && callback(data);
