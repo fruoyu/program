@@ -1,10 +1,13 @@
 import $ from 'jquery';
 import '../../utils/md5.js';
+import { connect } from 'dva';
 import React, { Component } from 'react';
 import { Input, message } from 'antd';
 import { routerRedux } from 'dva/router';
-import { connect } from 'dva';
 import PolyDialog from '../PolyDialog';
+import {
+  verify,
+} from '../../utils/cookie';
 
 class MainWrapper extends Component {
   constructor() {
@@ -14,9 +17,16 @@ class MainWrapper extends Component {
       oldPassword: '', // 旧密码
       newPassword: '', // 新密码
       confirmPassword: '', // 确定密码
+      userName: '',
     };
   }
-  componentDidMount() {
+  componentWillMount() {
+    verify((err, decoded) => {
+      if (err) return;
+      this.setState({
+        userName: decoded.data.userName,
+      });
+    });
   }
   onOk= () => {
     // 输入框非空判断
@@ -62,11 +72,20 @@ class MainWrapper extends Component {
     });
   }
   render() {
-    const { title, isMain, isUserPort, goback, home, customer, photograph } = this.props;
-    const { userName } = this.props.login;
+    const {
+      title,
+      isMain,
+      isUserPort,
+      goback,
+      home,
+      customer,
+      photograph,
+      record,
+      taskId,
+    } = this.props;
     return (
       <div>
-        {/* 头部信息s */}
+        {/* 头部信息 */}
         <div className="header">
           <div>
             <span className="logo">M O X I 摩西洞察</span>{title && <span className="fenge">|</span>}{title}
@@ -76,6 +95,7 @@ class MainWrapper extends Component {
           isMain && <div
             className="shouye"
             onClick={() => {
+              if (location.pathname === '/main') return;
               this.props.dispatch(routerRedux.push('/main')); // 跳转到首页
             }}
           >
@@ -87,6 +107,7 @@ class MainWrapper extends Component {
           isUserPort && <div
             className="history"
             onClick={() => {
+              if (location.pathname === '/history') return;
               this.props.dispatch(routerRedux.push('/history'));
             }}
           >
@@ -108,8 +129,14 @@ class MainWrapper extends Component {
         {
           home && <div className="shezhi">
             <span className="iconfont icon-yonghu2" />
-            {/* <span className="userName">{userName}</span>*/}
+            <span className="userName">{this.state.userName}</span>
             <div className="shezhi-content">
+              {
+                this.state.userName === 'admin' && <p>用户管理</p>
+              }
+              {
+                this.state.userName === 'admin' && <p>结构管理</p>
+              }
               <p className="modify" onClick={() => { this.setState({ changePassword: true }); }}>修改密码</p>
               <p className="exit" onClick={this.loginOut.bind(this)}>退出</p>
             </div>
@@ -117,7 +144,13 @@ class MainWrapper extends Component {
         }
         {/* 客户列表 */}
         {
-          customer && <div className="kehu">
+          customer && <div
+            className="kehu"
+            onClick={() => {
+              console.log('go to 客户列表页面');
+              // this.props.dispatch(routerRedux.push('/history'));
+            }}
+          >
             <span className="iconfont icon-iconfontyonghu" />
             <span className="customer">客户列表</span>
           </div>
@@ -127,11 +160,34 @@ class MainWrapper extends Component {
           photograph && <div
             className="huaxiang"
             onClick={() => {
-              this.props.dispatch(routerRedux.push('/userPortrait'));
+              if (location.pathname === '/userPortrait') return;
+              this.props.dispatch(routerRedux.push({
+                pathname: '/userPortrait',
+                query: {
+                  taskId,
+                },
+              }));
             }}
           >
             <span className="iconfont icon-huaxiang" />
             <span className="photograph">画像</span>
+          </div>
+        }
+        {/* 数据/录音播放页 */}
+        {
+          record && <div
+            className="shuju"
+            onClick={() => {
+              if (location.pathname === '/popup') return;
+              this.props.dispatch(routerRedux.push({
+                pathname: '/popup',
+                query: {
+                  taskId,
+                },
+              }));
+            }}
+          > <span className="iconfont icon-xiangqing1" />
+            <span className="record">数据</span>
           </div>
         }
         {/* 修改密码弹框 */}

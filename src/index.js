@@ -39,7 +39,7 @@ const app = dva({
       // 登出删除token
       delCookie('token');
       return {
-        login: { loginOut: true },
+        login: {},
         history: {},
         routing: { locationBeforeTransitions: null },
       };
