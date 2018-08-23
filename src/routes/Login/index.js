@@ -41,9 +41,8 @@ class Login extends Component {
             userName: this.state.userName,
             password: this.state.passWord,
           },
-          callback: (data) => {
-            if (data) this.props.dispatch(routerRedux.push('/main'));
-            else notifyError('账户或密码错误！');
+          callback: () => {
+            this.props.dispatch(routerRedux.push('/main'));
           },
         });
       }

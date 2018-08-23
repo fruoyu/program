@@ -209,9 +209,16 @@ class UserPortrait extends Component {
         },
       ],
     };
+    this.getQueryKeyItem = this.getQueryKeyItem.bind(this);
+    this.sendRequest = this.sendRequest.bind(this);
   }
   componentDidMount() {
-    /*this.props.dispatch({
+    this.getQueryKeyItem();
+    // this.sendRequest();
+  }
+  // 根据id获取画像信息
+  getQueryKeyItem() {
+    this.props.dispatch({
       type: 'history/getQueryKeyItem',
       payload: {
         taskid: this.props.location.query.taskId,
@@ -221,12 +228,23 @@ class UserPortrait extends Component {
           $('.dashed').slideDown('slow');
         }, 1000);
       },
-    });*/
-    setTimeout(() => {
-      $('.dashed').slideDown('slow');
-    }, 1000);
+    });
   }
-
+  // 获取列表信息
+  sendRequest = () => {
+    this.props.dispatch({
+      type: 'history/getFilesList',
+      payload: {
+        endTime: '',
+        fileName: '',
+        name: '',
+        pageNum: 1,
+        pageSize: 10,
+        startTime: '',
+        status: '',
+      },
+    });
+  }
   render() {
     return (
       <div className="bootContent userPortrait">
@@ -361,7 +379,7 @@ class UserPortrait extends Component {
                 共计 <span className="total-number">{this.state.fileList.length}</span> 个文件
               </div>
             </div>
-            <Scrollbars>
+            <Scrollbars onScrollFrame={(data) => { console.log(data.top); }}>
               <ul id="file-list">
                 {
                   this.state.fileList.map((item, index) => (
