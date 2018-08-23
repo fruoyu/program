@@ -33,9 +33,6 @@ export default {
     *loginOut({ payload, callback }, { call, put }) {
       const { data } = yield call(LoginOut);
       if (data) {
-        //  yield put({
-        //   type: 'LoginMsg',
-        // });
         if (callback) callback();
       } else {
         notifyError('退出失败!');
@@ -75,14 +72,14 @@ export default {
                   type: 'login/loginOut',
                   payload: {},
                   callback: () => {
-                    window.location.pathname = '/login';
+                    dispatch(routerRedux.push('/login'));
                   },
                 });
               }
             }
           });
         } else if (pathname !== '/login') {
-          window.location.pathname = '/login';
+          location.href = '/login';
         }
       });
     },
