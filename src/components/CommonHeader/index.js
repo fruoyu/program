@@ -80,6 +80,7 @@ class MainWrapper extends Component {
       home,
       customer,
       photograph,
+      record,
       taskId,
     } = this.props;
     return (
@@ -170,6 +171,23 @@ class MainWrapper extends Component {
           >
             <span className="iconfont icon-huaxiang" />
             <span className="photograph">画像</span>
+          </div>
+        }
+        {/* 数据/录音播放页 */}
+        {
+          record && <div
+            className="shuju"
+            onClick={() => {
+              if (location.pathname === '/popup') return;
+              this.props.dispatch(routerRedux.push({
+                pathname: '/popup',
+                query: {
+                  taskId,
+                },
+              }));
+            }}
+          > <span className="iconfont icon-xiangqing1" />
+            <span className="record">数据</span>
           </div>
         }
         {/* 修改密码弹框 */}
