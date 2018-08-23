@@ -634,7 +634,7 @@ class Popup extends Component {
     });
   }
   componentDidMount() {
-    /*this.props.dispatch({
+    /* this.props.dispatch({
       type: 'history/getSingleData',
       payload: {
         taskid: this.props.location.query.taskId,
@@ -945,7 +945,7 @@ class Popup extends Component {
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
-        <CommonHeader title="洞察结果" goback home isUserPort photograph taskId={this.state.taskId} />
+        <CommonHeader title="洞察结果" goback home record photograph taskId={this.state.taskId} />
         <DanaoWrapper>
           <div id="archivesModal" className={this.state.isOriginal ? "archivesBigModal" : ""}>
             <div className="originalTextOperate">
