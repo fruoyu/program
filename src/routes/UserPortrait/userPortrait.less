@@ -226,66 +226,7 @@
     max-width: 200px;
   }
 
-  .history {
-    width: 40px;
-    height: 50px;
-    position: fixed;
-    top: 0;
-    right: 15%;
-    background: #2916bc;
-    border-radius: 0 0 25px 25px;
-    cursor: pointer;
-    z-index: 9999;
-  }
-  .history {
-    width: 40px;
-    height: 50px;
-    position: fixed;
-    top: 0;
-    right: 15%;
-    background: #2916bc;
-    border-radius: 0 0 25px 25px;
-    cursor: pointer;
-    z-index: 9999;
-  }
-  .history-not-hover {
-    background: #12086c;
-  }
-  .history-not-hover .his {
-    display: none;
-  }
-  .history-not-hover .icon-lishijilu {
-    color: #4f42c0;
-  }
-  .history .icon-lishijilu {
-    width: 100%;
-    position: absolute;
-    bottom: 10px;
-    left: 1px;
-    text-align: center;
-    font-size: 22px;
-  }
-  .history .his {
-    position: absolute;
-    width: 60px;
-    line-height: 13px;
-    height: 22px;
-    font-size: 12px;
-    padding: 4px;
-    text-align: center;
-    top: 50px;
-    left: -7px;
-    color: #fff;
-    border: 1px solid #4332ba;
-    border-radius: 20px;
-    margin-top: 8px;
-    box-sizing: border-box;
-    background: #1a1b3a;
-    display: none;
-  }
-  .history:hover .his {
-    display: block;
-  }
+
   /*已识别文件动画*/
   #recognized-file{
     bottom: -440px;
@@ -295,4 +236,43 @@
     transform: translateY(-440px);
     border-image:linear-gradient(#0b01b8 0,#b303fd 25%, #f3c1ff 50%, #b303fd 75% , #0b01b8) 30;
   }
+  .history{
+    right: calc(~"15% + 50px");
+    background: #13086c;
+    .icon-lishijilu{
+      display: block;
+      transition: transform .5s linear !important;
+      font-size: 22px;
+      color: #4f42c0;
+    }
+    .his {
+      display: none;
+      position: absolute;
+      width: 60px;
+      line-height: 13px;
+      height: 22px;
+      padding: 4px;
+      font-size: 12px;
+      text-align: center;
+      top: 50px;
+      left: -7px;
+      color: #fff;
+      border: 1px solid #4332ba;
+      border-radius: 20px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      background: #1a1b3a;
+    }
+  }
+  .history:hover {
+    background: #2916bc;
+    .icon-lishijilu{
+      transform:rotateY(360deg);
+      color: #fff;
+    }
+    .his {
+      display: block;
+    }
+  }
+
 }

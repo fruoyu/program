@@ -19,6 +19,7 @@ class Popup extends Component {
   constructor() {
     super();
     this.state = {
+      taskId: '',
       fileList: [
         {
           createTime: "2018-08-14 14:15:28.0",
@@ -183,22 +184,22 @@ class Popup extends Component {
       ],
       customer: {
         CUSTOMER_CHILD: '子女信息',
-        CUSTOMER_AGE:'年龄',
-        CUSTOMER_SEX:'性别',
-        CUSTOMER_MERRIGE:'婚姻状况',
-        CUSTOMER_JOB:'从事行业',
-        CONSUME_HOUSE:'房产情况',
-        CONSUME_CAR:'车辆情况',
-        SOCIAL_SECURITY:'社保',
-        COMMERCIAL_INSURANCE:'商保',
-        INSURANCE_PURCHASER:'保险购买人',
-        INVESTMENT_TYPE:'投资类型',
-        INVESTMENT_PURCHASER:'投资打理人',
-        INVESTMENT_RATIO:'投资占比',
-        INVESTMENT_DURATION:'投资时长',
-        RISK_PREFERENCE:'理财风险偏好',
-        CUSTOMER_HOBBY:'爱好的活动',
-        CUSTOMER_ADMIRE:'欣赏什么样的人'
+        CUSTOMER_AGE: '年龄',
+        CUSTOMER_SEX: '性别',
+        CUSTOMER_MERRIGE: '婚姻状况',
+        CUSTOMER_JOB: '从事行业',
+        CONSUME_HOUSE: '房产情况',
+        CONSUME_CAR: '车辆情况',
+        SOCIAL_SECURITY: '社保',
+        COMMERCIAL_INSURANCE: '商保',
+        INSURANCE_PURCHASER: '保险购买人',
+        INVESTMENT_TYPE: '投资类型',
+        INVESTMENT_PURCHASER: '投资打理人',
+        INVESTMENT_RATIO: '投资占比',
+        INVESTMENT_DURATION: '投资时长',
+        RISK_PREFERENCE: '理财风险偏好',
+        CUSTOMER_HOBBY: '爱好的活动',
+        CUSTOMER_ADMIRE: '欣赏什么样的人'
       },
       labellist: {
         COMMERCIAL_INSURANCE: [],
@@ -237,370 +238,370 @@ class Popup extends Component {
       },
       keylist: [
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"COMMERCIAL_INSURANCE",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "COMMERCIAL_INSURANCE",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CONSUME_CAR",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "CONSUME_CAR",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CONSUME_HOUSE",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "CONSUME_HOUSE",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_ADMIRE",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "CUSTOMER_ADMIRE",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_AGE",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "CUSTOMER_AGE",
         },
 
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_CHILD",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "CUSTOMER_CHILD",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_HOBBY",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "CUSTOMER_HOBBY",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_JOB",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "CUSTOMER_JOB",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_MERRIGE",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "CUSTOMER_MERRIGE",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_SEX",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "CUSTOMER_SEX",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"INSURANCE_PURCHASER",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "INSURANCE_PURCHASER",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"INVESTMENT_DURATION",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "INVESTMENT_DURATION",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"INVESTMENT_PURCHASER",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "INVESTMENT_PURCHASER",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"INVESTMENT_RATIO",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "INVESTMENT_RATIO",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"INVESTMENT_TYPE",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "INVESTMENT_TYPE",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"RISK_PREFERENCE",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "RISK_PREFERENCE",
         },
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"SOCIAL_SECURITY",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "SOCIAL_SECURITY",
         },
       ],
       originalList: [
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:[],
-          role:"USER",
-          startTime:0,
-          types:[],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: [],
+          role: "USER",
+          startTime: 0,
+          types: [],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
         {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
+          emotionType: "UNKNOWN",
+          endTime: 310,
+          id: 1,
+          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
+          role: "KEFU",
+          startTime: 0,
+          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
+          voiceContent: "嗯。",
         },
       ],
       clickIndex: 0,
@@ -610,34 +611,39 @@ class Popup extends Component {
       isInputEdit: true,
       isBiaozhu: false,
       biaozhuIndex: -1,
-      isPaused:false,
-      totalTime:0,
-      playPer:0,
-      bufferedPer:0,
-      playedLeft:0,
-      volumnLeft:0,
-      remainTime:0,
-      angle:0,
-      mouseDown:false,
-      musicListShow:false,
-      currentMusic:{},
-      isPlayed:false
+      isPaused: false,
+      totalTime: 0,
+      playPer: 0,
+      bufferedPer: 0,
+      playedLeft: 0,
+      volumnLeft: 0,
+      remainTime: 0,
+      angle: 0,
+      mouseDown: false,
+      musicListShow: false,
+      currentMusic: {},
+      isPlayed: false
     };
     this.clickChangeTime = this.clickChangeTime.bind(this);
     this.slideChangeTime = this.slideChangeTime.bind(this);
     this.slideChangeTime = this.slideChangeTime.bind(this);
   }
+  componentWillMount() {
+    this.setState({
+      taskId: this.props.location.query.taskId,
+    });
+  }
   componentDidMount() {
-    this.props.dispatch({
+    /* this.props.dispatch({
       type: 'history/getSingleData',
       payload: {
         taskid: this.props.location.query.taskId,
       },
-    });
+    });*/
     let audio = this.refs.audio;
     audio.addEventListener('canplay', () => {
       // 获取总时间
-      let totalTime = parseInt (this.refs.audio.duration);
+      let totalTime = parseInt(this.refs.audio.duration);
       this.setState({
         totalTime: this.formatSeconds(totalTime),
         remainTime: this.formatSeconds(0),
@@ -677,77 +683,77 @@ class Popup extends Component {
     return (
       <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')}>
         <Scrollbars>
-            {
-              Object.keys(this.state.customer).map((item, index) => (
-                <div className="insightTerm" data-type={item} key={index}>
-                  <div className="insightTermTitle">
-                    <p>{this.state.customer[item]}:</p>
-                    <div onClick={() => {
-                      this.setState({
-                        isInputEdit: false
-                      })
-                    }}>
-                      {
-                        this.state.keylist.map((keylistItem, keylistIndex) => {
-                          if (keylistItem.type == item) {
-                            return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit} ref={'input' + index} onBlur={() => {
-                              console.log('失去焦点')
-                              this.setState({
-                                isInputEdit: true,
-                              })
-                            }}></input>
-                          }
-                        })
-                      }
-                    </div>
-                    <span className="insightTermNamedit pull-right" data-type={item} onClick={() => {
-                      this.setState({
-                        isInputEdit: false
-                      }, () => {
-                        let input = this.refs['input' + index];
-                        input.focus();
-                      })
-                    }}>
-                      <i className="iconfont icon-xiugai"></i>
-                      <i className="iconfont icon-gou1"></i>
-                    </span>
-                  </div>
-                  <div className="insightTermContent">
-                    <div className="digTitle">挖掘出的语句</div>
+          {
+            Object.keys(this.state.customer).map((item, index) => (
+              <div className="insightTerm" data-type={item} key={index}>
+                <div className="insightTermTitle">
+                  <p>{this.state.customer[item]}:</p>
+                  <div onClick={() => {
+                    this.setState({
+                      isInputEdit: false
+                    })
+                  }}>
                     {
-                      this.state.labellist[item].map((labelItem, labelIndex) => (
-                        <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
-                          <div className="digSentence">
-                            <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
-                            <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
-                              {labelItem.context}
-                              <i className="audioJump iconfont icon-yuyin1-copy" onClick={() => {
-                                this.playMusic(labelItem.time)
-                              }}></i>
-                            </p>
-                            <div className="arrow">
-                              <i className="iconfont icon-sanjiaoright"></i>
-                            </div>
-                          </div>
-                          <div className="border-wrap"></div>
-                          {
-                            labelItem.status == 'true' ?
-                              <div className="sentenceDel" data-name={0}>
-                                <i className="iconfont icon-cuowu"></i>
-                              </div> :
-                              <div className="sentenceRight" data-name={0}>
-                                <i className="iconfont icon-gou1"></i>
-                              </div>
-                          }
-                        </div>
-
-                      ))
+                      this.state.keylist.map((keylistItem, keylistIndex) => {
+                        if (keylistItem.type == item) {
+                          return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit} ref={'input' + index} onBlur={() => {
+                            console.log('失去焦点')
+                            this.setState({
+                              isInputEdit: true,
+                            })
+                          }}></input>
+                        }
+                      })
                     }
-
                   </div>
+                  <span className="insightTermNamedit pull-right" data-type={item} onClick={() => {
+                    this.setState({
+                      isInputEdit: false
+                    }, () => {
+                      let input = this.refs['input' + index];
+                      input.focus();
+                    })
+                  }}>
+                    <i className="iconfont icon-xiugai"></i>
+                    <i className="iconfont icon-gou1"></i>
+                  </span>
                 </div>
-              ))
-            }
+                <div className="insightTermContent">
+                  <div className="digTitle">挖掘出的语句</div>
+                  {
+                    this.state.labellist[item].map((labelItem, labelIndex) => (
+                      <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
+                        <div className="digSentence">
+                          <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
+                          <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
+                            {labelItem.context}
+                            <i className="audioJump iconfont icon-yuyin1-copy" onClick={() => {
+                              this.playMusic(labelItem.time)
+                            }}></i>
+                          </p>
+                          <div className="arrow">
+                            <i className="iconfont icon-sanjiaoright"></i>
+                          </div>
+                        </div>
+                        <div className="border-wrap"></div>
+                        {
+                          labelItem.status == 'true' ?
+                            <div className="sentenceDel" data-name={0}>
+                              <i className="iconfont icon-cuowu"></i>
+                            </div> :
+                            <div className="sentenceRight" data-name={0}>
+                              <i className="iconfont icon-gou1"></i>
+                            </div>
+                        }
+                      </div>
+
+                    ))
+                  }
+
+                </div>
+              </div>
+            ))
+          }
         </Scrollbars>
       </div>
     )
@@ -763,14 +769,14 @@ class Popup extends Component {
               <div key={index} className={['originalText', item.role == 'USER' ? 'rightText' : 'leftText'].join(' ')}>
                 {
                   item.role == 'USER' ?
-                  <div className="fristLine">
-                    <span>用户</span>
-                    <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
-                  </div> :
-                  <div className="fristLine">
-                    <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
-                    <span>销售</span>
-                  </div>
+                    <div className="fristLine">
+                      <span>用户</span>
+                      <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
+                    </div> :
+                    <div className="fristLine">
+                      <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
+                      <span>销售</span>
+                    </div>
                 }
 
                 <div className="secondLine">
@@ -821,8 +827,8 @@ class Popup extends Component {
   }
 
   // 音频进度条点击事件
-  clickChangeTime (e) {
-    if(!e.pageX){
+  clickChangeTime(e) {
+    if (!e.pageX) {
       return
     }
     this.setTimeOnPc(e)
@@ -855,14 +861,14 @@ class Popup extends Component {
       })
     }
 
-    audio.addEventListener('timeupdate',()=>{
+    audio.addEventListener('timeupdate', () => {
       //设置播放进度条
-      let playPer = audio.currentTime/audio.duration;
-      this.refs.played.style.width = playPer*100+"%";
-      this.refs.circle.style.left = playPer*100+"%";
+      let playPer = audio.currentTime / audio.duration;
+      this.refs.played.style.width = playPer * 100 + "%";
+      this.refs.circle.style.left = playPer * 100 + "%";
 
       this.setState({
-          remainTime:this.formatSeconds(parseInt(audio.currentTime)),
+        remainTime: this.formatSeconds(parseInt(audio.currentTime)),
       });
     });
   }
@@ -870,22 +876,22 @@ class Popup extends Component {
   // 音频拖拽事件
   mouseDown = () => {
     this.setState({
-      mouseDown:true
+      mouseDown: true
     });
   }
-  slideChangeTime(e){
-    if(this.state.mouseDown){
+  slideChangeTime(e) {
+    if (this.state.mouseDown) {
       this.setTimeOnPc(e)
     }
   }
   mouseUp = () => {
     this.setState({
-      mouseDown:false
+      mouseDown: false
     });
   }
   mouseLeave = () => {
     this.setState({
-      mouseDown:false
+      mouseDown: false
     });
   }
 
@@ -893,9 +899,9 @@ class Popup extends Component {
   playMusic = (startTime) => {
     let audio = this.refs.audio;
     audio.currentTime = parseInt(startTime / 1000);
-    let playPer = audio.currentTime/audio.duration;
-    this.refs.played.style.width = playPer*100+"%";
-    this.refs.circle.style.left = playPer*100+"%";
+    let playPer = audio.currentTime / audio.duration;
+    this.refs.played.style.width = playPer * 100 + "%";
+    this.refs.circle.style.left = playPer * 100 + "%";
   }
 
   // 渲染音频播放器
@@ -939,44 +945,40 @@ class Popup extends Component {
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
-        <CommonHeader title="洞察结果" goback home />
-        {/* <div className="tab">
-          <span className="tabData iconfont icon-xiangqing1"><span>数据</span></span>
-          <span className="tabPortrait iconfont icon-huaxiang" onClick={() => { this.props.dispatch(routerRedux.push('/userPortrait')); }}><span>画像</span></span>
-        </div> */}
+        <CommonHeader title="洞察结果" goback home record photograph taskId={this.state.taskId} />
         <DanaoWrapper>
           <div id="archivesModal" className={this.state.isOriginal ? "archivesBigModal" : ""}>
             <div className="originalTextOperate">
               {
                 this.state.isOriginal ?
-                <div className="retract" onClick={() => {
-                  this.setState({
-                    isOriginal: false,
-                  })
-                }}>
-                  <i className="iconfont icon-shouqi" style={{ fontSize: '16px'}}></i>
-                  <span className="retractSpan">收起</span>
-                </div> :
-                <div className="view" onClick={() => {
-                  this.props.dispatch({
-                    type: 'popup/getOriginalList',
-                    payload: {
-                      taskid: '3'
-                    },
-                    callback: (data) => {
-                      this.setState({
-                        isOriginal: true,
-                      })
-                      console.log(this.props.popup)
-                    }
-                  })
-                }}>
-                  <i className="iconfont icon-wenbenzhantie"></i>
-                  <span className="viewSpan">查看原文</span>
-                </div>
+                  <div className="retract" onClick={() => {
+                    this.setState({
+                      isOriginal: false,
+                    })
+                  }}>
+                    <i className="iconfont icon-shouqi" style={{ fontSize: '16px' }}></i>
+                    <span className="retractSpan">收起</span>
+                  </div> :
+                  <div className="view" onClick={() => {
+                    this.props.dispatch({
+                      type: 'popup/getOriginalList',
+                      payload: {
+                        taskid: '3'
+                      },
+                      callback: (data) => {
+                        this.setState({
+                          isOriginal: true,
+                        })
+                        console.log(this.props.popup)
+                      }
+                    })
+                  }}>
+                    <i className="iconfont icon-wenbenzhantie"></i>
+                    <span className="viewSpan">查看原文</span>
+                  </div>
               }
             </div>
-            <div className="modal-header text-center" style={{top: this.state.isOriginal ? "1.4%" : ""}}>
+            <div className="modal-header text-center" style={{ top: this.state.isOriginal ? "1.4%" : "" }}>
               <span>洞察档案</span>
             </div>
             <div className="modal-content">
@@ -1037,4 +1039,4 @@ class Popup extends Component {
     );
   }
 }
-export default connect(({ popup }) => ({ popup }))(Popup);
+export default connect(({ popup, history }) => ({ popup, history }))(Popup);

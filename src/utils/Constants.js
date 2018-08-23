@@ -1,5 +1,5 @@
 const base = document.domain;
-let domain = 'http://47.95.113.97:8660';
+let domain = 'http://47.95.113.97:8660/api';
 if (base.indexOf('localhost') !== -1) {
   domain = '/api';
 }

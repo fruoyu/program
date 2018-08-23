@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { DatePicker } from 'antd';
+import { DatePicker, Menu, Dropdown, Icon } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import './history.less';
@@ -11,6 +11,7 @@ import {
   CommonTable,
 } from '../../components';
 
+const SubMenu = Menu.SubMenu;
 const { RangePicker } = DatePicker;
 
 class History extends Component {
@@ -154,12 +155,35 @@ class History extends Component {
       filesList,
       nameList,
     } = this.props.history;
-    const tabHead = ['录音名称', '销售人员', '任务状态', '上传时间', '操作'];
+    const tabHead = ['录音名称', '销售人员', '任务状态', '上传时间', '洞察项'];
+    const menu = (
+      <Menu
+        className="composition-down-load"
+        onClick={(item) => {
+          console.log(item);
+        }}
+      >
+        <Menu.Item key="1">一区</Menu.Item>
+        <Menu.Item key="2">二区</Menu.Item>
+        <SubMenu title="三区" key="3">
+          <Menu.Item key="1">1班</Menu.Item>
+          <SubMenu title="2班" key="2">
+            <Menu.Item key="1">A组</Menu.Item>
+            <Menu.Item key="2">B组</Menu.Item>
+          </SubMenu>
+        </SubMenu>
+        <SubMenu title="四区" key="4">
+          <Menu.Item key="1">1班</Menu.Item>
+          <Menu.Item key="2">2班</Menu.Item>
+          <Menu.Item key="3">3班</Menu.Item>
+        </SubMenu>
+      </Menu>
+    );
     return (
       <div className="bootContent historyContent" onClick={(e) => { this.documentClick(e); }}>
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
-          <CommonHeader title="历史任务" isMain isUserPort home />
+          <CommonHeader title="历史任务" isMain customer isUserPort />
           <div id="content">
             <div className="content-head">
               <div className="ch-top">
@@ -193,7 +217,7 @@ class History extends Component {
                     <div className="trans-item trans-item-founder">
                       <div className="founder-list">
                         {
-                          nameList.map((item, index) => {
+                          nameList && nameList.map((item, index) => {
                             return (
                               <span
                                 key={index} className="list-item"
@@ -209,6 +233,14 @@ class History extends Component {
                       </div>
                     </div>
 
+                  </div>
+                  {/* 结构 */}
+                  <div className="composition">
+                    <Dropdown overlay={menu} trigger={['click']}>
+                      <span className="ant-dropdown-link">
+                        结构<Icon type="up" />
+                      </span>
+                    </Dropdown>
                   </div>
                   {/* 任务状态 */}
                   <div
@@ -282,14 +314,7 @@ class History extends Component {
                       <div className="item-author">{item.userName}</div>
                       <div className="item-state">{this.getStatus(item.statusMessage)}</div>
                       <div className="item-time">{item.createTime}</div>
-                      <div className="data">
-                        <span className="iconfont icon-xiangqing1" onClick={this.gotoPopup.bind(this, item.id)} />
-                        <span className="dataFont">数据</span>
-                      </div>
-                      <div className="portrait">
-                        <span className="iconfont icon-huaxiang" onClick={this.gotoUserPortrait.bind(this, item.id)} />
-                        <span className="portraitFont">画像</span>
-                      </div>
+                      <div className="data">11项</div>
                     </li>
                   );
                 })

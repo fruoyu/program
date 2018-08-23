@@ -33,51 +33,50 @@
     margin-right: 30px;
   }
 
+
   .history {
     width: 40px;
     height: 50px;
     position: fixed;
     top: 0;
-    right: 15%;
+    right: calc(~"15% + 50px");
     background: #2916bc;
     border-radius: 0 0 25px 25px;
     cursor: pointer;
     z-index: 9999;
+    line-height: 50px;
+    text-align: center;
+    .his {
+      position: absolute;
+      width: 60px;
+      line-height: 13px;
+      height: 22px;
+      font-size: 12px;
+      padding: 4px;
+      text-align: center;
+      top: 50px;
+      left: -7px;
+      color: #fff;
+      border: 1px solid #4332ba;
+      border-radius: 20px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      background: #1a1b3a;
+      display: none;
+    }
+    .icon-lishijilu {
+       color: #fff;
+       font-size: 22px;
+     }
   }
   .history-not-hover {
     background: #12086c;
-  }
-  .history-not-hover .his {
-    display: none;
-  }
-  .history-not-hover .icon-lishijilu {
-    color: #4f42c0;
-  }
-  .history .icon-lishijilu {
-    width: 100%;
-    position: absolute;
-    bottom: 10px;
-    left: 1px;
-    text-align: center;
-    font-size: 22px;
-  }
-  .history .his {
-    position: absolute;
-    width: 60px;
-    line-height: 13px;
-    height: 22px;
-    font-size: 12px;
-    padding: 4px;
-    text-align: center;
-    top: 50px;
-    left: -7px;
-    color: #fff;
-    border: 1px solid #4332ba;
-    border-radius: 20px;
-    margin-top: 8px;
-    box-sizing: border-box;
-    background: #1a1b3a;
-    display: none;
+    .his {
+      display: none;
+    }
+    .icon-lishijilu {
+       color: #4f42c0;
+     }
   }
   .history:hover .his {
     display: block;
@@ -147,7 +146,7 @@
     justify-content: space-between;
   }
   .ch-top .search-input {
-    width: 460px;
+    width: 300px;
     height: 40px;
     position: relative;
     margin-right: 35px;
@@ -179,22 +178,38 @@
     color: #ddd7ff;
   }
   .ch-top .search-condition {
-    width: 225px;
+    width: 300px;
     display: flex;
     justify-content: space-between;
     font-size: 12px;
     line-height: 40px;
     margin-right: 165px;
   }
-  .search-condition .task-state, .search-condition .founder {
-    position: relative;
+  .search-condition{
+    .task-state , .founder {
+      position: relative;
+    }
+    .zhankai {
+      display: inline-block;
+      transform: rotate(-180deg);
+      font-size: 12px;
+      transition: .2s;
+    }
+    .composition{
+      cursor: pointer;
+      span.ant-dropdown-link{
+        color: #fff!important;
+        font-size: 14px!important;
+      }
+      .anticon-up{
+        margin-left: 10px!important;
+        font-size: 16px;
+        vertical-align: middle!important;
+      }
+
+    }
   }
-  .search-condition .zhankai {
-    display: inline-block;
-    transform: rotate(-180deg);
-    font-size: 12px;
-    transition: .2s;
-  }
+
   .founder {
     .trans-item {
       width: 145px;
@@ -285,8 +300,7 @@
 
   /*日历*/
   .ch-top .search-calendar {
-    flex-grow: 1;
-    width: 310px;
+    width: 200px;
   }
   .input-group, #daterange-btn {
     width: 100%;
@@ -312,7 +326,10 @@
     .ant-calendar-range-picker-separator{
       color: #fff;
     }
-    .ant-calendar-picker-clear, .ant-calendar-picker-icon:after {
+    .ant-calendar-picker-clear{
+     display: none;
+    }
+    .ant-calendar-picker-icon:after {
         color: #fff !important;
         font-size: 18px;
     }
@@ -574,5 +591,37 @@
       background: rgba(0,0,0,0);
       border-color: #4332ba !important;
     }
+  }
+}
+.composition-down-load{
+  width: 130px!important;
+  border: 1px solid #0b01b8!important;
+  background: rgba(20, 14, 62, 0.5)!important;
+  font-size: 16px!important;
+  text-align: center;
+  left: -25px;
+  cursor: pointer;
+  .ant-dropdown-menu-item, .ant-dropdown-menu-submenu-title{
+    color: #fff;
+    height: 35px;
+  }
+  .ant-dropdown-menu-item-active {
+    background: #4332ba;
+  }
+  .ant-dropdown-menu-submenu-title:after{
+    color:#fff!important;
+    font-size: 14px!important;
+  }
+  .ant-dropdown-menu-submenu-active{
+    >.ant-dropdown-menu-submenu-title{
+      background: #4332ba;
+    }
+  }
+  .ant-dropdown-menu{
+    width: 100px!important;
+    border: 1px solid #0b01b8!important;
+    background: rgba(20, 14, 62, 0.5)!important;
+    font-size: 16px!important;
+    text-align: center;
   }
 }

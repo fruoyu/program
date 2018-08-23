@@ -382,7 +382,7 @@
     height: 50px;
     position: absolute;
     top: 0;
-    right: 15%;
+    right: calc(~"15% + 50px");
     background: #13086c;
     border-radius: 0 0 25px 25px;
     cursor: pointer;
@@ -431,43 +431,43 @@
     height: 50px;
     position: absolute;
     top: 0;
-    right: calc(~"15% + 50px");
+    right: calc(~"15% + 100px");
     background: #7e0fdb;
     border-radius: 0 0 25px 25px;
     cursor: pointer;
     font-size: 25px;
     line-height: 50px;
     text-align: center;
-  }
-  .shouye .icon-shouye {
-    font-size: 22px;
-  }
-  .shouye .home {
-    position: absolute;
-    width: 50px;
-    line-height: 20px;
-    height: 20px;
-    font-size: 12px;
-    text-align: center;
-    top: 50px;
-    left: -5px;
-    border: 1px solid #4332ba;
-    border-radius: 20px;
-    margin-top: 8px;
-    box-sizing: border-box;
-    background: #1a1b3a;
-    display: none;
+    .icon-shouye {
+      font-size: 22px;
+    }
+    .home {
+      position: absolute;
+      width: 50px;
+      line-height: 20px;
+      height: 20px;
+      font-size: 12px;
+      text-align: center;
+      top: 50px;
+      left: -5px;
+      border: 1px solid #4332ba;
+      border-radius: 20px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      background: #1a1b3a;
+      display: none;
+    }
   }
   .shouye:hover .home {
     display: block;
   }
   .shouye-not-hover {
     background: #400b6c;
-  }
-  .shouye-not-hover .icon-shouye{
-    color: #812dc7;
-  }
-  .shouye-not-hover .home {
-    display: none;
+    .icon-shouye{
+      color: #812dc7;
+    }
+    .home {
+      display: none;
+    }
   }
 }
