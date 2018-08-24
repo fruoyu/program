@@ -54,6 +54,8 @@ class History extends Component {
     this.getStatus = this.getStatus.bind(this);
     this.getName = this.getName.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
+    this.makerClick = this.makerClick.bind(this);
+    this.statusClick = this.statusClick.bind(this);
   }
   componentDidMount() {
     this.sendRequest();
@@ -100,6 +102,7 @@ class History extends Component {
       },
     }));
   }
+  // document 点击操作
   documentClick = (e) => {
     if ($('.trans-item-founder').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-founder').length === 0) {
       $('.trans-item-founder').siblings('.zhankai').removeClass('rotate');
@@ -111,6 +114,23 @@ class History extends Component {
       $('.trans-item-state').slideUp();
     }
   }
+  // 点击创建人下拉
+  makerClick = (e) => {
+    e.stopPropagation();
+    $('.maker').find('.zhankai').toggleClass('rotate');
+    $('.task-state').find('.zhankai').removeClass('rotate');
+    $('.maker').find('.trans-item').slideToggle().toggleClass('active');
+    $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+  }
+  // 任务状态点击下拉
+  statusClick = (e) => {
+    e.stopPropagation();
+    $('.task-state').find('.zhankai').toggleClass('rotate');
+    $('.maker').find('.zhankai').removeClass('rotate');
+    $('.task-state').find('.trans-item').slideToggle().toggleClass('active');
+    $('.task-state').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+  }
+  // 更新state数据
   updataState(key, data, callback) {
     let object = {};
     if (typeof (key) === 'string') {
@@ -141,21 +161,12 @@ class History extends Component {
       },
     });
   }
-  // 进入画像界面操作
-  gotoUserPortrait = (id) => {
-    this.props.dispatch(routerRedux.push({
-      pathname: '/userPortrait',
-      query: {
-        taskId: id,
-      },
-    }));
-  }
   render() {
     const {
       filesList,
       nameList,
     } = this.props.history;
-    const tabHead = ['录音名称', '销售人员', '任务状态', '上传时间', '洞察项'];
+    const tabHead = ['录音名称', '销售人员', '结构', '任务状态', '上传时间', '洞察项'];
     const menu = (
       <Menu
         className="composition-down-load"
@@ -198,16 +209,7 @@ class History extends Component {
                 </div>
                 <div className="search-condition">
                   {/* 创建人 */}
-                  <div
-                    className="founder click-item maker"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      $('.maker').find('.zhankai').toggleClass('rotate');
-                      $('.task-state').find('.zhankai').removeClass('rotate');
-                      $('.maker').find('.trans-item').slideToggle().toggleClass('active');
-                      $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
-                    }}
-                  >
+                  <div className="founder click-item maker" onClick={(e) => { this.makerClick(e); }}>
                     <span className="mr-15">
                       {
                         this.state.name.length > 0 ? this.state.name : '创建人'
@@ -243,16 +245,7 @@ class History extends Component {
                     </Dropdown>
                   </div>
                   {/* 任务状态 */}
-                  <div
-                    className="task-state click-item"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      $('.task-state').find('.zhankai').toggleClass('rotate');
-                      $('.maker').find('.zhankai').removeClass('rotate');
-                      $('.task-state').find('.trans-item').slideToggle().toggleClass('active');
-                      $('.task-state').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
-                    }}
-                  >
+                  <div className="task-state click-item" onClick={(e) => { this.statusClick(e); }} >
                     <span className="mr-15">{this.state.statusContent}</span>
                     <span className="iconfont icon-down-trangle zhankai" />
                     <div className="trans-item trans-item-state">
@@ -290,16 +283,6 @@ class History extends Component {
                 </div>
               </div>
             </div>
-            {/* <div className="content-body">
-              <div className="order">
-                <div className="order-content">按上传时间排序</div>
-                <ul className="order-list">
-                  <li className="order-item">按上传时间排序</li>
-                  <li className="order-item">按结果项数排序</li>
-                </ul>
-                <span className="iconfont icon-paixu" />
-              </div>
-            </div> */}
             {/* 内容区域 */}
             <CommonTable
               filesList={filesList}
@@ -312,6 +295,7 @@ class History extends Component {
                     <li className="content-item" data-id="'+ item2.id +'" key={index}>
                       <div className="item-title" onClick={this.gotoPopup.bind(this, item.id)}>{item.fileName}</div>
                       <div className="item-author">{item.userName}</div>
+                      <div className="item-composition">A区A班A组</div>
                       <div className="item-state">{this.getStatus(item.statusMessage)}</div>
                       <div className="item-time">{item.createTime}</div>
                       <div className="data">11项</div>
