@@ -172,7 +172,7 @@ class ClientList extends Component {
               {/* Filter part start */}
                 <div className="search-input">
                   <input
-                    type="text" placeholder="搜索内容"
+                    type="text" placeholder="客户姓名/客户电话"
                     onChange={(e) => {
                       if( e.target.value !== '') this.setState({
                         searchInputVal: e.target.value
@@ -183,7 +183,10 @@ class ClientList extends Component {
                 </div>
 
                 {/* 下拉菜单 */}
+                <div className="">
+                  <span style={{color:'#fff', fontSize: '14px', lineHeight: '40px', marginRight: '10px' }}>所在组织</span>
                   <Cascader options={options} onChange={this.onSelectChange} placeholder="Please select" />
+                </div>  
 
                 {/* 日历 */}
                 <DatePicker onChangeFn={this.onChangeFn} />
@@ -195,7 +198,6 @@ class ClientList extends Component {
 
           {/* 列表内容部分 */}
             <DataList dataSource={dataSource} />
-
           </div>
         </Scrollbars>
       </div>
