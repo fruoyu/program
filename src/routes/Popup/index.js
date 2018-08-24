@@ -14,173 +14,12 @@ import './popup.less';
 import '../../assets/iconfont/iconfont.css';
 // import '../../plugs/audio/audio.js';
 import '../../plugs/audio/audio.css';
+import Alert from 'antd/lib/alert';
 
 class Popup extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fileList: [
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-      ],
       customer: {
         CUSTOMER_CHILD: '子女信息',
         CUSTOMER_AGE:'年龄',
@@ -199,41 +38,6 @@ class Popup extends Component {
         RISK_PREFERENCE:'理财风险偏好',
         CUSTOMER_HOBBY:'爱好的活动',
         CUSTOMER_ADMIRE:'欣赏什么样的人'
-      },
-      labellist: {
-        COMMERCIAL_INSURANCE: [],
-        CONSUME_CAR: [],
-        CONSUME_HOUSE: [],
-        CUSTOMER_ADMIRE: [],
-        CUSTOMER_AGE: [
-          {
-            context: "这个表姐。它说到后台的时候发后台呢就直接给我们那个后台推广部就直接到党了，因为它是属于拍摄那种，",
-            id: "78d9ff98-6233-4cfd-9c2d-a31b1352677e",
-            status: "true",
-            time: "31790",
-            type: "CUSTOMER_CHILD",
-          },
-        ],
-        CUSTOMER_CHILD: [
-          {
-            context: "这个表姐。它说到后台的时候发后台呢就直接给我们那个后台推广部就直接到党了，因为它是属于拍摄那种，",
-            id: "78d9ff98-6233-4cfd-9c2d-a31b1352677e",
-            status: "false",
-            time: "31790",
-            type: "CUSTOMER_CHILD",
-          },
-        ],
-        CUSTOMER_HOBBY: [],
-        CUSTOMER_JOB: [],
-        CUSTOMER_MERRIGE: [],
-        CUSTOMER_SEX: [],
-        INSURANCE_PURCHASER: [],
-        INVESTMENT_DURATION: [],
-        INVESTMENT_PURCHASER: [],
-        INVESTMENT_RATIO: [],
-        INVESTMENT_TYPE: [],
-        RISK_PREFERENCE: [],
-        SOCIAL_SECURITY: [],
       },
       keylist: [
         {
@@ -391,219 +195,6 @@ class Popup extends Component {
           type:"SOCIAL_SECURITY",
         },
       ],
-      originalList: [
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:[],
-          role:"USER",
-          startTime:0,
-          types:[],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-        {
-          emotionType:"UNKNOWN",
-          endTime:310,
-          id:1,
-          itemids:["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role:"KEFU",
-          startTime:0,
-          types:['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent:"嗯。",
-        },
-      ],
-      clickIndex: this.props.history.taskId && 51,
       hoverIndex: -1,
       isPlay: false,
       isOriginal: false,
@@ -628,12 +219,8 @@ class Popup extends Component {
     this.slideChangeTime = this.slideChangeTime.bind(this);
   }
   componentDidMount() {
-    /*this.props.dispatch({
-      type: 'history/getSingleData',
-      payload: {
-        taskid: this.props.location.query.taskId,
-      },
-    });*/
+    // 获取taskId
+    let taskId = this.props.location.query.taskId;
     let audio = this.refs.audio;
     //获取总时间
     audio.addEventListener('canplay',()=>{
@@ -646,19 +233,21 @@ class Popup extends Component {
       remainTime:this.formatSeconds(0),
       playedLeft:this.refs.played.getBoundingClientRect().left,
     });
+    // 请求已识别文件
     this.props.dispatch({
       type: 'popup/getFilesListByid',
       payload: {
-        taskid: '3'
+        taskid: taskId
       },
       callback: (data) => {
-        console.log(this.props.popup.filesList)
+        
       }
     })
+    // 请求画像数据
     this.props.dispatch({
       type: 'popup/getFileResultApi',
       payload: {
-        taskid: '3'
+        taskid: taskId
       },
       callback: (data) => {
         
@@ -698,80 +287,128 @@ class Popup extends Component {
         labellist,
       } = {}
     } = this.props.popup
+    let taskId = this.props.location.query.taskId;
     return (
-      <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')}>
+      <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')} ref='insightTermWrap'>
         <Scrollbars>
-            {
-              Object.keys(this.state.customer).map((item, index) => (
-                <div className="insightTerm" data-type={item} key={index}>
-                  <div className="insightTermTitle">
-                    <p>{this.state.customer[item]}:</p>
-                    <div onClick={() => {
-                      this.setState({
-                        isInputEdit: false
-                      })
-                    }}>
-                      {
-                        keylist && keylist.length && keylist.map((keylistItem, keylistIndex) => {
-                          if (keylistItem.type == item) {
-                            return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit} ref={'input' + index} onBlur={() => {
-                              console.log('失去焦点')
-                              this.setState({
-                                isInputEdit: true,
-                              })
-                            }}></input>
-                          }
-                        })
-                      }
-                    </div>
-                    <span className="insightTermNamedit pull-right" data-type={item} onClick={() => {
-                      this.setState({
-                        isInputEdit: false
-                      }, () => {
-                        let input = this.refs['input' + index];
-                        input.focus();
-                      })
-                    }}>
-                      <i className="iconfont icon-xiugai"></i>
-                      <i className="iconfont icon-gou1"></i>
-                    </span>
-                  </div>
-                  <div className="insightTermContent">
-                    <div className="digTitle">挖掘出的语句</div>
+          {
+            Object.keys(this.state.customer).map((item, index) => (
+              <div className="insightTerm" data-type={item} key={index} ref={'insightTerm' + item}>
+                <div className="insightTermTitle">
+                  <p>{this.state.customer[item]}:</p>
+                  <div onClick={() => {
+                    this.setState({
+                      isInputEdit: false
+                    })
+                  }}>
                     {
-                      keylist && labellist[item].map((labelItem, labelIndex) => (
-                        <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
-                          <div className="digSentence">
-                            <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
-                            <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
-                              {labelItem.context}
-                              <i className="audioJump iconfont icon-yuyin1-copy" onClick={() => {
-                                this.playMusic(labelItem.time)
-                              }}></i>
-                            </p>
-                            <div className="arrow">
-                              <i className="iconfont icon-sanjiaoright"></i>
-                            </div>
+                      keylist && keylist.length && keylist.map((keylistItem, keylistIndex) => {
+                        if (keylistItem.type == item) {
+                          return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit} ref={'input' + index} onBlur={(e) => {
+                            this.props.dispatch({
+                              type: 'popup/KeyEdit',
+                              payload: {
+                                context: e.target.value,
+                                taskId: taskId,
+                                optype: 'add',
+                                type: item,
+                              },
+                              callback: (data) => {
+                                console.log(data)
+                              },
+                            })
+                            this.setState({
+                              isInputEdit: true,
+                            })
+                          }} onChange={(e) => {
+                            const keylistObj = keylist
+                            keylistObj.map((objItem, objIndex) => {
+                              if (objItem.type == item) {
+                                keylistObj[objIndex].context = e.target.value
+                              }
+                            })
+                            this.props.dispatch({
+                              type: 'popup/saveKeylistForm',
+                              payload: {
+                                fileResult: {
+                                  ...this.props.popup.fileResult,
+                                  keylist: keylistObj
+                                }
+                              },
+                            })
+                          }}></input>
+                        }
+                      })
+                    }
+                  </div>
+                  <span className="insightTermNamedit pull-right" data-type={item} onClick={() => {
+                    this.setState({
+                      isInputEdit: false
+                    }, () => {
+                      let input = this.refs['input' + index];
+                      input.focus();
+                    })
+                  }}>
+                    <i className="iconfont icon-xiugai"></i>
+                    <i className="iconfont icon-gou1"></i>
+                  </span>
+                </div>
+                <div className="insightTermContent">
+                  <div className="digTitle">挖掘出的语句</div>
+                  {
+                    keylist && labellist[item].map((labelItem, labelIndex) => (
+                      <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
+                        <div className="digSentence">
+                          <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
+                          <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
+                            {labelItem.context}
+                            <i className="audioJump iconfont icon-yuyin1-copy" onClick={() => {
+                              this.playMusic(labelItem.time)
+                            }}></i>
+                          </p>
+                          <div className="arrow">
+                            <i className="iconfont icon-sanjiaoright"></i>
                           </div>
-                          <div className="border-wrap"></div>
+                        </div>
+                        <div className="border-wrap"></div>
+                        <div className={labelItem.status == 'true' ? 'sentenceDel' : 'sentenceRight'} data-name={0} onClick={() => {
+                          this.props.dispatch({
+                            type: 'popup/editItem',
+                            payload: {
+                              id: labelItem.id,
+                              status: labelItem.status == 'true' ? false: true,
+                            },
+                            callback: (data) => {
+                              this.props.dispatch({
+                                type: 'popup/getFileResultApi',
+                                payload: {
+                                  taskid: taskId
+                                },
+                              })
+                              if (this.state.isOriginal) {
+                                this.props.dispatch({
+                                  type: 'popup/getOriginalList',
+                                  payload: {
+                                    taskid: taskId
+                                  },
+                                })
+                              }
+                            },
+                          })
+                        }}>
                           {
-                            labelItem.status == 'true' ?
-                              <div className="sentenceDel" data-name={0}>
-                                <i className="iconfont icon-cuowu"></i>
-                              </div> :
-                              <div className="sentenceRight" data-name={0}>
-                                <i className="iconfont icon-gou1"></i>
-                              </div>
+                             <i className={['iconfont', labelItem.status == 'true' ? 'icon-cuowu' : 'icon-gou1'].join(' ')}></i>
                           }
                         </div>
+                      </div>
 
-                      ))
-                    }
+                    ))
+                  }
 
-                  </div>
                 </div>
-              ))
-            }
+              </div>
+            ))
+          }
         </Scrollbars>
       </div>
     )
@@ -782,6 +419,8 @@ class Popup extends Component {
     let {
       originalList
     } = this.props.popup
+    // 获取taskId
+    let taskId = this.props.location.query.taskId;
     return (
       <div className="insightTextWrap" style={{ boxSizing: 'border-box', }}>
         <Scrollbars>
@@ -827,7 +466,7 @@ class Popup extends Component {
                             this.props.dispatch({
                               type: 'popup/editItemLeft',
                               payload: {
-                                taskid: '3',
+                                taskid: taskId,
                                 type: customerItem,
                                 operaType: 'add',
                                 startLine: originalList[item].id + '',
@@ -835,10 +474,28 @@ class Popup extends Component {
                                 context: originalList[item].voiceContent
                               },
                               callback: (data) => {
-                                console.log(data)
+                                this.setState({
+                                  biaozhuIndex: -1,
+                                })
+                                this.props.dispatch({
+                                  type: 'popup/getFileResultApi',
+                                  payload: {
+                                    taskid: taskId
+                                  },
+                                  callback: () => {
+                                    let scrollH = this.refs['insightTerm' + customerItem].offsetTop-180;
+                                    this.refs.insightTermWrap.scrollTop = scrollH + 'px'
+                                    // this.refs.insightTermWrap.animate({scrollTop: scrollH+'px'}, 500);
+                                  }
+                                })
+                                this.props.dispatch({
+                                  type: 'popup/getOriginalList',
+                                  payload: {
+                                    taskid: taskId
+                                  },
+                                })
                               }
                             })
-                            console.log(customerItem, originalList[item].id)
                           }} key={customerIndex}>{this.state.customer[customerItem]}</li>
                         ))
                       }
@@ -985,6 +642,7 @@ class Popup extends Component {
     let {
       filesList
     } = this.props.popup
+    let taskId = this.props.location.query.taskId;
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
@@ -996,6 +654,7 @@ class Popup extends Component {
         <DanaoWrapper>
           <div id="archivesModal" className={this.state.isOriginal ? "archivesBigModal" : ""}>
             <div className="originalTextOperate">
+              {/* 点击原文或收起 */}
               {
                 this.state.isOriginal ?
                 <div className="retract" onClick={() => {
@@ -1010,7 +669,7 @@ class Popup extends Component {
                   this.props.dispatch({
                     type: 'popup/getOriginalList',
                     payload: {
-                      taskid: '3'
+                      taskid: taskId
                     },
                     callback: (data) => {
                       this.setState({
@@ -1056,7 +715,7 @@ class Popup extends Component {
               <ul id="file-list">
                 {
                   filesList.map((item, index) => (
-                    <li className={['file-item', item.id == this.props.history.taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index}
+                    <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index}
                       onClick={() => {
                         this.props.dispatch({
                           type: 'history/saveTaskId',

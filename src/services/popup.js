@@ -29,4 +29,18 @@ export async function editItemLeft(params) {
     body: JSON.stringify(params),
   });
 }
+export async function editItem(params) {
+  return request('/openApi/voiceQuality/ItemEdit', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}
+export async function KeyEdit(params) {
+  return request('/openApi/voiceQuality/KeyEdit', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}
 
