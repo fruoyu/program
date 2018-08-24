@@ -1,6 +1,7 @@
 import { notifyError, notifySuccess } from '../services/app.js';
 import { Login, LoginOut, ChangePwd } from '../services/login';
 import { routerRedux } from 'dva/router';
+import routes from '../routes';
 import {
   setCookie,
   getCookie,
@@ -33,9 +34,6 @@ export default {
     *loginOut({ payload, callback }, { call, put }) {
       const { data } = yield call(LoginOut);
       if (data) {
-        //  yield put({
-        //   type: 'LoginMsg',
-        // });
         if (callback) callback();
       } else {
         notifyError('退出失败!');
@@ -67,22 +65,29 @@ export default {
         if (pathname === '/') {
           dispatch(routerRedux.push('/login'));
         }
+        let flag = false;
+        routes.map((item) => {
+          if (item.path === pathname) {
+            flag = true;
+          }
+          return flag;
+        });
         if (getCookie('token')) {
           verify((err) => {
             if (err) { // cookie 超时了;
-              if (pathname !== '/login') {
+              if (flag) {
                 dispatch({
                   type: 'login/loginOut',
                   payload: {},
                   callback: () => {
-                    window.location.pathname = '/login';
+                    dispatch(routerRedux.push('/login'));
                   },
                 });
               }
             }
           });
-        } else if (pathname !== '/login') {
-          window.location.pathname = '/login';
+        } else if (flag) {
+          location.href = '/login';
         }
       });
     },

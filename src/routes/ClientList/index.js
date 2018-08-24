@@ -161,11 +161,11 @@ class ClientList extends Component {
     }];
     
     return (
-      <div className="bootContent historyContent" >
+      <div className="bootContent historyContent clientCotent" >
         <Scrollbars style={{ flex: 1 }} autoHide>
 
           {/* 头部信息 */}
-          <CommonHeader title="客户列表" isMain isUserPort home />
+          <CommonHeader title="客户列表" isMain customer isUserPort />
           <div id="content">
             <div className="content-head">
               <div className="ch-top">
@@ -192,8 +192,8 @@ class ClientList extends Component {
               {/* Filter part end */}
               </div>
             </div>
-          
-          
+
+
           {/* 列表内容部分 */}
             <DataList dataSource={dataSource} />
 
