@@ -1,0 +1,102 @@
+.clientListWrap{
+  // table{ border-spacing: 10px; }
+  margin-top: 60px;
+  thead.ant-table-thead>tr>th{
+    color:#0cc4fc !important;
+    font-size: 14px;
+    background:none !important;
+    font-weight: normal !important;
+  }
+  .ant-table-tbody>tr {
+    a{ color:#fff;}
+    &:hover>td{
+      background:none;
+      .cellWrap{
+        background:rgba(67, 50, 186 ,.6);
+        color: #93f3fb;
+      }
+      a {
+        color: #93f3fb;
+        text-decoration: none;
+      }
+    }
+  }
+  .ant-table-tbody>tr>td{
+    padding:0;
+    font-size: 14px;
+    line-height: 40px;
+    color:#fff;
+    border-bottom:0;
+    .cellWrap{
+      padding: 0 10px;
+      margin: 8px 0;
+    }
+  }
+
+  .ant-pagination-options{
+    color:#fff;
+  }
+  .ant-pagination-total-text{
+    color:#fff;
+    margin-left: 10px;
+  }
+  .ant-pagination-prev,
+  .ant-pagination-next,
+  .ant-pagination-item{
+    background: none;
+    border-color: #168fff;
+    a{
+      color: #fff;
+      border-color:#168fff;
+    }
+  }
+  .ant-pagination-prev,
+  .ant-pagination-next{
+    a{
+      background: none;
+      text-decoration: none;
+      color:#fff;
+    }
+  }
+  .ant-pagination-item-active{
+    background: #168fff;
+  }
+  .ant-pagination-options-quick-jumper input{
+    background:none;
+    border-color:#168fff;
+    color: #fff;
+  }
+}
+
+.historyContent .ch-top .search-input {
+  width: 200px;
+}
+
+.ant-cascader-picker{
+  border-width:1px;
+  border-style: solid;
+  border-image: linear-gradient(to right, #0b01b8 0, #b303fd 45%, #a43abd 50%, #b303fd 55%, #0b01b8) 5;
+  background:none;
+  width: 300px;
+  height: 35px;
+  color:#fff;
+  i,i:hover{
+    color:#fff; background:none;
+  }
+  input{
+    border:none;
+    outline: none;
+    height: 33px;
+    line-height: 33px;
+    appearance: none;
+    &:focus{
+      border:none;
+      outline: none;
+      appearance: none;
+    }
+  }
+}
+
+.historyContent .ch-top .search-calendar{
+  flex-grow: 0;
+}

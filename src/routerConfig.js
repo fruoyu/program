@@ -10,6 +10,7 @@ import UserPortrait from './routes/UserPortrait';
 import Main from './routes/Main';
 import Popup from './routes/Popup';
 import NotFoundPage from './routes/NotFoundPage';
+import ClientList from './routes/ClientList';
 
 
 // 整体路由
@@ -23,6 +24,7 @@ function routerConfig({ history }) {
         <Route path="/userPortrait" component={UserPortrait} />
         <Route path="/main" component={Main} />
         <Route path="/popup"component={Popup} />
+        <Route path="/clientList"component={ClientList} />
         {/* 404 */}
         <Route path="/404" component={NotFoundPage} />
         {/* 其他重定向到 404 */}
