@@ -33,7 +33,7 @@ const DataList = (props) => {
     key: 'belong',
     render: text => <div className="cellWrap">{text}</div>,
   }];
-  
+   
   return (
     <div className='clientListWrap'>
       <Table 
@@ -42,7 +42,7 @@ const DataList = (props) => {
         pagination = {
           { 
             showQuickJumper:true, 
-            pageSize:2, 
+            pageSize:3, 
             itemRender: (page, type, originaElement) => {
               // if(type === 'next') return <div class="containTotal"><a>next</a></div>
               return originaElement;

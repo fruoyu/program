@@ -65,7 +65,6 @@ class ClientList extends Component {
 
   // 级联下拉菜单
   onSelectChange = (val, d) => {
-    console.log(this.state.startTime,this.state.endTime)
     // console.log(val,d)
 
     // 选择之后请求下客户信息列表
