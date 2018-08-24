@@ -4,7 +4,7 @@ import { connect } from 'dva';
 import $ from 'jquery';
 
 class DataList extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       dataSource: [{
@@ -30,7 +30,7 @@ class DataList extends Component {
         star: '四星',
         fiveStatus: '未认购',
         updateTime: '2018-08-21 13:35:24',
-        belong: '张四'
+        belong: '张四',
       }, {
         key: '4',
         name: '胡彦祖2',
@@ -38,7 +38,7 @@ class DataList extends Component {
         star: '四星',
         fiveStatus: '未认购',
         updateTime: '2018-08-21 13:35:24',
-        belong: '张四'
+        belong: '张四',
       }, {
         key: '5',
         name: '胡彦祖3',
@@ -46,7 +46,7 @@ class DataList extends Component {
         star: '四星',
         fiveStatus: '未认购',
         updateTime: '2018-08-21 13:35:24',
-        belong: '张四'
+        belong: '张四',
       }],
       columns: [{
         title: '姓名',
@@ -78,8 +78,8 @@ class DataList extends Component {
         dataIndex: 'belong',
         key: 'belong',
         render: text => <div className="cellWrap">{text}</div>,
-      }]
-    }
+      }],
+    };
   }
   componentDidMount(){
     this.setPaginationTotalNum();
@@ -95,17 +95,17 @@ class DataList extends Component {
     })
     tarLi.insertAfter(posLi);
   }
-  
+
   render() {
     return (
       <div className='clientListWrap'>
-        <Table 
+        <Table
           dataSource={this.state.dataSource}
           columns={this.state.columns}
           pagination = {
-            { 
-              showQuickJumper:true, 
-              pageSize:2, 
+            {
+              showQuickJumper:true,
+              pageSize:2,
               itemRender: (page, type, originaElement) => {
                 // if(type === 'next') return <div class="containTotal"><a>next</a></div>
                 return originaElement;
@@ -117,7 +117,7 @@ class DataList extends Component {
           }
           />
       </div>
-      
+
     )
   }
 }

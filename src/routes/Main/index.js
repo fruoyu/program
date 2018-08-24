@@ -17,11 +17,6 @@ class Main extends Component {
       uploadDialog: false,
     };
   }
-  componentDidMount() {
-    if (this.props.location.pathname === '/') {
-      this.props.dispatch(routerRedux.push('/login'));
-    }
-  }
 
   renderUpload = () => {
     return (

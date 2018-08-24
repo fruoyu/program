@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Pagination } from 'antd';
+import './commonTable.less';
 
 class CommonTable extends Component {
   constructor() {
@@ -13,7 +14,7 @@ class CommonTable extends Component {
       filesList,
       tabHead,
     } = this.props;
-    const classNameList = ['item-title', 'item-author', 'item-state', 'item-time', 'data'];
+    const classNameList = ['item-title', 'item-author', 'item-composition', 'item-state', 'item-time', 'data'];
     return (
       <div className="content-body">
         <div className="content-main">
