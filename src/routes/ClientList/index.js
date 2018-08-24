@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Cascader } from 'antd';
+import $ from 'jquery';
 
 import { CommonHeader } from '../../components';
 import DatePicker from './DatePicker';
@@ -14,6 +15,7 @@ class ClientList extends Component {
     super(props);
 
     this.state = {
+      searchInputVal:'',
       name: '',
       endTime: '', // 结束时间
       fileName: '', // 录音文件名称
@@ -24,10 +26,12 @@ class ClientList extends Component {
     };
 
     this.onGetClientList = this.onGetClientList.bind(this);
+    this.onSearchClick = this.onSearchClick.bind(this);
   }
 
   componentDidMount(){
-    this.onGetClientList();
+    // this.onGetClientList();
+    this.setPaginationTotalNum();
   }
 
   /**
@@ -68,6 +72,22 @@ class ClientList extends Component {
     // this.onGetClientList()
   }
 
+  // 客户信息列表分页设置文字 ‘共*页’ 位置
+  setPaginationTotalNum = () => {
+    let aLi = $('.clientListWrap li'),
+      tarLi = null,posLi = null;
+    aLi.map((i, itm) => {
+      let item = $(itm);
+      if(item.hasClass('ant-pagination-next')) posLi = item;
+      if(item.hasClass('ant-pagination-total-text')) tarLi = item;
+    })
+    tarLi.insertAfter(posLi);
+  }
+
+  onSearchClick = (ev) => {
+    console.log(this.state.searchInputVal)
+  }
+
   render() {
 
     // 级联菜单数据模拟
@@ -94,6 +114,52 @@ class ClientList extends Component {
         }],
       }],
     }];
+
+    // 客户信息列表模拟
+    // const { mClientList } = this.props.clientList;
+    // const dataSource = mClientList.dataSource;
+    const dataSource = [{
+      key: '1',
+      name: '胡彦斌',
+      phone: 12323132131,
+      star: '三星',
+      fiveStatus: '已认购',
+      updateTime: '2018-08-21 13:35:24',
+      belong: '张三'
+    }, {
+      key: '2',
+      name: '胡彦祖',
+      phone: 214135125151,
+      star: '四星',
+      fiveStatus: '未认购',
+      updateTime: '2018-08-21 13:35:24',
+      belong: '张四'
+    }, {
+      key: '3',
+      name: '胡彦祖1',
+      phone: 214135125151,
+      star: '四星',
+      fiveStatus: '未认购',
+      updateTime: '2018-08-21 13:35:24',
+      belong: '张四'
+    }, {
+      key: '4',
+      name: '胡彦祖2',
+      phone: 2141351251512,
+      star: '四星',
+      fiveStatus: '未认购',
+      updateTime: '2018-08-21 13:35:24',
+      belong: '张四'
+    }, {
+      key: '5',
+      name: '胡彦祖3',
+      phone: 2141351251512,
+      star: '四星',
+      fiveStatus: '未认购',
+      updateTime: '2018-08-21 13:35:24',
+      belong: '张四'
+    }];
+    
     return (
       <div className="bootContent historyContent" >
         <Scrollbars style={{ flex: 1 }} autoHide>
@@ -109,10 +175,12 @@ class ClientList extends Component {
                   <input
                     type="text" placeholder="搜索内容"
                     onChange={(e) => {
-                      // this.updataState('fileName', e.target.value.trim());
+                      if( e.target.value !== '') this.setState({
+                        searchInputVal: e.target.value
+                      });
                     }}
                   />
-                  <span className="iconfont icon-qianwang" />
+                  <span className="iconfont icon-qianwang" onClick={this.onSearchClick} />
                 </div>
 
                 {/* 下拉菜单 */}
@@ -127,7 +195,7 @@ class ClientList extends Component {
           
           
           {/* 列表内容部分 */}
-            <DataList />
+            <DataList dataSource={dataSource} />
 
           </div>
         </Scrollbars>

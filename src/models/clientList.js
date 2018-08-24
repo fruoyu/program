@@ -6,7 +6,6 @@ export default {
   state: {
     endTime: '',
     startTime: '',
-    mClientList: [],
   },
 
 
@@ -20,7 +19,7 @@ export default {
           type: 'getFileList',
           payload: data.result
         })
-        cb&&cb(data);
+        if(cb) cb(data);
       } else {
         notifyError(data.errMsg)
       }
@@ -29,7 +28,7 @@ export default {
 
   reducers: {
     getFileList(state, { payload }) {
-      return { ...state, keyItemData: payload };
+      return { ...state, mClientList: payload };
     },
   }
 }
