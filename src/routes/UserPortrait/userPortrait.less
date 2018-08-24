@@ -236,6 +236,8 @@
     transform: translateY(-440px);
     border-image:linear-gradient(#0b01b8 0,#b303fd 25%, #f3c1ff 50%, #b303fd 75% , #0b01b8) 30;
   }
+
+  /* 数据列表*/
   .history{
     right: calc(~"15% + 50px");
     background: #13086c;
@@ -271,6 +273,38 @@
       color: #fff;
     }
     .his {
+      display: block;
+    }
+  }
+
+  /* 画像*/
+  .huaxiang {
+    right:15%;
+    background: #da081c;
+    .photograph {
+      display: none;
+      position: absolute;
+      width: 50px;
+      line-height: 20px;
+      height: 20px;
+      font-size: 12px;
+      text-align: center;
+      top: 50px;
+      left: -5px;
+      border: 1px solid #4332ba;
+      border-radius: 20px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      background: #1a1b3a;
+      color: #fff;
+    }
+    .icon-huaxiang {
+      font-size: 22px;
+      color: #fff;
+    }
+  }
+  .huaxiang:hover {
+    .photograph {
       display: block;
     }
   }

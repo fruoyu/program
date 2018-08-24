@@ -11,5 +11,8 @@ const routes = [
   {
     path: '/popup',
   },
+  {
+    pah: '/clientList',
+  },
 ]
 export default routes;

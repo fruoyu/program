@@ -191,7 +191,7 @@ class History extends Component {
       </Menu>
     );
     return (
-      <div className="bootContent historyContent" onClick={(e) => { this.documentClick(e); }}>
+      <div className="bootContent historyContent historyIcon" onClick={(e) => { this.documentClick(e); }}>
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
           <CommonHeader title="历史任务" isMain customer isUserPort />

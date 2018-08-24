@@ -147,11 +147,11 @@ class MainWrapper extends Component {
           customer && <div
             className="kehu"
             onClick={() => {
-              console.log('go to 客户列表页面');
-              // this.props.dispatch(routerRedux.push('/history'));
+              if (location.pathname === '/clientList') return;
+              this.props.dispatch(routerRedux.push('/clientList'));
             }}
           >
-            <span className="iconfont icon-iconfontyonghu" />
+            <span className="iconfont icon-5176" />
             <span className="customer">客户列表</span>
           </div>
         }
