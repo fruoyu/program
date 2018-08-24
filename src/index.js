@@ -39,7 +39,7 @@ const app = dva({
       // 登出删除token
       delCookie('token');
       return {
-        login: { loginOut: true },
+        login: {},
         history: {},
         routing: { locationBeforeTransitions: null },
       };
@@ -58,6 +58,7 @@ window.app = app;
 app.model(require('./models/login'));
 app.model(require('./models/history'));
 app.model(require('./models/popup'));
+app.model(require('./models/clientList'));
 
 // 4. Router
 app.router(require('./routerConfig'));

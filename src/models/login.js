@@ -1,10 +1,12 @@
-import jwt from 'jsonwebtoken';
 import { notifyError, notifySuccess } from '../services/app.js';
 import { Login, LoginOut, ChangePwd } from '../services/login';
 import { routerRedux } from 'dva/router';
+import routes from '../routes';
 import {
   setCookie,
   getCookie,
+  sign,
+  verify,
 } from "../utils/cookie";
 // import url from 'url';
 // import qs from 'qs';
@@ -18,16 +20,13 @@ export default {
     *saveLoginMsg({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
       if (data) {
-        const token = jwt.sign({
-          exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1h
-          data: payload,
-        }, 'moxilogin');
+        const token = sign(payload);
         setCookie('token', token);
         yield put({
           type: 'changeLoginMsg',
           payload,
         });
-        if (callback) callback(data);
+        if (callback) callback();
       } else {
         notifyError('登录失败!');
       }
@@ -35,9 +34,6 @@ export default {
     *loginOut({ payload, callback }, { call, put }) {
       const { data } = yield call(LoginOut);
       if (data) {
-        //  yield put({
-        //   type: 'LoginMsg',
-        // });
         if (callback) callback();
       } else {
         notifyError('退出失败!');
@@ -69,25 +65,29 @@ export default {
         if (pathname === '/') {
           dispatch(routerRedux.push('/login'));
         }
+        let flag = false;
+        routes.map((item) => {
+          if (item.path === pathname) {
+            flag = true;
+          }
+          return flag;
+        });
         if (getCookie('token')) {
-          jwt.verify(getCookie('token'), 'moxilogin', (err) => {
+          verify((err) => {
             if (err) { // cookie 超时了;
-              if (pathname !== '/login') {
-                console.log('err', err);
+              if (flag) {
                 dispatch({
                   type: 'login/loginOut',
                   payload: {},
                   callback: () => {
-                    window.location.pathname = '/login';
+                    dispatch(routerRedux.push('/login'));
                   },
                 });
               }
-            } else {
-              console.log('decoded');
             }
           });
-        } else if (pathname !== '/login') {
-          window.location.pathname = '/login';
+        } else if (flag) {
+          location.href = '/login';
         }
       });
     },

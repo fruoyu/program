@@ -21,177 +21,32 @@ class Popup extends Component {
     this.state = {
       customer: {
         CUSTOMER_CHILD: '子女信息',
-        CUSTOMER_AGE:'年龄',
-        CUSTOMER_SEX:'性别',
-        CUSTOMER_MERRIGE:'婚姻状况',
-        CUSTOMER_JOB:'从事行业',
-        CONSUME_HOUSE:'房产情况',
-        CONSUME_CAR:'车辆情况',
-        SOCIAL_SECURITY:'社保',
-        COMMERCIAL_INSURANCE:'商保',
-        INSURANCE_PURCHASER:'保险购买人',
-        INVESTMENT_TYPE:'投资类型',
-        INVESTMENT_PURCHASER:'投资打理人',
-        INVESTMENT_RATIO:'投资占比',
-        INVESTMENT_DURATION:'投资时长',
-        RISK_PREFERENCE:'理财风险偏好',
-        CUSTOMER_HOBBY:'爱好的活动',
-        CUSTOMER_ADMIRE:'欣赏什么样的人'
+        CUSTOMER_AGE: '年龄',
+        CUSTOMER_SEX: '性别',
+        CUSTOMER_MERRIGE: '婚姻状况',
+        CUSTOMER_JOB: '从事行业',
+        CONSUME_HOUSE: '房产情况',
+        CONSUME_CAR: '车辆情况',
+        SOCIAL_SECURITY: '社保',
+        COMMERCIAL_INSURANCE: '商保',
+        INSURANCE_PURCHASER: '保险购买人',
+        INVESTMENT_TYPE: '投资类型',
+        INVESTMENT_PURCHASER: '投资打理人',
+        INVESTMENT_RATIO: '投资占比',
+        INVESTMENT_DURATION: '投资时长',
+        RISK_PREFERENCE: '理财风险偏好',
+        CUSTOMER_HOBBY: '爱好的活动',
+        CUSTOMER_ADMIRE: '欣赏什么样的人'
       },
       keylist: [
         {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"COMMERCIAL_INSURANCE",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CONSUME_CAR",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CONSUME_HOUSE",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_ADMIRE",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_AGE",
-        },
-
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_CHILD",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_HOBBY",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_JOB",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_MERRIGE",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"CUSTOMER_SEX",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"INSURANCE_PURCHASER",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"INVESTMENT_DURATION",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"INVESTMENT_PURCHASER",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"INVESTMENT_RATIO",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"INVESTMENT_TYPE",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"RISK_PREFERENCE",
-        },
-        {
-          context:"没有",
-          creat_time:"2018-08-10 11:01:52.0",
-          kehuName:"王爱琪",
-          phonenum:"13683229972",
-          status:"false",
-          taskid:"3",
-          type:"SOCIAL_SECURITY",
+          context: "没有",
+          creat_time: "2018-08-10 11:01:52.0",
+          kehuName: "王爱琪",
+          phonenum: "13683229972",
+          status: "false",
+          taskid: "3",
+          type: "COMMERCIAL_INSURANCE",
         },
       ],
       hoverIndex: -1,
@@ -217,6 +72,11 @@ class Popup extends Component {
     this.clickChangeTime = this.clickChangeTime.bind(this);
     this.slideChangeTime = this.slideChangeTime.bind(this);
     this.slideChangeTime = this.slideChangeTime.bind(this);
+  }
+  componentWillMount() {
+    this.setState({
+      taskId: this.props.location.query.taskId,
+    });
   }
   componentDidMount() {
     // 获取taskId
@@ -548,8 +408,8 @@ class Popup extends Component {
   }
 
   // 音频进度条点击事件
-  clickChangeTime (e) {
-    if(!e.pageX){
+  clickChangeTime(e) {
+    if (!e.pageX) {
       return
     }
     this.setTimeOnPc(e)
@@ -582,11 +442,11 @@ class Popup extends Component {
       })
     }
 
-    audio.addEventListener('timeupdate',()=>{
+    audio.addEventListener('timeupdate', () => {
       //设置播放进度条
-      let playPer = audio.currentTime/audio.duration;
-      this.refs.played.style.width = playPer*100+"%";
-      this.refs.circle.style.left = playPer*100+"%";
+      let playPer = audio.currentTime / audio.duration;
+      this.refs.played.style.width = playPer * 100 + "%";
+      this.refs.circle.style.left = playPer * 100 + "%";
 
       this.setState({
         remainTime:this.formatSeconds(parseInt(audio.currentTime)),
@@ -597,22 +457,22 @@ class Popup extends Component {
   // 音频拖拽事件
   mouseDown = () => {
     this.setState({
-      mouseDown:true
+      mouseDown: true
     });
   }
-  slideChangeTime(e){
-    if(this.state.mouseDown){
+  slideChangeTime(e) {
+    if (this.state.mouseDown) {
       this.setTimeOnPc(e)
     }
   }
   mouseUp = () => {
     this.setState({
-      mouseDown:false
+      mouseDown: false
     });
   }
   mouseLeave = () => {
     this.setState({
-      mouseDown:false
+      mouseDown: false
     });
   }
 
@@ -673,11 +533,7 @@ class Popup extends Component {
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
-        <CommonHeader title="洞察结果" goback home isUserPort photograph />
-        {/* <div className="tab">
-          <span className="tabData iconfont icon-xiangqing1"><span>数据</span></span>
-          <span className="tabPortrait iconfont icon-huaxiang" onClick={() => { this.props.dispatch(routerRedux.push('/userPortrait')); }}><span>画像</span></span>
-        </div> */}
+        <CommonHeader title="洞察结果" goback home record photograph taskId={this.state.taskId} />
         <DanaoWrapper>
           <div id="archivesModal" className={this.state.isOriginal ? "archivesBigModal" : ""}>
             <div className="originalTextOperate">
@@ -710,7 +566,7 @@ class Popup extends Component {
                 </div>
               }
             </div>
-            <div className="modal-header text-center" style={{top: this.state.isOriginal ? "1.4%" : ""}}>
+            <div className="modal-header text-center" style={{ top: this.state.isOriginal ? "1.4%" : "" }}>
               <span>洞察档案</span>
             </div>
             <div className="modal-content">

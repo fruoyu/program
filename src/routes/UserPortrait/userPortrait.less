@@ -236,6 +236,8 @@
     transform: translateY(-440px);
     border-image:linear-gradient(#0b01b8 0,#b303fd 25%, #f3c1ff 50%, #b303fd 75% , #0b01b8) 30;
   }
+
+  /* 数据列表*/
   .history{
     right: calc(~"15% + 50px");
     background: #13086c;
@@ -274,24 +276,51 @@
       display: block;
     }
   }
-
-  .huaxiang {
-    color: #fff;
-    width: 40px;
-    height: 50px;
-    position: absolute;
-    top: 0;
-    right: 15%;
-    background: #da081c;
-    border-radius: 0 0 25px 25px;
-    cursor: pointer;
-    font-size: 25px;
-    line-height: 50px;
-    text-align: center;
-    .icon-huaxiang {
+  /* 数据*/
+  .shuju {
+    right:calc(~"15% + 50px");
+    background: #600091;
+    .icon-xiangqing1 {
+      display: block;
+      transition: transform .5s linear !important;
       font-size: 22px;
+      color: #b74aef;
     }
+    .record {
+      display: none;
+      position: absolute;
+      width: 50px;
+      line-height: 20px;
+      height: 20px;
+      font-size: 12px;
+      text-align: center;
+      top: 50px;
+      left: -5px;
+      border: 1px solid #600091;
+      border-radius: 20px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      background: #1a1b3a;
+      color: #fff;
+    }
+  }
+  .shuju:hover {
+    //background: #4332ba;
+    .record {
+      display: block;
+    }
+    .icon-xiangqing1 {
+      transform: rotateY(360deg) !important;
+      color: #fff;
+    }
+  }
+
+  /* 画像*/
+  .huaxiang {
+    right:15%;
+    background: #da081c;
     .photograph {
+      display: none;
       position: absolute;
       width: 50px;
       line-height: 20px;
@@ -305,11 +334,17 @@
       margin-top: 8px;
       box-sizing: border-box;
       background: #1a1b3a;
-      display: none;
+      color: #fff;
+    }
+    .icon-huaxiang {
+      font-size: 22px;
+      color: #fff;
     }
   }
-  .huaxiang:hover .photograph {
-    display: block;
+  .huaxiang:hover {
+    .photograph {
+      display: block;
+    }
   }
 
 }
