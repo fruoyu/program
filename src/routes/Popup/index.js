@@ -14,7 +14,6 @@ import './popup.less';
 import '../../assets/iconfont/iconfont.css';
 // import '../../plugs/audio/audio.js';
 import '../../plugs/audio/audio.css';
-import Alert from 'antd/lib/alert';
 
 class Popup extends Component {
   constructor(props) {
@@ -212,7 +211,8 @@ class Popup extends Component {
       mouseDown:false,
       musicListShow:false,
       currentMusic:{},
-      isPlayed:false
+      isPlayed:false,
+      scrollTop: 100,
     };
     this.clickChangeTime = this.clickChangeTime.bind(this);
     this.slideChangeTime = this.slideChangeTime.bind(this);
@@ -239,9 +239,6 @@ class Popup extends Component {
       payload: {
         taskid: taskId
       },
-      callback: (data) => {
-        
-      }
     })
     // 请求画像数据
     this.props.dispatch({
@@ -249,9 +246,6 @@ class Popup extends Component {
       payload: {
         taskid: taskId
       },
-      callback: (data) => {
-        
-      }
     })
   }
 
@@ -484,8 +478,12 @@ class Popup extends Component {
                                   },
                                   callback: () => {
                                     let scrollH = this.refs['insightTerm' + customerItem].offsetTop-180;
-                                    this.refs.insightTermWrap.scrollTop = scrollH + 'px'
-                                    // this.refs.insightTermWrap.animate({scrollTop: scrollH+'px'}, 500);
+                                    console.log($('.insightTermWrap').scrollTop)
+                                    $('.insightTermWrap').scrollTop = scrollH+'px'
+                                    // $('.insightTermWrap').animate({scrollTop: scrollH+'px'}, 500);
+                                    this.setState({
+                                      scrollTop: scrollH
+                                    })
                                   }
                                 })
                                 this.props.dispatch({
@@ -504,9 +502,38 @@ class Popup extends Component {
                 </div>
                 <div className="ThirdLine" data-type-arr="">
                   {
-                    originalList[item].types.length > 0 && originalList[item].types.map((typeItem, itemIndex) => (
-                      <span className="tags" key={itemIndex}>
-                        {this.state.customer[originalList[item].types[itemIndex]]}
+                    originalList[item].types.length > 0 && originalList[item].types.map((typeItem, typeIndex) => (
+                      <span className="tags" key={typeIndex} onClick={() => {
+                        this.props.dispatch({
+                          type: 'popup/editItemLeft',
+                          payload: {
+                            id: originalList[item].itemids[typeIndex],
+                            operaType: 'delete',
+                          },
+                          callback: () => {
+                            this.props.dispatch({
+                              type: 'popup/getFileResultApi',
+                              payload: {
+                                taskid: taskId
+                              },
+                              callback: () => {
+                                let scrollH = this.refs['insightTerm' + typeItem].offsetTop-180;
+                                console.log(scrollH)
+                                this.setState({
+                                  scrollTop: scrollH
+                                })
+                              }
+                            })
+                            this.props.dispatch({
+                              type: 'popup/getOriginalList',
+                              payload: {
+                                taskid: taskId
+                              },
+                            })
+                          }
+                        })
+                      }}>
+                        {this.state.customer[originalList[item].types[typeIndex]]}
                         <i className="iconfont icon-shanchu1"></i>
                       </span>
                     ))

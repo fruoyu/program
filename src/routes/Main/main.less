@@ -34,6 +34,20 @@
     cursor: pointer;
   }
   /*上传语音文件*/
+  #upload-voice.big{
+    width: 620px;
+    height: 400px;
+    transform: translateX(-310px);
+    .upload-middle {
+      width: 156px;
+      height: 92px;
+      top: 43px;
+      transform: translateX(-78px);
+    }
+    .upload-num{
+      display: block;
+    }
+  }
   #upload-voice {
     display: show;
     position: absolute;
@@ -84,12 +98,11 @@
       position: absolute;
       width: 275px;
       height: 132px;
-      top: 90px;
+      top: 50%;
       left: 50%;
-      transform: translateX(-50%);
+      transform: translate(-50%, -50%);
       box-sizing: border-box;
       z-index: 9;
-      position: relative;
       .upload-btn {
         width:100%;
         height: 100%;
@@ -126,7 +139,6 @@
       }
     }
     .upload-bottom {
-      display: none;
       position: relative;
       width: 100%;
       height: 255px;
@@ -143,10 +155,84 @@
       font-size: 12px;
       color: #ff4800;
     }
+    .list-wrap{
+      width: 100%;
+      height: 100%;
+    }
     .upload-bottom .upload-item {
       position: relative;
       width: 100%;
       padding: 12px 0;
+      .file-info {
+        width: 100%;
+        padding: 2px;
+        font-size:12px ;
+        box-sizing: border-box;
+        margin-bottom: 10px;
+        overflow : hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+      }
+      .file-progress {
+        position: relative;
+        width: 100%;
+        height: 8px;
+        .progress-color {
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(to right,#0b01b8 0,#b303fd 50% ,#f3c1ff);
+          border-radius: 5px;
+        }
+        .progress-grey {
+          width: 100%;
+          height: 100%;
+          background: #fff;
+          overflow: visible;
+          /* border-radius: 5px; */
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+        .percent {
+          position: absolute;
+          top: 8px;
+          left: -15px;
+          width: 30px;
+          height: 25px;
+          line-height: 33px;
+          font-size: 12px;
+          background: url(../../assets/image/percent-bg.png) no-repeat;
+          background-size: 100% 100%;
+          text-align: center;
+          color: #fff;
+        }
+      }
+      .is-complete {
+        position: absolute;
+        right: -35px;
+        bottom: 10px;
+      }
+      .is-complete .icon-gou1,.is-complete .icon-shuaxin {
+        display: none;
+        color: #ff4800;
+      }
+      .is-complete .icon-gou1 {
+        color:#00e8ff;
+      }
+      .is-complete .icon-shuaxin {
+        font-size: 18px;
+      }
+      #info{
+        width: 100%;
+        position:absolute;
+        top: 150px;
+        font-size: 34px;
+        text-align: center;
+        text-shadow: 0px 1px 0px #b509da;
+        line-height: 56px;
+      }
     }
   }
   .circleWrap{
@@ -295,7 +381,6 @@
     z-index: 999999;
     width: 100%;
     height: 100%;
-    display: none;
     background: rgba(0,0,0,.6);
     .success {
       position: absolute;
@@ -333,13 +418,11 @@
     .successTop,.unSuccessTop {
       width: 100%;
       height: 100px;
-      background-color: #55a532;
       line-height: 2;
       padding: 40px;
       box-sizing: border-box;
       padding-top: 50px;
       color: #aaa;
-      display: none;
       text-align: center;
       font-size: 16px;
     }
@@ -354,7 +437,6 @@
       width: 100%;
       height: 50px;
       color: #000;
-      display: none;
     }
     .bottom:hover {
       cursor: pointer;
