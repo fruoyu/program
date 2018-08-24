@@ -9,11 +9,6 @@ class App extends Component {
     this.state = {
     };
   }
-  componentDidMount() {
-    // if (this.props.location.pathname === '/') {
-    //   this.props.dispatch(routerRedux.push('/login'));
-    // }
-  }
   render() {
     return (
       <MainWrapper>

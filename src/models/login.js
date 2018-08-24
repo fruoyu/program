@@ -1,6 +1,7 @@
 import { notifyError, notifySuccess } from '../services/app.js';
 import { Login, LoginOut, ChangePwd } from '../services/login';
 import { routerRedux } from 'dva/router';
+import routes from '../routes';
 import {
   setCookie,
   getCookie,
@@ -64,10 +65,17 @@ export default {
         if (pathname === '/') {
           dispatch(routerRedux.push('/login'));
         }
+        let flag = false;
+        routes.map((item) => {
+          if (item.path === pathname) {
+            flag = true;
+          }
+          return flag;
+        });
         if (getCookie('token')) {
           verify((err) => {
             if (err) { // cookie 超时了;
-              if (pathname !== '/login') {
+              if (flag) {
                 dispatch({
                   type: 'login/loginOut',
                   payload: {},
@@ -78,7 +86,7 @@ export default {
               }
             }
           });
-        } else if (pathname !== '/login') {
+        } else if (flag) {
           location.href = '/login';
         }
       });
