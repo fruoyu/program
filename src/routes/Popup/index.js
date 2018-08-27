@@ -106,6 +106,9 @@ class Popup extends Component {
       payload: {
         taskid: taskId
       },
+      callback: () => {
+        audio.src = this.props.popup.fileResult.filePath
+      }
     })
   }
 
@@ -337,13 +340,10 @@ class Popup extends Component {
                                     taskid: taskId
                                   },
                                   callback: () => {
-                                    let scrollH = this.refs['insightTerm' + customerItem].offsetTop-180;
-                                    console.log($('.insightTermWrap').scrollTop)
-                                    $('.insightTermWrap').scrollTop = scrollH+'px'
-                                    // $('.insightTermWrap').animate({scrollTop: scrollH+'px'}, 500);
-                                    this.setState({
-                                      scrollTop: scrollH
-                                    })
+                                    let scrollH = this.refs['insightTerm' + customerItem].offsetTop;
+                                    $('.insightTermWrap > div > div').animate({
+                                      scrollTop: scrollH + 'px',
+                                    }, 500)
                                   }
                                 })
                                 this.props.dispatch({
@@ -377,11 +377,10 @@ class Popup extends Component {
                                 taskid: taskId
                               },
                               callback: () => {
-                                let scrollH = this.refs['insightTerm' + typeItem].offsetTop-180;
-                                console.log(scrollH)
-                                this.setState({
-                                  scrollTop: scrollH
-                                })
+                                let scrollH = this.refs['insightTerm' + typeItem].offsetTop;
+                                $('.insightTermWrap > div > div').animate({
+                                  scrollTop: scrollH + 'px',
+                                }, 500)
                               }
                             })
                             this.props.dispatch({
@@ -494,7 +493,7 @@ class Popup extends Component {
       <div className="archivesAudio">
         <div id="audioEle">
           <div className="wx-audio-content" style={{ width: '100%' }}>
-            <audio className="wx-audio-content" src={require('../../assets/Universe.mp3')} ref='audio'></audio>
+            <audio className="wx-audio-content" ref='audio'></audio>
             <div className="wx-audio-right">
               <p className="middleX"></p>
               <div className="wx-audio-time">
@@ -600,6 +599,12 @@ class Popup extends Component {
                   filesList.map((item, index) => (
                     <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index}
                       onClick={() => {
+                        this.props.dispatch(routerRedux.push({
+                          pathname: '/popup',
+                          query: {
+                            taskId: item.id,
+                          },
+                        }));
                         this.props.dispatch({
                           type: 'history/saveTaskId',
                           payload: {
