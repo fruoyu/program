@@ -7,6 +7,14 @@ import {
 } from '../../components';
 import './main.less';
 import '../../assets/iconfont/iconfont.css';
+import { notifyError } from '../../services/app';
+import $ from 'jquery';
+let count = 0;
+let totalNumber = 0;
+let filesTotal = [];
+let ajaxArr = [];
+let uploadedNumber = 0;
+
 
 class Main extends Component {
   constructor() {
@@ -17,14 +25,236 @@ class Main extends Component {
       uploadDialog: true,
       gotoOtherPage: false,
       fileSuccess: true,
-      uploadSure: true,
+      uploadSure: false,
     };
   }
 
   changeUploadFile = (e) => {
-    if (true) {
-      alert('格式不正确');
-      return false;
+    let files = e.currentTarget.files;
+    let $wrap = $('<div class="list-wrap"></div>');
+    this.uploadFile({
+      url: "/api/openApi/voiceQuality/uploadFilesIo",
+      data: {},
+      files: files,
+      filter: [],
+      sendBefore: (files) => {
+        //开始之前
+        let str = '';
+        for(let i = 0; i < files.length; i++){
+          let item = files[i];
+          let itemName = item.name.substr(0,item.name.length-4);
+          let fileNameStrArr = itemName.split('-');
+          if (fileNameStrArr.length != 4) {
+            continue;
+          } else {
+            if (fileNameStrArr.indexOf('') > -1) {
+              continue;
+            }
+          }
+          str += '<div class="upload-item">' +
+              '<div class="file-info">' + item.name + '</div>' +
+              '<div class="file-progress">' +
+              '<div class="progress-color"></div>' +
+              '<div class="progress-grey"><span class="percent">0%</span></div>' +
+              '</div>' +
+              '<div class="is-complete">' +
+              '<span class="iconfont icon-gou1"></span>' +
+              '<span class="iconfont icon-shuaxin"></span>' +
+              '</div>' +
+              '</div>';
+        }
+        $wrap.prepend(str);
+        $('.upload-bottom').prepend($wrap).scrollTop();
+      },
+      success: (data, index, _count) => {
+        //某个文件传完
+        let length = $('.list-wrap').length - _count - 1;
+        $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.icon-gou1').show();
+        $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status','success');
+        $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.percent').html('100%');
+        $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.progress-grey').css('width','0%');
+        this.setState({
+          fileSuccess: true,
+        })
+      },
+      error: (err, index, _count) => {
+        $('.upload-failed').show();
+        let length = $('.list-wrap').length - _count - 1;
+        $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.icon-shuaxin').show();
+        $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status','error');
+        $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.progress-grey').addClass('width100');
+        $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.percent').html('0%').hide();
+        this.setState({
+          gotoOtherPage: true,
+          fileSuccess: false,
+        })
+      },
+      progress: (file) => {
+        //某个文件的上传进度
+
+        // file.loaded  已经上传的
+        // flie.total  总量
+        // file.percent  百分比
+        // file.index   第多少个文件
+        let length = $('.list-wrap').length - file._count - 1;
+        let per = file.percent.split('%')[0];
+        $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.percent').html(per+'%');
+        $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.progress-grey').css('width',(100-per) + '%');
+        console.log(file.name + ":第" + file.index + '个:' + file.percent);
+      },
+    });
+
+    // let s = setInterval(() => {
+    //   let ajaxArr1 = ajaxArr.filter(function(item,index){
+    //     if (item.readyState == 4) {
+    //       return true;
+    //     }
+    //   });
+    //   if (ajaxArr1.length == ajaxArr.length && ajaxArr.length != 0) {
+    //     $('#upload-voice .close').trigger('click');
+    //     clearInterval(s)
+    //   }
+    // }, 1000);
+    // for (let i = 0; i < files.length; i++) {
+    //   let name = files[i].name.slice(0, files[i].name.lastIndexOf('.'))
+    //   if (name != '') {
+    //     notifyError('名字格式不正确')
+    //     return false;
+    //   } else {
+    //     this.setState({
+    //       uploadSure: true,
+    //     })
+    //   }
+    // }
+  }
+
+  uploadFile = (option) => {
+    let _count;
+    if (!option.isShuaxin) {
+      _count = count++;
+    }
+    let defau = {
+      type: 'post',
+      cache: false,
+      url: '',
+      data: {
+      },
+      files: [''],
+      isShuaxin: false,
+      processData: false,
+      contentType: false,
+      success: () => {},
+      error: () => {},
+      progress: () => {},
+      sendBefore: () => {},
+      filter: [],  //可以接受的文件后缀
+    };
+    option = $.extend(true, defau, option);
+    
+    let fileP = this.refs.uploadInput || "file";  //传给后端得 file对应字段
+    let files = defau.files;
+    //伪数组转换为数组
+    files = Array.prototype.slice.call(files);
+    //排除掉格式错误的数据
+    files = files.filter((ele, index, array) => {
+      const patrn = /^(?:[\u4E00-\u9FA5]+-){3}([0-9]+)$/g;
+      const patrnPhone = /^[1][3-9][0-9]{9}$/g;
+
+      let fileName = ele.name.substr(0, ele.name.length - 4);
+      let fileNameStrArr = fileName.split('-');
+      if (fileNameStrArr.length != 4) {
+        // alert('当前文件格式错误');
+        return false;
+      } else {
+        if (fileNameStrArr.indexOf('') > -1) {
+          // alert('当前文件格式错误');
+          return false;
+        }
+      }
+      return true;
+    });
+    if (files.length != defau.files.length) {
+      $('#upload').val('');
+      notifyError('当前上传存在文件格式错误,正确格式为大区-销售名称-客户名称-客户电话!');
+    }
+    if (files.length > 0) {
+      $('.upload-btn .icon-shangchuan').css('font-size','55px');
+      $('#upload-voice').addClass('big').find('.upload-bottom').show();
+      $('.upload-num').show()
+    }
+    if (!defau.isShuaxin) {
+      totalNumber += files.length;
+      $('.total-num').html(totalNumber);
+      filesTotal.unshift(files);
+    }
+    //发送之前
+    option.sendBefore(files);
+
+    let index = -1;
+    for (let i = 0,len = files.length; i < len; i++) {
+      let fs = files[i];
+      let fileName = fs.name.substr(0, fs.name.length - 4);
+      let fNmae = fs.name.substr(fs.name.length - 4, 4);
+      let str = '';
+      if(option.filter.length > 0 && option.filter.indexOf(fNmae) !== -1){
+        option.error("文件后缀不符",i);
+        continue;
+      }
+      index++;
+      fileUpload(files[index], index);
+    }
+
+    function fileUpload (file, index) {
+      let fd = new FormData();
+      fd.append(fileP,file);
+  
+      // 追加其他参数
+      for(let i in option.data){
+        fd.append(i,option.data[i]);
+      }
+      
+      console.log(option.url)
+      let ajax = $.ajax({
+        url: option.url,
+        type: option.type,
+        data: fd,
+        cache: option.cache,
+        processData: option.processData,
+        contentType: option.contentType,
+        success: (data) => {
+          option.success(data, index,_count);
+          uploadedNumber++;
+          $('.uploaded-number').html(uploadedNumber);
+          $('#upload').val('');
+        },
+        error:(error) => {
+          console.log(error);
+          option.error(error,index,_count);
+        },
+        xhr: () => {
+          let xhr = $.ajaxSettings.xhr();
+          console.log(onprogress && xhr.upload)
+          if(onprogress && xhr.upload) {
+            console.log('开始上传')
+            xhr.upload.addEventListener("progress", onprogress, false);
+            return xhr;
+          }
+        }
+      });
+      ajaxArr.push(ajax);
+
+      function onprogress (evt) {
+        let loaded = evt.loaded;     //已经上传大小情况
+        let tot = evt.total;      //附件总大小
+        let per = Math.floor(100*loaded/tot);  //已经上传的百分比
+        if(per == 100) per = 99;
+        file.loaded = loaded;
+        file.total = tot;
+        file.percent = per + '%';
+        file.index = index;
+        file._count = _count;
+        option.progress(file);
+      }
     }
   }
 
@@ -36,17 +266,14 @@ class Main extends Component {
           <div className="title">上传语音文件</div>
           <span
             className="close iconfont icon-htmal5icon19" onClick={() => {
-              // this.setState({
-              //   uploadDialog: false,
-              // });
-              console.log(this.refs.uploadInput)
+              $('#upload-voice').hide();
             }}
           />
         </div>
         <div className="upload-middle">
           <div className="upload-btn">
             {/* <accept="audio/wav, audio/mp3">*/}
-            <input id="upload" type="file" name="file" multiple="multiple" accept="audio/wav, audio/mp3" ref='uploadInput' hidden onChange={(e) => {
+            <input id="upload" type="file" data-name="file" multiple="multiple" accept="audio/wav, audio/mp3" ref='uploadInput' hidden onChange={(e) => {
               this.changeUploadFile(e)
             }} />
             <span className="iconfont icon-shangchuan" />
@@ -58,28 +285,9 @@ class Main extends Component {
             <span className="already">已完成<span className="uploaded-number">0</span>个</span>
           </div>
         </div>
-        {
-          this.state.uploadSure &&
-          <div className="upload-bottom">
-            <span className="upload-failed">*上传文件中断，请刷新重新上传</span>
-            <div className="list-wrap">
-              <div className="upload-item">
-                <div className="file-info" style={{ color: true ? '#fff' : '#f00' }}>名字</div>
-                <div className="file-progress">
-                  <div className="progress-color"></div>
-                  <div className="progress-grey">
-                    <span className="percent">0%</span>
-                  </div>
-                </div>
-                <div className="is-complete">
-                  <span className="iconfont icon-gou1"></span>
-                  <span className="iconfont icon-shuaxin"></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        }
-        
+        <div className="upload-bottom">
+          <span className="upload-failed">*上传文件中断，请刷新重新上传</span>
+        </div>
       </div>
     );
   }
@@ -139,10 +347,7 @@ class Main extends Component {
         <div
           id="start-insight"
           onClick={() => {
-            console.log('上传文件', this)
-            this.setState({
-              uploadDialog: true,
-            });
+            $('#upload-voice').show();
           }}
         />
         <DanaoWrapper>
@@ -158,7 +363,7 @@ class Main extends Component {
         </DanaoWrapper>
         {/* 上传文件*/}
         {
-          this.state.uploadDialog && this.renderUpload()
+          this.renderUpload()
         }
         {
           this.state.gotoOtherPage && this.renderFile()
