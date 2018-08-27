@@ -17,6 +17,7 @@ class UserPortrait extends Component {
     };
     this.getQueryKeyItem = this.getQueryKeyItem.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
+    this.renderArt = this.renderArt.bind(this);
   }
   componentDidMount() {
     this.sendRequest();
@@ -30,6 +31,7 @@ class UserPortrait extends Component {
         taskid: id,
       },
       callback: () => {
+        // console.log(this.props.history.keyItemData);
         setTimeout(() => {
           $('.dashed').slideDown('slow');
         }, 1000);
@@ -50,6 +52,24 @@ class UserPortrait extends Component {
         status: '',
       },
     });
+  }
+  // 滑过提示信息
+  renderArt =(content) => {
+    if (content) {
+      return (<small className="has-content">{content}</small>);
+    } else {
+      return (<small className="not-has-content">无</small>);
+    }
+  }
+  // 具体信息展示函数
+  renderContext = (index) => {
+    const { keyItemData } = this.props.history;
+    let result = '无';
+    if (keyItemData && keyItemData.length > 0 && keyItemData[index] &&
+      keyItemData[index].context.length > 0) {
+      result = keyItemData[index].context;
+    }
+    return result;
   }
   render() {
     const { filesList } = this.props.history;
@@ -78,19 +98,28 @@ class UserPortrait extends Component {
                     <h3>家庭结构</h3>
                     <ul>
                       <li
-                        onMouseEnter={() => { this.setState({ key: 1 }); }}
+                        onMouseEnter={() => { this.setState({ key: 0 }); }}
                         onMouseLeave={() => { this.setState({ key: -1 }); }}
                       >
                         <span className="item">子女 :</span>
-                        <span className="CUSTOMER_CHILD">数据</span>
+                        <span className="CUSTOMER_CHILD">
+                          {
+                            this.renderContext(4)
+                          }
+                        </span>
                         {
-                          this.state.key === 1 && <small style={{ background: '#ffc', padding: 5 }}>小程是sd的女生序</small>
+                          this.state.key === 0 && this.renderArt(this.renderContext(4))
                         }
-
                       </li>
-                      <li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 1 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
                         <span>年龄 :</span>
-                        <span className="CUSTOMER_AGE">18</span>
+                        <span className="CUSTOMER_AGE">无</span>
+                        {
+                          this.state.key === 1 && this.renderArt()
+                        }
                       </li>
                       <li>
                         <span>性别 :</span>
@@ -147,7 +176,7 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>保险情况</h3>
                     <ul>
-                      <li><span>社保 :</span><span className="SOCIAL_SECURITY">无</span></li>
+                      <li><span>社保 :</span><span className="has-cont">无</span></li>
                       <li><span>商保 :</span><span className="COMMERCIAL_INSURANCE">无</span></li>
                       <li><span>保险购买人 :</span><span className="INSURANCE_PURCHASER">无</span></li>
                     </ul>
