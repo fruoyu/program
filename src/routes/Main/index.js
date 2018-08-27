@@ -35,21 +35,22 @@ class Main extends Component {
     this.uploadFile({
       url: "/api/openApi/voiceQuality/uploadFilesIo",
       data: {},
-      files: files,
+      files,
       filter: [],
-      sendBefore: (files) => {
-        //开始之前
+      sendBefore: (sendFiles) => {
+        // 开始之前
         let str = '';
-        for(let i = 0; i < files.length; i++){
-          let item = files[i];
-          let itemName = item.name.substr(0,item.name.length-4);
-          let fileNameStrArr = itemName.split('-');
-          if (fileNameStrArr.length != 4) {
-            continue;
-          } else {
-            if (fileNameStrArr.indexOf('') > -1) {
-              continue;
-            }
+        for (let i = 0; i < sendFiles.length; i ++) {
+          const item = sendFiles[i];
+          const itemName = item.name.substr(0,item.name.length-4);
+          const fileNameStrArr = itemName.split('-');
+          const patrn = /^(?:[\u4E00-\u9FA5]+-){3}([0-9]+)$/g;
+          const patrnPhone = /^[1][3-9][0-9]{9}$/g;
+          const regArr = patrn.exec(itemName);
+          if (!patrnPhone.test(regArr[1])) {
+            return;
+          } else if (fileNameStrArr.indexOf('') > -1) {
+            return;
           }
           str += '<div class="upload-item">' +
               '<div class="file-info">' + item.name + '</div>' +
@@ -64,24 +65,25 @@ class Main extends Component {
               '</div>';
         }
         $wrap.prepend(str);
-        $('.upload-bottom').prepend($wrap).scrollTop();
+        $('.upload-bottom').prepend($wrap);
       },
       success: (data, index, _count) => {
-        //某个文件传完
-        let length = $('.list-wrap').length - _count - 1;
+        // 某个文件传完
+        const length = $('.list-wrap').length - _count - 1;
         $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.icon-gou1').show();
-        $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status','success');
+        $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status', 'success');
         $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.percent').html('100%');
         $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.progress-grey').css('width','0%');
         this.setState({
+          gotoOtherPage: true,
           fileSuccess: true,
-        })
+        });
       },
       error: (err, index, _count) => {
         $('.upload-failed').show();
-        let length = $('.list-wrap').length - _count - 1;
+        const length = $('.list-wrap').length - _count - 1;
         $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.icon-shuaxin').show();
-        $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status','error');
+        $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status', 'error');
         $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.progress-grey').addClass('width100');
         $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.percent').html('0%').hide();
         this.setState({
@@ -90,17 +92,17 @@ class Main extends Component {
         })
       },
       progress: (file) => {
-        //某个文件的上传进度
+        // 某个文件的上传进度
 
         // file.loaded  已经上传的
         // flie.total  总量
         // file.percent  百分比
         // file.index   第多少个文件
-        let length = $('.list-wrap').length - file._count - 1;
-        let per = file.percent.split('%')[0];
+        const length = $('.list-wrap').length - file._count - 1;
+        const per = file.percent.split('%')[0];
         $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.percent').html(per+'%');
         $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.progress-grey').css('width',(100-per) + '%');
-        console.log(file.name + ":第" + file.index + '个:' + file.percent);
+        console.log(file.name + ':第' + file.index + '个:' + file.percent);
       },
     });
 
@@ -151,7 +153,7 @@ class Main extends Component {
     };
     option = $.extend(true, defau, option);
     
-    let fileP = this.refs.uploadInput || "file";  //传给后端得 file对应字段
+    let fileP = $('#upload').attr('data-name') || "file";  //传给后端得 file对应字段
     let files = defau.files;
     //伪数组转换为数组
     files = Array.prototype.slice.call(files);
@@ -233,9 +235,7 @@ class Main extends Component {
         },
         xhr: () => {
           let xhr = $.ajaxSettings.xhr();
-          console.log(onprogress && xhr.upload)
           if(onprogress && xhr.upload) {
-            console.log('开始上传')
             xhr.upload.addEventListener("progress", onprogress, false);
             return xhr;
           }
@@ -273,8 +273,8 @@ class Main extends Component {
         <div className="upload-middle">
           <div className="upload-btn">
             {/* <accept="audio/wav, audio/mp3">*/}
-            <input id="upload" type="file" data-name="file" multiple="multiple" accept="audio/wav, audio/mp3" ref='uploadInput' hidden onChange={(e) => {
-              this.changeUploadFile(e)
+            <input id="upload" type="file" data-name='file' multiple="multiple" accept="audio/wav, audio/mp3" ref='uploadInput' hidden onChange={(e) => {
+              this.changeUploadFile(e);
             }} />
             <span className="iconfont icon-shangchuan" />
             <p style={{ marginBottom: '10px' }}>上传文件</p>
