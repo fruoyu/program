@@ -28,11 +28,6 @@ class Main extends Component {
       uploadSure: false,
     };
   }
-  componentDidMount() {
-    if (this.props.location.pathname === '/') {
-      this.props.dispatch(routerRedux.push('/login'));
-    }
-  }
 
   changeUploadFile = (e) => {
     let files = e.currentTarget.files;

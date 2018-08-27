@@ -51,15 +51,16 @@
       display: block;
     }
   }
+
   /* 画像*/
   .huaxiang {
     right:15%;
-    background: #7f1309;
+    background: #5a2200;
     .icon-huaxiang {
       display: block;
       transition: transform .5s linear !important;
       font-size: 22px;
-      color: #da081c;
+      color: #a45627;
     }
     .photograph {
       display: none;
@@ -80,7 +81,7 @@
     }
   }
   .huaxiang:hover {
-    background: #da081c;
+    //background: #da081c;
     .photograph {
       display: block;
     }
@@ -89,6 +90,39 @@
       color: #fff;
     }
   }
+
+  /* 数据*/
+  .shuju {
+    right:calc(~"15% + 50px");
+    background: #8109ba;
+    .icon-xiangqing1 {
+      font-size: 22px;
+      color: #fff;
+    }
+    .record {
+      display: none;
+      position: absolute;
+      width: 50px;
+      line-height: 20px;
+      height: 20px;
+      font-size: 12px;
+      text-align: center;
+      top: 50px;
+      left: -5px;
+      border: 1px solid #600091;
+      border-radius: 20px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      background: #1a1b3a;
+      color: #fff;
+    }
+  }
+  .shuju:hover {
+    .record {
+      display: block;
+    }
+  }
+
 }
 .header{
   width: 100%;
