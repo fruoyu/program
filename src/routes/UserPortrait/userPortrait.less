@@ -169,17 +169,29 @@
     small {
       position: absolute;
       color: #000;
-      max-width: 200px;
       top: 20px;
-      left:20px;
       background: #88c1f6;
-      padding: 3px;
       z-index: 999;
+      text-align: center;
     }
     small.has-content{
       overflow: hidden;
       white-space: pre-wrap;
 
+    }
+  }
+  .leftdashed > .content > .ul > ul > li{
+    small {
+      max-width: 200px;
+      min-width: 20px;
+      left:20px;
+    }
+  }
+  .rightdashed > .content > .ul > ul > li {
+    small {
+      max-width: 200px;
+      right:10px;
+      min-width: 20px;
     }
   }
   .leftdashed > .content > .ul > ul > li > span:nth-child(2) {

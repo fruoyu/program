@@ -130,11 +130,11 @@ class UserPortrait extends Component {
                         <span className="item">子女 :</span>
                         <span className="CUSTOMER_CHILD">
                           {
-                            this.renderContext(4)
+                            this.renderContext(0)
                           }
                         </span>
                         {
-                          this.state.key === 0 && this.renderArt(this.renderContext(4))
+                          this.state.key === 0 && this.renderArt(this.renderContext(0))
                         }
                       </li>
                       <li
@@ -142,18 +142,42 @@ class UserPortrait extends Component {
                         onMouseLeave={() => { this.setState({ key: -1 }); }}
                       >
                         <span>年龄 :</span>
-                        <span className="CUSTOMER_AGE">无</span>
+                        <span className="CUSTOMER_AGE">
+                          {
+                            this.renderContext(1)
+                          }
+                        </span>
                         {
-                          this.state.key === 1 && this.renderArt()
+                          this.state.key === 1 && this.renderArt(this.renderContext(1))
                         }
                       </li>
-                      <li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 2 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
                         <span>性别 :</span>
-                        <span className="CUSTOMER_SEX">无</span>
+                        <span className="CUSTOMER_SEX">
+                          {
+                            this.renderContext(2)
+                          }
+                        </span>
+                        {
+                          this.state.key === 2 && this.renderArt(this.renderContext(2))
+                        }
                       </li>
-                      <li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 3 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
                         <span>婚姻 :</span>
-                        <span className="CUSTOMER_MERRIGE">无</span>
+                        <span className="CUSTOMER_MERRIGE">
+                          {
+                            this.renderContext(3)
+                          }
+                        </span>
+                        {
+                          this.state.key === 3 && this.renderArt(this.renderContext(3))
+                        }
                       </li>
                     </ul>
                   </div>
@@ -169,9 +193,48 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>购买力</h3>
                     <ul>
-                      <li><span>从事行业 :</span><span className="CUSTOMER_JOB">无</span></li>
-                      <li><span>房产情况 :</span><span className="CONSUME_HOUSE">无</span></li>
-                      <li><span>车辆情况 :</span><span className="CONSUME_CAR">无</span></li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 4 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>从事行业 :</span>
+                        <span className="CUSTOMER_JOB">
+                          {
+                           this.renderContext(4)
+                         }
+                        </span>
+                        {
+                          this.state.key === 4 && this.renderArt(this.renderContext(4))
+                        }
+                      </li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 5 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>房产情况 :</span>
+                        <span className="CONSUME_HOUSE">
+                          {
+                            this.renderContext(5)
+                          }
+                        </span>
+                        {
+                          this.state.key === 5 && this.renderArt(this.renderContext(5))
+                        }
+                      </li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 6 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>车辆情况 :</span>
+                        <span className="CONSUME_CAR">
+                          {
+                           this.renderContext(6)
+                         }
+                        </span>
+                        {
+                          this.state.key === 6 && this.renderArt(this.renderContext(6))
+                        }
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -186,8 +249,33 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>兴趣爱好</h3>
                     <ul>
-                      <li><span>爱好的活动 :</span><span className="CUSTOMER_HOBBY">无</span></li>
-                      <li><span>欣赏什么样的人 :</span><span className="CUSTOMER_ADMIRE">无</span></li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 7 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>爱好的活动 :</span>
+                        <span className="CUSTOMER_HOBBY">
+                          {
+                           this.renderContext(7)
+                         }
+                        </span>
+                        {
+                          this.state.key === 7 && this.renderArt(this.renderContext(7))
+                        }
+                      </li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 8 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>欣赏什么样的人 :</span><span className="CUSTOMER_ADMIRE">
+                        {
+                           this.renderContext(8)
+                         }
+                      </span>
+                        {
+                          this.state.key === 8 && this.renderArt(this.renderContext(8))
+                        }
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -202,9 +290,48 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>保险情况</h3>
                     <ul>
-                      <li><span>社保 :</span><span className="has-cont">无</span></li>
-                      <li><span>商保 :</span><span className="COMMERCIAL_INSURANCE">无</span></li>
-                      <li><span>保险购买人 :</span><span className="INSURANCE_PURCHASER">无</span></li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 9 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>社保 :</span>
+                        <span className="has-cont">
+                          {
+                           this.renderContext(9)
+                         }
+                        </span>
+                        {
+                          this.state.key === 9 && this.renderArt(this.renderContext(9))
+                        }
+                      </li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 10 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>商保 :</span>
+                        <span className="COMMERCIAL_INSURANCE">
+                          {
+                           this.renderContext(10)
+                         }
+                        </span>
+                        {
+                            this.state.key === 10 && this.renderArt(this.renderContext(10))
+                        }
+                      </li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 11 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>保险购买人 :</span>
+                        <span className="INSURANCE_PURCHASER">
+                          {
+                           this.renderContext(11)
+                         }
+                        </span>
+                        {
+                          this.state.key === 11 && this.renderArt(this.renderContext(11))
+                        }
+                      </li>
                     </ul>
                   </div>
                 </div>
@@ -219,11 +346,76 @@ class UserPortrait extends Component {
                   <div className="ul">
                     <h3>投资情况</h3>
                     <ul>
-                      <li><span>投资类型 :</span><span className="INVESTMENT_TYPE">无</span></li>
-                      <li><span>投资打理人 :</span><span className="INVESTMENT_PURCHASER">无</span></li>
-                      <li><span>各项投资占比 :</span><span className="INVESTMENT_RATIO">无</span></li>
-                      <li><span>投资时长 :</span><span className="INVESTMENT_DURATION">无</span></li>
-                      <li><span>理财风险偏好 :</span><span className="RISK_PREFERENCE">无</span></li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 12 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>投资类型 :</span>
+                        <span className="INVESTMENT_TYPE">
+                          {
+                           this.renderContext(12)
+                         }
+                        </span>
+                        {
+                          this.state.key === 12 && this.renderArt(this.renderContext(12))
+                        }
+                      </li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 13 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>投资打理人 :</span>
+                        <span className="INVESTMENT_PURCHASER">
+                          {
+                           this.renderContext(13)
+                         }
+                        </span>
+                        {
+                          this.state.key === 13 && this.renderArt(this.renderContext(13))
+                        }
+                      </li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 14 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>各项投资占比 :</span>
+                        <span className="INVESTMENT_RATIO">
+                          {
+                           this.renderContext(14)
+                         }
+                        </span>
+                        {
+                          this.state.key === 14 && this.renderArt(this.renderContext(14))
+                        }
+                      </li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 15 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>投资时长 :</span>
+                        <span className="INVESTMENT_DURATION">
+                          {
+                           this.renderContext(15)
+                         }
+                        </span>
+                        {
+                          this.state.key === 15 && this.renderArt(this.renderContext(15))
+                        }
+                      </li>
+                      <li
+                        onMouseEnter={() => { this.setState({ key: 16 }); }}
+                        onMouseLeave={() => { this.setState({ key: -1 }); }}
+                      >
+                        <span>理财风险偏好 :</span>
+                        <span className="RISK_PREFERENCE">
+                          {
+                           this.renderContext(16)
+                         }
+                        </span>
+                        {
+                          this.state.key === 16 && this.renderArt(this.renderContext(16))
+                        }
+                      </li>
                     </ul>
                   </div>
                 </div>
