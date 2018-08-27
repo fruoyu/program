@@ -16,172 +16,9 @@ import '../../assets/iconfont/iconfont.css';
 import '../../plugs/audio/audio.css';
 
 class Popup extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      taskId: '',
-      fileList: [
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-        {
-          createTime: "2018-08-14 14:15:28.0",
-          dialogueContent: "",
-          fileName: "战旗-王帅-录音笔-123456.WAV",
-          filePath: "/home/work/guoshou/classes/static/data/20180814141528005战旗-王帅-录音笔-123456.WAV",
-          id: 24,
-          insightResult: "",
-          lastUpdateTime: "2018-08-14 14:15:28.0",
-          md5: "",
-          size: "9.5MB",
-          statusMessage: "done",
-          systemId: 0,
-          taskid: "",
-          userId: "11024400000050",
-          userName: "周晨",
-        },
-      ],
       customer: {
         CUSTOMER_CHILD: '子女信息',
         CUSTOMER_AGE: '年龄',
@@ -201,41 +38,6 @@ class Popup extends Component {
         CUSTOMER_HOBBY: '爱好的活动',
         CUSTOMER_ADMIRE: '欣赏什么样的人'
       },
-      labellist: {
-        COMMERCIAL_INSURANCE: [],
-        CONSUME_CAR: [],
-        CONSUME_HOUSE: [],
-        CUSTOMER_ADMIRE: [],
-        CUSTOMER_AGE: [
-          {
-            context: "这个表姐。它说到后台的时候发后台呢就直接给我们那个后台推广部就直接到党了，因为它是属于拍摄那种，",
-            id: "78d9ff98-6233-4cfd-9c2d-a31b1352677e",
-            status: "true",
-            time: "31790",
-            type: "CUSTOMER_CHILD",
-          },
-        ],
-        CUSTOMER_CHILD: [
-          {
-            context: "这个表姐。它说到后台的时候发后台呢就直接给我们那个后台推广部就直接到党了，因为它是属于拍摄那种，",
-            id: "78d9ff98-6233-4cfd-9c2d-a31b1352677e",
-            status: "false",
-            time: "31790",
-            type: "CUSTOMER_CHILD",
-          },
-        ],
-        CUSTOMER_HOBBY: [],
-        CUSTOMER_JOB: [],
-        CUSTOMER_MERRIGE: [],
-        CUSTOMER_SEX: [],
-        INSURANCE_PURCHASER: [],
-        INVESTMENT_DURATION: [],
-        INVESTMENT_PURCHASER: [],
-        INVESTMENT_RATIO: [],
-        INVESTMENT_TYPE: [],
-        RISK_PREFERENCE: [],
-        SOCIAL_SECURITY: [],
-      },
       keylist: [
         {
           context: "没有",
@@ -246,383 +48,26 @@ class Popup extends Component {
           taskid: "3",
           type: "COMMERCIAL_INSURANCE",
         },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "CONSUME_CAR",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "CONSUME_HOUSE",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "CUSTOMER_ADMIRE",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "CUSTOMER_AGE",
-        },
-
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "CUSTOMER_CHILD",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "CUSTOMER_HOBBY",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "CUSTOMER_JOB",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "CUSTOMER_MERRIGE",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "CUSTOMER_SEX",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "INSURANCE_PURCHASER",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "INVESTMENT_DURATION",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "INVESTMENT_PURCHASER",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "INVESTMENT_RATIO",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "INVESTMENT_TYPE",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "RISK_PREFERENCE",
-        },
-        {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "SOCIAL_SECURITY",
-        },
       ],
-      originalList: [
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: [],
-          role: "USER",
-          startTime: 0,
-          types: [],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-        {
-          emotionType: "UNKNOWN",
-          endTime: 310,
-          id: 1,
-          itemids: ["ee91d4eb-d518-4223-9bf3-a020563f1461", "20246d50-909f-44ed-a816-3f791388bfc4"],
-          role: "KEFU",
-          startTime: 0,
-          types: ['CUSTOMER_MERRIGE', 'CUSTOMER_AGE'],
-          voiceContent: "嗯。",
-        },
-      ],
-      clickIndex: 0,
       hoverIndex: -1,
       isPlay: false,
       isOriginal: false,
       isInputEdit: true,
       isBiaozhu: false,
       biaozhuIndex: -1,
-      isPaused: false,
-      totalTime: 0,
-      playPer: 0,
-      bufferedPer: 0,
-      playedLeft: 0,
-      volumnLeft: 0,
-      remainTime: 0,
-      angle: 0,
-      mouseDown: false,
-      musicListShow: false,
-      currentMusic: {},
-      isPlayed: false
+      isPaused:false,
+      totalTime:0,
+      playPer:0,
+      bufferedPer:0,
+      playedLeft:0,
+      volumnLeft:0,
+      remainTime:0,
+      angle:0,
+      mouseDown:false,
+      musicListShow:false,
+      currentMusic:{},
+      isPlayed:false,
+      scrollTop: 100,
     };
     this.clickChangeTime = this.clickChangeTime.bind(this);
     this.slideChangeTime = this.slideChangeTime.bind(this);
@@ -634,24 +79,34 @@ class Popup extends Component {
     });
   }
   componentDidMount() {
-    /* this.props.dispatch({
-      type: 'history/getSingleData',
-      payload: {
-        taskid: this.props.location.query.taskId,
-      },
-    });*/
+    // 获取taskId
+    let taskId = this.props.location.query.taskId;
     let audio = this.refs.audio;
-    audio.addEventListener('canplay', () => {
-      // 获取总时间
+    //获取总时间
+    audio.addEventListener('canplay',()=>{
       let totalTime = parseInt(this.refs.audio.duration);
       this.setState({
-        totalTime: this.formatSeconds(totalTime),
-        remainTime: this.formatSeconds(0),
-        playedLeft: this.refs.played.getBoundingClientRect().left,
-        // volumnLeft:this.refs.totalVolume.getBoundingClientRect().left
-      });
-      //
+        totalTime:this.formatSeconds(totalTime),
+      })
+    })
+    this.setState({
+      remainTime:this.formatSeconds(0),
+      playedLeft:this.refs.played.getBoundingClientRect().left,
     });
+    // 请求已识别文件
+    this.props.dispatch({
+      type: 'popup/getFilesListByid',
+      payload: {
+        taskid: taskId
+      },
+    })
+    // 请求画像数据
+    this.props.dispatch({
+      type: 'popup/getFileResultApi',
+      payload: {
+        taskid: taskId
+      },
+    })
   }
 
   formatSeconds = (s) => {
@@ -680,12 +135,19 @@ class Popup extends Component {
 
   // 渲染画像数据
   renderTermWrap = () => {
+    let {
+      fileResult: {
+        keylist,
+        labellist,
+      } = {}
+    } = this.props.popup
+    let taskId = this.props.location.query.taskId;
     return (
-      <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')}>
+      <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')} ref='insightTermWrap'>
         <Scrollbars>
           {
             Object.keys(this.state.customer).map((item, index) => (
-              <div className="insightTerm" data-type={item} key={index}>
+              <div className="insightTerm" data-type={item} key={index} ref={'insightTerm' + item}>
                 <div className="insightTermTitle">
                   <p>{this.state.customer[item]}:</p>
                   <div onClick={() => {
@@ -694,12 +156,39 @@ class Popup extends Component {
                     })
                   }}>
                     {
-                      this.state.keylist.map((keylistItem, keylistIndex) => {
+                      keylist && keylist.length && keylist.map((keylistItem, keylistIndex) => {
                         if (keylistItem.type == item) {
-                          return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit} ref={'input' + index} onBlur={() => {
-                            console.log('失去焦点')
+                          return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit} ref={'input' + index} onBlur={(e) => {
+                            this.props.dispatch({
+                              type: 'popup/KeyEdit',
+                              payload: {
+                                context: e.target.value,
+                                taskId: taskId,
+                                optype: 'add',
+                                type: item,
+                              },
+                              callback: (data) => {
+                                console.log(data)
+                              },
+                            })
                             this.setState({
                               isInputEdit: true,
+                            })
+                          }} onChange={(e) => {
+                            const keylistObj = keylist
+                            keylistObj.map((objItem, objIndex) => {
+                              if (objItem.type == item) {
+                                keylistObj[objIndex].context = e.target.value
+                              }
+                            })
+                            this.props.dispatch({
+                              type: 'popup/saveKeylistForm',
+                              payload: {
+                                fileResult: {
+                                  ...this.props.popup.fileResult,
+                                  keylist: keylistObj
+                                }
+                              },
                             })
                           }}></input>
                         }
@@ -721,7 +210,7 @@ class Popup extends Component {
                 <div className="insightTermContent">
                   <div className="digTitle">挖掘出的语句</div>
                   {
-                    this.state.labellist[item].map((labelItem, labelIndex) => (
+                    keylist && labellist[item].map((labelItem, labelIndex) => (
                       <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
                         <div className="digSentence">
                           <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
@@ -736,15 +225,35 @@ class Popup extends Component {
                           </div>
                         </div>
                         <div className="border-wrap"></div>
-                        {
-                          labelItem.status == 'true' ?
-                            <div className="sentenceDel" data-name={0}>
-                              <i className="iconfont icon-cuowu"></i>
-                            </div> :
-                            <div className="sentenceRight" data-name={0}>
-                              <i className="iconfont icon-gou1"></i>
-                            </div>
-                        }
+                        <div className={labelItem.status == 'true' ? 'sentenceDel' : 'sentenceRight'} data-name={0} onClick={() => {
+                          this.props.dispatch({
+                            type: 'popup/editItem',
+                            payload: {
+                              id: labelItem.id,
+                              status: labelItem.status == 'true' ? false: true,
+                            },
+                            callback: (data) => {
+                              this.props.dispatch({
+                                type: 'popup/getFileResultApi',
+                                payload: {
+                                  taskid: taskId
+                                },
+                              })
+                              if (this.state.isOriginal) {
+                                this.props.dispatch({
+                                  type: 'popup/getOriginalList',
+                                  payload: {
+                                    taskid: taskId
+                                  },
+                                })
+                              }
+                            },
+                          })
+                        }}>
+                          {
+                             <i className={['iconfont', labelItem.status == 'true' ? 'icon-cuowu' : 'icon-gou1'].join(' ')}></i>
+                          }
+                        </div>
                       </div>
 
                     ))
@@ -761,31 +270,37 @@ class Popup extends Component {
 
   // 渲染销售与用户对话
   renderTextWrap = () => {
+    let {
+      originalList
+    } = this.props.popup
+    // 获取taskId
+    let taskId = this.props.location.query.taskId;
     return (
       <div className="insightTextWrap" style={{ boxSizing: 'border-box', }}>
         <Scrollbars>
           {
-            this.state.originalList.map((item, index) => (
-              <div key={index} className={['originalText', item.role == 'USER' ? 'rightText' : 'leftText'].join(' ')}>
+            Object.keys(originalList).map((item, index) => (
+              <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')}>
                 {
-                  item.role == 'USER' ?
-                    <div className="fristLine">
-                      <span>用户</span>
-                      <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
-                    </div> :
-                    <div className="fristLine">
-                      <span>{this.formatSeconds(parseInt(item.startTime / 1000))}</span>
-                      <span>销售</span>
-                    </div>
+                  originalList[item].role == 'USER' ?
+                  <div className="fristLine">
+                    <span>用户</span>
+                    <span>{this.formatSeconds(parseInt(originalList[item].startTime / 1000))}</span>
+                  </div> :
+                  <div className="fristLine">
+                    <span>{this.formatSeconds(parseInt(originalList[item].startTime / 1000))}</span>
+                    <span>销售</span>
+                  </div>
                 }
 
                 <div className="secondLine">
-                  <span className="context">{item.voiceContent}</span>
-                  <span className="laba">
+                  <span className="context">{originalList[item].voiceContent}</span>
+                  <span className="laba" onClick={() => {
+                    this.playMusic(originalList[item].startTime)
+                  }}>
                     <i className="iconfont icon-yuyin1-copy"></i>
                   </span>
                   <span className="originalTextBiaozhu" onClick={() => {
-                    console.log('点击出现')
                     this.setState({
                       biaozhuIndex: index,
                     })
@@ -795,14 +310,51 @@ class Popup extends Component {
                   {
                     index == this.state.biaozhuIndex &&
                     <ul className="biaozhuLi">
-                      <input />
                       <p>
                         标注该句属于下
                         <br />列哪个洞察项：
                       </p>
                       {
                         Object.keys(this.state.customer).map((customerItem, customerIndex) => (
-                          <li>{this.state.customer[customerItem]}</li>
+                          <li onClick={() => {
+                            this.props.dispatch({
+                              type: 'popup/editItemLeft',
+                              payload: {
+                                taskid: taskId,
+                                type: customerItem,
+                                operaType: 'add',
+                                startLine: originalList[item].id + '',
+                                endLine: originalList[item].id + '',
+                                context: originalList[item].voiceContent
+                              },
+                              callback: (data) => {
+                                this.setState({
+                                  biaozhuIndex: -1,
+                                })
+                                this.props.dispatch({
+                                  type: 'popup/getFileResultApi',
+                                  payload: {
+                                    taskid: taskId
+                                  },
+                                  callback: () => {
+                                    let scrollH = this.refs['insightTerm' + customerItem].offsetTop-180;
+                                    console.log($('.insightTermWrap').scrollTop)
+                                    $('.insightTermWrap').scrollTop = scrollH+'px'
+                                    // $('.insightTermWrap').animate({scrollTop: scrollH+'px'}, 500);
+                                    this.setState({
+                                      scrollTop: scrollH
+                                    })
+                                  }
+                                })
+                                this.props.dispatch({
+                                  type: 'popup/getOriginalList',
+                                  payload: {
+                                    taskid: taskId
+                                  },
+                                })
+                              }
+                            })
+                          }} key={customerIndex}>{this.state.customer[customerItem]}</li>
                         ))
                       }
                     </ul>
@@ -810,9 +362,38 @@ class Popup extends Component {
                 </div>
                 <div className="ThirdLine" data-type-arr="">
                   {
-                    item.types.length > 0 && item.types.map((typeItem, itemIndex) => (
-                      <span className="tags" key={itemIndex}>
-                        {this.state.customer[item.types[itemIndex]]}
+                    originalList[item].types.length > 0 && originalList[item].types.map((typeItem, typeIndex) => (
+                      <span className="tags" key={typeIndex} onClick={() => {
+                        this.props.dispatch({
+                          type: 'popup/editItemLeft',
+                          payload: {
+                            id: originalList[item].itemids[typeIndex],
+                            operaType: 'delete',
+                          },
+                          callback: () => {
+                            this.props.dispatch({
+                              type: 'popup/getFileResultApi',
+                              payload: {
+                                taskid: taskId
+                              },
+                              callback: () => {
+                                let scrollH = this.refs['insightTerm' + typeItem].offsetTop-180;
+                                console.log(scrollH)
+                                this.setState({
+                                  scrollTop: scrollH
+                                })
+                              }
+                            })
+                            this.props.dispatch({
+                              type: 'popup/getOriginalList',
+                              payload: {
+                                taskid: taskId
+                              },
+                            })
+                          }
+                        })
+                      }}>
+                        {this.state.customer[originalList[item].types[typeIndex]]}
                         <i className="iconfont icon-shanchu1"></i>
                       </span>
                     ))
@@ -868,7 +449,7 @@ class Popup extends Component {
       this.refs.circle.style.left = playPer * 100 + "%";
 
       this.setState({
-        remainTime: this.formatSeconds(parseInt(audio.currentTime)),
+        remainTime:this.formatSeconds(parseInt(audio.currentTime)),
       });
     });
   }
@@ -899,9 +480,12 @@ class Popup extends Component {
   playMusic = (startTime) => {
     let audio = this.refs.audio;
     audio.currentTime = parseInt(startTime / 1000);
-    let playPer = audio.currentTime / audio.duration;
-    this.refs.played.style.width = playPer * 100 + "%";
-    this.refs.circle.style.left = playPer * 100 + "%";
+    this.setState({
+      remainTime:this.formatSeconds(parseInt(startTime / 1000)),
+    });
+    let playPer = audio.currentTime/audio.duration;
+    this.refs.played.style.width = playPer*100+"%";
+    this.refs.circle.style.left = playPer*100+"%";
   }
 
   // 渲染音频播放器
@@ -914,8 +498,8 @@ class Popup extends Component {
             <div className="wx-audio-right">
               <p className="middleX"></p>
               <div className="wx-audio-time">
-                <span className="current-t">{true ? this.state.remainTime : '00:00:00'}</span>
-                <span className="duration-t">{true ? this.state.totalTime : '00:00:00'}</span>
+                <span className="current-t">{this.props.popup.fileResult.filePath ? this.state.remainTime : '00:00:00'}</span>
+                <span className="duration-t">{this.props.popup.fileResult.filePath ? this.state.totalTime : '00:00:00'}</span>
               </div>
               <div className="wx-audio-progrees" ref='progress' onClick={this.clickChangeTime} onMouseDown={() => {
                 this.mouseDown()
@@ -942,6 +526,10 @@ class Popup extends Component {
   }
 
   render() {
+    let {
+      filesList
+    } = this.props.popup
+    let taskId = this.props.location.query.taskId;
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
@@ -949,33 +537,33 @@ class Popup extends Component {
         <DanaoWrapper>
           <div id="archivesModal" className={this.state.isOriginal ? "archivesBigModal" : ""}>
             <div className="originalTextOperate">
+              {/* 点击原文或收起 */}
               {
                 this.state.isOriginal ?
-                  <div className="retract" onClick={() => {
-                    this.setState({
-                      isOriginal: false,
-                    })
-                  }}>
-                    <i className="iconfont icon-shouqi" style={{ fontSize: '16px' }}></i>
-                    <span className="retractSpan">收起</span>
-                  </div> :
-                  <div className="view" onClick={() => {
-                    this.props.dispatch({
-                      type: 'popup/getOriginalList',
-                      payload: {
-                        taskid: '3'
-                      },
-                      callback: (data) => {
-                        this.setState({
-                          isOriginal: true,
-                        })
-                        console.log(this.props.popup)
-                      }
-                    })
-                  }}>
-                    <i className="iconfont icon-wenbenzhantie"></i>
-                    <span className="viewSpan">查看原文</span>
-                  </div>
+                <div className="retract" onClick={() => {
+                  this.setState({
+                    isOriginal: false,
+                  })
+                }}>
+                  <i className="iconfont icon-shouqi" style={{ fontSize: '16px'}}></i>
+                  <span className="retractSpan">收起</span>
+                </div> :
+                <div className="view" onClick={() => {
+                  this.props.dispatch({
+                    type: 'popup/getOriginalList',
+                    payload: {
+                      taskid: taskId
+                    },
+                    callback: (data) => {
+                      this.setState({
+                        isOriginal: true,
+                      })
+                    }
+                  })
+                }}>
+                  <i className="iconfont icon-wenbenzhantie"></i>
+                  <span className="viewSpan">查看原文</span>
+                </div>
               }
             </div>
             <div className="modal-header text-center" style={{ top: this.state.isOriginal ? "1.4%" : "" }}>
@@ -1003,17 +591,31 @@ class Popup extends Component {
             </div>
             <div id="search">
               <div className="total">
-                共计 <span className="total-number">{this.state.fileList.length}</span> 个文件
+                共计 <span className="total-number">{filesList.length}</span> 个文件
               </div>
             </div>
             <Scrollbars>
               <ul id="file-list">
                 {
-                  this.state.fileList.map((item, index) => (
-                    <li className={['file-item', index == this.state.clickIndex ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index}
+                  filesList.map((item, index) => (
+                    <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index}
                       onClick={() => {
-                        this.setState({
-                          clickIndex: index,
+                        this.props.dispatch({
+                          type: 'history/saveTaskId',
+                          payload: {
+                            taskId: item.id,
+                          },
+                          callback: () => {
+                            this.props.dispatch({
+                              type: 'popup/getFileResultApi',
+                              payload: {
+                                taskid: item.id
+                              },
+                              callback: (data) => {
+                                
+                              }
+                            })
+                          }
                         });
                       }}
                       onMouseEnter={() => {
