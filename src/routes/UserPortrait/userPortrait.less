@@ -156,16 +156,45 @@
   .dashed > .content > .ul > ul > li {
     white-space: nowrap;
     //margin-top: 5px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    //overflow: hidden;
+    //text-overflow: ellipsis;
+    position: relative;
   }
   .dashed > .content > .ul > ul > li > span {
     display: inline-block;
     font-size: 14px;
     vertical-align: middle;
   }
-  .dashed > .content > .ul > ul > li > span:nth-child(2) {
-    white-space: nowrap;
+  .dashed > .content > .ul > ul > li{
+    small {
+      position: absolute;
+      color: #000;
+      max-width: 200px;
+      min-width: 20px;
+      text-align: center;
+      top: 20px;
+      left:20px;
+      background: #88c1f6;
+      padding: 3px;
+      z-index: 999;
+    }
+    small.has-content{
+      overflow: hidden;
+      white-space: pre-wrap;
+
+    }
+  }
+  .leftdashed > .content > .ul > ul > li > span:nth-child(2) {
+    display: inline-block;
+    width: 100px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .rightdashed > .content > .ul > ul > li > span.has-cont {
+    display: inline-block;
+    text-align: left;
+    //width: 120px;
+    text-overflow: ellipsis;
     overflow: hidden;
   }
   .jiating {

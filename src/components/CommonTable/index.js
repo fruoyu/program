@@ -13,6 +13,7 @@ class CommonTable extends Component {
     const {
       filesList,
       tabHead,
+      total,
     } = this.props;
     const classNameList = ['item-title', 'item-author', 'item-composition', 'item-state', 'item-time', 'data'];
     return (
@@ -36,7 +37,7 @@ class CommonTable extends Component {
         {
           filesList.length > 0 && <Pagination
             className="my-pagination"
-            defaultCurrent={1} total={20} showQuickJumper style={{ marginTop: 60 }}
+            defaultCurrent={1} total={total} showQuickJumper style={{ marginTop: 60 }}
             onChange={(pageNumber) => {
               this.props.onChangePage(pageNumber);
             }}

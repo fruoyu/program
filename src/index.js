@@ -41,6 +41,8 @@ const app = dva({
       return {
         login: {},
         history: {},
+        popup: {},
+        clientList: {},
         routing: { locationBeforeTransitions: null },
       };
     }
