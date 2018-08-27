@@ -14,10 +14,13 @@ class UserPortrait extends Component {
     super();
     this.state = {
       clickIndex: 0,
+      pageNum: 0,
+      filesList: [],
     };
     this.getQueryKeyItem = this.getQueryKeyItem.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
     this.renderArt = this.renderArt.bind(this);
+    this.scrollFn = this.scrollFn.bind(this);
   }
   componentDidMount() {
     this.sendRequest();
@@ -46,12 +49,35 @@ class UserPortrait extends Component {
         endTime: '',
         fileName: '',
         name: '',
-        pageNum: 0,
+        pageNum: this.state.pageNum,
         pageSize: 10,
         startTime: '',
         status: '',
       },
+      callback: (data) => {
+        const newFilesList = [...this.state.filesList, ...data.reslist]
+        this.setState({
+          filesList: this.state.pageNum === 0 ? data.reslist : newFilesList,
+        });
+      },
     });
+  }
+  // 下拉刷新
+  scrollFn = (data) => {
+    if (data.top === 0 && this.state.filesList.length !== 10) { // 返回到第一页信息
+      this.setState({
+        pageNum: 0,
+      }, () => {
+        this.sendRequest();
+      });
+    } else if (data.top === 1) {
+      this.setState({
+        pageNum: this.state.pageNum + 1,
+      });
+      setTimeout(() => {
+        this.sendRequest();
+      }, 1000);
+    }
   }
   // 滑过提示信息
   renderArt =(content) => {
@@ -72,7 +98,7 @@ class UserPortrait extends Component {
     return result;
   }
   render() {
-    const { filesList } = this.props.history;
+    const { filesList } = this.state;
     return (
       <div className="bootContent userPortrait">
         <Scrollbars style={{ flex: 1 }} autoHide>
@@ -215,7 +241,7 @@ class UserPortrait extends Component {
                 共计 <span className="total-number">{filesList.length}</span> 个文件
               </div>
             </div>
-            <Scrollbars onScrollFrame={(data) => { console.log(data.top); }}>
+            <Scrollbars onScrollFrame={(data) => { this.scrollFn(data); }}>
               <ul id="file-list">
                 {
                   filesList.length > 0 && filesList.map((item, index) => (

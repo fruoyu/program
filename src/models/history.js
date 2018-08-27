@@ -17,7 +17,7 @@ export default {
           type: 'changeFilesList',
           payload: data.result,
         });
-        if (callback) callback();
+        if (callback) callback(data.result);
       } else {
         notifyError(data.errMsg);
       }
@@ -87,7 +87,7 @@ export default {
         }
         return sortArr;
       });*/
-      return { ...state, filesList: payload.reslist };
+      return { ...state, filesList: payload.reslist, total: payload.total };
     },
     changeName(state, { payload }) {
       return { ...state, nameList: payload };
