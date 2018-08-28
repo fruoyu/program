@@ -13,7 +13,7 @@ import {
 import './popup.less';
 import '../../assets/iconfont/iconfont.css';
 // import '../../plugs/audio/audio.js';
-import '../../plugs/audio/audio.css';
+import './audio.less';
 
 class Popup extends Component {
   constructor(props) {
