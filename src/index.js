@@ -4,10 +4,8 @@ import {
   delCookie,
 } from './utils/cookie';
 import './index.less';
-import './public.less';
 import { useRouterHistory, browserHistory } from 'dva/router';
-import { createHashHistory } from 'history';
-import {notifyError} from './services/app';
+// import { createHashHistory } from 'history';
 
 notification.config({
   top: 80,

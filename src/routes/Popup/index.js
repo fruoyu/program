@@ -13,7 +13,7 @@ import {
 import './popup.less';
 import '../../assets/iconfont/iconfont.css';
 // import '../../plugs/audio/audio.js';
-import '../../plugs/audio/audio.css';
+import './audio.less';
 
 class Popup extends Component {
   constructor(props) {
@@ -36,17 +36,17 @@ class Popup extends Component {
         INVESTMENT_DURATION: '投资时长',
         RISK_PREFERENCE: '理财风险偏好',
         CUSTOMER_HOBBY: '爱好的活动',
-        CUSTOMER_ADMIRE: '欣赏什么样的人'
+        CUSTOMER_ADMIRE: '欣赏什么样的人',
       },
       keylist: [
         {
-          context: "没有",
-          creat_time: "2018-08-10 11:01:52.0",
-          kehuName: "王爱琪",
-          phonenum: "13683229972",
-          status: "false",
-          taskid: "3",
-          type: "COMMERCIAL_INSURANCE",
+          context: '没有',
+          creat_time: '2018-08-10 11:01:52.0',
+          kehuName: '王爱琪',
+          phonenum: '13683229972',
+          status: 'false',
+          taskid: '3',
+          type: 'COMMERCIAL_INSURANCE',
         },
       ],
       hoverIndex: -1,
@@ -55,18 +55,18 @@ class Popup extends Component {
       isInputEdit: true,
       isBiaozhu: false,
       biaozhuIndex: -1,
-      isPaused:false,
-      totalTime:0,
-      playPer:0,
-      bufferedPer:0,
-      playedLeft:0,
-      volumnLeft:0,
-      remainTime:0,
-      angle:0,
-      mouseDown:false,
-      musicListShow:false,
-      currentMusic:{},
-      isPlayed:false,
+      isPaused: false,
+      totalTime: 0,
+      playPer: 0,
+      bufferedPer: 0,
+      playedLeft: 0,
+      volumnLeft: 0,
+      remainTime: 0,
+      angle: 0,
+      mouseDown: false,
+      musicListShow: false,
+      currentMusic: {},
+      isPlayed: false,
       scrollTop: 100,
     };
     this.clickChangeTime = this.clickChangeTime.bind(this);
@@ -80,71 +80,47 @@ class Popup extends Component {
   }
   componentDidMount() {
     // 获取taskId
-    let taskId = this.props.location.query.taskId;
-    let audio = this.refs.audio;
-    //获取总时间
-    audio.addEventListener('canplay',()=>{
-      let totalTime = parseInt(this.refs.audio.duration);
+    const taskId = this.props.location.query.taskId;
+    const audio = this.refs.audio;
+    // 获取总时间
+    audio.addEventListener('canplay', () => {
+      const totalTime = parseInt(this.refs.audio.duration);
       this.setState({
-        totalTime:this.formatSeconds(totalTime),
-      })
+        totalTime: this.formatSeconds(totalTime),
+      });
     })
     this.setState({
-      remainTime:this.formatSeconds(0),
-      playedLeft:this.refs.played.getBoundingClientRect().left,
+      remainTime: this.formatSeconds(0),
+      playedLeft: this.refs.played.getBoundingClientRect().left,
     });
     // 请求已识别文件
     this.props.dispatch({
       type: 'popup/getFilesListByid',
       payload: {
-        taskid: taskId
+        taskid: taskId,
       },
     })
     // 请求画像数据
     this.props.dispatch({
       type: 'popup/getFileResultApi',
       payload: {
-        taskid: taskId
+        taskid: taskId,
       },
       callback: () => {
-        audio.src = this.props.popup.fileResult.filePath
-      }
-    })
-  }
-
-  formatSeconds = (s) => {
-    let t;
-    if (s > -1) {
-      const hour = Math.floor(s / 3600);
-      const min = Math.floor(s / 60) % 60;
-      const sec = s % 60;
-      if (hour < 10) {
-        t = '0' + hour + ':';
-      } else {
-        t = hour + ':';
-      }
-
-      if (min < 10) {
-        t += "0";
-      }
-      t += min + ":";
-      if (sec < 10) {
-        t += "0";
-      }
-      t += sec;
-    }
-    return t;
+        audio.src = this.props.popup.fileResult.filePath;
+      },
+    });
   }
 
   // 渲染画像数据
   renderTermWrap = () => {
-    let {
+    const {
       fileResult: {
         keylist,
         labellist,
-      } = {}
-    } = this.props.popup
-    let taskId = this.props.location.query.taskId;
+      } = {},
+    } = this.props.popup;
+    const taskId = this.props.location.query.taskId;
     return (
       <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')} ref='insightTermWrap'>
         <Scrollbars>
@@ -153,11 +129,13 @@ class Popup extends Component {
               <div className="insightTerm" data-type={item} key={index} ref={'insightTerm' + item}>
                 <div className="insightTermTitle">
                   <p>{this.state.customer[item]}:</p>
-                  <div onClick={() => {
-                    this.setState({
-                      isInputEdit: false
-                    })
-                  }}>
+                  <div
+                    onClick={() => {
+                      this.setState({
+                        isInputEdit: false,
+                      });
+                    }}
+                  >
                     {
                       keylist && keylist.length && keylist.map((keylistItem, keylistIndex) => {
                         if (keylistItem.type == item) {
@@ -426,6 +404,30 @@ class Popup extends Component {
     this.refs.circle.style.left = newWidth * 100 + "%";
   }
 
+  formatSeconds = (s) => {
+    let t;
+    if (s > -1) {
+      const hour = Math.floor(s / 3600);
+      const min = Math.floor(s / 60) % 60;
+      const sec = s % 60;
+      if (hour < 10) {
+        t = '0' + hour + ':';
+      } else {
+        t = hour + ':';
+      }
+
+      if (min < 10) {
+        t += "0";
+      }
+      t += min + ":";
+      if (sec < 10) {
+        t += "0";
+      }
+      t += sec;
+    }
+    return t;
+  }
+
   // 音频播放事件
   play = () => {
     let audio = this.refs.audio;
@@ -526,13 +528,13 @@ class Popup extends Component {
 
   render() {
     let {
-      filesList
+      filesList,
     } = this.props.popup
-    let taskId = this.props.location.query.taskId;
+    const taskId = this.props.location.query.taskId;
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
-        <CommonHeader title="洞察结果" goback home record photograph taskId={this.state.taskId} />
+        <CommonHeader title="洞察结果" goback home record photograph taskId={taskId} />
         <DanaoWrapper>
           <div id="archivesModal" className={this.state.isOriginal ? "archivesBigModal" : ""}>
             <div className="originalTextOperate">
@@ -617,7 +619,7 @@ class Popup extends Component {
                                 taskid: item.id
                               },
                               callback: (data) => {
-                                
+
                               }
                             })
                           }

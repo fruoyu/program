@@ -99,6 +99,7 @@ class UserPortrait extends Component {
   }
   render() {
     const { filesList } = this.state;
+    const taskId = this.props.location.query.taskId;
     return (
       <div className="bootContent userPortrait">
         <Scrollbars style={{ flex: 1 }} autoHide>
@@ -438,7 +439,7 @@ class UserPortrait extends Component {
                 {
                   filesList.length > 0 && filesList.map((item, index) => (
                     <li
-                      className={['file-item', index === this.state.clickIndex ? 'item-active-2' : '', index === this.state.hoverIndex ? 'item-active' : ''].join(' ')}
+                      className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')}
                       data-name={item.id}
                       data-status={item.statusMessage}
                       key={index}
