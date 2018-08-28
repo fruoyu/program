@@ -1,4 +1,4 @@
-import { notifyError, notifySuccess } from '../services/app.js';
+import { notifyError } from '../services/app.js';
 import { Login, LoginOut, ChangePwd } from '../services/login';
 import { routerRedux } from 'dva/router';
 import routes from '../routes';
@@ -7,7 +7,7 @@ import {
   getCookie,
   sign,
   verify,
-} from "../utils/cookie";
+} from '../utils/cookie';
 // import url from 'url';
 // import qs from 'qs';
 export default {
@@ -20,6 +20,8 @@ export default {
     *saveLoginMsg({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
       if (data) {
+       /* const dataObj = { ...payload, isMember: data };
+        console.log(dataObj);*/
         const token = sign(payload);
         setCookie('token', token);
         yield put({
@@ -63,7 +65,7 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
         if (pathname === '/') {
-          dispatch(routerRedux.push('/login'));
+          dispatch(routerRedux.push('/login')); return;
         }
         let flag = false;
         routes.map((item) => {
@@ -74,16 +76,14 @@ export default {
         });
         if (getCookie('token')) {
           verify((err) => {
-            if (err) { // cookie 超时了;
-              if (flag) {
-                dispatch({
-                  type: 'loginOut',
-                  payload: {},
-                  callback: () => {
-                    dispatch(routerRedux.push('/login'));
-                  },
-                });
-              }
+            if (err && flag) { // cookie 超时了;
+              dispatch({
+                type: 'loginOut',
+                payload: {},
+                callback: () => {
+                  dispatch(routerRedux.push('/login'));
+                },
+              });
             }
           });
         } else if (flag) {
