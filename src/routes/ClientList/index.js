@@ -65,7 +65,7 @@ class ClientList extends Component {
 
   // 级联下拉菜单
   onSelectChange = (val, d) => {
-    // console.log(val,d)
+    console.log(val,d)
 
     // 选择之后请求下客户信息列表
     // this.onGetClientList()
@@ -91,25 +91,25 @@ class ClientList extends Component {
 
     // 级联菜单数据模拟
     const options = [{
-      value: 'zhejiang',
-      label: 'Zhejiang',
+      value: 'district A',
+      label: 'A区',
       children: [{
-        value: 'hangzhou',
-        label: 'Hangzhou',
+        value: 'class A',
+        label: 'A班',
         children: [{
-          value: 'xihu',
-          label: 'West Lake',
+          value: 'team A',
+          label: 'A组',
         }],
       }],
     }, {
-      value: 'jiangsu',
-      label: 'Jiangsu',
+      value: 'district B',
+      label: 'B区',
       children: [{
-        value: 'nanjing',
-        label: 'Nanjing',
+        value: 'class A',
+        label: 'A班',
         children: [{
-          value: 'zhonghuamen',
-          label: 'Zhong Hua Men',
+          value: 'team A',
+          label: 'A组',
         }],
       }],
     }];
@@ -183,9 +183,13 @@ class ClientList extends Component {
                 </div>
 
                 {/* 下拉菜单 */}
-                <div className="">
+                <div className="cascader">
                   <span style={{color:'#fff', fontSize: '14px', lineHeight: '40px', marginRight: '10px' }}>所在组织</span>
-                  <Cascader options={options} onChange={this.onSelectChange} placeholder="Please select" />
+                  <Cascader options={options} 
+                    onChange={this.onSelectChange}
+                    popupClassName='selectOptionsPop'
+                    expandTrigger= 'hover' 
+                    placeholder="Please select" />
                 </div>  
 
                 {/* 日历 */}
