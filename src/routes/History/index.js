@@ -65,8 +65,8 @@ class History extends Component {
   onChangeFn = (date, dateString) => {
     console.log(date, dateString);
     this.setState({
-      endTime: dateString[0], // 结束时间
-      startTime: dateString[1], // 开始时间
+      startTime: dateString[0], // 开始时间
+      endTime: dateString[1], // 结束时间
     }, () => {
       this.sendRequest();
     });
@@ -163,8 +163,9 @@ class History extends Component {
   }
   render() {
     const {
-      filesList,
-      nameList,
+      filesList = [],
+      nameList = [],
+      total = 0,
     } = this.props.history;
     const tabHead = ['录音名称', '销售人员', '结构', '任务状态', '上传时间', '洞察项'];
     const menu = (
@@ -174,19 +175,19 @@ class History extends Component {
           console.log(item);
         }}
       >
-        <Menu.Item key="1">一区</Menu.Item>
-        <Menu.Item key="2">二区</Menu.Item>
-        <SubMenu title="三区" key="3">
-          <Menu.Item key="1">1班</Menu.Item>
-          <SubMenu title="2班" key="2">
+        <Menu.Item key="1">A区</Menu.Item>
+        <Menu.Item key="2">B区</Menu.Item>
+        <SubMenu title="C区" key="3">
+          <Menu.Item key="1">A班</Menu.Item>
+          <SubMenu title="B班" key="2">
             <Menu.Item key="1">A组</Menu.Item>
             <Menu.Item key="2">B组</Menu.Item>
           </SubMenu>
         </SubMenu>
-        <SubMenu title="四区" key="4">
-          <Menu.Item key="1">1班</Menu.Item>
-          <Menu.Item key="2">2班</Menu.Item>
-          <Menu.Item key="3">3班</Menu.Item>
+        <SubMenu title="D区" key="4">
+          <Menu.Item key="1">A班</Menu.Item>
+          <Menu.Item key="2">B班</Menu.Item>
+          <Menu.Item key="3">C班</Menu.Item>
         </SubMenu>
       </Menu>
     );
@@ -285,12 +286,13 @@ class History extends Component {
             </div>
             {/* 内容区域 */}
             <CommonTable
-              filesList={filesList}
+              filesList={this.props.history.filesList}
               tabHead={tabHead}
+              total={total}
               onChangePage={(pageNumber) => { this.onChangePage(pageNumber); }}
             >
               {
-                filesList.map((item, index) => {
+                filesList && filesList.map((item, index) => {
                   return (
                     <li className="content-item" data-id="'+ item2.id +'" key={index}>
                       <div className="item-title" onClick={this.gotoPopup.bind(this, item.id)}>{item.fileName}</div>

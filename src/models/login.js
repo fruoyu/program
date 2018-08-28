@@ -77,7 +77,7 @@ export default {
             if (err) { // cookie 超时了;
               if (flag) {
                 dispatch({
-                  type: 'login/loginOut',
+                  type: 'loginOut',
                   payload: {},
                   callback: () => {
                     dispatch(routerRedux.push('/login'));
