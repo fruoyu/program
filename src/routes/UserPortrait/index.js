@@ -55,7 +55,7 @@ class UserPortrait extends Component {
         status: '',
       },
       callback: (data) => {
-        const newFilesList = [...this.state.filesList, ...data.reslist]
+        const newFilesList = [...this.state.filesList, ...data.reslist];
         this.setState({
           filesList: this.state.pageNum === 0 ? data.reslist : newFilesList,
         });
@@ -99,6 +99,7 @@ class UserPortrait extends Component {
   }
   render() {
     const { filesList } = this.state;
+    const taskId = this.props.location.query.taskId;
     return (
       <div className="bootContent userPortrait">
         <Scrollbars style={{ flex: 1 }} autoHide>
@@ -118,7 +119,7 @@ class UserPortrait extends Component {
                 <div className="xiexian" />
                 <div className="content">
                   <div className="img">
-                    <img src={require('../../assets/image/icon_03.png')} style={{ width: '100%"' }} />
+                    <img alt="" src={require('../../assets/image/icon_03.png')} style={{ width: '100%"' }} />
                   </div>
                   <div className="ul">
                     <h3>家庭结构</h3>
@@ -188,7 +189,7 @@ class UserPortrait extends Component {
                 <div className="xiexian" />
                 <div className="content">
                   <div className="img">
-                    <img src={require('../../assets/image/icon_12.png')} style={{ width: '100%"' }} />
+                    <img alt="" src={require('../../assets/image/icon_12.png')} style={{ width: '100%"' }} />
                   </div>
                   <div className="ul">
                     <h3>购买力</h3>
@@ -244,7 +245,7 @@ class UserPortrait extends Component {
                 <div className="xiexian" />
                 <div className="content">
                   <div className="img">
-                    <img src={require('../../assets/image/icon_05.png')} />
+                    <img alt="" src={require('../../assets/image/icon_05.png')} />
                   </div>
                   <div className="ul">
                     <h3>兴趣爱好</h3>
@@ -268,10 +269,10 @@ class UserPortrait extends Component {
                         onMouseLeave={() => { this.setState({ key: -1 }); }}
                       >
                         <span>欣赏什么样的人 :</span><span className="CUSTOMER_ADMIRE">
-                        {
-                           this.renderContext(8)
-                         }
-                      </span>
+                          {
+                            this.renderContext(8)
+                          }
+                        </span>
                         {
                           this.state.key === 8 && this.renderArt(this.renderContext(8))
                         }
@@ -285,7 +286,7 @@ class UserPortrait extends Component {
                 <div className="xiexian leftxiexian" />
                 <div className="content">
                   <div className="img" style={{ float: 'right' }}>
-                    <img src={require('../../assets/image/icon_14.png')} style={{ width: '100%"' }} />
+                    <img alt="" src={require('../../assets/image/icon_14.png')} style={{ width: '100%"' }} />
                   </div>
                   <div className="ul">
                     <h3>保险情况</h3>
@@ -341,7 +342,7 @@ class UserPortrait extends Component {
                 <div className="xiexian leftxiexian" />
                 <div className="content">
                   <div className="img" style={{ float: 'right' }}>
-                    <img src={require('../../assets/image/icon_07.png')} style={{ width: '100%"' }} />
+                    <img alt="" src={require('../../assets/image/icon_07.png')} style={{ width: '100%"' }} />
                   </div>
                   <div className="ul">
                     <h3>投资情况</h3>
@@ -438,7 +439,7 @@ class UserPortrait extends Component {
                 {
                   filesList.length > 0 && filesList.map((item, index) => (
                     <li
-                      className={['file-item', index === this.state.clickIndex ? 'item-active-2' : '', index === this.state.hoverIndex ? 'item-active' : ''].join(' ')}
+                      className={['file-item', item.id * 1 === taskId * 1 ? 'item-active-2' : '', index * 1 === this.state.hoverIndex * 1 ? 'item-active' : ''].join(' ')}
                       data-name={item.id}
                       data-status={item.statusMessage}
                       key={index}
