@@ -87,7 +87,7 @@ export default {
             }
           });
         } else if (flag) {
-          location.href = '/login';
+          location.href = '/';
         }
       });
     },

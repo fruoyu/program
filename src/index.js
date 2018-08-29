@@ -5,7 +5,7 @@ import {
 } from './utils/cookie';
 import './index.less';
 import { useRouterHistory, browserHistory } from 'dva/router';
-// import { createHashHistory } from 'history';
+import { createHashHistory } from 'history';
 
 notification.config({
   top: 80,
@@ -16,8 +16,8 @@ message.config({
 
 // 1. Initialize
 const app = dva({
-  history: browserHistory,
-  // history: useRouterHistory(createHashHistory)({ queryKey: false }),
+  // history: browserHistory,
+  history: useRouterHistory(createHashHistory)({ queryKey: false }),
   onError(e) { /* Global exception handler scope is dva framework only*/
     // console.error('Uncaught in dva: \n', e);
     if (e.response) {

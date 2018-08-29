@@ -1,7 +1,7 @@
 const base = document.domain;
-let domain = 'http://47.95.113.97:8660/api';
+let domain = 'http://47.95.113.97:8660';
 if (base.indexOf('localhost') !== -1) {
-  domain = '/api';
+  domain = '/orderEntry';
 }
 export default domain;
 // POST方式的请求头
