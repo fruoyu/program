@@ -82,13 +82,16 @@ class Popup extends Component {
     // 获取taskId
     let taskId = this.props.location.query.taskId;
     let audio = this.refs.audio;
+    this.setState({
+      remainTime: this.formatSeconds(0),
+    });
     //获取总时间
     audio.addEventListener('canplay',()=>{
       let totalTime = parseInt(this.refs.audio.duration);
       this.setState({
-        totalTime:this.formatSeconds(totalTime),
-        remainTime:this.formatSeconds(0),
-        playedLeft:this.refs.played.getBoundingClientRect().left,
+        totalTime: this.formatSeconds(totalTime),
+        // remainTime: this.formatSeconds(0),
+        // playedLeft: this.refs.played.getBoundingClientRect().left,
       });
     });
     // 请求已识别文件
@@ -450,18 +453,17 @@ class Popup extends Component {
     if (!e.pageX) {
       return;
     }
-    this.setTimeOnPc(e)
+    this.setTimeOnPc(e);
   }
 
   // 改变音频播放时间与进度条
   setTimeOnPc = (e) => {
     let audio = this.refs.audio;
-    console.log(this.state.playedLeft)
     let newWidth = (e.pageX - this.refs.played.getBoundingClientRect().left) / this.refs.progress.offsetWidth;
     this.refs.played.style.width = newWidth * 100 + "%";
     audio.currentTime = newWidth * audio.duration;
     this.setState({
-      remainTime: this.formatSeconds(parseInt(newWidth * audio.duration / 1000))
+      remainTime: this.formatSeconds(parseInt(newWidth * audio.duration))
     })
     this.refs.circle.style.left = newWidth * 100 + "%";
   }
