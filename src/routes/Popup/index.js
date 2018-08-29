@@ -261,6 +261,7 @@ class Popup extends Component {
                           className={labelItem.status == 'true' ? 'sentenceDel' : 'sentenceRight'}
                           data-name={0}
                           onClick={() => {
+                            let originalScroll = this.refs['originalText' + parseInt(labelItem.time / 1000)].offsetTop;
                             this.props.dispatch({
                               type: 'popup/editItem',
                               payload: {
@@ -280,6 +281,11 @@ class Popup extends Component {
                                     payload: {
                                       taskid: taskId,
                                     },
+                                    callback: () => {
+                                      $('.insightTextWrap > div > div').animate({
+                                        scrollTop: originalScroll + 'px',
+                                      }, 500)
+                                    }
                                   });
                                 }
                               },
@@ -316,7 +322,7 @@ class Popup extends Component {
         <Scrollbars>
           {
             Object.keys(originalList).map((item, index) => (
-              <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')}>
+              <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')} ref={'originalText' + parseInt(originalList[item].startTime / 1000)}>
                 {
                   originalList[item].role == 'USER' ?
                     <div className="fristLine">

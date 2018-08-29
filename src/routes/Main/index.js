@@ -29,6 +29,59 @@ class Main extends Component {
     };
   }
 
+  componentDidMount () {
+    $('body').on('click', '.icon-shuaxin', (e) => {
+      console.log($(e.currentTarget))
+      const indexOut = $(e.currentTarget).parents('.list-wrap').index();
+      const indexInner = $(e.currentTarget).parents('.upload-item').index();
+      const currentUploadItme = $('.list-wrap').eq(indexOut).find('.upload-item').eq(indexInner);
+      const file = [filesTotal[indexOut][indexInner]];
+      console.log(file)
+      this.uploadFile({
+        url: '/api/openApi/voiceQuality/uploadFilesIo',
+        data: {},
+        files: file,
+        isShuaxin: true,
+        filter: [],  //后缀文件筛选
+        sendBefore: (files) => {
+            //开始之前
+            console.log(files);
+            currentUploadItme.find('.progress-grey').css('width','100%');
+            currentUploadItme.find('.icon-shuaxin').hide();
+            currentUploadItme.find('.percent').show();
+        },
+        success: (data, index) => {
+            //某个文件传完
+            currentUploadItme.find('.icon-gou1').show();
+            currentUploadItme.attr('status','success');
+            const successNum = $('.upload-item[status=success]').length;
+            const totalNum = $('.upload-item').length;
+            if(successNum == totalNum) {
+                $('.upload-failed').hide();
+            }
+        },
+        error: (err,index) => {
+            currentUploadItme.attr('status','error');
+            currentUploadItme.find('.progress-grey').addClass('width100');
+            currentUploadItme.find('.icon-shuaxin').show();
+            currentUploadItme.find('.percent').html('0%').css('left','0').hide();
+        },
+        progress: (file) => {
+            //某个文件的上传进度
+
+            // file.loaded  已经上传的
+            // flie.total  总量
+            // file.percent  百分比
+            // file.index   第多少个文件
+            const per = file.percent.split('%')[0];
+            currentUploadItme.find('.percent').html(per+'%');
+            currentUploadItme.find('.progress-grey').css('width',(100-per) + '%');
+            console.log(file.name + ":第" + file.index + '个:' + file.percent);
+        }
+      });
+    });
+  }
+
   changeUploadFile = (e) => {
     let files = e.currentTarget.files;
     let $wrap = $('<div class="list-wrap"></div>');
@@ -117,17 +170,6 @@ class Main extends Component {
     //     clearInterval(s)
     //   }
     // }, 1000);
-    // for (let i = 0; i < files.length; i++) {
-    //   let name = files[i].name.slice(0, files[i].name.lastIndexOf('.'))
-    //   if (name != '') {
-    //     notifyError('名字格式不正确')
-    //     return false;
-    //   } else {
-    //     this.setState({
-    //       uploadSure: true,
-    //     })
-    //   }
-    // }
   }
 
   uploadFile = (option) => {
@@ -154,6 +196,7 @@ class Main extends Component {
     option = $.extend(true, defau, option);
     
     let fileP = $('#upload').attr('data-name') || "file";  //传给后端得 file对应字段
+    // let fileP = this.refs.uploadInput || "file";  //传给后端得 file对应字段
     let files = defau.files;
     //伪数组转换为数组
     files = Array.prototype.slice.call(files);
@@ -215,7 +258,6 @@ class Main extends Component {
         fd.append(i,option.data[i]);
       }
       
-      console.log(option.url)
       let ajax = $.ajax({
         url: option.url,
         type: option.type,
