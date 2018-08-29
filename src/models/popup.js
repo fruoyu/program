@@ -393,7 +393,7 @@ export default {
         state.keylist.map((item, index) => {
           payload.result.keylist.map((keylistItem, keylistIndex) => {
             if (item.type == keylistItem.type) {
-              state.keylist[index] = keylistItem
+              state.keylist[index] = keylistItem;
             } else {
               state.keylist[index] = {
                 context: '',
@@ -407,7 +407,7 @@ export default {
             }
           });
         });
-        tempArr = state.keylist
+        tempArr = state.keylist;
       } else {
         tempArr = state.templist;
       }
@@ -415,7 +415,6 @@ export default {
       return { ...state, fileResult: payload.result };
     },
     saveKeylistForm(state, { payload }) {
-      console.log(payload)
       return { ...state, ...payload };
     },
   },
