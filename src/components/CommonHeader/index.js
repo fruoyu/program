@@ -51,11 +51,13 @@ class MainWrapper extends Component {
         this.props.dispatch({
           type: 'login/resolvePassword',
           payload: {
-            oldPwd: $.md5(this.state.oldPassword),
-            newPwd: $.md5(this.state.newPassword),
+            userName: 'root',
+            oldPassWord: oldPassword,
+            newPassWord: newPassword,
           },
           callback: () => {
-            this.props.dispatch(routerRedux.push('/login'));
+            // 退出登录
+            this.loginOut();
           },
         });
       }
@@ -65,9 +67,16 @@ class MainWrapper extends Component {
   loginOut= () => {
     this.props.dispatch({
       type: 'login/loginOut',
-      payload: {},
+      payload: {
+        userName: 'root',
+      },
       callback: () => {
-        this.props.dispatch(routerRedux.push('/login'));
+        this.props.dispatch({
+          type: 'login/loginOutSuccess',
+          callback: () => {
+            this.props.dispatch(routerRedux.push('/login'));
+          },
+        });
       },
     });
   }

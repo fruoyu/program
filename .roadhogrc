@@ -23,9 +23,13 @@
   },
   "proxy": {
     "/orderEntry":{
-       "target": "http://47.95.113.97:8660",
+       "target": "http://114.112.96.62:8657/",
        "changeOrigin": true,
        "pathRewrite": { "^/orderEntry" : "" }
+      },
+      "/api":{
+       "target": "http://114.112.96.62:8657/",
+       "changeOrigin": true
       }
   }
 }

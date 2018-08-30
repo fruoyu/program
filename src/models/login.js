@@ -1,4 +1,4 @@
-import { notifyError } from '../services/app.js';
+import { notifyError, notifySuccess } from '../services/app.js';
 import { Login, LoginOut, ChangePwd } from '../services/login';
 import { routerRedux } from 'dva/router';
 import routes from '../routes';
@@ -19,7 +19,7 @@ export default {
   effects: {
     *saveLoginMsg({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
-      if (data) {
+      if (data.status === 100) {
        /* const dataObj = { ...payload, isMember: data };
         console.log(dataObj);*/
         const token = sign(payload);
@@ -34,19 +34,24 @@ export default {
       }
     },
     *loginOut({ payload, callback }, { call, put }) {
-      const { data } = yield call(LoginOut);
-      if (data) {
+      const { data } = yield call(LoginOut, payload);
+      console.log(data, 'loginOut');
+      if (data.status === 100) {
         if (callback) callback();
       } else {
         notifyError('退出失败!');
       }
     },
+    *loginOutSuccess({ payload, callback }, { call, put }) {
+      if (callback) callback();
+    },
     *resolvePassword({ payload, callback }, { call, put }) {
       const { data } = yield call(ChangePwd, payload);
-      if (data.result) {
-        yield put({
+      console.log(data, 'resolvePassword');
+      if (data.status === 100) {
+        /* yield put({
           type: 'LoginMsg',
-        });
+        });*/
         if (callback) callback();
       } else {
         notifyError(data.errMsg);
@@ -67,7 +72,7 @@ export default {
         if (pathname === '/') {
           dispatch(routerRedux.push('/login')); return;
         }
-        let flag = false;
+         let flag = false;
         routes.map((item) => {
           if (item.path === pathname) {
             flag = true;
