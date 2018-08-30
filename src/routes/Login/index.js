@@ -56,7 +56,7 @@ class Login extends Component {
           type: 'login/saveLoginMsg',
           payload: {
             userName: this.state.userName,
-            password: this.state.passWord,
+            passWord: this.state.passWord,
           },
           callback: () => {
             this.props.dispatch(routerRedux.push('/main'));

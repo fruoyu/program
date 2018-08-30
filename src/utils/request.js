@@ -31,7 +31,7 @@ export default function request(url, options, apiPrefix = API_PREFIX) {
     credentials: 'same-origin',
     ...options,
   };
-  const fetchUrl = `${apiPrefix}${url}`;
+  const fetchUrl = `${apiPrefix}/api${url}`;
   return fetch(fetchUrl, fetchOptions).then(checkStatus).then(parseJSON).then((data) => {
     return ({
       data,
