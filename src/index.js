@@ -5,7 +5,7 @@ import {
 } from './utils/cookie';
 import './index.less';
 import { useRouterHistory, browserHistory } from 'dva/router';
-// import { createHashHistory } from 'history';
+import { createHashHistory } from 'history';
 
 notification.config({
   top: 80,
@@ -16,8 +16,8 @@ message.config({
 
 // 1. Initialize
 const app = dva({
-  history: browserHistory,
-  // history: useRouterHistory(createHashHistory)({ queryKey: false }),
+  // history: browserHistory,
+  history: useRouterHistory(createHashHistory)({ queryKey: false }),
   onError(e) { /* Global exception handler scope is dva framework only*/
     // console.error('Uncaught in dva: \n', e);
     if (e.response) {
@@ -30,7 +30,7 @@ const app = dva({
       message.error(`Uncaught in dva: \n${e}`, 2);
     }*/
   },
-  onReducer: r => (state, action) => {
+   onReducer: r => (state, action) => {
     const newState = r(state, action);
     // 'login/logout' 为 models 目录文件中 effect 中的方法名
     if (action.type === 'login/loginOut') {

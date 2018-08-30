@@ -58,8 +58,8 @@ class History extends Component {
     this.statusClick = this.statusClick.bind(this);
   }
   componentDidMount() {
-    this.sendRequest();
-    this.getName();
+    // this.sendRequest();
+    // this.getName();
   }
   // 日历操作
   onChangeFn = (date, dateString) => {

@@ -12,6 +12,7 @@ export default {
     /* 录音列表 */
     * getFilesList({ payload, callback }, { call, put }) {
       const { data } = yield call(getFilesList, payload);
+      console.log(data, '---------')
       if (data.result) {
         yield put({
           type: 'changeFilesList',
