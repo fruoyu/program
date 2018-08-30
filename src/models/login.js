@@ -7,7 +7,7 @@ import {
   getCookie,
   sign,
   verify,
-} from "../utils/cookie";
+} from '../utils/cookie';
 // import url from 'url';
 // import qs from 'qs';
 export default {
@@ -19,7 +19,9 @@ export default {
   effects: {
     *saveLoginMsg({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
-      if (data) {
+      if (data.status === 100) {
+       /* const dataObj = { ...payload, isMember: data };
+        console.log(dataObj);*/
         const token = sign(payload);
         setCookie('token', token);
         yield put({
@@ -32,19 +34,24 @@ export default {
       }
     },
     *loginOut({ payload, callback }, { call, put }) {
-      const { data } = yield call(LoginOut);
-      if (data) {
+      const { data } = yield call(LoginOut, payload);
+      console.log(data, 'loginOut');
+      if (data.status === 100) {
         if (callback) callback();
       } else {
         notifyError('退出失败!');
       }
     },
+    *loginOutSuccess({ payload, callback }, { call, put }) {
+      if (callback) callback();
+    },
     *resolvePassword({ payload, callback }, { call, put }) {
       const { data } = yield call(ChangePwd, payload);
-      if (data.result) {
-        yield put({
+      console.log(data, 'resolvePassword');
+      if (data.status === 100) {
+        /* yield put({
           type: 'LoginMsg',
-        });
+        });*/
         if (callback) callback();
       } else {
         notifyError(data.errMsg);
@@ -63,9 +70,9 @@ export default {
     setup({ dispatch, history }) {
       return history.listen(({ pathname }) => {
         if (pathname === '/') {
-          dispatch(routerRedux.push('/login'));
+          dispatch(routerRedux.push('/login')); return;
         }
-        let flag = false;
+         let flag = false;
         routes.map((item) => {
           if (item.path === pathname) {
             flag = true;
@@ -74,20 +81,18 @@ export default {
         });
         if (getCookie('token')) {
           verify((err) => {
-            if (err) { // cookie 超时了;
-              if (flag) {
-                dispatch({
-                  type: 'login/loginOut',
-                  payload: {},
-                  callback: () => {
-                    dispatch(routerRedux.push('/login'));
-                  },
-                });
-              }
+            if (err && flag) { // cookie 超时了;
+              dispatch({
+                type: 'loginOut',
+                payload: {},
+                callback: () => {
+                  dispatch(routerRedux.push('/login'));
+                },
+              });
             }
           });
         } else if (flag) {
-          location.href = '/login';
+          location.href = '/';
         }
       });
     },

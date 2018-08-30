@@ -21,8 +21,8 @@ class Login extends Component {
     const storage = window.localStorage;
     const uname = storage.getItem('username');
     const pword = storage.getItem('password');
-    if (uname) { 
-      this.setState({ userName: uname, passWord: pword }); 
+    if (uname) {
+      this.setState({ userName: uname, passWord: pword });
       this.props.form.setFields({
         userName: {
           value: uname,
@@ -56,7 +56,7 @@ class Login extends Component {
           type: 'login/saveLoginMsg',
           payload: {
             userName: this.state.userName,
-            password: this.state.passWord,
+            passWord: this.state.passWord,
           },
           callback: () => {
             this.props.dispatch(routerRedux.push('/main'));
@@ -76,7 +76,7 @@ class Login extends Component {
                 rules: [{ required: true, message: '请输入用户名!' }],
               })(
                 <Input
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />} 
+                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                   placeholder="用户名"
                   onChange={(e) => {
                     this.setState({
