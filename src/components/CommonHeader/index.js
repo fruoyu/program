@@ -132,10 +132,14 @@ class MainWrapper extends Component {
             <span className="userName">{this.state.userName}</span>
             <div className="shezhi-content">
               {
-                this.state.userName === 'admin' && <p>用户管理</p>
+                this.state.userName === 'root' && <p>用户管理</p>
               }
               {
-                this.state.userName === 'admin' && <p>结构管理</p>
+                this.state.userName === 'root' && <p onClick={() => {
+                  this.props.dispatch(routerRedux.push({
+                    pathname: '/structure',
+                  }));
+                }}>结构管理</p>
               }
               <p className="modify" onClick={() => { this.setState({ changePassword: true }); }}>修改密码</p>
               <p className="exit" onClick={this.loginOut.bind(this)}>退出</p>

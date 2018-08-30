@@ -59,6 +59,7 @@ app.model(require('./models/login'));
 app.model(require('./models/history'));
 app.model(require('./models/popup'));
 app.model(require('./models/clientList'));
+app.model(require('./models/structure'));
 
 // 4. Router
 app.router(require('./routerConfig'));
