@@ -2,12 +2,14 @@ import $ from 'jquery';
 import '../../utils/md5.js';
 import { connect } from 'dva';
 import React, { Component } from 'react';
-import { Input, message } from 'antd';
+import { Input, message, Form } from 'antd';
 import { routerRedux } from 'dva/router';
 import PolyDialog from '../PolyDialog';
 import {
   verify,
 } from '../../utils/cookie';
+
+const FormItem = Form.Item;
 
 class MainWrapper extends Component {
   constructor() {
@@ -28,6 +30,7 @@ class MainWrapper extends Component {
       });
     });
   }
+  /* 修改密码*/
   onOk= () => {
     // 输入框非空判断
     const {
@@ -35,39 +38,45 @@ class MainWrapper extends Component {
       newPassword,
       confirmPassword,
     } = this.state;
-    if (!oldPassword || !newPassword || !confirmPassword) return false;
-    if (newPassword !== confirmPassword) {
-      message.info('新密码与确认密码不一致');
-      return false;
-    }
-    if (oldPassword === newPassword) {
-      message.info('新旧密码不能一致');
-      return false;
-    }
-    this.props.dispatch({
-      type: 'login/resolvePassword',
-      payload: {
-        oldPwd: $.md5(this.state.oldPassword),
-        newPwd: $.md5(this.state.newPassword),
-      },
-      callback: () => {
-        this.props.dispatch(routerRedux.push('/login'));
-        this.setState({
-          oldPassword: '',
-          newPassword: '',
-          confirmPassword: '',
-          changePassword: false,
+    this.props.form.validateFields((err) => {
+      if (!err) {
+        if (oldPassword === newPassword) {
+          message.error('新旧密码不能一致');
+          return false;
+        }
+        if (newPassword !== confirmPassword) {
+          message.error('新密码与确认密码不一致');
+          return false;
+        }
+        this.props.dispatch({
+          type: 'login/resolvePassword',
+          payload: {
+            userName: 'root',
+            oldPassWord: oldPassword,
+            newPassWord: newPassword,
+          },
+          callback: () => {
+            // 退出登录
+            this.loginOut();
+          },
         });
-      },
+      }
     });
   }
   // 退出登录操作
   loginOut= () => {
     this.props.dispatch({
       type: 'login/loginOut',
-      payload: {},
+      payload: {
+        userName: 'root',
+      },
       callback: () => {
-        this.props.dispatch(routerRedux.push('/login'));
+        this.props.dispatch({
+          type: 'login/loginOutSuccess',
+          callback: () => {
+            this.props.dispatch(routerRedux.push('/login'));
+          },
+        });
       },
     });
   }
@@ -83,6 +92,7 @@ class MainWrapper extends Component {
       record,
       taskId,
     } = this.props;
+    const { getFieldDecorator } = this.props.form;
     return (
       <div>
         {/* 头部信息 */}
@@ -91,6 +101,7 @@ class MainWrapper extends Component {
             <span className="logo">M O X I 摩西洞察</span>{title && <span className="fenge">|</span>}{title}
           </div>
         </div>
+        {/* 返回首页*/}
         {
           isMain && <div
             className="shouye"
@@ -103,6 +114,7 @@ class MainWrapper extends Component {
             <span className="home" >首页</span>
           </div>
         }
+        {/* 录音列表*/}
         {
           isUserPort && <div
             className="history"
@@ -115,6 +127,7 @@ class MainWrapper extends Component {
             <span className="his">录音列表</span>
           </div>
         }
+        {/* goback */}
         {
           goback && <div
             id="back"
@@ -126,6 +139,7 @@ class MainWrapper extends Component {
             <span className="back">返回</span>
           </div>
         }
+        {/* user操作*/}
         {
           home && <div className="shezhi">
             <span className="iconfont icon-yonghu2" />
@@ -217,48 +231,49 @@ class MainWrapper extends Component {
               });
             }}
           >
-            <div className="login-form-dailog">
-              <div className="line-item">
-                <p>旧密码</p>
-                <Input
-                  type="password" placeholder="旧密码" value={this.state.oldPassword}
-                  onChange={(e) => {
-                    this.setState({ oldPassword: e.target.value.trim() });
-                  }}
-                />
-                {
-                  this.state.oldPassword === '' && <span>请输入密码</span>
-                }
-              </div>
-              <div className="line-item">
-                <p>新密码</p>
-                <Input
-                  type="password" placeholder="新密码" value={this.state.newPassword}
-                  onChange={(e) => {
-                    this.setState({ newPassword: e.target.value.trim() });
-                  }}
-                />
-                {
-                  this.state.newPassword === '' && <span>请输入密码</span>
-                }
-              </div>
-              <div className="line-item">
-                <p>确认密码</p>
-                <Input
-                  type="password" placeholder="确认密码" value={this.state.confirmPassword}
-                  onChange={(e) => {
-                    this.setState({ confirmPassword: e.target.value.trim() });
-                  }}
-                />
-                {
-                  this.state.confirmPassword === '' && <span>请确认密码</span>
-                }
-              </div>
-            </div>
+            <Form className="login-form-dailog">
+              <FormItem hasFeedback className="line-item" label="旧密码">
+                {getFieldDecorator('oldPassword', {
+                  rules: [{ required: true, message: '请输入旧密码!' }],
+                })(
+                  <Input
+                    placeholder="旧密码"
+                    type="password"
+                    onChange={(e) => {
+                      this.setState({ oldPassword: e.target.value.trim() });
+                    }}
+                  />,
+                )}
+              </FormItem>
+              <FormItem hasFeedback className="line-item" label="新密码">
+                {getFieldDecorator('newPassword', {
+                  rules: [{ required: true, message: '请输入新密码!' }],
+                })(
+                  <Input
+                    type="password" placeholder="新密码"
+                    onChange={(e) => {
+                      this.setState({ newPassword: e.target.value.trim() });
+                    }}
+                  />,
+                )}
+              </FormItem>
+              <FormItem hasFeedback className="line-item" label="确认密码">
+                {getFieldDecorator('confirmPassword', {
+                  rules: [{ required: true, message: '请确认密码!' }],
+                })(
+                  <Input
+                    type="password" placeholder="确认密码"
+                    onChange={(e) => {
+                      this.setState({ confirmPassword: e.target.value.trim() });
+                    }}
+                  />,
+                )}
+              </FormItem>
+            </Form>
           </PolyDialog>
         }
       </div>
     );
   }
 }
-export default connect(({ login }) => ({ login }))(MainWrapper);
+export default connect(({ login }) => ({ login }))(Form.create()(MainWrapper));

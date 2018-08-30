@@ -1,25 +1,27 @@
 import $ from 'jquery';
 import '../utils/md5.js';
 import request from '../utils/request';
-import { headersPost, headersGet } from '../utils/Constants';
+import { headersPost } from '../utils/Constants';
 
 export async function Login(params) {
-  return request(`/user/login?userName=${params.userName}&password=${$.md5(params.password)}`, {
+  return request('/user/login', {
     method: 'post',
-    headers: headersGet,
+    headers: headersPost,
+    body: JSON.stringify(params),
   });
 }
 export async function LoginOut(params) {
-  return request('/user/loginout', {
+  return request('/user/logout', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),
   });
 }
 export async function ChangePwd(params) {
-  return request('/user/changePwd', {
+  return request('/user/updatePassword ', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),
   });
 }
+

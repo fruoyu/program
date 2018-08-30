@@ -12,12 +12,13 @@ export default {
     /* 录音列表 */
     * getFilesList({ payload, callback }, { call, put }) {
       const { data } = yield call(getFilesList, payload);
+      console.log(data, '---------')
       if (data.result) {
         yield put({
           type: 'changeFilesList',
           payload: data.result,
         });
-        if (callback) callback();
+        if (callback) callback(data.result);
       } else {
         notifyError(data.errMsg);
       }
@@ -87,7 +88,7 @@ export default {
         }
         return sortArr;
       });*/
-      return { ...state, filesList: payload.reslist };
+      return { ...state, filesList: payload.reslist, total: payload.total };
     },
     changeName(state, { payload }) {
       return { ...state, nameList: payload };

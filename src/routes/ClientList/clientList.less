@@ -68,6 +68,29 @@
   }
 }
 
+.selectOptionsPop{
+  border: 1px solid #0b01b8;
+  background: rgba(20, 14, 62, 0.5);
+  .ant-cascader-menu{
+    border-right: 1px solid #0b01b8;
+    border-radius: 4px;
+    li{
+      color:#fff;
+      font-size: 14px;
+      height: 35px;
+      line-height: 35px;
+      background:none;
+      padding:0 20px; text-align: center;
+    }
+    .ant-cascader-menu-item-expand::after{
+      font-size: 16px; right:3px; color: #fff;
+    }
+    .ant-cascader-menu-item-active:not(.ant-cascader-menu-item-disabled), .ant-cascader-menu-item-active:not(.ant-cascader-menu-item-disabled):hover{
+      background-color:#4332ba; font-weight: normal;
+    }
+  }
+}
+
 .historyContent .ch-top .search-input {
   width: 200px;
 }
