@@ -8,3 +8,10 @@ export async function changeAssignRolesList(params) {
     body: JSON.stringify(params),
   });
 }
+export async function deleteAssignRoles(params) {
+  return request('/admin/assignroles/deleteAssignRoles', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}

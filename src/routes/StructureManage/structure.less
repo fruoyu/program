@@ -2,6 +2,9 @@
   box-sizing: content-box;
   width: 100%;
   height: 100%;
+  .iconfont {
+    color: #fff;
+  }
   .header {
     width: 100%;
     height: 65px;
@@ -28,6 +31,68 @@
       height: 40px;
       display: flex;
       justify-content: space-between;
+      .search-input {
+        width: 300px;
+        height: 40px;
+        position: relative;
+        margin-right: 35px;
+        input {
+          border: none;
+          outline: none;
+          text-align: left;
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+          padding-right: 20px;
+          padding-left: 10px;
+          color: #fff;
+          font-size: 14px;
+          background: transparent;
+          border-bottom: 1px solid;
+          border-image: linear-gradient(to right, #0b01b8 0, #b303fd 25%, #f3c1ff 50%, #b303fd 75%, #0b01b8) 5;
+        }
+        input::placeholder {
+          font-size: 14px;
+          color: #fff;
+        }
+        .icon-qianwang {
+          position: absolute;
+          top: 0;
+          right: 0;
+          font-size: 24px;
+          color: #ddd7ff;
+        }
+      }
+      .search-condition {
+        width: 300px;
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        line-height: 40px;
+        margin-right: 165px;
+        .task-state , .founder {
+          position: relative;
+        }
+        .zhankai {
+          display: inline-block;
+          transform: rotate(-180deg);
+          font-size: 12px;
+          transition: .2s;
+        }
+        .composition{
+          cursor: pointer;
+          span.ant-dropdown-link{
+            color: #fff!important;
+            font-size: 14px!important;
+          }
+          .anticon-up{
+            margin-left: 10px!important;
+            font-size: 16px;
+            vertical-align: middle!important;
+          }
+    
+        }
+      }
     }
     .content-item, .content-header{
       display: flex;
@@ -39,7 +104,11 @@
         flex: 5;
         display: flex;
         span{
-          flex: 1;
+          text-align: center;
+          padding-right: 5px;
+        }
+        span:first-of-type{
+          width: auto;
         }
       }
     }
