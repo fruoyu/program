@@ -80,18 +80,19 @@ class Popup extends Component {
   }
   componentDidMount() {
     // 获取taskId
-    const taskId = this.props.location.query.taskId;
-    const audio = this.refs.audio;
-    // 获取总时间
-    audio.addEventListener('canplay', () => {
-      const totalTime = parseInt(this.refs.audio.duration);
-      this.setState({
-        totalTime: this.formatSeconds(totalTime),
-      });
-    })
+    let taskId = this.props.location.query.taskId;
+    let audio = this.refs.audio;
     this.setState({
       remainTime: this.formatSeconds(0),
-      playedLeft: this.refs.played.getBoundingClientRect().left,
+    });
+    //获取总时间
+    audio.addEventListener('canplay',()=>{
+      let totalTime = parseInt(this.refs.audio.duration);
+      this.setState({
+        totalTime: this.formatSeconds(totalTime),
+        // remainTime: this.formatSeconds(0),
+        // playedLeft: this.refs.played.getBoundingClientRect().left,
+      });
     });
     // 请求已识别文件
     this.props.dispatch({
@@ -99,6 +100,12 @@ class Popup extends Component {
       payload: {
         taskid: taskId,
       },
+      callback: () => {
+        let fileScroll = this.refs['filelist' + taskId].offsetTop;
+        $('#file-list>div>div').animate({
+          scrollTop: fileScroll + 'px',
+        }, 500)
+      }
     })
     // 请求画像数据
     this.props.dispatch({
@@ -133,57 +140,76 @@ class Popup extends Component {
                     onClick={() => {
                       this.setState({
                         isInputEdit: false,
+                      }, () => {
+                        const input = this.refs['input' + index];
+                        input.focus();
                       });
                     }}
                   >
                     {
                       keylist && keylist.length && keylist.map((keylistItem, keylistIndex) => {
                         if (keylistItem.type == item) {
-                          return <input data-name={item} type="text" className="insightName" value={keylistItem.context} key={keylistIndex} disabled={this.state.isInputEdit} ref={'input' + index} onBlur={(e) => {
-                            this.props.dispatch({
-                              type: 'popup/KeyEdit',
-                              payload: {
-                                context: e.target.value,
-                                taskId: taskId,
-                                optype: 'add',
-                                type: item,
-                              },
-                              callback: (data) => {
-                                console.log(data)
-                              },
-                            })
-                            this.setState({
-                              isInputEdit: true,
-                            })
-                          }} onChange={(e) => {
-                            const keylistObj = keylist
-                            keylistObj.map((objItem, objIndex) => {
-                              if (objItem.type == item) {
-                                keylistObj[objIndex].context = e.target.value
-                              }
-                            })
-                            this.props.dispatch({
-                              type: 'popup/saveKeylistForm',
-                              payload: {
-                                fileResult: {
-                                  ...this.props.popup.fileResult,
-                                  keylist: keylistObj
+                          return <input
+                            data-name={item}
+                            type="text"
+                            className='insightName'
+                            value={keylistItem.context}
+                            disabled={this.state.isInputEdit}
+                            key={keylistIndex}
+                            ref={'input' + index}
+                            onChange={(e) => {
+                              let keylistObj = keylist;
+                              keylistObj.map((objItem, objIndex) => {
+                                if (objItem.type == item) {
+                                  keylistObj[objIndex].context = e.target.value;
                                 }
-                              },
-                            })
-                          }}></input>
+                              });
+                              this.props.dispatch({
+                                type: 'popup/saveKeylistForm',
+                                payload: {
+                                  fileResult: {
+                                    ...this.props.popup.fileResult,
+                                    keylist: keylistObj,
+                                  },
+                                },
+                              });
+                            }}
+                            onBlur={(e) => {
+                              this.props.dispatch({
+                                type: 'popup/KeyEdit',
+                                payload: {
+                                  context: e.target.value,
+                                  taskId: taskId,
+                                  optype: 'add',
+                                  type: item,
+                                },
+                                callback: (data) => {
+                                  console.log(data)
+                                },
+                              });
+                              this.setState({
+                                isInputEdit: true,
+                              });
+                            }}
+                          ></input>
                         }
                       })
                     }
                   </div>
-                  <span className="insightTermNamedit pull-right" data-type={item} onClick={() => {
-                    this.setState({
-                      isInputEdit: false
-                    }, () => {
-                      let input = this.refs['input' + index];
-                      input.focus();
-                    })
-                  }}>
+                  <span
+                    className="insightTermNamedit pull-right"
+                    data-type={item}
+                    onClick={() => {
+                      this.setState({
+                        isInputEdit: false,
+                      }, () => {
+                        console.log(this.refs)
+                        const input = this.refs['input' + index];
+                        console.log(input)
+                        input.focus();
+                      });
+                    }}
+                  >
                     <i className="iconfont icon-xiugai"></i>
                     <i className="iconfont icon-gou1"></i>
                   </span>
@@ -197,40 +223,54 @@ class Popup extends Component {
                           <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
                           <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
                             {labelItem.context}
-                            <i className="audioJump iconfont icon-yuyin1-copy" onClick={() => {
-                              this.playMusic(labelItem.time)
-                            }}></i>
+                            <i
+                              className="audioJump iconfont icon-yuyin1-copy"
+                              onClick={() => {
+                                this.playMusic(labelItem.time);
+                              }}
+                            >
+                            </i>
                           </p>
                           <div className="arrow">
                             <i className="iconfont icon-sanjiaoright"></i>
                           </div>
                         </div>
                         <div className="border-wrap"></div>
-                        <div className={labelItem.status == 'true' ? 'sentenceDel' : 'sentenceRight'} data-name={0} onClick={() => {
-                          this.props.dispatch({
-                            type: 'popup/editItem',
-                            payload: {
-                              id: labelItem.id,
-                              status: labelItem.status == 'true' ? false: true,
-                            },
-                            callback: (data) => {
-                              this.props.dispatch({
-                                type: 'popup/getFileResultApi',
-                                payload: {
-                                  taskid: taskId
-                                },
-                              })
-                              if (this.state.isOriginal) {
+                        <div 
+                          className={labelItem.status == 'true' ? 'sentenceDel' : 'sentenceRight'}
+                          data-name={0}
+                          onClick={() => {
+                            let originalScroll = this.refs['originalText' + parseInt(labelItem.time / 1000)].offsetTop;
+                            this.props.dispatch({
+                              type: 'popup/editItem',
+                              payload: {
+                                id: labelItem.id,
+                                status: labelItem.status == 'true' ? false: true,
+                              },
+                              callback: (data) => {
                                 this.props.dispatch({
-                                  type: 'popup/getOriginalList',
+                                  type: 'popup/getFileResultApi',
                                   payload: {
-                                    taskid: taskId
+                                    taskid: taskId,
                                   },
-                                })
-                              }
-                            },
-                          })
-                        }}>
+                                });
+                                if (this.state.isOriginal) {
+                                  this.props.dispatch({
+                                    type: 'popup/getOriginalList',
+                                    payload: {
+                                      taskid: taskId,
+                                    },
+                                    callback: () => {
+                                      $('.insightTextWrap > div > div').animate({
+                                        scrollTop: originalScroll + 'px',
+                                      }, 500)
+                                    }
+                                  });
+                                }
+                              },
+                            });
+                          }}
+                        >
                           {
                              <i className={['iconfont', labelItem.status == 'true' ? 'icon-cuowu' : 'icon-gou1'].join(' ')}></i>
                           }
@@ -255,23 +295,23 @@ class Popup extends Component {
       originalList
     } = this.props.popup
     // 获取taskId
-    let taskId = this.props.location.query.taskId;
+    const taskId = this.props.location.query.taskId;
     return (
       <div className="insightTextWrap" style={{ boxSizing: 'border-box', }}>
         <Scrollbars>
           {
             Object.keys(originalList).map((item, index) => (
-              <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')}>
+              <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')} ref={'originalText' + parseInt(originalList[item].startTime / 1000)}>
                 {
                   originalList[item].role == 'USER' ?
-                  <div className="fristLine">
-                    <span>用户</span>
-                    <span>{this.formatSeconds(parseInt(originalList[item].startTime / 1000))}</span>
-                  </div> :
-                  <div className="fristLine">
-                    <span>{this.formatSeconds(parseInt(originalList[item].startTime / 1000))}</span>
-                    <span>销售</span>
-                  </div>
+                    <div className="fristLine">
+                      <span>用户</span>
+                      <span>{this.formatSeconds(parseInt(originalList[item].startTime / 1000))}</span>
+                    </div> :
+                    <div className="fristLine">
+                      <span>{this.formatSeconds(parseInt(originalList[item].startTime / 1000))}</span>
+                      <span>销售</span>
+                    </div>
                 }
 
                 <div className="secondLine">
@@ -387,19 +427,19 @@ class Popup extends Component {
   // 音频进度条点击事件
   clickChangeTime(e) {
     if (!e.pageX) {
-      return
+      return;
     }
-    this.setTimeOnPc(e)
+    this.setTimeOnPc(e);
   }
 
   // 改变音频播放时间与进度条
   setTimeOnPc = (e) => {
     let audio = this.refs.audio;
-    let newWidth = (e.pageX - this.state.playedLeft) / this.refs.progress.offsetWidth;
+    let newWidth = (e.pageX - this.refs.played.getBoundingClientRect().left) / this.refs.progress.offsetWidth;
     this.refs.played.style.width = newWidth * 100 + "%";
     audio.currentTime = newWidth * audio.duration;
     this.setState({
-      remainTime: this.formatSeconds(parseInt(newWidth * audio.duration / 1000))
+      remainTime: this.formatSeconds(parseInt(newWidth * audio.duration))
     })
     this.refs.circle.style.left = newWidth * 100 + "%";
   }
@@ -556,8 +596,13 @@ class Popup extends Component {
                       taskid: taskId
                     },
                     callback: (data) => {
+                      console.log(this.refs.played.getBoundingClientRect().left)
                       this.setState({
-                        isOriginal: true,
+                        playedLeft:this.refs.played.getBoundingClientRect().left,
+                      }, () => {
+                        this.setState({
+                          isOriginal: true,
+                        })
                       })
                     }
                   })
@@ -595,11 +640,11 @@ class Popup extends Component {
                 共计 <span className="total-number">{filesList.length}</span> 个文件
               </div>
             </div>
-            <Scrollbars>
-              <ul id="file-list">
+            <ul id="file-list">
+              <Scrollbars>
                 {
                   filesList.map((item, index) => (
-                    <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index}
+                    <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index} ref={'filelist' + item.id}
                       onClick={() => {
                         this.props.dispatch(routerRedux.push({
                           pathname: '/popup',
@@ -640,8 +685,8 @@ class Popup extends Component {
                     </li>
                   ))
                 }
-              </ul>
-            </Scrollbars>
+              </Scrollbars>
+            </ul>
           </div>
         </DanaoWrapper>
       </div>
