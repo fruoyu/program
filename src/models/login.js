@@ -20,9 +20,8 @@ export default {
     *saveLoginMsg({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
       if (data.status === 100) {
-       /* const dataObj = { ...payload, isMember: data };
-        console.log(dataObj);*/
-        const token = sign(payload);
+        const dataObj = { ...payload, ...data.data };
+        const token = sign(dataObj);
         setCookie('token', token);
         yield put({
           type: 'changeLoginMsg',
@@ -30,12 +29,11 @@ export default {
         });
         if (callback) callback();
       } else {
-        notifyError('登录失败!');
+        notifyError(data.message);
       }
     },
     *loginOut({ payload, callback }, { call, put }) {
       const { data } = yield call(LoginOut, payload);
-      console.log(data, 'loginOut');
       if (data.status === 100) {
         if (callback) callback();
       } else {
@@ -47,14 +45,10 @@ export default {
     },
     *resolvePassword({ payload, callback }, { call, put }) {
       const { data } = yield call(ChangePwd, payload);
-      console.log(data, 'resolvePassword');
       if (data.status === 100) {
-        /* yield put({
-          type: 'LoginMsg',
-        });*/
         if (callback) callback();
       } else {
-        notifyError(data.errMsg);
+        notifyError(data.message);
       }
     },
   },

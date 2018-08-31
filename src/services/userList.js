@@ -1,25 +1,24 @@
 import request from '../utils/request';
 import { headersPost } from '../utils/Constants';
 
-export async function Login(params) {
-  return request('/user/login', {
+export async function getUserList(params) {
+  return request('/user/getUsers', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),
   });
 }
-export async function LoginOut(params) {
-  return request('/user/logout', {
+export async function deleteUser(params) {
+  return request('/user/deleteUser', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),
   });
 }
-export async function ChangePwd(params) {
-  return request('/user/updatePassword ', {
+export async function revisePwd(params) {
+  return request('/user/resetPwd', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),
   });
 }
-
