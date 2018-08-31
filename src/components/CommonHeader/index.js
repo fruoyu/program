@@ -27,6 +27,7 @@ class MainWrapper extends Component {
       if (err) return;
       this.setState({
         userName: decoded.data.userName,
+        roleId: decoded.roleId,
       });
     });
   }
@@ -41,11 +42,11 @@ class MainWrapper extends Component {
     this.props.form.validateFields((err) => {
       if (!err) {
         if (oldPassword === newPassword) {
-          message.error('新旧密码不能一致');
+          message.error('新旧密码不能一致', 1);
           return false;
         }
         if (newPassword !== confirmPassword) {
-          message.error('新密码与确认密码不一致');
+          message.error('新密码与确认密码不一致', 1);
           return false;
         }
         this.props.dispatch({
@@ -79,6 +80,10 @@ class MainWrapper extends Component {
         });
       },
     });
+  }
+  // 用户管理
+  goUserLIst() {
+    this.props.dispatch(routerRedux.push('/userList'));
   }
   render() {
     const {
@@ -146,10 +151,10 @@ class MainWrapper extends Component {
             <span className="userName">{this.state.userName}</span>
             <div className="shezhi-content">
               {
-                this.state.userName === 'admin' && <p>用户管理</p>
+                this.state.userName === 'root' && <p onClick={::this.goUserLIst}>用户管理</p>
               }
               {
-                this.state.userName === 'admin' && <p>结构管理</p>
+                this.state.userName === 'root' && <p>结构管理</p>
               }
               <p className="modify" onClick={() => { this.setState({ changePassword: true }); }}>修改密码</p>
               <p className="exit" onClick={this.loginOut.bind(this)}>退出</p>

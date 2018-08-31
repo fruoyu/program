@@ -50,7 +50,7 @@ class History extends Component {
       status: '',
     };
     this.sendRequest = this.sendRequest.bind(this);
-    this.updataState = this.updataState.bind(this);
+    this.upDataState = this.upDataState.bind(this);
     this.getStatus = this.getStatus.bind(this);
     this.getName = this.getName.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
@@ -58,7 +58,7 @@ class History extends Component {
     this.statusClick = this.statusClick.bind(this);
   }
   componentDidMount() {
-    // this.sendRequest();
+    this.sendRequest();
     // this.getName();
   }
   // 日历操作
@@ -131,7 +131,7 @@ class History extends Component {
     $('.task-state').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
   }
   // 更新state数据
-  updataState(key, data, callback) {
+  upDataState(key, data, callback) {
     let object = {};
     if (typeof (key) === 'string') {
       object[key] = data;
@@ -203,7 +203,7 @@ class History extends Component {
                   <input
                     type="text" placeholder="搜索内容"
                     onChange={(e) => {
-                      this.updataState('fileName', e.target.value.trim());
+                      this.upDataState('fileName', e.target.value.trim());
                     }}
                   />
                   <span className="iconfont icon-qianwang" onClick={this.sendRequest} />
@@ -225,7 +225,7 @@ class History extends Component {
                               <span
                                 key={index} className="list-item"
                                 onClick={() => {
-                                  this.updataState({ name: item }, () => {
+                                  this.upDataState({ name: item }, () => {
                                     this.sendRequest();
                                   });
                                 }}
@@ -257,7 +257,7 @@ class History extends Component {
                               <span
                                 key={item.key} className="list-item"
                                 onClick={() => {
-                                  this.updataState({
+                                  this.upDataState({
                                     statusContent: item.status,
                                     status: item.retCode,
                                   }, () => {
