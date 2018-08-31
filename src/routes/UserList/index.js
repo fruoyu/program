@@ -1,6 +1,8 @@
+import $ from 'jquery';
+import '../../utils/md5.js';
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { DatePicker, Menu, Dropdown, Icon, Form, Input, Select, message } from 'antd';
+import { DatePicker, Menu, Dropdown, Icon, Form, Input, Select, message, Modal } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import PolyDialog from '../../components/PolyDialog';
@@ -10,14 +12,12 @@ import {
   CommonHeader,
   CommonTable,
 } from '../../components';
-import {
-  verify,
-} from '../../utils/cookie';
 
 const FormItem = Form.Item;
 const SubMenu = Menu.SubMenu;
 const { RangePicker } = DatePicker;
 const Option = Select.Option;
+const confirm = Modal.confirm;
 
 class UserList extends Component {
   constructor(props) {
@@ -27,16 +27,44 @@ class UserList extends Component {
       showUser: false,
       isRevisePwd: false,
       addUser: false,
+      userName: '',
       generation: '所属角色',
       composition: '所属结构',
+      pageNum: 1,
+      area: 0,
+      classc: 0,
+      groupc: 0,
+      roleId: '',
+      generationList: [
+        {
+          key: '1',
+          generation: '超级管理员',
+        },
+        {
+          key: '2',
+          generation: '区长',
+        },
+        {
+          key: '3',
+          generation: '班长',
+        },
+        {
+          key: '4',
+          generation: '组长',
+        },
+        {
+          key: '5',
+          generation: '普通用户',
+        },
+      ],
     };
 
-    // this.revisePwd = this.revisePwd.bind(this);
     this.deleteFn = this.deleteFn.bind(this);
     this.editFn = this.editFn.bind(this);
-    // this.cleanState = this.cleanState.bind(this);
+    this.cleanState = this.cleanState.bind(this);
     this.handleSelectChange = this.handleSelectChange.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
+    this.changeGeneration = this.changeGeneration.bind(this);
   }
   componentDidMount() {
     this.sendRequest();
@@ -56,12 +84,14 @@ class UserList extends Component {
   onChangePage = (pageNumber) => {
     this.setState({
       pageNum: pageNumber,
+    }, () => {
+      this.sendRequest();
     });
   }
   // 修改，添加信息
   onOk =() => {
     this.props.form.validateFields((err) => {
-      console.log(err);
+      if (err) return false;
      /* if (this.state.addUser) { // 新增用户
 
       } else { // 修改用户
@@ -70,9 +100,9 @@ class UserList extends Component {
     });
   }
   // 清空state
-  // cleanState() {
-  //   this.setState({});
-  // }
+  cleanState() {
+    this.setState({});
+  }
   // 更新state数据
   upDataState(key, data, callback) {
     let object = {};
@@ -90,30 +120,39 @@ class UserList extends Component {
     });
   }
   // 删除数据
-  deleteFn =(id) => {
-    this.props.dispatch({
-      type: 'userList/deleteUser',
-      payload: { id },
-      callback: () => {
-        this.sendRequest();
+  deleteFn =(userName) => {
+    confirm({
+      title: '确定删除该录音吗?',
+      onOk: () => {
+        this.props.dispatch({
+          type: 'userList/deleteUser',
+          payload: { userName },
+          callback: () => {
+            this.sendRequest();
+            message.success('删除成功', 1);
+          },
+        });
+      },
+      onCancel() {
       },
     });
   }
-  // 编辑数据
+  // 编辑/新增数据
   editFn =(item) => {
     this.setState({
       showUser: true,
       addUser: false,
-    });
-    this.props.form.setFields({
-      part: {
-        value: '普通用户',
-        error: [new Error('Fail to load')],
-      },
-      nickName: {
-        value: item.realName,
-        error: [new Error('Fail to load')],
-      },
+    }, () => {
+      this.props.form.setFields({
+        part: {
+          value: '普通用户',
+          error: [new Error('Fail to load')],
+        },
+        nickName: {
+          value: item.realName,
+          error: [new Error('Fail to load')],
+        },
+      });
     });
   }
   // 重置密码
@@ -124,27 +163,45 @@ class UserList extends Component {
         message.error('两次输入密码不一致!', 1);
         return false;
       }
-      this.setState({
-        isRevisePwd: false,
-      }, () => {
-        message.success('密码重置成功!', 1);
-      });
-    });
-  }
-  handleSelectChange = (value) => {
-    console.log(value);
-  }
-  sendRequest =() => {
-    verify((err, decoded) => {
-      if (err) return;
       this.props.dispatch({
-        type: 'userList/getUserList',
+        type: 'userList/revisePwd',
         payload: {
-          roleId: decoded.roleId,
-          userName: decoded.userName,
+          passwrord: $.md5(value.newPassword),
+          userName: this.state.ReviseName,
+        },
+        callback: () => {
+          this.setState({
+            isRevisePwd: false,
+          }, () => {
+            message.success('密码重置成功!', 1);
+            this.sendRequest();
+          });
         },
       });
     });
+  }
+  /* 下拉*/
+  handleSelectChange = (value) => {
+    console.log(value);
+  }
+  /* 数据请求*/
+  sendRequest =() => {
+    this.props.dispatch({
+      type: 'userList/getUserList',
+      payload: {
+        roleId: this.state.roleId,
+        userName: this.state.userName,
+        area: this.state.area,
+        classc: this.state.classc,
+        groupc: this.state.groupc,
+        page: this.state.pageNum,
+      },
+    });
+  }
+  /* 角色转换*/
+  changeGeneration =(code) => {
+    const generation = this.state.generationList.filter(item => item.key === code)[0].generation;
+    return generation;
   }
   render() {
     const {
@@ -179,13 +236,18 @@ class UserList extends Component {
         className="composition-down-load"
         onClick={(item) => {
           this.setState({
-            generation: item.key,
+            roleId: item.key,
+            generation: this.changeGeneration(item.key),
+          }, () => {
+            this.sendRequest();
           });
         }}
       >
-        <Menu.Item key="超级管理员">超级管理员</Menu.Item>
-        <Menu.Item key="普通用户">普通用户</Menu.Item>
-        <Menu.Item key="匿名用户">匿名用户</Menu.Item>
+        {
+          this.state.generationList.map((item) => {
+            return <Menu.Item key={item.key}>{item.generation}</Menu.Item>;
+          })
+        }
       </Menu>
     )
     const { getFieldDecorator } = this.props.form;
@@ -201,10 +263,10 @@ class UserList extends Component {
                   <input
                     type="text" placeholder="用户姓名"
                     onChange={(e) => {
-                      this.upDataState('fileName', e.target.value.trim());
+                      this.upDataState('userName', e.target.value.trim());
                     }}
                   />
-                  <span className="iconfont icon-qianwang" onClick={() => { console.log(0); }} />
+                  <span className="iconfont icon-qianwang" onClick={this.sendRequest} />
                 </div>
                 <div className="search-condition">
                   {/* 所属角色 */}
@@ -258,12 +320,12 @@ class UserList extends Component {
                 userList.length > 0 && userList.map((item, index) => {
                   return (
                     <li className="content-item" data-id="'+ item2.id +'" key={index}>
-                      <div className="item-title">{item.username}</div>
-                      <div className="item-author">普通用户</div>
+                      <div className="item-title">{item.userName}</div>
+                      <div className="item-author">{item.roleName}</div>
                       <div className="item-composition">{item.realName}</div>
-                      <div className="item-state">{item.loginip}</div>
-                      <div className="item-time">{item.logintime}</div>
-                      <div className="data">{item.addtime}</div>
+                      <div className="item-state">{item.loginIp}</div>
+                      <div className="item-time">{item.loginTime}</div>
+                      <div className="data">{item.addTime}</div>
                       <div className="item-options">
                         <span className="iconfont icon-biaozhugongju" onClick={() => { this.editFn(item); }} />
                         <span
@@ -271,11 +333,11 @@ class UserList extends Component {
                           onClick={() => {
                             this.setState({
                               isRevisePwd: true,
-                              userId: item.id,
+                              ReviseName: item.userName,
                             });
                           }}
                         />
-                        <span className="iconfont icon-shanchu" onClick={() => { this.deleteFn(item.id); }} />
+                        <span className="iconfont icon-shanchu" onClick={() => { this.deleteFn(item.userName); }} />
                       </div>
                     </li>
                   );
@@ -311,9 +373,11 @@ class UserList extends Component {
                     placeholder="请选择角色"
                     onChange={this.handleSelectChange}
                   >
-                    <Option value="超级管理员">超级管理员</Option>
-                    <Option value="普通用户">普通用户</Option>
-                    <Option value="匿名用户">匿名用户</Option>
+                    {
+                      this.state.generationList.map((item) => {
+                        return <Option value={item.key} key={item.key}>{item.generation}</Option>;
+                      })
+                    }
                   </Select>,
                 )}
               </FormItem>

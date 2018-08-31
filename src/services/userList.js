@@ -15,3 +15,10 @@ export async function deleteUser(params) {
     body: JSON.stringify(params),
   });
 }
+export async function revisePwd(params) {
+  return request('/user/resetPwd', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}

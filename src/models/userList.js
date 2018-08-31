@@ -1,5 +1,6 @@
 import { notifyError } from '../services/app.js';
-import { getUserList, deleteUser } from '../services/userList';
+import { getUserList, deleteUser, revisePwd } from '../services/userList';
+import {notifySuccess} from "../services/app";
 
 export default {
   namespace: 'userList',
@@ -7,6 +8,7 @@ export default {
     userList: [],
   },
   effects: {
+    // 用户列表
     *getUserList({ payload, callback }, { call, put }) {
       const { data } = yield call(getUserList, payload);
       if (data.status === 100) {
@@ -19,6 +21,7 @@ export default {
         notifyError(data.message);
       }
     },
+    // 用户删除
     *deleteUser({ payload, callback }, { call, put }) {
       const { data } = yield call(deleteUser, payload);
       if (data.status === 100) {
@@ -27,8 +30,9 @@ export default {
         notifyError(data.message);
       }
     },
+    // 重置密码
     *revisePwd({ payload, callback }, { call, put }) {
-      const { data } = yield call(deleteUser, payload);
+      const { data } = yield call(revisePwd, payload);
       if (data.status === 100) {
         if (callback) callback();
       } else {

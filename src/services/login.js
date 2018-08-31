@@ -1,5 +1,3 @@
-import $ from 'jquery';
-import '../utils/md5.js';
 import request from '../utils/request';
 import { headersPost } from '../utils/Constants';
 
