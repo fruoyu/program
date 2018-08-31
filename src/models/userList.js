@@ -1,6 +1,5 @@
 import { notifyError } from '../services/app.js';
-import { getUserList, deleteUser, revisePwd } from '../services/userList';
-import {notifySuccess} from "../services/app";
+import { getUserList, deleteUser, revisePwd, addUser, updateUser } from '../services/userList';
 
 export default {
   namespace: 'userList',
@@ -33,6 +32,23 @@ export default {
     // 重置密码
     *revisePwd({ payload, callback }, { call, put }) {
       const { data } = yield call(revisePwd, payload);
+      if (data.status === 100) {
+        if (callback) callback();
+      } else {
+        notifyError(data.message);
+      }
+    },
+    // 新增用户
+    *addUser({ payload, callback }, { call, put }) {
+      const { data } = yield call(addUser, payload);
+      if (data.status === 100) {
+        if (callback) callback();
+      } else {
+        notifyError(data.message);
+      }
+    },
+    *updateUser({ payload, callback }, { call, put }) {
+      const { data } = yield call(updateUser, payload);
       if (data.status === 100) {
         if (callback) callback();
       } else {

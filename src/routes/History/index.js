@@ -286,7 +286,6 @@ class History extends Component {
             </div>
             {/* 内容区域 */}
             <CommonTable
-              filesList={this.props.history.filesList}
               tabHead={tabHead}
               total={total}
               onChangePage={(pageNumber) => { this.onChangePage(pageNumber); }}

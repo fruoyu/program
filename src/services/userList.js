@@ -22,3 +22,17 @@ export async function revisePwd(params) {
     body: JSON.stringify(params),
   });
 }
+export async function addUser(params) {
+  return request('/user/addUser', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}
+export async function updateUser(params) {
+  return request('/user/updateUser', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}

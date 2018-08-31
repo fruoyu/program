@@ -12,6 +12,7 @@ import {
   CommonHeader,
   CommonTable,
 } from '../../components';
+import { verify } from '../../utils/cookie';
 
 const FormItem = Form.Item;
 const SubMenu = Menu.SubMenu;
@@ -54,7 +55,7 @@ class UserList extends Component {
         },
         {
           key: '5',
-          generation: '普通用户',
+          generation: '普通销售人员',
         },
       ],
     };
@@ -90,13 +91,39 @@ class UserList extends Component {
   }
   // 修改，添加信息
   onOk =() => {
-    this.props.form.validateFields((err) => {
+    this.props.form.validateFields((err, value) => {
       if (err) return false;
-     /* if (this.state.addUser) { // 新增用户
-
+      if (this.state.addUser) { // 新增用户
+        this.props.dispatch({
+          type: 'userList/addUser',
+          payload: {
+            nickName: value.nickName,
+            passWord: $.md5(value.loginPassword),
+            roleId: value.part,
+            userName: value.name,
+          },
+          callback: () => {
+            this.setState({
+              showUser: false,
+            });
+            this.sendRequest();
+          },
+        });
       } else { // 修改用户
-
-      }*/
+        this.props.dispatch({
+          type: 'userList/updateUser',
+          payload: {
+            nickName: value.nickName,
+            roleId: value.part,
+          },
+          callback: () => {
+            this.setState({
+              showUser: false,
+            });
+            this.sendRequest();
+          },
+        });
+      }
     });
   }
   // 清空state
@@ -145,7 +172,7 @@ class UserList extends Component {
     }, () => {
       this.props.form.setFields({
         part: {
-          value: '普通用户',
+          value: `${item.roleId}`,
           error: [new Error('Fail to load')],
         },
         nickName: {
@@ -310,7 +337,6 @@ class UserList extends Component {
             </div>
             {/* 内容区域 */}
             <CommonTable
-              filesList={userList}
               tabHead={tabHead}
               total={20}
               options="操作"
