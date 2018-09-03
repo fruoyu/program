@@ -17,5 +17,8 @@ const routes = [
   {
     path: '/userList',
   },
+  {
+    // pah: '/structure',
+  },
 ];
 export default routes;

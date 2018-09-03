@@ -26,10 +26,11 @@ class Main extends Component {
       gotoOtherPage: false,
       fileSuccess: true,
       uploadSure: false,
+      uploadFileList: [],
     };
   }
 
-  componentDidMount () {
+  componentDidMount() {
     $('body').on('click', '.icon-shuaxin', (e) => {
       const indexOut = $(e.currentTarget).parents('.list-wrap').index();
       const indexInner = $(e.currentTarget).parents('.upload-item').index();
@@ -103,6 +104,9 @@ class Main extends Component {
           } else if (fileNameStrArr.indexOf('') > -1) {
             return;
           }
+          // this.setState({
+          //   uploadFileList: [sendFiles, ...this.state.uploadFileList],
+          // });
           str += '<div class="upload-item">' +
               '<div class="file-info">' + item.name + '</div>' +
               '<div class="file-progress">' +
@@ -125,10 +129,12 @@ class Main extends Component {
         $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status', 'success');
         $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.percent').html('100%');
         $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.progress-grey').css('width','0%');
-        this.setState({
-          gotoOtherPage: true,
-          fileSuccess: true,
-        });
+        if (!this.state.gotoOtherPage) {
+          this.setState({
+            gotoOtherPage: true,
+            fileSuccess: true,
+          });
+        }
       },
       error: (err, index, _count) => {
         $('.upload-failed').show();
@@ -137,10 +143,12 @@ class Main extends Component {
         $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status', 'error');
         $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.progress-grey').addClass('width100');
         $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.percent').html('0%').hide();
-        this.setState({
-          gotoOtherPage: true,
-          fileSuccess: false,
-        })
+        if (!this.state.gotoOtherPage) {
+          this.setState({
+            gotoOtherPage: true,
+            fileSuccess: false,
+          });
+        }
       },
       progress: (file) => {
         // 某个文件的上传进度
@@ -150,10 +158,11 @@ class Main extends Component {
         // file.percent  百分比
         // file.index   第多少个文件
         const length = $('.list-wrap').length - file._count - 1;
+        console.log(length, file, file._count, $('.list-wrap').eq(length))
         const per = file.percent.split('%')[0];
         $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.percent').html(per+'%');
         $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.progress-grey').css('width',(100-per) + '%');
-        console.log(file.name + ':第' + file.index + '个:' + file.percent);
+        // console.log(file.name + ':第' + file.index + '个:' + file.percent);
       },
     });
 
@@ -193,7 +202,8 @@ class Main extends Component {
     };
     option = $.extend(true, defau, option);
     
-    let fileP = $('#upload').attr('data-name') || "file";  //传给后端得 file对应字段
+    // let fileP = $('#upload').attr('data-name') || "file";  //传给后端得 file对应字段
+    let fileP = this.refs || "file";  //传给后端得 file对应字段
     let files = defau.files;
     //伪数组转换为数组
     files = Array.prototype.slice.call(files);
@@ -326,6 +336,29 @@ class Main extends Component {
         </div>
         <div className="upload-bottom">
           <span className="upload-failed">*上传文件中断，请刷新重新上传</span>
+          {/* {
+            this.state.uploadFileList.map((fileItem, fileIndex) => (
+              <div className="list-wrap" key={fileIndex}>
+                {
+                  fileItem.map((secondItem, secondIndex) => (
+                    <div className="upload-item" key={secondIndex}>
+                      <div className="file-info">{secondItem.name}</div>
+                      <div className="file-progress">
+                        <div className="progress-color"></div>
+                        <div className="progress-grey">
+                          <span className="percent">0%</span>
+                        </div>
+                      </div>
+                      <div className="is-complete">
+                        <span className="iconfont icon-gou1"></span>
+                        <span className="iconfont icon-shuaxin"></span>
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+            ))
+          } */}
         </div>
       </div>
     );
