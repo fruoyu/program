@@ -37,7 +37,7 @@ export async function updateUser(params) {
   });
 }
 export async function construction(params) {
-  return request('/user/updateUser', {
+  return request('/admin/assignroles/queryAllConstruction', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),

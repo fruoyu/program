@@ -57,10 +57,16 @@ export default {
       }
     },
     // 部门结构
-    *construction({ payload, callback }, { call, put }) {
+    *getConstruction({ payload, callback }, { call, put }) {
       const { data } = yield call(construction, payload);
+      console.log(data);
       if (data.status === 100) {
         if (callback) callback();
+        /*  yield put({
+          type: 'changeConstruction',
+          payload: data,
+        });
+        */
       } else {
         notifyError(data.message);
       }
@@ -70,6 +76,9 @@ export default {
   reducers: {
     changeUserList(state, { payload }) {
       return { ...state, userList: payload.userInfo, userCounts: payload.userCounts };
+    },
+    changeConstruction(state, { payload }) {
+      return { ...state, constructionList: [] };
     },
   },
 };
