@@ -107,10 +107,6 @@
   }
 }
 
-.historyContent .ch-top .search-input {
-  width: 200px;
-}
-
 .ant-cascader-picker{
   border-width:1px;
   border-style: solid;
@@ -137,7 +133,7 @@
 }
 
 .historyContent .ch-top .search-calendar{
-  flex-grow: 0;
+  flex-grow: 0; width: 300px;
 }
 .clientCotent{
    .history{
@@ -282,5 +278,24 @@
     span.close{
       position: absolute; right:10px; top:10px; width: 15px; height: 15px; color: #c2c3c3; cursor:pointer;
     }
+  }
+  .click-item{
+    width: 200px; flex: auto;
+    span{ line-height: 40px;}
+  }
+  &.historyContent .ch-top .search-input { margin-right: 40px;}
+
+}
+
+.icon_arrow {
+  display:block;
+  width: 40px;
+  height: 0;
+  border-top: 4px solid #fff;
+  margin: 100px;
+  position: relative;
+  &::after{
+    position: absolute;
+    width: 0; height: 0; border-bottom: 10px solid #fff; border-right: 14px solid transparent; display: block; content: ''; right:-10px; bottom: 0;
   }
 }
