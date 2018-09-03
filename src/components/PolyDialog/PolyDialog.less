@@ -7,23 +7,33 @@
   position:fixed;
   top:0;
   left:0;
-  z-index: 99999;
+  z-index: 999;
+  background: rgba(0,0,0,.5);
 
   .main{
     background:#fff;
-    width: 382px;
+    width: 432px;
     height: 348px;
     display: flex;
     flex-direction: column;
-    position: relative;;
+    position: relative;
+    &::before{
+      content: '';
+      width: 80px;
+      height: 60px;
+      position: absolute;
+      background: #fff;
+      left: 50%;
+      margin-left: -40px;
+      top: -20px;
+      border-radius: 40%;
+    }
   }
+
   .title{
-    height: 43px;
-    border-bottom: 1px solid #ccc;
-    text-align: center;
+    height: 20px;
     font-size: 20px;
     color:#333;
-    line-height: 43px;
     position: relative;
     span {
       position: absolute;

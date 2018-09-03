@@ -31,23 +31,25 @@ export default class PolyDialog extends Component {
     const {
       onOk,
       onCancel,
+      style,
     } = this.props;
     return (
       <div className="cover">
-        <div className="main">
+        <div className="main" style={style}>
           {/* 标题 */}
           <p className="title">
-            {this.state.title}
             <span onClick={this.onClose.bind(this)}>X</span>
           </p>
           {/* 主要内容区域 */}
-          <section style={{ flex: 1 }}>
+          <section style={{ flex: 1, overflow: 'hidden' }}>
             {this.props.children}
           </section>
           <div className="buttonBox">
             {/* 保存 */}
             {
-              onOk && <button onClick={this.onOk.bind(this)} style={{ flex: 1, height: 40 }}>保存</button>
+              onOk && <button
+                onClick={this.onOk.bind(this)} style={{ flex: 1, height: 40 }}
+              >保存</button>
             }
             {/* 取消 */}
             {
