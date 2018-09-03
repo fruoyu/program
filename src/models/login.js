@@ -17,6 +17,7 @@ export default {
     password: '',
   },
   effects: {
+    // 登录接口
     *saveLoginMsg({ payload, callback }, { call, put }) {
       const { data } = yield call(Login, payload);
       if (data.status === 100) {
@@ -32,6 +33,7 @@ export default {
         notifyError(data.message);
       }
     },
+    // 退出登录接口
     *loginOut({ payload, callback }, { call, put }) {
       const { data } = yield call(LoginOut, payload);
       if (data.status === 100) {
@@ -40,9 +42,11 @@ export default {
         notifyError('退出失败!');
       }
     },
+     // 登录成功
     *loginOutSuccess({ payload, callback }, { call, put }) {
       if (callback) callback();
     },
+    // 修改密码接口
     *resolvePassword({ payload, callback }, { call, put }) {
       const { data } = yield call(ChangePwd, payload);
       if (data.status === 100) {

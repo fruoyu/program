@@ -119,12 +119,13 @@
     color: #ddd7ff;
   }
   .ch-top .search-condition {
-    width: 300px;
+    width: 400px;
     display: flex;
     justify-content: space-between;
     font-size: 12px;
     line-height: 40px;
-    margin-right: 165px;
+    //margin-right: 165px;
+
   }
   .search-condition{
     .task-state , .founder {
@@ -132,11 +133,12 @@
     }
     .zhankai {
       display: inline-block;
-      transform: rotate(-180deg);
+      //transform: rotate(-180deg);
       font-size: 12px;
       transition: .2s;
     }
     .composition{
+
       cursor: pointer;
       span.ant-dropdown-link{
         color: #fff!important;
@@ -144,7 +146,7 @@
       }
       .anticon-up, .anticon-down{
         margin-left: 10px!important;
-        font-size: 16px;
+        font-size: 20px;
         vertical-align: middle!important;
       }
 
@@ -161,9 +163,14 @@
     }
   }
   .click-item{
+    flex:1;
+    font-size: 14px;
     span {
       color: #fff;
     }
+  }
+  .task-state {
+
   }
   .founder .trans-item, .task-state .trans-item {
     position: absolute;

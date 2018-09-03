@@ -48,6 +48,55 @@ class History extends Component {
       pageSize: 10, // 请求数
       startTime: '', // 开始时间
       status: '',
+      compositionList: [
+        {
+          key: '1',
+          area: 'A区',
+        },
+        {
+          key: '2',
+          area: 'B区',
+        },
+        {
+          key: '3',
+          area: 'C区',
+          class: [
+            {
+              key: '1',
+              class: 'A班',
+            },
+            {
+              key: '2',
+              class: 'B班',
+              group: [
+                {
+                  key: '1',
+                  group: 'A组',
+                },
+                {
+                  key: '2',
+                  group: 'B组',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          key: '4',
+          area: 'D区',
+          class: [
+            {
+              key: '1',
+              class: 'A班',
+            },
+            {
+              key: '2',
+              class: 'B班',
+            },
+          ],
+        },
+      ],
+      composition: '所属结构',
     };
     this.sendRequest = this.sendRequest.bind(this);
     this.upDataState = this.upDataState.bind(this);
@@ -107,11 +156,11 @@ class History extends Component {
     if ($('.trans-item-founder').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-founder').length === 0) {
       $('.trans-item-founder').siblings('.zhankai').removeClass('rotate');
       $('.trans-item-founder').removeClass('active');
-      $('.trans-item-founder').slideUp();
+      $('.trans-item-founder').hide();
     } else if ($('.trans-item-state').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-state').length === 0) {
       $('.trans-item-state').siblings('.zhankai').removeClass('rotate');
       $('.trans-item-state').removeClass('active');
-      $('.trans-item-state').slideUp();
+      $('.trans-item-state').hide();
     }
   }
   // 点击创建人下拉
@@ -119,16 +168,16 @@ class History extends Component {
     e.stopPropagation();
     $('.maker').find('.zhankai').toggleClass('rotate');
     $('.task-state').find('.zhankai').removeClass('rotate');
-    $('.maker').find('.trans-item').slideToggle().toggleClass('active');
-    $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+    $('.maker').find('.trans-item').toggle().toggleClass('active');
+    $('.maker').siblings('.click-item').find('.trans-item').hide().removeClass('active');
   }
   // 任务状态点击下拉
   statusClick = (e) => {
     e.stopPropagation();
     $('.task-state').find('.zhankai').toggleClass('rotate');
     $('.maker').find('.zhankai').removeClass('rotate');
-    $('.task-state').find('.trans-item').slideToggle().toggleClass('active');
-    $('.task-state').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+    $('.task-state').find('.trans-item').toggle().toggleClass('active');
+    $('.task-state').siblings('.click-item').find('.trans-item').hide().removeClass('active');
   }
   // 更新state数据
   upDataState(key, data, callback) {
@@ -172,23 +221,47 @@ class History extends Component {
       <Menu
         className="composition-down-load"
         onClick={(item) => {
-          console.log(item);
+          const key = item.keyPath;
+          const len = key.length;
+          let str = ''
+          if (len === 1) {
+            str = `${this.state.compositionList[key[0] - 1].area}`;
+          } else if (len === 2) {
+            str = `${this.state.compositionList[key[1] - 1].area}/${this.state.compositionList[key[1] - 1].class[key[0] - 1].class}`;
+          } else if (len === 3) {
+            str = `${this.state.compositionList[key[2] - 1].area}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].class}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].group[key[0] - 1].group}`;
+          }
+          this.setState({
+            composition: str,
+          });
         }}
       >
-        <Menu.Item key="1">A区</Menu.Item>
-        <Menu.Item key="2">B区</Menu.Item>
-        <SubMenu title="C区" key="3">
-          <Menu.Item key="1">A班</Menu.Item>
-          <SubMenu title="B班" key="2">
-            <Menu.Item key="1">A组</Menu.Item>
-            <Menu.Item key="2">B组</Menu.Item>
-          </SubMenu>
-        </SubMenu>
-        <SubMenu title="D区" key="4">
-          <Menu.Item key="1">A班</Menu.Item>
-          <Menu.Item key="2">B班</Menu.Item>
-          <Menu.Item key="3">C班</Menu.Item>
-        </SubMenu>
+        {
+          this.state.compositionList.map((item) => {
+            return (
+              !item.class ? <Menu.Item key={item.key}>{item.area}</Menu.Item> :
+              <SubMenu title={item.area} key={item.key}>
+                {
+                  item.class.map((content) => {
+                    return (
+                      !content.group ? <Menu.Item key={content.key}>{content.class}</Menu.Item> : (
+                        <SubMenu title={content.class} key={content.key}>
+                          {
+                            content.group.map((title) => {
+                              return (
+                                <Menu.Item key={title.key}>{title.group}</Menu.Item>
+                              );
+                            })
+                          }
+                        </SubMenu>
+                      )
+                    );
+                  })
+                }
+              </SubMenu>
+            );
+          })
+        }
       </Menu>
     );
     return (
@@ -238,10 +311,10 @@ class History extends Component {
 
                   </div>
                   {/* 结构 */}
-                  <div className="composition">
+                  <div className="composition click-item">
                     <Dropdown overlay={menu} trigger={['click']}>
                       <span className="ant-dropdown-link">
-                        结构<Icon type="up" />
+                        {this.state.composition}<Icon type="down" />
                       </span>
                     </Dropdown>
                   </div>
@@ -286,7 +359,6 @@ class History extends Component {
             </div>
             {/* 内容区域 */}
             <CommonTable
-              filesList={this.props.history.filesList}
               tabHead={tabHead}
               total={total}
               onChangePage={(pageNumber) => { this.onChangePage(pageNumber); }}

@@ -12,6 +12,7 @@ import {
   CommonHeader,
   CommonTable,
 } from '../../components';
+import { verify } from '../../utils/cookie';
 
 const FormItem = Form.Item;
 const SubMenu = Menu.SubMenu;
@@ -27,14 +28,17 @@ class UserList extends Component {
       showUser: false,
       isRevisePwd: false,
       addUser: false,
-      userName: '',
+      userName: '', // 搜索用户名
       generation: '所属角色',
       composition: '所属结构',
-      pageNum: 1,
-      area: 0,
-      classc: 0,
-      groupc: 0,
+      pageNum: 1, // 当前页数
+      area: 0, // 区
+      classc: 0, // 班
+      groupc: 0, // 组
       roleId: '',
+      endTime: '',
+      startTime: '',
+      editUserName: '', // 单条用户username
       generationList: [
         {
           key: '1',
@@ -54,7 +58,55 @@ class UserList extends Component {
         },
         {
           key: '5',
-          generation: '普通用户',
+          generation: '普通销售人员',
+        },
+      ],
+      compositionList: [
+        {
+          key: '1',
+          area: 'A区',
+        },
+        {
+          key: '2',
+          area: 'B区',
+        },
+        {
+          key: '3',
+          area: 'C区',
+          class: [
+            {
+              key: '1',
+              class: 'A班',
+            },
+            {
+              key: '2',
+              class: 'B班',
+              group: [
+                {
+                  key: '1',
+                  group: 'A组',
+                },
+                {
+                  key: '2',
+                  group: 'B组',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          key: '4',
+          area: 'D区',
+          class: [
+            {
+              key: '1',
+              class: 'A班',
+            },
+            {
+              key: '2',
+              class: 'B班',
+            },
+          ],
         },
       ],
     };
@@ -62,7 +114,7 @@ class UserList extends Component {
     this.deleteFn = this.deleteFn.bind(this);
     this.editFn = this.editFn.bind(this);
     this.cleanState = this.cleanState.bind(this);
-    this.handleSelectChange = this.handleSelectChange.bind(this);
+    // this.handleSelectChange = this.handleSelectChange.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
     this.changeGeneration = this.changeGeneration.bind(this);
   }
@@ -90,13 +142,40 @@ class UserList extends Component {
   }
   // 修改，添加信息
   onOk =() => {
-    this.props.form.validateFields((err) => {
+    this.props.form.validateFields((err, value) => {
       if (err) return false;
-     /* if (this.state.addUser) { // 新增用户
-
+      if (this.state.addUser) { // 新增用户
+        this.props.dispatch({
+          type: 'userList/addUser',
+          payload: {
+            nickName: value.nickName,
+            passWord: $.md5(value.loginPassword),
+            roleId: value.part,
+            userName: value.name,
+          },
+          callback: () => {
+            this.setState({
+              showUser: false,
+            });
+            this.sendRequest();
+          },
+        });
       } else { // 修改用户
-
-      }*/
+        this.props.dispatch({
+          type: 'userList/updateUser',
+          payload: {
+            nickName: value.nickName,
+            roleId: value.part,
+            userName: this.state.editUserName,
+          },
+          callback: () => {
+            this.setState({
+              showUser: false,
+            });
+            this.sendRequest();
+          },
+        });
+      }
     });
   }
   // 清空state
@@ -142,10 +221,11 @@ class UserList extends Component {
     this.setState({
       showUser: true,
       addUser: false,
+      editUserName: item.userName,
     }, () => {
       this.props.form.setFields({
         part: {
-          value: '普通用户',
+          value: `${item.roleId}`,
           error: [new Error('Fail to load')],
         },
         nickName: {
@@ -180,10 +260,10 @@ class UserList extends Component {
       });
     });
   }
-  /* 下拉*/
-  handleSelectChange = (value) => {
+  /* 弹框角色下拉*/
+  /*handleSelectChange = (value) => {
     console.log(value);
-  }
+  }*/
   /* 数据请求*/
   sendRequest =() => {
     this.props.dispatch({
@@ -194,6 +274,8 @@ class UserList extends Component {
         area: this.state.area,
         classc: this.state.classc,
         groupc: this.state.groupc,
+        endTime: this.state.endTime,
+        startTime: this.state.startTime,
         page: this.state.pageNum,
       },
     });
@@ -212,23 +294,47 @@ class UserList extends Component {
       <Menu
         className="composition-down-load"
         onClick={(item) => {
-          console.log(item);
+          const key = item.keyPath;
+          const len = key.length;
+          let str = ''
+          if (len === 1) {
+            str = `${this.state.compositionList[key[0] - 1].area}`;
+          } else if (len === 2) {
+            str = `${this.state.compositionList[key[1] - 1].area}/${this.state.compositionList[key[1] - 1].class[key[0] - 1].class}`;
+          } else if (len === 3) {
+            str = `${this.state.compositionList[key[2] - 1].area}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].class}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].group[key[0] - 1].group}`;
+          }
+          this.setState({
+            composition: str,
+          });
         }}
       >
-        <Menu.Item key="1">A区</Menu.Item>
-        <Menu.Item key="2">B区</Menu.Item>
-        <SubMenu title="C区" key="3">
-          <Menu.Item key="1">A班</Menu.Item>
-          <SubMenu title="B班" key="2">
-            <Menu.Item key="1">A组</Menu.Item>
-            <Menu.Item key="2">B组</Menu.Item>
-          </SubMenu>
-        </SubMenu>
-        <SubMenu title="D区" key="4">
-          <Menu.Item key="1">A班</Menu.Item>
-          <Menu.Item key="2">B班</Menu.Item>
-          <Menu.Item key="3">C班</Menu.Item>
-        </SubMenu>
+        {
+          this.state.compositionList.map((item) => {
+            return (
+             !item.class ? <Menu.Item key={item.key}>{item.area}</Menu.Item> :
+             <SubMenu title={item.area} key={item.key}>
+               {
+                 item.class.map((content) => {
+                   return (
+                     !content.group ? <Menu.Item key={content.key}>{content.class}</Menu.Item> : (
+                       <SubMenu title={content.class} key={content.key}>
+                         {
+                           content.group.map((title) => {
+                             return (
+                               <Menu.Item key={title.key}>{title.group}</Menu.Item>
+                             );
+                           })
+                         }
+                       </SubMenu>
+                     )
+                   );
+                 })
+               }
+             </SubMenu>
+            );
+          })
+        }
       </Menu>
     );
     const generation = (
@@ -270,7 +376,7 @@ class UserList extends Component {
                 </div>
                 <div className="search-condition">
                   {/* 所属角色 */}
-                  <div className="generation">
+                  <div className="generation click-item">
                     <Dropdown overlay={generation} trigger={['click']}>
                       <span className="ant-dropdown-link">
                         {this.state.generation}<Icon type="down" />
@@ -278,13 +384,14 @@ class UserList extends Component {
                     </Dropdown>
                   </div>
                   {/* 所属结构 */}
-                  <div className="composition">
+                  <div className="composition click-item">
                     <Dropdown overlay={menu} trigger={['click']}>
                       <span className="ant-dropdown-link">
                         {this.state.composition}<Icon type="down" />
                       </span>
                     </Dropdown>
                   </div>
+                  <div className="click-item" />
                 </div>
                 {/* 日历 */}
                 <div className="search-calendar">
@@ -310,9 +417,8 @@ class UserList extends Component {
             </div>
             {/* 内容区域 */}
             <CommonTable
-              filesList={userList}
               tabHead={tabHead}
-              total={20}
+              total={this.props.userList.userCounts}
               options="操作"
               onChangePage={(pageNumber) => { this.onChangePage(pageNumber); }}
             >
@@ -371,7 +477,7 @@ class UserList extends Component {
                 })(
                   <Select
                     placeholder="请选择角色"
-                    onChange={this.handleSelectChange}
+                    // onChange={this.handleSelectChange}
                   >
                     {
                       this.state.generationList.map((item) => {
