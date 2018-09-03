@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, DatePicker, Select } from 'antd';
 
 
 const FormItem = Form.Item;
@@ -8,10 +8,16 @@ class PopClientInfo extends Component {
 
   render (){
     const { getFieldDecorator } = this.props.form;
+    const stars = ['非星','一星','三星','五星','七星','九星'];
+    const five = ['认购','认识','认可','认同','认定'];
     return (
-      <div className='clientInfoPopWindow'>
+      <div className='clientInfoPopWindow' style={{display: this.props.popClientShow ? 'block' : 'none'}} >
+        <span className='iconfont icon-htmal5icon19 close'
+          onClick = { this.props.onCloseWin }
+        ></span>
         <Form
         className="formWrap"
+        // onSubmit={}
         >
           <FormItem
               label="姓名"
@@ -28,23 +34,25 @@ class PopClientInfo extends Component {
               label="性别"
             >
             {getFieldDecorator('customerSex', {
+              initialValue: 'male',
               rules: [{
-                required: true, message: '请输入性别',
+                required: true, message: '请选择性别',
               }],
             })(
-              <Input placeholder='请输入性别' />
+              <Select className="sexSelect">
+                <Option value="male">男</Option>
+                <Option value="female">女</Option>
+              </Select>
             )}
           </FormItem>
           <FormItem
               label="出生日期"
             >
             {getFieldDecorator('customerBirthday', {
-              rules: [{
-                required: true, message: '请输入性别',
-              }],
+              rules: [{ type: 'object', required: true, message: 'Please select time!' }],
             })(
-              <Input placeholder='请输入性别' />
-            )}
+            <DatePicker />
+          )}
           </FormItem>
           <FormItem
               label="手机号码"
@@ -61,11 +69,16 @@ class PopClientInfo extends Component {
               label="证件类型"
             >
             {getFieldDecorator('custoerIdType', {
+              initialValue: '身份证',
               rules: [{
-                required: true, message: '请输入性别',
+                required: true, message: '请选择证件类型',
               }],
             })(
-              <Input placeholder='请输入性别' />
+              <Select className="sexSelect">
+                <Option value="身份证">身份证</Option>
+                <Option value="居住证">居住证</Option>
+                <Option value="军人证">军人证</Option>
+              </Select>
             )}
           </FormItem>
           <FormItem
@@ -83,33 +96,56 @@ class PopClientInfo extends Component {
               label="星级"
             >
             {getFieldDecorator('customerLevel', {
+              initialValue: '非星',
               rules: [{
-                required: true, message: '请输入星级',
+                required: true, message: '请选择星级',
               }],
             })(
-              <Input placeholder='请输入星级' />
+              <Select className="sexSelect">
+              {
+                stars.map((itm) => {
+                  return (
+                    <Option value={itm}>{itm}</Option>
+                  )
+                })
+              }
+              </Select>
             )}
           </FormItem>
           <FormItem
               label="五认关系"
             >
             {getFieldDecorator('customerFive', {
+              initialValue: '认购',
               rules: [{
                 required: true, message: '请选择五认关系',
               }],
             })(
-              <Input placeholder='请选择五认关系' />
+              <Select className="sexSelect">
+              {
+                five.map((itm) => {
+                  return (
+                    <Option value={itm}>{itm}</Option>
+                  )
+                })
+              }
+              </Select>
             )}
           </FormItem>
           <FormItem
               label="所属销售"
             >
             {getFieldDecorator('customerUser', {
+              initialValue: '张三',
               rules: [{
                 required: true, message: '请选择所属销售',
               }],
             })(
-              <Input placeholder='请选择所属销售' />
+              <Select className="sexSelect">
+                <Option value="张三">张三</Option>
+                <Option value="四星">四星</Option>
+                <Option value="五星">五星</Option>
+              </Select>
             )}
           </FormItem>
           <FormItem
@@ -127,11 +163,15 @@ class PopClientInfo extends Component {
               label="感情状况"
             >
             {getFieldDecorator('customerMarriage', {
+              initialValue: '已婚',
               rules: [{
                 required: true, message: '请选择感情状况',
               }],
             })(
-              <Input placeholder='请选择感情状况' />
+              <Select className="sexSelect">
+                <Option value="已婚">已婚</Option>
+                <Option value="未婚">未婚</Option>
+              </Select>
             )}
           </FormItem>
           <FormItem
@@ -156,16 +196,9 @@ class PopClientInfo extends Component {
               <Input placeholder='请输入邮箱' />
             )}
           </FormItem>
-          <FormItem
-              label="邮箱"
-            >
-            {getFieldDecorator('customerAdress', {
-              rules: [{
-                 message: '请输入邮箱',
-              }],
-            })(
-              <button placeholder='请输入邮箱' />
-            )}
+          <FormItem className="buttonPart">
+            <Button className="cancel" onClick={this.props.onCloseWin}>取消</Button>
+            <Button type="primary" htmlType="submit" className="confirm">确认</Button>
           </FormItem>
         </Form>
       </div>

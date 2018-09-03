@@ -236,7 +236,7 @@
     left: 50%;
     top: 50%;
     width: 860px;
-    height: 600px;
+    height: 562px;
     margin-top:-300px;
     margin-left: -430px;
     &::before { position: absolute; width: 83px; height: 68px; display:block; content:'';
@@ -251,17 +251,36 @@
       .ant-form-item {
         width: 370px; display: flex; height: 60px; border-bottom: 1px solid #a4a2cb;
         box-sizing: border-box; margin: 0 20px; padding-top: 14px;
-        .label{ font-size:14px; }
+       
         .ant-form-item-label {
           width: 92px; text-align: left;
+          label{ font-size:14px; }
         }
         .ant-form-item-control-wrapper{
           flex:1;
           input {
-            padding:0; border: none; outline:none;
+            padding:0; border: none; outline:none; font-size: 14px;
+          }
+          .ant-calendar-picker{ width: 100%;}
+          .ant-calendar-picker-icon::after{ font-size: 16px; color: #afaaff;}
+          .ant-select{ font-size: 14px;}
+          .ant-select-arrow { font-size: 18px; margin-top: -8px;}
+          .sexSelect {
+            .ant-select-selection { border: none;}
           }
         }
+        &.buttonPart {
+          position: absolute; bottom: 0; left:0; width: 100%; margin: 0; height: 50px; line-height: 50px; text-align: center;
+          border:0; padding-top:0;
+          .ant-form-item-control { line-height: initial;}
+          button { border-radius: 0;}
+          .cancel{ width: 50%; height: 50px; line-height: 50px; border:none; float: left; color:#333; background-color:#eff0ff;}
+          .confirm{ width: 50%; height: 50px; line-height: 50px; border:none; float: right; background:#afaaff; color:#fff;}
+        }
       }
+    }
+    span.close{
+      position: absolute; right:10px; top:10px; width: 15px; height: 15px; color: #c2c3c3; cursor:pointer;
     }
   }
 }

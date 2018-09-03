@@ -25,10 +25,12 @@ class ClientList extends Component {
       pageSize: 10, // 请求数
       startTime: '', // 开始时间
       status: '',
+      popClientShow: false,
     };
 
     this.onGetClientList = this.onGetClientList.bind(this);
     this.onSearchClick = this.onSearchClick.bind(this);
+    this.showPopWin = this.showPopWin.bind(this);
   }
 
   componentDidMount(){
@@ -87,6 +89,22 @@ class ClientList extends Component {
 
   onSearchClick = (ev) => {
     console.log(this.state.searchInputVal)
+  }
+
+  showPopWin = () => {
+    if(!this.state.popClientShow) {
+      this.setState({
+        popClientShow: true
+      })
+    }
+  }
+
+  onCloseWin = () => {
+    if(this.state.popClientShow) {
+      this.setState({
+        popClientShow: false
+      })
+    }
   }
 
   render() {
@@ -201,13 +219,15 @@ class ClientList extends Component {
               </div>
             </div>
 
-                <div className='btn-newClient'><a className='btn'>新建客户</a></div>
+                <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
 
           {/* 列表内容部分 */}
             <DataList dataSource={dataSource} />
           </div>
         </Scrollbars>
-        <PopClient />
+        <PopClient popClientShow={this.state.popClientShow}
+          onCloseWin = { this.onCloseWin }
+         />
       </div>
                       
      

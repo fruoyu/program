@@ -53,13 +53,8 @@ class MainWrapper extends Component {
           type: 'login/resolvePassword',
           payload: {
             userName: 'root',
-<<<<<<< HEAD
-            oldPassWord: oldPassword,
-            newPassWord: newPassword,
-=======
             oldPassWord: $.md5(oldPassword),
             newPassWord: $.md5(newPassword),
->>>>>>> master
           },
           callback: () => {
             // 退出登录
