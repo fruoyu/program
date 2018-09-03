@@ -28,6 +28,9 @@ class CommonTable extends Component {
                 );
               })
             }
+            {
+              this.props.options && <div className="item-options">{this.props.options}</div>
+            }
           </div>
           {/* 列表 */}
           <ul className="content-lists">{this.props.children}</ul>

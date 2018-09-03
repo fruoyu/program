@@ -12,7 +12,10 @@ const routes = [
     path: '/popup',
   },
   {
-    pah: '/clientList',
+    path: '/clientList',
   },
-]
+  {
+    path: '/userList',
+  },
+];
 export default routes;

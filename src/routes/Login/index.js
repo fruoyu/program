@@ -1,8 +1,9 @@
+import $ from 'jquery';
+import '../../utils/md5.js';
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Icon, Button, Form, Input, Checkbox } from 'antd';
 import { routerRedux } from 'dva/router';
-import { notifyError } from '../../services/app.js';
 
 import './login.less';
 
@@ -56,7 +57,7 @@ class Login extends Component {
           type: 'login/saveLoginMsg',
           payload: {
             userName: this.state.userName,
-            passWord: this.state.passWord,
+            passWord: $.md5(this.state.passWord),
           },
           callback: () => {
             this.props.dispatch(routerRedux.push('/main'));
