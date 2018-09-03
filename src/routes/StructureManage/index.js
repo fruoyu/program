@@ -12,6 +12,9 @@ import {
 } from '../../components';
 import '../../assets/iconfont/iconfont.css';
 import './structure.less';
+import {
+  verify,
+} from '../../utils/cookie';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -28,6 +31,8 @@ class Structure extends Component {
       departmentId: '',
       departmentType: '',
       departmentLevel: '',
+      assigningDepartmentName: '',
+      groupId: '',
       levelList: [
         {
           content: '区',
@@ -181,9 +186,48 @@ class Structure extends Component {
     });
   }
 
+  searchUsers = () => {
+    verify((err, decoded) => {
+      if (err) return;
+      this.props.dispatch({
+        type: 'structure/searchUsers',
+        payload: {
+          roleTypeList: [decoded.data.roleId],
+          whetherBind: '0',
+        },
+      });
+      this.props.dispatch({
+        type: 'structure/searchUsers',
+        payload: {
+          roleTypeList: [decoded.data.roleId],
+          whetherBind: '1',
+        },
+      });
+    });
+  }
+
+  preUsers = () => {
+    this.props.dispatch({
+      type: 'structure/distributionUsers',
+      payload: {
+        groupId: this.state.groupId,
+        userIdList: this.props.structure.notOwnedUsers.map(item => {
+          return item.id + '';
+        }),
+      },
+      callback: () => {
+        this.setState({
+          assigningUsers: false,
+        });
+      }
+    });
+  }
+
   render() {
     const {
-      assignRolesList,
+      assignRolesList = [],
+      ownedUsers = [],
+      notOwnedUsers = [],
     } = this.props.structure;
     const tabHead = ['部门名称', '部门级别', '区', '班', '组'];
     const { getFieldDecorator } = this.props.form;
@@ -291,7 +335,9 @@ class Structure extends Component {
                         onClick={() => {
                           this.setState({
                             assigningUsers: true,
+                            assigningDepartmentName: item.groupName
                           });
+                          this.searchUsers();
                         }}
                       />
                     </div>
@@ -301,11 +347,13 @@ class Structure extends Component {
             </CommonTable>
           </div>
         </Scrollbars>
+        {/* 修改部门名称 */}
         {
           this.state.changeDepartment &&
           <PolyDialog
             title='更新部门'
             visible={this.state.changeDepartment}
+            style={{ height: '200px' }}
             onClose={() => {
               this.setState({
                 changeDepartment: false,
@@ -323,24 +371,27 @@ class Structure extends Component {
             }}
           >
             <div className='change-department'>
-              <text><span>*</span>部门名称:</text>
-              <input
-                placeholder={this.state.changeDepartmentName == '' ? '请输入部门名称' : this.state.changeDepartmentName}
-                onChange={(e) => {
-                  this.setState({
-                    changeDepartmentName: e.target.value.trim(),
-                  });
-                }}
-              >
-              </input>
+              <div className='dialog-top'>
+                <text><span>*</span>部门名称:</text>
+                <input
+                  placeholder={this.state.changeDepartmentName == '' ? '请输入部门名称' : this.state.changeDepartmentName}
+                  onChange={(e) => {
+                    this.setState({
+                      changeDepartmentName: e.target.value.trim(),
+                    });
+                  }}
+                >
+                </input>
+              </div>
             </div>
           </PolyDialog>
         }
+        {/* 分配用户 */}
         {
           this.state.assigningUsers &&
           <PolyDialog
-            title='绑定部门用户'
             visible={this.state.assigningUsers}
+            style={{ width: 600, height: 520 }}
             onClose={() => {
               this.setState({
                 assigningUsers: false,
@@ -355,8 +406,108 @@ class Structure extends Component {
               });
             }}
           >
-            <div>
-              <text>绑定部门用户</text>
+            <div className='assigning-users'>
+              <div className='assigning-top dialog-top'>
+                <text><span>*</span>部门名称:</text>
+                <input
+                  placeholder={this.state.assigningDepartmentName}
+                  disabled
+                  onChange={(e) => {
+                    this.setState({
+                      changeDepartmentName: e.target.value.trim(),
+                    });
+                  }}
+                >
+                </input>
+              </div>
+              <div className='assigning-middle'>
+                <p>部门设置</p>
+                <div className='haventUsers'>
+                  <p>未拥有用户</p>
+                  <p>{notOwnedUsers.length}条记录</p>
+                  <div>
+                    <p
+                      onClick={() => {
+                        this.props.dispatch({
+                          type: 'structure/saveOwnedUsers',
+                          payload: {
+                            ownedUsers: [...notOwnedUsers, ...ownedUsers],
+                            notOwnedUsers: [],
+                          },
+                        });
+                      }}
+                    >
+                      <img src={require('../../assets/image/havent.png')}></img>
+                    </p>
+                    <ul>
+                      {
+                        notOwnedUsers.map((item, index) => (
+                          <li
+                            key={index}
+                            style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
+                            onClick={() => {
+                              let tempOwnedUsers = ownedUsers;
+                              tempOwnedUsers.unshift(item);
+                              let tempNotOwnedUsers = notOwnedUsers;
+                              tempNotOwnedUsers.splice(index, 1);
+                              this.props.dispatch({
+                                type: 'structure/saveOwnedUsers',
+                                payload: {
+                                  ownedUsers: tempOwnedUsers,
+                                  notOwnedUsers: tempNotOwnedUsers,
+                                },
+                              });
+                            }}
+                          >{item.realname}</li>
+                        ))
+                      }
+                    </ul>
+                  </div>
+                </div>
+                <div className='haveUsers'>
+                  <p>已拥有用户</p>
+                  <p>{ownedUsers.length}条记录</p>
+                  <div>
+                    <p
+                      onClick={() => {
+                        this.props.dispatch({
+                          type: 'structure/saveOwnedUsers',
+                          payload: {
+                            notOwnedUsers: [...ownedUsers, ...notOwnedUsers],
+                            ownedUsers: [],
+                          },
+                        });
+                      }}
+                    >
+                      <img src={require('../../assets/image/have.png')}></img>
+                    </p>
+                    <ul>
+                      {
+                        ownedUsers.map((item, index) => (
+                          <li
+                            key={index}
+                            style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
+                            onClick={() => {
+                              let tempOwnedUsers = ownedUsers;
+                              tempOwnedUsers.splice(index, 1);
+                              let tempNotOwnedUsers = notOwnedUsers;
+                              tempNotOwnedUsers.unshift(item);
+                              this.props.dispatch({
+                                type: 'structure/saveOwnedUsers',
+                                payload: {
+                                  ownedUsers: tempOwnedUsers,
+                                  notOwnedUsers: tempNotOwnedUsers,
+                                },
+                              });
+                            }}
+                          >{item.realname}</li>
+                        ))
+                      }
+                      
+                    </ul>
+                  </div>
+                </div>
+              </div>
             </div>
           </PolyDialog>
         }
