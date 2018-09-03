@@ -36,3 +36,10 @@ export async function updateUser(params) {
     body: JSON.stringify(params),
   });
 }
+export async function construction(params) {
+  return request('/user/updateUser', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}
