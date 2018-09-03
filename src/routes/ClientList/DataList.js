@@ -23,7 +23,7 @@ const DataList = (props) => {
     key: 'fiveStatus',
     render: text => <div className="cellWrap">{text}</div>,
   }, {
-    title: '更新时间',
+    title: '创建日期',
     dataIndex: 'updateTime',
     key: 'updateTime',
     render: text => <div className="cellWrap">{text}</div>,
@@ -32,6 +32,15 @@ const DataList = (props) => {
     dataIndex: 'belong',
     key: 'belong',
     render: text => <div className="cellWrap">{text}</div>,
+  }, {
+    title: '操作',
+    dataIndex: '',
+    key: 'x',
+    render: () => <div className="cellWrap">
+      <span className='iconfont icon-biaozhugongju'></span>
+      <span className='iconfont icon-shanchu'></span>
+      <span className='iconfont icon-huaxiang'></span>
+    </div>,
   }];
    
   return (
