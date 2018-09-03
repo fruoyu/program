@@ -22,4 +22,10 @@ export async function changeDepartmentName(params) {
     body: JSON.stringify(params),
   });
 }
-
+export async function addStructure(params) {
+  return request('/admin/assignroles', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}

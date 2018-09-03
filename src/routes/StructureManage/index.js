@@ -60,6 +60,7 @@ class Structure extends Component {
       addStructure: false,
       generationCode: '',
       whatPage: '1',
+      addDepartmentName: '',
     };
     this.changeGeneration = this.changeGeneration.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -74,17 +75,14 @@ class Structure extends Component {
     this.props.dispatch({
       type: 'structure/getAssignRolesList',
       payload: {
-        areaId: "",
-        classId: "",
-        departmentId: "",
+        areaId: '',
+        classId: '',
+        departmentId: '',
         departmentName: this.state.departmentName,
         departmentType: this.state.departmentType,
-        groupId: "",
+        groupId: '',
         pageSize: '10',
         whatPage: this.state.whatPage,
-      },
-      callback: () => {
-        console.log(this.props.structure.assignRolesList);
       },
     });
   }
@@ -119,8 +117,8 @@ class Structure extends Component {
     this.props.dispatch({
       type: 'structure/changeDepartmentName',
       payload: {
-        departmentId: this.state.departmentId + '',
-        departmentLevel: this.state.departmentLevel + '',
+        departmentId: `${this.state.departmentId}`,
+        departmentLevel: `${this.state.departmentLevel}`,
         modifyDepartmentName: this.state.changeDepartmentName,
       },
       callback: () => {
@@ -146,7 +144,22 @@ class Structure extends Component {
   addStructure = () => {
     this.props.form.validateFields((err, value) => {
       if (err) return;
-      console.log(value);
+      const InputContent = value.areaName ? value.areaName : (
+        value.className ? value.className : (
+          value.groupName ? value.groupName : null
+        )
+      );
+      console.log(InputContent);
+      /* this.props.dispatch({
+        type: 'structure/addStructure',
+        payload: {
+          areaId: value.areaId ? value.areaId : '',
+          classId: value.classId ? value.classId : '',
+          departmentName: InputContent,
+          departmentType: value.departmentType,
+        },
+        callback: () => {},
+      });*/
     });
   }
   // 级别选择
@@ -164,7 +177,7 @@ class Structure extends Component {
     this.setState({
       whatPage: page,
     }, () => {
-
+      this.sendRequest();
     });
   }
 
@@ -370,7 +383,7 @@ class Structure extends Component {
             <Form className="user-form-dailog">
 
               <FormItem className="line-item" label="部门级别">
-                {getFieldDecorator('level', {
+                {getFieldDecorator('departmentType', {
                   rules: [{ required: true, message: '请选择部门级别!' }],
                 })(
                   <Select
@@ -387,34 +400,31 @@ class Structure extends Component {
               </FormItem>
               {
                 (this.state.generationCode === '2' || this.state.generationCode === '3') && <FormItem className="line-item" label="区">
-                  {getFieldDecorator('area', {
+                  {getFieldDecorator('areaId', {
                     rules: [{ required: true, message: '请选择区!' }],
                   })(
                     <Select
                       placeholder="请选择区"
                     >
-                      {
-                        this.state.generationList.map((item) => {
-                          return <Option value={item.key} key={item.key}>{item.generation}</Option>;
-                        })
-                      }
+                      <Option value="11">A区</Option>
+                      <Option value="12">B区</Option>
+                      <Option value="13">C区</Option>
+                      <Option value="14">D区</Option>
                     </Select>,
                   )}
                 </FormItem>
               }
               {
                 this.state.generationCode === '3' && <FormItem className="line-item" label="班">
-                  {getFieldDecorator('class', {
+                  {getFieldDecorator('classId', {
                     rules: [{ required: true, message: '请选择班!' }],
                   })(
                     <Select
                       placeholder="请选择班"
                     >
-                      {
-                        this.state.generationList.map((item) => {
-                          return <Option value={item.key} key={item.key}>{item.generation}</Option>;
-                        })
-                      }
+                      <Option value="1">A班</Option>
+                      <Option value="2">B班</Option>
+                      <Option value="3">C班</Option>
                     </Select>,
                   )}
                 </FormItem>
