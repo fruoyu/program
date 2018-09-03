@@ -13,7 +13,7 @@ export function notifyError(messageInfo, title = 'Error') {
   notification.error({
     message: title,
     description: messageInfo,
-    duration: 2,
+    duration: 1,
     style: { width: 500, marginLeft: 335 - 500, overflowX: 'auto' },
   });
 }

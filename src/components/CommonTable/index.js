@@ -11,7 +11,6 @@ class CommonTable extends Component {
   }
   render() {
     const {
-      filesList,
       tabHead,
       total,
     } = this.props;
@@ -37,15 +36,13 @@ class CommonTable extends Component {
         </div>
 
         {/* 分页器 */}
-        {
-          filesList.length > 0 && <Pagination
-            className="my-pagination"
-            defaultCurrent={1} total={total} showQuickJumper style={{ marginTop: 60 }}
-            onChange={(pageNumber) => {
-              this.props.onChangePage(pageNumber);
-            }}
-          />
-        }
+        <Pagination
+          className="my-pagination"
+          defaultCurrent={1} total={total} showQuickJumper style={{ marginTop: 60 }}
+          onChange={(pageNumber) => {
+            this.props.onChangePage(pageNumber);
+          }}
+        />
       </div>
     );
   }
