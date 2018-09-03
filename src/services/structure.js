@@ -15,3 +15,11 @@ export async function deleteAssignRoles(params) {
     body: JSON.stringify(params),
   });
 }
+export async function changeDepartmentName(params) {
+  return request('/admin/assignroles/updateAssignRoles', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}
+

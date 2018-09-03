@@ -1,5 +1,5 @@
 import { notifyError, notifySuccess } from '../services/app.js';
-import { changeAssignRolesList, deleteAssignRoles, } from '../services/structure';
+import { changeAssignRolesList, deleteAssignRoles, changeDepartmentName, } from '../services/structure';
 
 export default {
   namespace: 'structure',
@@ -23,6 +23,14 @@ export default {
       const { data } = yield call(deleteAssignRoles, payload);
       if (data.status === 100) {
         callback && callback()
+      } else {
+        notifyError(data.message);
+      }
+    },
+    *changeDepartmentName({ payload, callback }, { call, put }) {
+      const { data } = yield call(changeDepartmentName, payload);
+      if (data.status === 100) {
+        callback && callback(data);
       } else {
         notifyError(data.message);
       }

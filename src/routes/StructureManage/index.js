@@ -16,7 +16,25 @@ class Structure extends Component {
     super(props);
     this.state = {
       changeDepartment: false,
-
+      areaName: '',
+      departmentName: '',
+      changeDepartmentName: '',
+      departmentId: '',
+      departmentLevel: '',
+      levelList: [
+        {
+          content: '区',
+          id: '2',
+        },
+        {
+          content: '班',
+          id: '3',
+        },
+        {
+          content: '组',
+          id: '4',
+        },
+      ],
     };
   }
 
@@ -64,8 +82,79 @@ class Structure extends Component {
     });
   }
 
+  // 修改部门名称确定事件
   preDepartment = () => {
+    this.setState({
+      changeDepartment: false,
+      changeDepartmentName: '',
+    });
+    this.props.dispatch({
+      type: 'structure/changeDepartmentName',
+      payload: {
+        departmentId: this.state.departmentId + '',
+        departmentLevel: this.state.departmentLevel + '',
+        modifyDepartmentName: this.state.changeDepartmentName,
+      },
+      callback: () => {
+        this.props.dispatch({
+          type: 'structure/getAssignRolesList',
+          payload: {
+            areaId: "",
+            classId: "",
+            departmentId: "",
+            departmentName: "",
+            departmentType: "",
+            groupId: "",
+            pageSize: '10',
+            whatPage: '1',
+          },
+        });
+      },
+    });
+  }
 
+  makerClick = (e) => {
+    e.stopPropagation();
+    $('.maker').find('.zhankai').toggleClass('rotate');
+    $('.task-state').find('.zhankai').removeClass('rotate');
+    $('.maker').find('.trans-item').slideToggle().toggleClass('active');
+    $('.maker').siblings('.click-item').find('.trans-item').slideUp().removeClass('active');
+  }
+
+  updataState = (content, id) => {
+    this.setState({
+      areaName: content,
+    }, () => {
+      this.props.dispatch({
+        type: 'structure/getAssignRolesList',
+        payload: {
+          areaId: '',
+          classId: '',
+          departmentId: "",
+          departmentName: "",
+          departmentType: id,
+          groupId: "",
+          pageSize: '10',
+          whatPage: '1',
+        },
+      });
+    });
+  }
+
+  findName = () => {
+    this.props.dispatch({
+      type: 'structure/getAssignRolesList',
+      payload: {
+        areaId: '',
+        classId: '',
+        departmentId: '',
+        departmentName: this.state.departmentName,
+        departmentType: '',
+        groupId: '',
+        pageSize: '10',
+        whatPage: '1',
+      },
+    });
   }
 
   render() {
@@ -81,15 +170,49 @@ class Structure extends Component {
             <div className='structure-header'>
               <div className="search-input">
                 <input
-                  type="text" placeholder="搜索内容"
+                  type="text"
+                  placeholder={this.state.departmentName == '' ? '部门名称' : this.state.departmentName}
                   onChange={(e) => {
-                    this.updataState('fileName', e.target.value.trim());
+                    this.setState({
+                      departmentName: e.target.value.trim(),
+                    });
+                    // this.updataState('fileName', e.target.value.trim());
                   }}
                 />
-                <span className="iconfont icon-qianwang" onClick={this.sendRequest} />
+                <span
+                  className="iconfont icon-qianwang"
+                  onClick={() => {
+                    this.findName();
+                  }} />
               </div>
               <div className="search-condition">
-                
+                <div>所在组织</div>
+                <div className="founder click-item maker" onClick={(e) => { this.makerClick(e); }}>
+                  <span className="mr-15">
+                    {
+                      this.state.areaName.length > 0 ? this.state.areaName : '区'
+                    }
+                  </span>
+                  <span className="iconfont icon-down-trangle zhankai" />
+                  <div className="trans-item trans-item-founder">
+                    <div className="founder-list">
+                      {
+                        this.state.levelList.map((item, index) => (
+                          <span
+                            className="list-item"
+                            key={index}
+                            onClick={() => {
+                              this.updataState(item.content, item.id);
+                            }}
+                          >
+                            {item.content}
+                          </span>
+                        ))
+                      }
+                    </div>
+                  </div>
+
+                </div>
               </div>
             </div>
             <CommonTable
@@ -112,6 +235,8 @@ class Structure extends Component {
                         onClick={() => {
                           this.setState({
                             changeDepartment: true,
+                            departmentId: item.groupId,
+                            departmentLevel: item.roleLevel,
                           });
                         }}
                       >修改</span>
@@ -144,6 +269,7 @@ class Structure extends Component {
             onClose={() => {
               this.setState({
                 changeDepartment: false,
+                changeDepartmentName: '',
               });
             }}
             onOk={() => {
@@ -152,11 +278,21 @@ class Structure extends Component {
             onCancel={() => {
               this.setState({
                 changeDepartment: false,
+                changeDepartmentName: '',
               });
             }}
           >
-            <div>
-              <text>修改部门名称</text>
+            <div className='change-department'>
+              <text><span>*</span>部门名称:</text>
+              <input
+                placeholder={this.state.changeDepartmentName == '' ? '请输入部门名称' : this.state.changeDepartmentName}
+                onChange={(e) => {
+                  this.setState({
+                    changeDepartmentName: e.target.value.trim(),
+                  });
+                }}
+              >
+              </input>
             </div>
           </PolyDialog>
         }

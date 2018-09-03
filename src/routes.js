@@ -15,7 +15,7 @@ const routes = [
     pah: '/clientList',
   },
   {
-    pah: '/structure',
+    // pah: '/structure',
   },
 ]
 export default routes;

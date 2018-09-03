@@ -30,7 +30,7 @@
       width: 100%;
       height: 40px;
       display: flex;
-      justify-content: space-between;
+      // justify-content: space-between;
       .search-input {
         width: 300px;
         height: 40px;
@@ -66,10 +66,11 @@
       .search-condition {
         width: 300px;
         display: flex;
-        justify-content: space-between;
+        // justify-content: space-between;
         font-size: 12px;
         line-height: 40px;
-        margin-right: 165px;
+        color: #fff;
+        margin-left: 20px;
         .task-state , .founder {
           position: relative;
         }
@@ -94,14 +95,101 @@
         }
       }
     }
+    .founder {
+      margin-left: 10px;
+      .trans-item {
+        width: 145px;
+        left: -60px;
+      }
+      span {
+        color: #fff;
+      }
+    }
+    .click-item{
+      span {
+        color: #fff;
+      }
+    }
+    .founder .trans-item, .task-state .trans-item {
+      position: absolute;
+      right: -36px;
+      width: 150px;
+      height: auto;
+      display: none;
+      text-align: center;
+      border: 1px solid #0b01b8;
+      background: rgba(20, 14, 62, 0.5);
+      border-radius: 10px;
+      font-size: 14px;
+      z-index: 999;
+    }
+    .input-wrap {
+      position: relative;
+    }
+    .input-founder {
+      margin: 0;
+      width: 150px;
+      float: none;
+      text-align: left;
+      width: 100%;
+      height: 30px;
+      border: none;
+      outline: none;
+      color: #ccc;
+      padding: 5px 30px 5px 10px;
+      box-sizing: border-box;
+      background: #fff;
+    }
+    .input-founder::placeholder {
+      font-size: 12px;
+      color: #ccc;
+    }
+    .founder .icon-qianwang {
+      position: absolute;
+      top: 0px;
+      right: 5px;
+      font-size: 24px;
+      color: #ccc;
+    }
+    .mr-15 {
+      margin-right: 20px;
+      display: inline-block;
+      text-align: center;
+      font-size: 12px;
+    }
+    .task-state .task-state-list {
+      left: -15px;
+    }
+    .search-condition .list-item {
+      display: block;
+      height: 35px;
+      line-height: 35px;
+    }
+    .founder-list {
+      max-height: 200px;
+      overflow-y: scroll;
+      .list-item {
+        text-align: center;
+        padding-left: 10px;
+        // display: block;
+      }
+    }
+    .search-condition .list-item:hover {
+      background: #4332ba;
+    }
+    .search-condition .rotate {
+      transform: rotate(0deg);
+    }
     .content-item, .content-header{
       display: flex;
       width: 100%;
-      .item-title, .item-author, .item-composition, .item-state, .item-time{
+      .item-composition, .item-state, .item-time{
+        flex: 1;
+      }
+      .item-title, .item-author, .data{
         flex: 2;
       }
       .data{
-        flex: 5;
         display: flex;
         span{
           text-align: center;
@@ -110,6 +198,25 @@
         span:first-of-type{
           width: auto;
         }
+      }
+    }
+  }
+  .main{
+    height: 150px;
+    .change-department{
+      padding: 0 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: calc(~'100% - 40px');
+      text{
+        span{
+          color: #FB3636;
+        }
+      }
+      input{
+        flex: 1;
+        height: 30px;
       }
     }
   }
