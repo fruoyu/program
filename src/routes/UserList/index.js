@@ -113,13 +113,13 @@ class UserList extends Component {
 
     this.deleteFn = this.deleteFn.bind(this);
     this.editFn = this.editFn.bind(this);
-    this.cleanState = this.cleanState.bind(this);
     // this.handleSelectChange = this.handleSelectChange.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
     this.changeGeneration = this.changeGeneration.bind(this);
   }
   componentDidMount() {
     this.sendRequest();
+    this.getConstruction();
   }
   // 日历操作
   onChangeFn = (date, dateString) => {
@@ -131,7 +131,6 @@ class UserList extends Component {
       this.sendRequest();
     });
   }
-
   // 分页器改变时接口操作
   onChangePage = (pageNumber) => {
     this.setState({
@@ -178,9 +177,13 @@ class UserList extends Component {
       }
     });
   }
-  // 清空state
-  cleanState() {
-    this.setState({});
+
+  /* 获取所属结构列表*/
+  getConstruction() {
+    this.props.dispatch({
+      type: 'userList/getConstruction',
+      payload: {},
+    });
   }
   // 更新state数据
   upDataState(key, data, callback) {
@@ -260,10 +263,6 @@ class UserList extends Component {
       });
     });
   }
-  /* 弹框角色下拉*/
-  /*handleSelectChange = (value) => {
-    console.log(value);
-  }*/
   /* 数据请求*/
   sendRequest =() => {
     this.props.dispatch({
