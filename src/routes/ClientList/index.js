@@ -1,14 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { Cascader } from 'antd';
+import { Cascader, Menu, Dropdown, Icon } from 'antd';
 import $ from 'jquery';
 
 import { CommonHeader } from '../../components';
 import DatePicker from './DatePicker';
 import DataList from './DataList';
+import PopClient from './popClient';
 
 import './clientList.less';
+import '../../assets/iconfont/iconfont.css';
+
+const SubMenu = Menu.SubMenu;
 
 class ClientList extends Component {
   constructor(props){
@@ -23,10 +27,61 @@ class ClientList extends Component {
       pageSize: 10, // 请求数
       startTime: '', // 开始时间
       status: '',
+      popClientShow: false,
+      composition: '所属结构',
+      compositionList: [
+        {
+          key: '1',
+          area: 'A区',
+        },
+        {
+          key: '2',
+          area: 'B区',
+        },
+        {
+          key: '3',
+          area: 'C区',
+          class: [
+            {
+              key: '1',
+              class: 'A班',
+            },
+            {
+              key: '2',
+              class: 'B班',
+              group: [
+                {
+                  key: '1',
+                  group: 'A组',
+                },
+                {
+                  key: '2',
+                  group: 'B组',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          key: '4',
+          area: 'D区',
+          class: [
+            {
+              key: '1',
+              class: 'A班',
+            },
+            {
+              key: '2',
+              class: 'B班',
+            },
+          ],
+        },
+      ],
     };
 
     this.onGetClientList = this.onGetClientList.bind(this);
     this.onSearchClick = this.onSearchClick.bind(this);
+    this.showPopWin = this.showPopWin.bind(this);
   }
 
   componentDidMount(){
@@ -65,7 +120,7 @@ class ClientList extends Component {
 
   // 级联下拉菜单
   onSelectChange = (val, d) => {
-    console.log(val,d)
+    // console.log(val,d)
 
     // 选择之后请求下客户信息列表
     // this.onGetClientList()
@@ -85,6 +140,22 @@ class ClientList extends Component {
 
   onSearchClick = (ev) => {
     console.log(this.state.searchInputVal)
+  }
+
+  showPopWin = () => {
+    if(!this.state.popClientShow) {
+      this.setState({
+        popClientShow: true
+      })
+    }
+  }
+
+  onCloseWin = () => {
+    if(this.state.popClientShow) {
+      this.setState({
+        popClientShow: false
+      })
+    }
   }
 
   render() {
@@ -122,44 +193,91 @@ class ClientList extends Component {
       name: '胡彦斌',
       phone: 12323132131,
       star: '三星',
-      fiveStatus: '已认购',
+      fiveStatus: '认购',
       updateTime: '2018-08-21 13:35:24',
-      belong: '张三'
+      belong: '华北区/尖刀班/一组/王志军'
     }, {
       key: '2',
       name: '胡彦祖',
-      phone: 214135125151,
+      phone: 21413512515,
       star: '四星',
-      fiveStatus: '未认购',
+      fiveStatus: '认购',
       updateTime: '2018-08-21 13:35:24',
-      belong: '张四'
+      belong: '华北区/尖刀班/一组/王志军'
     }, {
       key: '3',
       name: '胡彦祖1',
-      phone: 214135125151,
+      phone: 21413512515,
       star: '四星',
-      fiveStatus: '未认购',
+      fiveStatus: '认购',
       updateTime: '2018-08-21 13:35:24',
-      belong: '张四'
+      belong: '华北区/尖刀班/一组/王志军'
     }, {
       key: '4',
       name: '胡彦祖2',
-      phone: 2141351251512,
+      phone: 21413512515,
       star: '四星',
-      fiveStatus: '未认购',
+      fiveStatus: '认购',
       updateTime: '2018-08-21 13:35:24',
-      belong: '张四'
+      belong: '华北区/尖刀班/一组/王志军'
     }, {
       key: '5',
       name: '胡彦祖3',
-      phone: 2141351251512,
+      phone: 214135125512,
       star: '四星',
-      fiveStatus: '未认购',
+      fiveStatus: '认购',
       updateTime: '2018-08-21 13:35:24',
-      belong: '张四'
+      belong: '华北区/尖刀班/一组/王志军'
     }];
-    
+    const menu = (
+      <Menu
+        className="composition-down-load"
+        onClick={(item) => {
+          const key = item.keyPath;
+          const len = key.length;
+          let str = ''
+          if (len === 1) {
+            str = `${this.state.compositionList[key[0] - 1].area}`;
+          } else if (len === 2) {
+            str = `${this.state.compositionList[key[1] - 1].area}/${this.state.compositionList[key[1] - 1].class[key[0] - 1].class}`;
+          } else if (len === 3) {
+            str = `${this.state.compositionList[key[2] - 1].area}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].class}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].group[key[0] - 1].group}`;
+          }
+          this.setState({
+            composition: str,
+          });
+        }}
+      >
+        {
+          this.state.compositionList.map((item) => {
+            return (
+             !item.class ? <Menu.Item key={item.key}>{item.area}</Menu.Item> :
+             <SubMenu title={item.area} key={item.key}>
+               {
+                 item.class.map((content) => {
+                   return (
+                     !content.group ? <Menu.Item key={content.key}>{content.class}</Menu.Item> : (
+                       <SubMenu title={content.class} key={content.key}>
+                         {
+                           content.group.map((title) => {
+                             return (
+                               <Menu.Item key={title.key}>{title.group}</Menu.Item>
+                             );
+                           })
+                         }
+                       </SubMenu>
+                     )
+                   );
+                 })
+               }
+             </SubMenu>
+            );
+          })
+        }
+      </Menu>
+    );
     return (
+  
       <div className="bootContent historyContent clientCotent" >
         <Scrollbars style={{ flex: 1 }} autoHide>
 
@@ -183,15 +301,23 @@ class ClientList extends Component {
                 </div>
 
                 {/* 下拉菜单 */}
-                <div className="cascader">
+                {/* <div className="cascader">
                   <span style={{color:'#fff', fontSize: '14px', lineHeight: '40px', marginRight: '10px' }}>所在组织</span>
                   <Cascader options={options} 
                     onChange={this.onSelectChange}
                     popupClassName='selectOptionsPop'
                     expandTrigger= 'hover' 
                     placeholder="Please select" />
-                </div>  
+                </div>   */}
 
+                  {/* 所属结构 */}
+                  <div className="composition click-item">
+                    <Dropdown overlay={menu} trigger={['click']}>
+                      <span className="ant-dropdown-link">
+                        {this.state.composition}<Icon type="down" />
+                      </span>
+                    </Dropdown>
+                  </div>
                 {/* 日历 */}
                 <DatePicker onChangeFn={this.onChangeFn} />
 
@@ -199,12 +325,19 @@ class ClientList extends Component {
               </div>
             </div>
 
+                <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
 
           {/* 列表内容部分 */}
             <DataList dataSource={dataSource} />
           </div>
         </Scrollbars>
+        <PopClient popClientShow={this.state.popClientShow}
+          onCloseWin = { this.onCloseWin }
+         />
+         <span className="icon_arrow"></span>
       </div>
+                      
+     
     )
   }
 

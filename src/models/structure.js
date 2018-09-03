@@ -1,10 +1,12 @@
 import { notifyError, notifySuccess } from '../services/app.js';
-import { changeAssignRolesList, deleteAssignRoles, changeDepartmentName, addStructure } from '../services/structure';
+import { changeAssignRolesList, deleteAssignRoles, changeDepartmentName, searchUsers, distributionUsers, addStructure, } from '../services/structure';
 
 export default {
   namespace: 'structure',
   state: {
     assignRolesList: [],
+    ownedUsers: [],
+    notOwnedUsers: [],
   },
   effects: {
     *getAssignRolesList({ payload, callback }, { call, put }) {
@@ -35,6 +37,33 @@ export default {
         notifyError(data.message);
       }
     },
+    *searchUsers({ payload, callback }, { call, put }) {
+      const { data } = yield call(searchUsers, payload);
+      if (data.status === 100) {
+        if (payload.whetherBind == '0') {
+          yield put({
+            type: 'changeOwnedUsers',
+            payload: { ...data },
+          });
+        } else {
+          yield put({
+            type: 'changeNotOwnedUsers',
+            payload: { ...data },
+          });
+        }
+        callback && callback();
+      } else {
+        notifyError(data.message);
+      }
+    },
+    *distributionUsers({ payload, callback }, { call, put }) {
+      const { data } = yield call(distributionUsers, payload);
+      if (data.status === 100) {
+        callback && callback();
+      } else {
+        notifyError(data.message);
+      }
+    },
     *addStructure({ payload, callback }, { call, put }) {
       const { data } = yield call(addStructure, payload);
       if (data.status === 100) {
@@ -47,6 +76,15 @@ export default {
   reducers: {
     changeAssignRolesList(state, { payload }) {
       return { ...state, assignRolesList: payload.data };
+    },
+    changeOwnedUsers(state, { payload }) {
+      return { ...state, ownedUsers: payload.data };
+    },
+    changeNotOwnedUsers(state, { payload }) {
+      return { ...state, notOwnedUsers: payload.data };
+    },
+    saveOwnedUsers(state, { payload }) {
+      return { ...state, ...payload };
     },
   },
 };
