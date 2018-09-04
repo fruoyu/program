@@ -160,31 +160,6 @@ class ClientList extends Component {
 
   render() {
 
-    // 级联菜单数据模拟
-    const options = [{
-      value: 'district A',
-      label: 'A区',
-      children: [{
-        value: 'class A',
-        label: 'A班',
-        children: [{
-          value: 'team A',
-          label: 'A组',
-        }],
-      }],
-    }, {
-      value: 'district B',
-      label: 'B区',
-      children: [{
-        value: 'class A',
-        label: 'A班',
-        children: [{
-          value: 'team A',
-          label: 'A组',
-        }],
-      }],
-    }];
-
     // 客户信息列表模拟
     // const { mClientList } = this.props.clientList;
     // const dataSource = mClientList.dataSource;
@@ -301,15 +276,6 @@ class ClientList extends Component {
                 </div>
 
                 {/* 下拉菜单 */}
-                {/* <div className="cascader">
-                  <span style={{color:'#fff', fontSize: '14px', lineHeight: '40px', marginRight: '10px' }}>所在组织</span>
-                  <Cascader options={options} 
-                    onChange={this.onSelectChange}
-                    popupClassName='selectOptionsPop'
-                    expandTrigger= 'hover' 
-                    placeholder="Please select" />
-                </div>   */}
-
                   {/* 所属结构 */}
                   <div className="composition click-item">
                     <Dropdown overlay={menu} trigger={['click']}>
@@ -334,7 +300,6 @@ class ClientList extends Component {
         <PopClient popClientShow={this.state.popClientShow}
           onCloseWin = { this.onCloseWin }
          />
-         <span className="icon_arrow"></span>
       </div>
                       
      
