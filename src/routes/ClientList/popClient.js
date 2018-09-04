@@ -6,8 +6,16 @@ import { verify } from '../../utils/cookie';
 
 
 const FormItem = Form.Item;
+const SelectOption = Select.Option;
 
 class PopClientInfo extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      users: [],
+    }
+  }
 
   componentWillMount() {
     const rdata = {
@@ -21,15 +29,21 @@ class PopClientInfo extends Component {
       if (err) return;
       const { data } = decoded;
       rdata.area = data.areaId ? data.areaId : 0;
-      rdata.userName = data.userName;
+      // rdata.userName = data.userName;
       rdata.classc = data.classcId ? data.classcId : 0;
       rdata.groupc = data.groupcId ? data.groupcId : 0;
     });
     this.props.dispatch({
       type: 'userList/getUserList',
       payload: rdata,
-      callback: () => {
-        console.log(this.props);
+    })
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
       }
     })
   }
@@ -38,6 +52,8 @@ class PopClientInfo extends Component {
     const { getFieldDecorator } = this.props.form;
     const stars = ['非星','一星','三星','五星','七星','九星'];
     const five = ['认购','认识','认可','认同','认定'];
+
+    const { userList } = this.props.userList;
     return (
       <div className='clientInfoPopWindow' style={{display: this.props.popClientShow ? 'block' : 'none'}} >
         <span className='iconfont icon-htmal5icon19 close'
@@ -45,7 +61,7 @@ class PopClientInfo extends Component {
         ></span>
         <Form
         className="formWrap"
-        // onSubmit={}
+        onSubmit={ this.handleSubmit }
         >
           <FormItem
               label="姓名"
@@ -68,8 +84,8 @@ class PopClientInfo extends Component {
               }],
             })(
               <Select className="sexSelect">
-                <Option value="male">男</Option>
-                <Option value="female">女</Option>
+                <SelectOption value="male">男</SelectOption>
+                <SelectOption value="female">女</SelectOption>
               </Select>
             )}
           </FormItem>
@@ -77,7 +93,9 @@ class PopClientInfo extends Component {
               label="出生日期"
             >
             {getFieldDecorator('customerBirthday', {
-              rules: [{ type: 'object', required: true, message: 'Please select time!' }],
+              rules: [{ type: 'object', 
+              required: true, 
+              message: '请选择日期' }],
             })(
             <DatePicker />
           )}
@@ -103,9 +121,9 @@ class PopClientInfo extends Component {
               }],
             })(
               <Select className="sexSelect">
-                <Option value="身份证">身份证</Option>
-                <Option value="居住证">居住证</Option>
-                <Option value="军人证">军人证</Option>
+                <SelectOption value="身份证">身份证</SelectOption>
+                <SelectOption value="居住证">居住证</SelectOption>
+                <SelectOption value="军人证">军人证</SelectOption>
               </Select>
             )}
           </FormItem>
@@ -133,7 +151,7 @@ class PopClientInfo extends Component {
               {
                 stars.map((itm, index) => {
                   return (
-                    <Option key={index} value={itm}>{itm}</Option>
+                    <SelectOption key={index} value={itm}>{itm}</SelectOption>
                   )
                 })
               }
@@ -153,7 +171,7 @@ class PopClientInfo extends Component {
               {
                 five.map((itm, index) => {
                   return (
-                    <Option key={index} value={itm}>{itm}</Option>
+                    <SelectOption key={index} value={itm}>{itm}</SelectOption>
                   )
                 })
               }
@@ -164,15 +182,18 @@ class PopClientInfo extends Component {
               label="所属销售"
             >
             {getFieldDecorator('customerUser', {
-              initialValue: '张三',
               rules: [{
                 required: true, message: '请选择所属销售',
               }],
             })(
-              <Select className="sexSelect">
-                <Option value="张三">张三</Option>
-                <Option value="四星">四星</Option>
-                <Option value="五星">五星</Option>
+              <Select className="sexSelect" 
+              placeholder="请选择所属销售"
+              >
+                {
+                  userList.map((itm,i)=>{
+                    return (<SelectOption key={itm.userName} value={itm.userName}>{ itm.userName + ' / ' + itm.realName }</SelectOption>)
+                  })
+                }
               </Select>
             )}
           </FormItem>
@@ -197,9 +218,9 @@ class PopClientInfo extends Component {
               }],
             })(
               <Select className="sexSelect">
-                <Option value="未知">未知</Option>
-                <Option value="已婚">已婚</Option>
-                <Option value="未婚">未婚</Option>
+                <SelectOption value="">未知</SelectOption>
+                <SelectOption value="已婚">已婚</SelectOption>
+                <SelectOption value="未婚">未婚</SelectOption>
               </Select>
             )}
           </FormItem>
@@ -217,9 +238,9 @@ class PopClientInfo extends Component {
           <FormItem
               label="邮箱"
             >
-            {getFieldDecorator('customerAdress', {
+            {getFieldDecorator('customerMail', {
               rules: [{
-                 message: '请输入邮箱',
+                type:'email', message: '请输入正确邮箱',
               }],
             })(
               <Input placeholder='请输入邮箱' />
