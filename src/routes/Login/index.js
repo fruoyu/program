@@ -57,7 +57,7 @@ class Login extends Component {
           type: 'login/saveLoginMsg',
           payload: {
             userName: this.state.userName,
-            passWord: $.md5(this.state.passWord),
+            passWord: this.state.passWord,
           },
           callback: () => {
             this.props.dispatch(routerRedux.push('/main'));
@@ -95,7 +95,7 @@ class Login extends Component {
                   prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />} type="password" placeholder="密码"
                   onChange={(e) => {
                     this.setState({
-                      passWord: e.target.value,
+                      passWord: $.md5(e.target.value),
                     });
                   }}
                 />,

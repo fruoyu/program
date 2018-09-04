@@ -43,3 +43,10 @@ export async function addStructure(params) {
     body: JSON.stringify(params),
   });
 }
+export async function queryAreaClassCons(params) {
+  return request('/admin/assignroles/queryAreaClassCons', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}
