@@ -258,6 +258,14 @@
 
   /*已识别文件动画*/
   #recognized-file{
+    width: 300px;
+    height: 480px;
+    overflow: hidden;
+    background: rgba(20, 14, 62, 0.8);
+    position: fixed;
+    left: 0;
+    border: 2px solid #0c067d;
+    z-index: 999;
     bottom: -440px;
     transition: transform .5s linear !important;
   }
@@ -373,6 +381,44 @@
   .huaxiang:hover {
     .photograph {
       display: block;
+    }
+  }
+  /* 客户列表样式 */
+  .kehu {
+    right:calc(~"15% + 50px");
+    background: #113b8d;
+    .iconfont {
+      display: block;
+      transition: transform .5s linear !important;
+      font-size: 22px;
+      color: #2d9bff;
+    }
+    .customer {
+      display: none;
+      position: absolute;
+      width: 60px;
+      line-height: 20px;
+      height: 20px;
+      font-size: 12px;
+      text-align: center;
+      top: 50px;
+      left: -5px;
+      border: 1px solid #4332ba;
+      border-radius: 20px;
+      margin-top: 8px;
+      box-sizing: border-box;
+      background: #1a1b3a;
+      color: #fff;
+    }
+  }
+  .kehu:hover {
+    background: #2d9bff;
+    .customer {
+      display: block;
+    }
+    .iconfont {
+      transform: rotateY(360deg) !important;
+      color: #fff;
     }
   }
 

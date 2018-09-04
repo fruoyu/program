@@ -1,5 +1,5 @@
 import { notifyError, notifySuccess } from '../services/app.js';
-import { changeAssignRolesList, deleteAssignRoles, changeDepartmentName, searchUsers, distributionUsers, addStructure, } from '../services/structure';
+import { changeAssignRolesList, deleteAssignRoles, changeDepartmentName, searchUsers, distributionUsers, addStructure, queryAreaClassCons } from '../services/structure';
 
 export default {
   namespace: 'structure',
@@ -72,10 +72,22 @@ export default {
         notifyError(data.message);
       }
     },
+    *queryAreaClassCons({ payload, callback }, { call, put }) {
+      const { data } = yield call(queryAreaClassCons);
+      if (data.status === 100) {
+        yield put({
+          type: 'changeAreaClassCons',
+          payload: data.data,
+        });
+        if (callback) callback();
+      } else {
+        notifyError(data.message);
+      }
+    },
   },
   reducers: {
     changeAssignRolesList(state, { payload }) {
-      return { ...state, assignRolesList: payload.data };
+      return { ...state, assignRolesList: payload.data, count: payload.count };
     },
     changeOwnedUsers(state, { payload }) {
       return { ...state, ownedUsers: payload.data };
@@ -85,6 +97,9 @@ export default {
     },
     saveOwnedUsers(state, { payload }) {
       return { ...state, ...payload };
+    },
+    changeAreaClassCons(state, { payload }) {
+      return { ...state, AreaClassConsList: payload.area };
     },
   },
 };

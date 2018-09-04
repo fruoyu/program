@@ -1,7 +1,7 @@
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { DatePicker, Menu, Dropdown, Icon } from 'antd';
+import { DatePicker, Menu, Dropdown, Icon, message } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import './history.less';
@@ -10,6 +10,7 @@ import {
   CommonHeader,
   CommonTable,
 } from '../../components';
+import { verify } from '../../utils/cookie';
 
 const SubMenu = Menu.SubMenu;
 const { RangePicker } = DatePicker;
@@ -48,54 +49,6 @@ class History extends Component {
       pageSize: 10, // 请求数
       startTime: '', // 开始时间
       status: '',
-      compositionList: [
-        {
-          key: '1',
-          area: 'A区',
-        },
-        {
-          key: '2',
-          area: 'B区',
-        },
-        {
-          key: '3',
-          area: 'C区',
-          class: [
-            {
-              key: '1',
-              class: 'A班',
-            },
-            {
-              key: '2',
-              class: 'B班',
-              group: [
-                {
-                  key: '1',
-                  group: 'A组',
-                },
-                {
-                  key: '2',
-                  group: 'B组',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          key: '4',
-          area: 'D区',
-          class: [
-            {
-              key: '1',
-              class: 'A班',
-            },
-            {
-              key: '2',
-              class: 'B班',
-            },
-          ],
-        },
-      ],
       composition: '所属结构',
     };
     this.sendRequest = this.sendRequest.bind(this);
@@ -105,15 +58,17 @@ class History extends Component {
     this.onChangePage = this.onChangePage.bind(this);
     this.makerClick = this.makerClick.bind(this);
     this.statusClick = this.statusClick.bind(this);
+    this.getConstruction = this.getConstruction.bind(this);
   }
   componentDidMount() {
     this.sendRequest();
     // this.getName();
+    this.getConstruction();
   }
   // 日历操作
   onChangeFn = (date, dateString) => {
-    console.log(date, dateString);
     this.setState({
+      pageNum: 1, // 当前页数
       startTime: dateString[0], // 开始时间
       endTime: dateString[1], // 结束时间
     }, () => {
@@ -142,14 +97,18 @@ class History extends Component {
     const statusMessage = this.state.statusList.filter(item => item.retCode === status)[0].status;
     return statusMessage;
   }
-  // 进入数据界面
-  gotoPopup(id) {
-    this.props.dispatch(routerRedux.push({
-      pathname: '/popup',
-      query: {
-        taskId: id,
-      },
-    }));
+  /* 获取所属结构列表*/
+  getConstruction() {
+    verify((err, decoded) => {
+      if (err) return;
+      this.props.dispatch({
+        type: 'userList/getConstruction',
+        payload: {
+          groupId: decoded.data.groupId,
+          roleId: decoded.data.roleId,
+        },
+      });
+    });
   }
   // document 点击操作
   documentClick = (e) => {
@@ -197,18 +156,32 @@ class History extends Component {
   }
   // 请求
   sendRequest = () => {
-    this.props.dispatch({
-      type: 'history/getFilesList',
-      payload: {
-        endTime: this.state.endTime,
-        fileName: this.state.fileName,
-        name: this.state.name,
-        pageNum: this.state.pageNum - 1,
-        pageSize: this.state.pageSize,
-        startTime: this.state.startTime,
-        status: this.state.status,
-      },
+    verify((err, decoded) => {
+      if (err) return;
+      this.props.dispatch({
+        type: 'history/getFilesList',
+        payload: {
+          endTime: this.state.endTime,
+          fileName: this.state.fileName,
+          name: this.state.name,
+          pageNum: this.state.pageNum - 1,
+          pageSize: this.state.pageSize,
+          startTime: this.state.startTime,
+          status: this.state.status,
+          userName: decoded.data.userName,
+          groupId: decoded.data.groupId,
+        },
+      });
     });
+  }
+  // 进入数据界面
+  gotoPopup(id) {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/popup',
+      query: {
+        taskId: id,
+      },
+    }));
   }
   render() {
     const {
@@ -216,6 +189,9 @@ class History extends Component {
       nameList = [],
       total = 0,
     } = this.props.history;
+    const {
+      constructionList,
+    } = this.props.userList;
     const tabHead = ['录音名称', '销售人员', '结构', '任务状态', '上传时间', '洞察项'];
     const menu = (
       <Menu
@@ -223,42 +199,58 @@ class History extends Component {
         onClick={(item) => {
           const key = item.keyPath;
           const len = key.length;
-          let str = ''
+          let str = '';
+          let area = '';
+          let classc = '';
+          let groupc = '';
           if (len === 1) {
-            str = `${this.state.compositionList[key[0] - 1].area}`;
+            str = `${constructionList[key[0]].areaName}`;
+            area = constructionList[key[0]].areaId;
           } else if (len === 2) {
-            str = `${this.state.compositionList[key[1] - 1].area}/${this.state.compositionList[key[1] - 1].class[key[0] - 1].class}`;
+            str = `${constructionList[key[1]].areaName}/${constructionList[key[1]].class[key[0]].className}`;
+            area = constructionList[key[1]].areaId;
+            classc = constructionList[key[1]].class[key[0]].classId;
           } else if (len === 3) {
-            str = `${this.state.compositionList[key[2] - 1].area}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].class}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].group[key[0] - 1].group}`;
+            str = `${constructionList[key[2]].areaName}/${constructionList[key[2]].class[key[1]].className}/${constructionList[key[2]].class[key[1]].group[key[0]].groupName}`;
+            area = constructionList[key[2]].areaId;
+            classc = constructionList[key[2]].class[key[1]].classId;
+            groupc = constructionList[key[2]].class[key[1]].group[key[0]].groupId;
           }
           this.setState({
             composition: str,
+            area,
+            classc,
+            groupc,
+            pageNum: 1,
+          }, () => {
+            // this.sendRequest();
           });
         }}
       >
         {
-          this.state.compositionList.map((item) => {
+          constructionList && constructionList.map((item, areaInd) => {
             return (
-              !item.class ? <Menu.Item key={item.key}>{item.area}</Menu.Item> :
-              <SubMenu title={item.area} key={item.key}>
-                {
-                  item.class.map((content) => {
-                    return (
-                      !content.group ? <Menu.Item key={content.key}>{content.class}</Menu.Item> : (
-                        <SubMenu title={content.class} key={content.key}>
-                          {
-                            content.group.map((title) => {
-                              return (
-                                <Menu.Item key={title.key}>{title.group}</Menu.Item>
-                              );
-                            })
-                          }
-                        </SubMenu>
-                      )
-                    );
-                  })
-                }
-              </SubMenu>
+              !item.class.length ? <Menu.Item key={areaInd}>{item.areaName}</Menu.Item> :
+                <SubMenu title={item.areaName} key={areaInd}>
+                  {
+                    item.class.map((content, classInd) => {
+                      return (
+                        !content.group.length ? <Menu.Item key={classInd}>
+                          {content.className}</Menu.Item> : (
+                          <SubMenu title={content.className} key={classInd}>
+                            {
+                              content.group.map((title, groupInd) => {
+                                return (
+                                  <Menu.Item key={groupInd}>{title.groupName}</Menu.Item>
+                                );
+                              })
+                            }
+                          </SubMenu>
+                        )
+                      );
+                    })
+                  }
+                </SubMenu>
             );
           })
         }
@@ -268,7 +260,7 @@ class History extends Component {
       <div className="bootContent historyContent historyIcon" onClick={(e) => { this.documentClick(e); }}>
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
-          <CommonHeader title="历史任务" isMain customer isUserPort />
+          <CommonHeader title="录音列表" isMain customer isUserPort />
           <div id="content">
             <div className="content-head">
               <div className="ch-top">
@@ -279,7 +271,20 @@ class History extends Component {
                       this.upDataState('fileName', e.target.value.trim());
                     }}
                   />
-                  <span className="iconfont icon-qianwang" onClick={this.sendRequest} />
+                  <span
+                    className="iconfont icon-qianwang"
+                    onClick={() => {
+                      if (!this.state.fileName.length) {
+                        message.warning('请输入搜索内容');
+                        return;
+                      }
+                      this.setState({
+                        pageNum: 1,
+                      }, () => {
+                        this.sendRequest();
+                      });
+                    }}
+                  />
                 </div>
                 <div className="search-condition">
                   {/* 创建人 */}
@@ -299,7 +304,11 @@ class History extends Component {
                                 key={index} className="list-item"
                                 onClick={() => {
                                   this.upDataState({ name: item }, () => {
-                                    this.sendRequest();
+                                    this.setState({
+                                      pageNum: 1, // 当前页数
+                                    }, () => {
+                                      this.sendRequest();
+                                    });
                                   });
                                 }}
                               >{item}</span>
@@ -333,6 +342,7 @@ class History extends Component {
                                   this.upDataState({
                                     statusContent: item.status,
                                     status: item.retCode,
+                                    pageNum: 1, // 当前页数
                                   }, () => {
                                     this.sendRequest();
                                   });
@@ -368,7 +378,7 @@ class History extends Component {
                   return (
                     <li className="content-item" data-id="'+ item2.id +'" key={index}>
                       <div className="item-title" onClick={this.gotoPopup.bind(this, item.id)}>{item.fileName}</div>
-                      <div className="item-author">{item.userName}</div>
+                      <div className="item-author">{item.userId}</div>
                       <div className="item-composition">A区A班A组</div>
                       <div className="item-state">{this.getStatus(item.statusMessage)}</div>
                       <div className="item-time">{item.createTime}</div>
@@ -385,4 +395,4 @@ class History extends Component {
   }
 }
 
-export default connect(({ history }) => ({ history }))(History);
+export default connect(({ history, userList }) => ({ history, userList }))(History);
