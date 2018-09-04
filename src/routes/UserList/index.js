@@ -2,7 +2,7 @@ import $ from 'jquery';
 import '../../utils/md5.js';
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { DatePicker, Menu, Dropdown, Icon, Form, Input, Select, message, Modal } from 'antd';
+import { DatePicker, Menu, Dropdown, Icon, Form, Input, Select, message, Modal, Tooltip } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import PolyDialog from '../../components/PolyDialog';
@@ -61,54 +61,6 @@ class UserList extends Component {
           generation: '普通销售人员',
         },
       ],
-      compositionList: [
-        {
-          key: '1',
-          area: 'A区',
-        },
-        {
-          key: '2',
-          area: 'B区',
-        },
-        {
-          key: '3',
-          area: 'C区',
-          class: [
-            {
-              key: '1',
-              class: 'A班',
-            },
-            {
-              key: '2',
-              class: 'B班',
-              group: [
-                {
-                  key: '1',
-                  group: 'A组',
-                },
-                {
-                  key: '2',
-                  group: 'B组',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          key: '4',
-          area: 'D区',
-          class: [
-            {
-              key: '1',
-              class: 'A班',
-            },
-            {
-              key: '2',
-              class: 'B班',
-            },
-          ],
-        },
-      ],
     };
 
     this.deleteFn = this.deleteFn.bind(this);
@@ -123,8 +75,8 @@ class UserList extends Component {
   }
   // 日历操作
   onChangeFn = (date, dateString) => {
-    console.log(date, dateString);
     this.setState({
+      pageNum: 1,
       startTime: dateString[0], // 开始时间
       endTime: dateString[1], // 结束时间
     }, () => {
@@ -180,11 +132,18 @@ class UserList extends Component {
 
   /* 获取所属结构列表*/
   getConstruction() {
-    this.props.dispatch({
-      type: 'userList/getConstruction',
-      payload: {},
+    verify((err, decoded) => {
+      if (err) return;
+      this.props.dispatch({
+        type: 'userList/getConstruction',
+        payload: {
+          groupId: decoded.data.groupId,
+          roleId: decoded.data.roleId,
+        },
+      });
     });
   }
+
   // 更新state数据
   upDataState(key, data, callback) {
     let object = {};
@@ -204,7 +163,7 @@ class UserList extends Component {
   // 删除数据
   deleteFn =(userName) => {
     confirm({
-      title: '确定删除该录音吗?',
+      title: '确定删除该用户吗?',
       onOk: () => {
         this.props.dispatch({
           type: 'userList/deleteUser',
@@ -287,6 +246,7 @@ class UserList extends Component {
   render() {
     const {
       userList,
+      constructionList,
     } = this.props.userList;
     const tabHead = ['用户名称', '所属角色', '用户昵称', '最后登录IP', '最后登录时间', '创建时间'];
     const menu = (
@@ -295,37 +255,53 @@ class UserList extends Component {
         onClick={(item) => {
           const key = item.keyPath;
           const len = key.length;
-          let str = ''
+          let str = '';
+          let area = '';
+          let classc = '';
+          let groupc = '';
           if (len === 1) {
-            str = `${this.state.compositionList[key[0] - 1].area}`;
+            str = `${constructionList[key[0]].areaName}`;
+            area = constructionList[key[0]].areaId;
           } else if (len === 2) {
-            str = `${this.state.compositionList[key[1] - 1].area}/${this.state.compositionList[key[1] - 1].class[key[0] - 1].class}`;
+            str = `${constructionList[key[1]].areaName}/${constructionList[key[1]].class[key[0]].className}`;
+            area = constructionList[key[1]].areaId;
+            classc = constructionList[key[1]].class[key[0]].classId;
           } else if (len === 3) {
-            str = `${this.state.compositionList[key[2] - 1].area}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].class}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].group[key[0] - 1].group}`;
+            str = `${constructionList[key[2]].areaName}/${constructionList[key[2]].class[key[1]].className}/${constructionList[key[2]].class[key[1]].group[key[0]].groupName}`;
+            area = constructionList[key[2]].areaId;
+            classc = constructionList[key[2]].class[key[1]].classId;
+            groupc = constructionList[key[2]].class[key[1]].group[key[0]].groupId;
           }
           this.setState({
             composition: str,
+            area,
+            classc,
+            groupc,
+            pageNum: 1,
+          }, () => {
+            this.sendRequest();
           });
         }}
       >
         {
-          this.state.compositionList.map((item) => {
+          constructionList && constructionList.map((item, areaInd) => {
             return (
-             !item.class ? <Menu.Item key={item.key}>{item.area}</Menu.Item> :
-             <SubMenu title={item.area} key={item.key}>
+             !item.class.length ? <Menu.Item key={areaInd}>{item.areaName}</Menu.Item> :
+             <SubMenu title={item.areaName} key={areaInd}>
                {
-                 item.class.map((content) => {
+                 item.class.map((content, classInd) => {
                    return (
-                     !content.group ? <Menu.Item key={content.key}>{content.class}</Menu.Item> : (
-                       <SubMenu title={content.class} key={content.key}>
-                         {
-                           content.group.map((title) => {
-                             return (
-                               <Menu.Item key={title.key}>{title.group}</Menu.Item>
-                             );
-                           })
-                         }
-                       </SubMenu>
+                     !content.group.length ? <Menu.Item key={classInd}>
+                       {content.className}</Menu.Item> : (
+                         <SubMenu title={content.className} key={classInd}>
+                           {
+                             content.group.map((title, groupInd) => {
+                               return (
+                                 <Menu.Item key={groupInd}>{title.groupName}</Menu.Item>
+                               );
+                             })
+                           }
+                         </SubMenu>
                      )
                    );
                  })
@@ -342,6 +318,7 @@ class UserList extends Component {
         onClick={(item) => {
           this.setState({
             roleId: item.key,
+            pageNum: 1,
             generation: this.changeGeneration(item.key),
           }, () => {
             this.sendRequest();
@@ -371,7 +348,20 @@ class UserList extends Component {
                       this.upDataState('userName', e.target.value.trim());
                     }}
                   />
-                  <span className="iconfont icon-qianwang" onClick={this.sendRequest} />
+                  <span
+                    className="iconfont icon-qianwang"
+                    onClick={() => {
+                      if (!this.state.userName.length) {
+                        message.warning('用户名不能为空', 1);
+                        return false;
+                      }
+                      this.setState({
+                        pageNum: 1,
+                      }, () => {
+                        this.sendRequest();
+                      });
+                    }}
+                  />
                 </div>
                 <div className="search-condition">
                   {/* 所属角色 */}
@@ -390,14 +380,13 @@ class UserList extends Component {
                       </span>
                     </Dropdown>
                   </div>
-                  <div className="click-item" />
                 </div>
                 {/* 日历 */}
                 <div className="search-calendar">
                   <div className="form-group d_t_dater">
                     <div className="col-sm-12">
                       <div className="input-group">
-                        <RangePicker onChange={this.onChangeFn.bind(this)} />
+                        <RangePicker onChange={::this.onChangeFn} />
                       </div>
                     </div>
                   </div>
@@ -432,17 +421,23 @@ class UserList extends Component {
                       <div className="item-time">{item.loginTime}</div>
                       <div className="data">{item.addTime}</div>
                       <div className="item-options">
-                        <span className="iconfont icon-biaozhugongju" onClick={() => { this.editFn(item); }} />
-                        <span
-                          className="iconfont icon-xiugaimima"
-                          onClick={() => {
-                            this.setState({
-                              isRevisePwd: true,
-                              ReviseName: item.userName,
-                            });
-                          }}
-                        />
-                        <span className="iconfont icon-shanchu" onClick={() => { this.deleteFn(item.userName); }} />
+                        <Tooltip placement="bottom" title="编辑">
+                          <span className="iconfont icon-biaozhugongju" onClick={() => { this.editFn(item); }} />
+                        </Tooltip>
+                        <Tooltip placement="bottom" title="修改密码">
+                          <span
+                            className="iconfont icon-xiugaimima"
+                            onClick={() => {
+                              this.setState({
+                                isRevisePwd: true,
+                                ReviseName: item.userName,
+                              });
+                            }}
+                          />
+                        </Tooltip>
+                        <Tooltip placement="bottom" title="删除">
+                          <span className="iconfont icon-shanchu" onClick={() => { this.deleteFn(item.userName); }} />
+                        </Tooltip>
                       </div>
                     </li>
                   );

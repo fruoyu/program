@@ -3,7 +3,7 @@ import $ from 'jquery';
 import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { connect } from 'dva';
-import { Menu, Dropdown, Icon, Form, Input, Select, message, Modal } from 'antd';
+import { Menu, Dropdown, Icon, Form, Input, Select, message, Modal, DatePicker, Tooltip } from 'antd';
 
 import {
   CommonHeader,
@@ -19,6 +19,7 @@ import {
 const FormItem = Form.Item;
 const Option = Select.Option;
 const confirm = Modal.confirm;
+const { RangePicker } = DatePicker;
 
 class Structure extends Component {
   constructor(props) {
@@ -49,52 +50,58 @@ class Structure extends Component {
       ],
       generationList: [
         {
-          key: '1',
+          key: '2',
           generation: '区',
         },
         {
-          key: '2',
+          key: '3',
           generation: '班',
         },
         {
-          key: '3',
+          key: '4',
           generation: '组',
         },
       ],
       generation: '所属结构',
       addStructure: false,
       generationCode: '',
-      whatPage: '1',
+      whatPage: 1,
       addDepartmentName: '',
+      startTime: '', // 开始时间
+      endTime: '', // 结束时间
+      classList: [],
     };
     this.changeGeneration = this.changeGeneration.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
+    this.getAreaClassCons = this.getAreaClassCons.bind(this);
   }
 
   componentDidMount() {
     this.sendRequest();
+    this.getAreaClassCons();
   }
-  // 查询请求
-  sendRequest =() => {
+
+  // 日历操作
+  onChangeFn = (date, dateString) => {
+    this.setState({
+      whatPage: 1,
+      startTime: dateString[0], // 开始时间
+      endTime: dateString[1], // 结束时间
+    }, () => {
+      this.sendRequest();
+    });
+  }
+  // 获取添加内区班二级联动
+  getAreaClassCons() {
     this.props.dispatch({
-      type: 'structure/getAssignRolesList',
-      payload: {
-        areaId: '',
-        classId: '',
-        departmentId: '',
-        departmentName: this.state.departmentName,
-        departmentType: this.state.departmentType,
-        groupId: '',
-        pageSize: '10',
-        whatPage: this.state.whatPage,
-      },
+      type: 'structure/queryAreaClassCons',
     });
   }
   // 删除操作
   deleteAssign = (payloadId, payloadLevel) => {
     confirm({
-      title: '确定删除该录音吗?',
+      title: '确定删除吗?',
       onOk: () => {
         this.props.dispatch({
           type: 'structure/deleteAssignRoles',
@@ -137,7 +144,7 @@ class Structure extends Component {
       areaName: content,
       departmentType: id,
     }, () => {
-     this.sendRequest();
+      this.sendRequest();
     });
   }
   /* 结构转换*/
@@ -154,8 +161,7 @@ class Structure extends Component {
           value.groupName ? value.groupName : null
         )
       );
-      console.log(InputContent);
-      /* this.props.dispatch({
+      this.props.dispatch({
         type: 'structure/addStructure',
         payload: {
           areaId: value.areaId ? value.areaId : '',
@@ -163,8 +169,16 @@ class Structure extends Component {
           departmentName: InputContent,
           departmentType: value.departmentType,
         },
-        callback: () => {},
-      });*/
+        callback: () => {
+          this.setState({
+            whatPage: 1,
+            addStructure: false,
+          }, () => {
+            message.success('添加成功!', 1);
+            this.sendRequest();
+          });
+        },
+      });
     });
   }
   // 级别选择
@@ -172,10 +186,16 @@ class Structure extends Component {
     this.setState({
       generationCode: value,
     });
-    console.log(value);
   }
-  findName = () => {
-    this.sendRequest();
+  // 区改变
+  areaChangeFn = (value) => {
+    const {
+      AreaClassConsList,
+    } = this.props.structure;
+    const classList = AreaClassConsList.filter(item => item.areaId === value)[0].class;
+    this.setState({
+      classList,
+    });
   }
   // 分页
   changePageNum(page) {
@@ -185,7 +205,24 @@ class Structure extends Component {
       this.sendRequest();
     });
   }
-
+  // 查询请求
+  sendRequest =() => {
+    this.props.dispatch({
+      type: 'structure/getAssignRolesList',
+      payload: {
+        areaId: '',
+        classId: '',
+        departmentId: '',
+        departmentName: this.state.departmentName,
+        departmentType: this.state.departmentType,
+        groupId: '',
+        pageSize: '10',
+        whatPage: this.state.whatPage,
+        startTime: this.state.startTime, // 开始时间
+        endTime: this.state.endTime, // 结束时间
+      },
+    });
+  }
   searchUsers = () => {
     verify((err, decoded) => {
       if (err) return;
@@ -219,7 +256,7 @@ class Structure extends Component {
         this.setState({
           assigningUsers: false,
         });
-      }
+      },
     });
   }
 
@@ -228,6 +265,8 @@ class Structure extends Component {
       assignRolesList = [],
       ownedUsers = [],
       notOwnedUsers = [],
+      AreaClassConsList,
+      count,
     } = this.props.structure;
     const tabHead = ['部门名称', '部门级别', '区', '班', '组'];
     const { getFieldDecorator } = this.props.form;
@@ -236,10 +275,11 @@ class Structure extends Component {
         className="composition-down-load"
         onClick={(item) => {
           this.setState({
-            roleId: item.key,
+            whatPage: 1,
+            departmentType: item.key,
             generation: this.changeGeneration(item.key),
           }, () => {
-            // this.sendRequest();
+            this.sendRequest();
           });
         }}
       >
@@ -271,7 +311,15 @@ class Structure extends Component {
                   <span
                     className="iconfont icon-qianwang"
                     onClick={() => {
-                      this.findName();
+                      if (!this.state.departmentName.length) {
+                        message.warning('部门名称不能为空', 1);
+                        return false;
+                      }
+                      this.setState({
+                        whatPage: 1,
+                      }, () => {
+                        this.sendRequest();
+                      });
                     }}
                   />
                 </div>
@@ -284,12 +332,25 @@ class Structure extends Component {
                     </Dropdown>
                   </div>
                 </div>
-                <div className="search-calendar" />
+                {/* 日历 */}
+                <div className="search-calendar">
+                  <div className="form-group d_t_dater">
+                    <div className="col-sm-12">
+                      <div className="input-group">
+                        <RangePicker onChange={::this.onChangeFn} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div
                 className="buttonCont"
                 onClick={() => {
                   this.setState({
+                    departmentName: '',
+                    departmentType: '',
+                    startTime: '', // 开始时间
+                    endTime: '', // 结束时间
                     generationCode: '',
                     addStructure: true,
                   });
@@ -300,7 +361,7 @@ class Structure extends Component {
               filesList={assignRolesList}
               tabHead={tabHead}
               options="操作"
-              total={20}
+              total={count * 1}
               onChangePage={(pageNumber) => {
                 this.changePageNum(pageNumber);
               }}
@@ -314,32 +375,38 @@ class Structure extends Component {
                     <div className="item-state">{item.standbyFlag2 == null ? '' : item.standbyFlag2}</div>
                     <div className="item-time">{item.standbyFlag3 == null ? '' : item.standbyFlag3}</div>
                     <div className="item-options">
-                      <span
-                        className="iconfont icon-biaozhugongju"
-                        onClick={() => {
-                          this.setState({
-                            changeDepartment: true,
-                            departmentId: item.groupId,
-                            departmentLevel: item.roleLevel,
-                          });
-                        }}
-                      />
-                      <span
-                        className="iconfont icon-shanchu"
-                        onClick={() => {
-                          this.deleteAssign(item.groupId, item.roleLevel);
-                        }}
-                      />
-                      <span
-                        className="iconfont icon-yonghu"
-                        onClick={() => {
-                          this.setState({
-                            assigningUsers: true,
-                            assigningDepartmentName: item.groupName
-                          });
-                          this.searchUsers();
-                        }}
-                      />
+                      <Tooltip placement="bottom" title="编辑">
+                        <span
+                          className="iconfont icon-biaozhugongju"
+                          onClick={() => {
+                            this.setState({
+                              changeDepartment: true,
+                              departmentId: item.groupId,
+                              departmentLevel: item.roleLevel,
+                            });
+                          }}
+                        />
+                      </Tooltip>
+                      <Tooltip placement="bottom" title="删除">
+                        <span
+                          className="iconfont icon-shanchu"
+                          onClick={() => {
+                            this.deleteAssign(item.groupId, item.roleLevel);
+                          }}
+                        />
+                      </Tooltip>
+                      <Tooltip placement="bottom" title="用户分配">
+                        <span
+                          className="iconfont icon-yonghu"
+                          onClick={() => {
+                            this.setState({
+                              assigningUsers: true,
+                              assigningDepartmentName: item.groupName
+                            });
+                            this.searchUsers();
+                          }}
+                        />
+                      </Tooltip>
                     </div>
                   </li>
                 ))
@@ -351,7 +418,7 @@ class Structure extends Component {
         {
           this.state.changeDepartment &&
           <PolyDialog
-            title='更新部门'
+            title="更新部门"
             visible={this.state.changeDepartment}
             style={{ height: '200px' }}
             onClose={() => {
@@ -503,7 +570,7 @@ class Structure extends Component {
                           >{item.realname}</li>
                         ))
                       }
-                      
+
                     </ul>
                   </div>
                 </div>
@@ -550,39 +617,49 @@ class Structure extends Component {
                 )}
               </FormItem>
               {
-                (this.state.generationCode === '2' || this.state.generationCode === '3') && <FormItem className="line-item" label="区">
+                (this.state.generationCode === '3' || this.state.generationCode === '4') && <FormItem className="line-item" label="区">
                   {getFieldDecorator('areaId', {
                     rules: [{ required: true, message: '请选择区!' }],
                   })(
                     <Select
                       placeholder="请选择区"
+                      onChange={::this.areaChangeFn}
                     >
-                      <Option value="11">A区</Option>
-                      <Option value="12">B区</Option>
-                      <Option value="13">C区</Option>
-                      <Option value="14">D区</Option>
+                      {
+                        AreaClassConsList.map((item, index) => {
+                          return (
+                            <Option value={item.areaId} key={index}>{item.areaName}</Option>
+                          );
+                        })
+                      }
                     </Select>,
                   )}
                 </FormItem>
               }
               {
-                this.state.generationCode === '3' && <FormItem className="line-item" label="班">
+                this.state.generationCode === '4' && <FormItem className="line-item" label="班">
                   {getFieldDecorator('classId', {
                     rules: [{ required: true, message: '请选择班!' }],
                   })(
                     <Select
                       placeholder="请选择班"
                     >
-                      <Option value="1">A班</Option>
-                      <Option value="2">B班</Option>
-                      <Option value="3">C班</Option>
+                      {
+                        this.state.classList.length > 0 ? (
+                          this.state.classList.map((item, index) => {
+                            return (
+                              <Option value={item.classId} key={index}>{item.className}</Option>
+                            );
+                          })
+                        ) : <Option value="0" disabled>无数据</Option>
+                      }
                     </Select>,
                   )}
                 </FormItem>
               }
 
               {
-                this.state.generationCode === '1' &&
+                this.state.generationCode === '2' &&
                 <FormItem hasFeedback className="line-item" label="区名">
                   {getFieldDecorator('areaName', {
                     rules: [{ required: true, message: '请输入区' }],
@@ -592,7 +669,7 @@ class Structure extends Component {
                 </FormItem>
               }
               {
-                this.state.generationCode === '2' &&
+                this.state.generationCode === '3' &&
                 <FormItem hasFeedback className="line-item" label="班名">
                   {getFieldDecorator('className', {
                     rules: [{ required: true, message: '请输入班名' }],
@@ -602,7 +679,7 @@ class Structure extends Component {
                 </FormItem>
               }
               {
-                this.state.generationCode === '3' &&
+                this.state.generationCode === '4' &&
                 <FormItem hasFeedback className="line-item" label="组名">
                   {getFieldDecorator('groupName', {
                     rules: [{ required: true, message: '请输入组名' }],
