@@ -293,7 +293,7 @@ class Structure extends Component {
     return (
       <div id='structure' className="bootContent historyContent structureContent">
         <Scrollbars>
-          <CommonHeader title="结构管理" isMain />
+          <CommonHeader title="结构管理" isMain isUserPort customer />
           <div className='structure-box' id="content">
             <div className='structure-header content-head' >
               <div className="ch-top">

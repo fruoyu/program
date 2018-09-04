@@ -236,7 +236,7 @@ class Popup extends Component {
                           </div>
                         </div>
                         <div className="border-wrap"></div>
-                        <div 
+                        <div
                           className={labelItem.status == 'true' ? 'sentenceDel' : 'sentenceRight'}
                           data-name={0}
                           onClick={() => {
@@ -574,7 +574,7 @@ class Popup extends Component {
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
-        <CommonHeader title="洞察结果" goback home record photograph taskId={taskId} />
+        <CommonHeader title="洞察结果" goback home record />
         <DanaoWrapper>
           <div id="archivesModal" className={this.state.isOriginal ? "archivesBigModal" : ""}>
             <div className="originalTextOperate">
