@@ -7,6 +7,7 @@ import './userPortrait.less';
 import {
   CommonHeader,
 } from '../../components';
+import { verify } from '../../utils/cookie';
 
 
 class UserPortrait extends Component {
@@ -43,24 +44,30 @@ class UserPortrait extends Component {
   }
   // 获取列表信息
   sendRequest = () => {
-    this.props.dispatch({
-      type: 'history/getFilesList',
-      payload: {
-        endTime: '',
-        fileName: '',
-        name: '',
-        pageNum: this.state.pageNum,
-        pageSize: 10,
-        startTime: '',
-        status: '',
-      },
-      callback: (data) => {
-        const newFilesList = [...this.state.filesList, ...data.reslist];
-        this.setState({
-          filesList: this.state.pageNum === 0 ? data.reslist : newFilesList,
-        });
-      },
+    verify((err, decoded) => {
+      if (err) return;
+      this.props.dispatch({
+        type: 'history/getFilesList',
+        payload: {
+          endTime: '',
+          fileName: '',
+          name: '',
+          pageNum: this.state.pageNum,
+          pageSize: 10,
+          startTime: '',
+          status: '',
+          userName: decoded.data.userName,
+          // groupId: decoded.data.groupId,
+        },
+        callback: (data) => {
+          const newFilesList = [...this.state.filesList, ...data.reslist];
+          this.setState({
+            filesList: this.state.pageNum === 0 ? data.reslist : newFilesList,
+          });
+        },
+      });
     });
+
   }
   // 下拉刷新
   scrollFn = (data) => {
