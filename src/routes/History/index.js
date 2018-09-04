@@ -169,7 +169,7 @@ class History extends Component {
           startTime: this.state.startTime,
           status: this.state.status,
           userName: decoded.data.userName,
-          // groupId: decoded.data.groupId,
+          groupId: decoded.data.groupId,
         },
       });
     });
@@ -260,7 +260,7 @@ class History extends Component {
       <div className="bootContent historyContent historyIcon" onClick={(e) => { this.documentClick(e); }}>
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
-          <CommonHeader title="历史任务" isMain customer isUserPort />
+          <CommonHeader title="录音列表" isMain customer isUserPort />
           <div id="content">
             <div className="content-head">
               <div className="ch-top">

@@ -337,7 +337,7 @@ class UserList extends Component {
       <div className="bootContent historyContent userContent" >
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
-          <CommonHeader title="用户管理" isMain />
+          <CommonHeader title="用户管理" isMain customer isUserPort />
           <div id="content">
             <div className="content-head">
               <div className="ch-top">

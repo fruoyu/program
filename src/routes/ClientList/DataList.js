@@ -1,4 +1,5 @@
-import { Table } from 'antd';
+import { Table, Tooltip } from 'antd';
+import React from "react";
 
 const DataList = (props) => {
   const { dataSource } = props;
@@ -37,21 +38,27 @@ const DataList = (props) => {
     dataIndex: '',
     key: 'x',
     render: () => <div className="cellWrap">
-      <span className='iconfont icon-biaozhugongju'></span>
-      <span className='iconfont icon-shanchu'></span>
-      <span className='iconfont icon-huaxiang'></span>
+      <Tooltip placement="bottom" title="编辑">
+        <span className='iconfont icon-biaozhugongju' />
+      </Tooltip>
+      <Tooltip placement="bottom" title="删除">
+        <span className='iconfont icon-shanchu' />
+      </Tooltip>
+      <Tooltip placement="bottom" title="画像">
+        <span className='iconfont icon-huaxiang' />
+      </Tooltip>
     </div>,
   }];
-   
+
   return (
     <div className='clientListWrap'>
-      <Table 
+      <Table
         dataSource={dataSource}
         columns={columns}
         pagination = {
-          { 
-            showQuickJumper:true, 
-            pageSize:3, 
+          {
+            showQuickJumper:true,
+            pageSize:3,
             itemRender: (page, type, originaElement) => {
               // if(type === 'next') return <div class="containTotal"><a>next</a></div>
               return originaElement;
@@ -63,9 +70,9 @@ const DataList = (props) => {
         }
         />
     </div>
-    
+
   )
-  
+
 }
 
 export default DataList;
