@@ -59,14 +59,12 @@ export default {
     // 部门结构
     *getConstruction({ payload, callback }, { call, put }) {
       const { data } = yield call(construction, payload);
-      console.log(data);
       if (data.status === 100) {
         if (callback) callback();
-        /*  yield put({
+        yield put({
           type: 'changeConstruction',
-          payload: data,
+          payload: data.data,
         });
-        */
       } else {
         notifyError(data.message);
       }
@@ -78,7 +76,7 @@ export default {
       return { ...state, userList: payload.userInfo, userCounts: payload.userCounts };
     },
     changeConstruction(state, { payload }) {
-      return { ...state, constructionList: [] };
+      return { ...state, constructionList: payload.area };
     },
   },
 };
