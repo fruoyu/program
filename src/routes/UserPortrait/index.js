@@ -111,7 +111,7 @@ class UserPortrait extends Component {
       <div className="bootContent userPortrait">
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部 */}
-          <CommonHeader title="用户画像" goback record home photograph taskId={this.props.location.query.taskId} />
+          <CommonHeader title="用户画像" isMain customer photograph  taskId={this.props.location.query.taskId} />
           {/* 画像 */}
           <div id="main">
             <div className="userPortrait">
