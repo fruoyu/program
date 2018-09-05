@@ -321,77 +321,76 @@ export default {
   effects: {
     *getOriginalList({ payload, callback }, { call, put }) {
       const { data } = yield call(changeOriginalList, payload);
-      if (data.result) {
+      if (data.status == 0) {
         yield put({
           type: 'changeOriginalList',
           payload: { ...data },
         });
         callback && callback(data);
       } else {
-        notifyError(data.errMsg);
+        notifyError(data.message);
       }
     },
     *getFilesListByid({ payload, callback }, { call, put }) {
       const { data } = yield call(changeFilesListByid, payload);
-      if (data.result) {
+      if (data.status == 0) {
         yield put({
           type: 'changeFilesListByid',
           payload: { ...data },
         });
         callback && callback(data);
       } else {
-        notifyError(data.errMsg);
+        notifyError(data.message);
       }
     },
     *getFileResultApi({ payload, callback }, { call, put }) {
       const { data } = yield call(changeFileResultApi, payload);
-      if (data.result) {
+      if (data.status == 0) {
         yield put({
           type: 'changeFileResultApi',
           payload: { ...data },
         });
         callback && callback(data);
       } else {
-        notifyError(data.errMsg);
+        notifyError(data.message);
       }
     },
     *editItemLeft({ payload, callback }, { call, put }) {
       const { data } = yield call(editItemLeft, payload);
-      if (data.result) {
+      if (data.status == 0) {
         callback && callback(data);
       } else {
-        notifyError(data.errMsg);
+        notifyError(data.message);
       }
     },
     *editItem({ payload, callback }, { call, put }) {
       const { data } = yield call(editItem, payload);
-      if (data.result) {
+      if (data.status == 0) {
         callback && callback(data);
       } else {
-        notifyError(data.errMsg);
+        notifyError(data.message);
       }
     },
     *KeyEdit({ payload, callback }, { call, put }) {
       const { data } = yield call(KeyEdit, payload);
-      if (data.result) {
-        callback && callback(data);
-      } else {
-        notifyError(data.errMsg);
+      if (data.status != 0) {
+        notifyError(data.message);
       }
+      callback && callback(data);
     },
   },
   reducers: {
     changeOriginalList(state, { payload }) {
-      return { ...state, originalList: payload.result.result };
+      return { ...state, originalList: payload.data.result };
     },
     changeFilesListByid(state, { payload }) {
-      return { ...state, filesList: payload.result.reslist };
+      return { ...state, filesList: payload.data.reslist };
     },
     changeFileResultApi(state, { payload }) {
       let tempArr = [];
-      if (payload.result.keylist.length != 0) {
+      if (payload.data.keylist.length != 0) {
         state.keylist.map((item, index) => {
-          payload.result.keylist.map((keylistItem, keylistIndex) => {
+          payload.data.keylist.map((keylistItem, keylistIndex) => {
             if (item.type == keylistItem.type) {
               state.keylist[index] = keylistItem;
             } else {
@@ -411,8 +410,8 @@ export default {
       } else {
         tempArr = state.templist;
       }
-      payload.result.keylist = tempArr;
-      return { ...state, fileResult: payload.result };
+      payload.data.keylist = tempArr;
+      return { ...state, fileResult: payload.data };
     },
     saveKeylistForm(state, { payload }) {
       return { ...state, ...payload };

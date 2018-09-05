@@ -349,29 +349,6 @@ class Main extends Component {
         </div>
         <div className="upload-bottom">
           <span className="upload-failed">*上传文件中断，请刷新重新上传</span>
-          {/* {
-            this.state.uploadFileList.map((fileItem, fileIndex) => (
-              <div className="list-wrap" key={fileIndex}>
-                {
-                  fileItem.map((secondItem, secondIndex) => (
-                    <div className="upload-item" key={secondIndex}>
-                      <div className="file-info">{secondItem.name}</div>
-                      <div className="file-progress">
-                        <div className="progress-color"></div>
-                        <div className="progress-grey">
-                          <span className="percent">0%</span>
-                        </div>
-                      </div>
-                      <div className="is-complete">
-                        <span className="iconfont icon-gou1"></span>
-                        <span className="iconfont icon-shuaxin"></span>
-                      </div>
-                    </div>
-                  ))
-                }
-              </div>
-            ))
-          } */}
         </div>
       </div>
     );

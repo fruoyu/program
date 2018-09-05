@@ -14,7 +14,10 @@ import './popup.less';
 import '../../assets/iconfont/iconfont.css';
 // import '../../plugs/audio/audio.js';
 import './audio.less';
-import {ifToken} from "../../utils/cookie";
+import {
+  ifToken,
+  verify,
+} from "../../utils/cookie";
 
 class Popup extends Component {
   constructor(props) {
@@ -69,6 +72,7 @@ class Popup extends Component {
       currentMusic: {},
       isPlayed: false,
       scrollTop: 100,
+      pageNum: 1,
     };
     this.clickChangeTime = this.clickChangeTime.bind(this);
     this.slideChangeTime = this.slideChangeTime.bind(this);
@@ -96,37 +100,39 @@ class Popup extends Component {
       });
     });
     // 请求已识别文件
-    this.props.dispatch({
-      type: 'popup/getFilesListByid',
-      payload: {
-        taskid: taskId,
-        pageSize: '1',
-        pageNum: '10',
-        name: '',
-        status: '',
-        startTime: '',
-        endTime: '',
-        fileName: '',
-        userName: '',
-        groupId: '',
-      },
-      callback: () => {
-        let fileScroll = this.refs['filelist' + taskId].offsetTop;
-        $('#file-list>div>div').animate({
-          scrollTop: fileScroll + 'px',
-        }, 500)
-      },
+    verify((err, decoded) => {
+      if (err) return;
+      this.props.dispatch({
+        type: 'popup/getFilesListByid',
+        payload: {
+          pageSize: 10,
+          pageNum: this.state.pageNum,
+          name: '',
+          status: '',
+          startTime: '',
+          endTime: '',
+          fileName: '',
+          userName: decoded.data.userName,
+          groupId: '',
+        },
+        callback: () => {
+          let fileScroll = this.refs['filelist' + taskId].offsetTop;
+          $('#file-list>div>div').animate({
+            scrollTop: fileScroll + 'px',
+          }, 500);
+        },
+      });
     });
     // 请求画像数据
-    // this.props.dispatch({
-    //   type: 'popup/getFileResultApi',
-    //   payload: {
-    //     taskid: taskId,
-    //   },
-    //   callback: () => {
-    //     audio.src = this.props.popup.fileResult.filePath;
-    //   },
-    // });
+    this.props.dispatch({
+      type: 'popup/getFileResultApi',
+      payload: {
+        taskid: taskId,
+      },
+      callback: () => {
+        audio.src = this.props.popup.fileResult.filePath;
+      },
+    });
   }
 
   // 渲染画像数据
@@ -602,6 +608,8 @@ class Popup extends Component {
       filesList,
     } = this.props.popup
     const taskId = this.props.location.query.taskId;
+    const customId = this.props.location.query.customId;
+    console.log(customId);
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
@@ -698,9 +706,6 @@ class Popup extends Component {
                                   payload: {
                                     taskid: item.id
                                   },
-                                  callback: (data) => {
-
-                                  }
                                 })
                               });
                             }
