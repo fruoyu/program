@@ -10,7 +10,7 @@ import {
   CommonHeader,
   CommonTable,
 } from '../../components';
-import { verify } from '../../utils/cookie';
+import { ifToken, verify } from '../../utils/cookie';
 
 const SubMenu = Menu.SubMenu;
 const { RangePicker } = DatePicker;
@@ -100,13 +100,14 @@ class History extends Component {
   /* 获取所属结构列表*/
   getConstruction() {
     verify((err, decoded) => {
-      if (err) return;
-      this.props.dispatch({
-        type: 'userList/getConstruction',
-        payload: {
-          groupId: decoded.data.groupId,
-          roleId: decoded.data.roleId,
-        },
+      ifToken(() => {
+        this.props.dispatch({
+          type: 'userList/getConstruction',
+          payload: {
+            groupId: decoded.data.groupId,
+            roleId: decoded.data.roleId,
+          },
+        });
       });
     });
   }
@@ -223,7 +224,9 @@ class History extends Component {
             groupc,
             pageNum: 1,
           }, () => {
-            // this.sendRequest();
+            ifToken(() => {
+              this.sendRequest();
+            });
           });
         }}
       >
@@ -281,7 +284,9 @@ class History extends Component {
                       this.setState({
                         pageNum: 1,
                       }, () => {
-                        this.sendRequest();
+                        ifToken(() => {
+                          this.sendRequest();
+                        });
                       });
                     }}
                   />
@@ -307,7 +312,9 @@ class History extends Component {
                                     this.setState({
                                       pageNum: 1, // 当前页数
                                     }, () => {
-                                      this.sendRequest();
+                                      ifToken(() => {
+                                        this.sendRequest();
+                                      });
                                     });
                                   });
                                 }}
@@ -344,7 +351,9 @@ class History extends Component {
                                     status: item.retCode,
                                     pageNum: 1, // 当前页数
                                   }, () => {
-                                    this.sendRequest();
+                                    ifToken(() => {
+                                      this.sendRequest();
+                                    });
                                   });
                                 }}
                               >{item.status}</span>

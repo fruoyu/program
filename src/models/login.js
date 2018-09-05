@@ -70,7 +70,7 @@ export default {
         if (pathname === '/') {
           dispatch(routerRedux.push('/login')); return;
         }
-         let flag = false;
+        let flag = false;
         routes.map((item) => {
           if (item.path === pathname) {
             flag = true;
