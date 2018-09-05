@@ -22,7 +22,7 @@ const delCookie = (name) => { // 为了删除指定名称的cookie，可以将�
 // 生成token
 const sign = (payload) => {
   return jwt.sign({
-    exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1h
+    exp: Math.floor(Date.now() / 1000) + 10, // 1h
     data: payload,
   }, 'moxilogin');
 };
@@ -32,4 +32,16 @@ const verify = (ck) => {
     ck(err, decoded);
   });
 };
-export { getCookie, setCookie, delCookie, sign, verify };
+// 判断token是否过期
+const ifToken = (ck) => {
+  verify((err) => {
+    if (err) { // cookie 超时了;
+      // 登出删除token
+      delCookie('token');
+      location.href = '/';
+    } else {
+      ck();
+    }
+  });
+}
+export { getCookie, setCookie, delCookie, sign, verify, ifToken };
