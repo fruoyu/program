@@ -14,6 +14,7 @@ import './popup.less';
 import '../../assets/iconfont/iconfont.css';
 // import '../../plugs/audio/audio.js';
 import './audio.less';
+import {ifToken} from "../../utils/cookie";
 
 class Popup extends Component {
   constructor(props) {
@@ -164,28 +165,32 @@ class Popup extends Component {
                                   keylistObj[objIndex].context = e.target.value;
                                 }
                               });
-                              this.props.dispatch({
-                                type: 'popup/saveKeylistForm',
-                                payload: {
-                                  fileResult: {
-                                    ...this.props.popup.fileResult,
-                                    keylist: keylistObj,
+                              ifToken(() => {
+                                this.props.dispatch({
+                                  type: 'popup/saveKeylistForm',
+                                  payload: {
+                                    fileResult: {
+                                      ...this.props.popup.fileResult,
+                                      keylist: keylistObj,
+                                    },
                                   },
-                                },
+                                });
                               });
                             }}
                             onBlur={(e) => {
-                              this.props.dispatch({
-                                type: 'popup/KeyEdit',
-                                payload: {
-                                  context: e.target.value,
-                                  taskId: taskId,
-                                  optype: 'add',
-                                  type: item,
-                                },
-                                callback: (data) => {
-                                  console.log(data)
-                                },
+                              ifToken(() => {
+                                this.props.dispatch({
+                                  type: 'popup/KeyEdit',
+                                  payload: {
+                                    context: e.target.value,
+                                    taskId: taskId,
+                                    optype: 'add',
+                                    type: item,
+                                  },
+                                  callback: (data) => {
+                                    console.log(data)
+                                  },
+                                });
                               });
                               this.setState({
                                 isInputEdit: true,
@@ -241,33 +246,39 @@ class Popup extends Component {
                           data-name={0}
                           onClick={() => {
                             let originalScroll = this.refs['originalText' + parseInt(labelItem.time / 1000)].offsetTop;
-                            this.props.dispatch({
-                              type: 'popup/editItem',
-                              payload: {
-                                id: labelItem.id,
-                                status: labelItem.status == 'true' ? false: true,
-                              },
-                              callback: (data) => {
-                                this.props.dispatch({
-                                  type: 'popup/getFileResultApi',
-                                  payload: {
-                                    taskid: taskId,
-                                  },
-                                });
-                                if (this.state.isOriginal) {
-                                  this.props.dispatch({
-                                    type: 'popup/getOriginalList',
-                                    payload: {
-                                      taskid: taskId,
-                                    },
-                                    callback: () => {
-                                      $('.insightTextWrap > div > div').animate({
-                                        scrollTop: originalScroll + 'px',
-                                      }, 500)
-                                    }
+                            ifToken(() => {
+                              this.props.dispatch({
+                                type: 'popup/editItem',
+                                payload: {
+                                  id: labelItem.id,
+                                  status: labelItem.status == 'true' ? false: true,
+                                },
+                                callback: (data) => {
+                                  ifToken(() => {
+                                    this.props.dispatch({
+                                      type: 'popup/getFileResultApi',
+                                      payload: {
+                                        taskid: taskId,
+                                      },
+                                    });
                                   });
-                                }
-                              },
+                                  if (this.state.isOriginal) {
+                                    ifToken(() => {
+                                      this.props.dispatch({
+                                        type: 'popup/getOriginalList',
+                                        payload: {
+                                          taskid: taskId,
+                                        },
+                                        callback: () => {
+                                          $('.insightTextWrap > div > div').animate({
+                                            scrollTop: originalScroll + 'px',
+                                          }, 500)
+                                        }
+                                      });
+                                    });
+                                  }
+                                },
+                              });
                             });
                           }}
                         >
@@ -338,27 +349,70 @@ class Popup extends Component {
                       {
                         Object.keys(this.state.customer).map((customerItem, customerIndex) => (
                           <li onClick={() => {
-                            this.props.dispatch({
-                              type: 'popup/editItemLeft',
-                              payload: {
-                                taskid: taskId,
-                                type: customerItem,
-                                operaType: 'add',
-                                startLine: originalList[item].id + '',
-                                endLine: originalList[item].id + '',
-                                context: originalList[item].voiceContent
-                              },
-                              callback: (data) => {
-                                this.setState({
-                                  biaozhuIndex: -1,
-                                })
+                            ifToken(() => {
+                              this.props.dispatch({
+                                type: 'popup/editItemLeft',
+                                payload: {
+                                  taskid: taskId,
+                                  type: customerItem,
+                                  operaType: 'add',
+                                  startLine: originalList[item].id + '',
+                                  endLine: originalList[item].id + '',
+                                  context: originalList[item].voiceContent
+                                },
+                                callback: (data) => {
+                                  this.setState({
+                                    biaozhuIndex: -1,
+                                  })
+                                  ifToken(() => {
+                                    this.props.dispatch({
+                                      type: 'popup/getFileResultApi',
+                                      payload: {
+                                        taskid: taskId
+                                      },
+                                      callback: () => {
+                                        let scrollH = this.refs['insightTerm' + customerItem].offsetTop;
+                                        $('.insightTermWrap > div > div').animate({
+                                          scrollTop: scrollH + 'px',
+                                        }, 500)
+                                      }
+                                    })
+                                    this.props.dispatch({
+                                      type: 'popup/getOriginalList',
+                                      payload: {
+                                        taskid: taskId
+                                      },
+                                    })
+                                  });
+                                }
+                              })
+                            });
+                          }} key={customerIndex}>{this.state.customer[customerItem]}</li>
+                        ))
+                      }
+                    </ul>
+                  }
+                </div>
+                <div className="ThirdLine" data-type-arr="">
+                  {
+                    originalList[item].types.length > 0 && originalList[item].types.map((typeItem, typeIndex) => (
+                      <span className="tags" key={typeIndex} onClick={() => {
+                        ifToken(() => {
+                          this.props.dispatch({
+                            type: 'popup/editItemLeft',
+                            payload: {
+                              id: originalList[item].itemids[typeIndex],
+                              operaType: 'delete',
+                            },
+                            callback: () => {
+                              ifToken(() => {
                                 this.props.dispatch({
                                   type: 'popup/getFileResultApi',
                                   payload: {
                                     taskid: taskId
                                   },
                                   callback: () => {
-                                    let scrollH = this.refs['insightTerm' + customerItem].offsetTop;
+                                    let scrollH = this.refs['insightTerm' + typeItem].offsetTop;
                                     $('.insightTermWrap > div > div').animate({
                                       scrollTop: scrollH + 'px',
                                     }, 500)
@@ -370,45 +424,10 @@ class Popup extends Component {
                                     taskid: taskId
                                   },
                                 })
-                              }
-                            })
-                          }} key={customerIndex}>{this.state.customer[customerItem]}</li>
-                        ))
-                      }
-                    </ul>
-                  }
-                </div>
-                <div className="ThirdLine" data-type-arr="">
-                  {
-                    originalList[item].types.length > 0 && originalList[item].types.map((typeItem, typeIndex) => (
-                      <span className="tags" key={typeIndex} onClick={() => {
-                        this.props.dispatch({
-                          type: 'popup/editItemLeft',
-                          payload: {
-                            id: originalList[item].itemids[typeIndex],
-                            operaType: 'delete',
-                          },
-                          callback: () => {
-                            this.props.dispatch({
-                              type: 'popup/getFileResultApi',
-                              payload: {
-                                taskid: taskId
-                              },
-                              callback: () => {
-                                let scrollH = this.refs['insightTerm' + typeItem].offsetTop;
-                                $('.insightTermWrap > div > div').animate({
-                                  scrollTop: scrollH + 'px',
-                                }, 500)
-                              }
-                            })
-                            this.props.dispatch({
-                              type: 'popup/getOriginalList',
-                              payload: {
-                                taskid: taskId
-                              },
-                            })
-                          }
-                        })
+                              });
+                            }
+                          })
+                        });
                       }}>
                         {this.state.customer[originalList[item].types[typeIndex]]}
                         <i className="iconfont icon-shanchu1"></i>
@@ -590,22 +609,24 @@ class Popup extends Component {
                   <span className="retractSpan">收起</span>
                 </div> :
                 <div className="view" onClick={() => {
-                  this.props.dispatch({
-                    type: 'popup/getOriginalList',
-                    payload: {
-                      taskid: taskId
-                    },
-                    callback: (data) => {
-                      console.log(this.refs.played.getBoundingClientRect().left)
-                      this.setState({
-                        playedLeft:this.refs.played.getBoundingClientRect().left,
-                      }, () => {
+                  ifToken(() => {
+                    this.props.dispatch({
+                      type: 'popup/getOriginalList',
+                      payload: {
+                        taskid: taskId
+                      },
+                      callback: (data) => {
+                        console.log(this.refs.played.getBoundingClientRect().left)
                         this.setState({
-                          isOriginal: true,
+                          playedLeft:this.refs.played.getBoundingClientRect().left,
+                        }, () => {
+                          this.setState({
+                            isOriginal: true,
+                          })
                         })
-                      })
-                    }
-                  })
+                      }
+                    })
+                  });
                 }}>
                   <i className="iconfont icon-wenbenzhantie"></i>
                   <span className="viewSpan">查看原文</span>
@@ -646,28 +667,32 @@ class Popup extends Component {
                   filesList.map((item, index) => (
                     <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index} ref={'filelist' + item.id}
                       onClick={() => {
-                        this.props.dispatch(routerRedux.push({
-                          pathname: '/popup',
-                          query: {
-                            taskId: item.id,
-                          },
-                        }));
-                        this.props.dispatch({
-                          type: 'history/saveTaskId',
-                          payload: {
-                            taskId: item.id,
-                          },
-                          callback: () => {
-                            this.props.dispatch({
-                              type: 'popup/getFileResultApi',
-                              payload: {
-                                taskid: item.id
-                              },
-                              callback: (data) => {
+                        ifToken(() => {
+                          this.props.dispatch(routerRedux.push({
+                            pathname: '/popup',
+                            query: {
+                              taskId: item.id,
+                            },
+                          }));
+                          this.props.dispatch({
+                            type: 'history/saveTaskId',
+                            payload: {
+                              taskId: item.id,
+                            },
+                            callback: () => {
+                              ifToken(() => {
+                                this.props.dispatch({
+                                  type: 'popup/getFileResultApi',
+                                  payload: {
+                                    taskid: item.id
+                                  },
+                                  callback: (data) => {
 
-                              }
-                            })
-                          }
+                                  }
+                                })
+                              });
+                            }
+                          });
                         });
                       }}
                       onMouseEnter={() => {

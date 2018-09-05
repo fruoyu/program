@@ -12,7 +12,7 @@ import {
   CommonHeader,
   CommonTable,
 } from '../../components';
-import { verify } from '../../utils/cookie';
+import { verify, ifToken } from '../../utils/cookie';
 
 const FormItem = Form.Item;
 const SubMenu = Menu.SubMenu;
@@ -80,7 +80,9 @@ class UserList extends Component {
       startTime: dateString[0], // 开始时间
       endTime: dateString[1], // 结束时间
     }, () => {
-      this.sendRequest();
+      ifToken(() => {
+        this.sendRequest();
+      });
     });
   }
   // 分页器改变时接口操作
@@ -88,7 +90,9 @@ class UserList extends Component {
     this.setState({
       pageNum: pageNumber,
     }, () => {
-      this.sendRequest();
+      ifToken(() => {
+        this.sendRequest();
+      });
     });
   }
   // 修改，添加信息
@@ -96,35 +100,43 @@ class UserList extends Component {
     this.props.form.validateFields((err, value) => {
       if (err) return false;
       if (this.state.addUser) { // 新增用户
-        this.props.dispatch({
-          type: 'userList/addUser',
-          payload: {
-            nickName: value.nickName,
-            passWord: $.md5(value.loginPassword),
-            roleId: value.part,
-            userName: value.name,
-          },
-          callback: () => {
-            this.setState({
-              showUser: false,
-            });
-            this.sendRequest();
-          },
+        ifToken(() => {
+          this.props.dispatch({
+            type: 'userList/addUser',
+            payload: {
+              nickName: value.nickName,
+              passWord: $.md5(value.loginPassword),
+              roleId: value.part,
+              userName: value.name,
+            },
+            callback: () => {
+              this.setState({
+                showUser: false,
+              });
+              ifToken(() => {
+                this.sendRequest();
+              });
+            },
+          });
         });
       } else { // 修改用户
-        this.props.dispatch({
-          type: 'userList/updateUser',
-          payload: {
-            nickName: value.nickName,
-            roleId: value.part,
-            userName: this.state.editUserName,
-          },
-          callback: () => {
-            this.setState({
-              showUser: false,
-            });
-            this.sendRequest();
-          },
+        ifToken(() => {
+          this.props.dispatch({
+            type: 'userList/updateUser',
+            payload: {
+              nickName: value.nickName,
+              roleId: value.part,
+              userName: this.state.editUserName,
+            },
+            callback: () => {
+              this.setState({
+                showUser: false,
+              });
+              ifToken(() => {
+                this.sendRequest();
+              });
+            },
+          });
         });
       }
     });
@@ -134,12 +146,14 @@ class UserList extends Component {
   getConstruction() {
     verify((err, decoded) => {
       if (err) return;
-      this.props.dispatch({
-        type: 'userList/getConstruction',
-        payload: {
-          groupId: decoded.data.groupId,
-          roleId: decoded.data.roleId,
-        },
+      ifToken(() => {
+        this.props.dispatch({
+          type: 'userList/getConstruction',
+          payload: {
+            groupId: decoded.data.groupId,
+            roleId: decoded.data.roleId,
+          },
+        });
       });
     });
   }
@@ -165,13 +179,17 @@ class UserList extends Component {
     confirm({
       title: '确定删除该用户吗?',
       onOk: () => {
-        this.props.dispatch({
-          type: 'userList/deleteUser',
-          payload: { userName },
-          callback: () => {
-            this.sendRequest();
-            message.success('删除成功', 1);
-          },
+        ifToken(() => {
+          this.props.dispatch({
+            type: 'userList/deleteUser',
+            payload: { userName },
+            callback: () => {
+              ifToken(() => {
+                this.sendRequest();
+              });
+              message.success('删除成功', 1);
+            },
+          });
         });
       },
       onCancel() {
@@ -205,20 +223,24 @@ class UserList extends Component {
         message.error('两次输入密码不一致!', 1);
         return false;
       }
-      this.props.dispatch({
-        type: 'userList/revisePwd',
-        payload: {
-          passwrord: $.md5(value.newPassword),
-          userName: this.state.ReviseName,
-        },
-        callback: () => {
-          this.setState({
-            isRevisePwd: false,
-          }, () => {
-            message.success('密码重置成功!', 1);
-            this.sendRequest();
-          });
-        },
+      ifToken(() => {
+        this.props.dispatch({
+          type: 'userList/revisePwd',
+          payload: {
+            passwrord: $.md5(value.newPassword),
+            userName: this.state.ReviseName,
+          },
+          callback: () => {
+            this.setState({
+              isRevisePwd: false,
+            }, () => {
+              message.success('密码重置成功!', 1);
+              ifToken(() => {
+                this.sendRequest();
+              });
+            });
+          },
+        });
       });
     });
   }
@@ -279,7 +301,9 @@ class UserList extends Component {
             groupc,
             pageNum: 1,
           }, () => {
-            this.sendRequest();
+            ifToken(() => {
+              this.sendRequest();
+            });
           });
         }}
       >
@@ -321,7 +345,9 @@ class UserList extends Component {
             pageNum: 1,
             generation: this.changeGeneration(item.key),
           }, () => {
-            this.sendRequest();
+            ifToken(() => {
+              this.sendRequest();
+            });
           });
         }}
       >
@@ -358,7 +384,9 @@ class UserList extends Component {
                       this.setState({
                         pageNum: 1,
                       }, () => {
-                        this.sendRequest();
+                        ifToken(() => {
+                          this.sendRequest();
+                        });
                       });
                     }}
                   />
