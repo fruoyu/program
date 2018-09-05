@@ -118,15 +118,15 @@ class Popup extends Component {
       },
     });
     // 请求画像数据
-    this.props.dispatch({
-      type: 'popup/getFileResultApi',
-      payload: {
-        taskid: taskId,
-      },
-      callback: () => {
-        audio.src = this.props.popup.fileResult.filePath;
-      },
-    });
+    // this.props.dispatch({
+    //   type: 'popup/getFileResultApi',
+    //   payload: {
+    //     taskid: taskId,
+    //   },
+    //   callback: () => {
+    //     audio.src = this.props.popup.fileResult.filePath;
+    //   },
+    // });
   }
 
   // 渲染画像数据
