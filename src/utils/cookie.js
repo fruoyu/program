@@ -22,7 +22,7 @@ const delCookie = (name) => { // 为了删除指定名称的cookie，可以将�
 // 生成token
 const sign = (payload) => {
   return jwt.sign({
-    exp: Math.floor(Date.now() / 1000) + 10, // 1h
+    exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1h
     data: payload,
   }, 'moxilogin');
 };
