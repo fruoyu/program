@@ -165,7 +165,7 @@ class History extends Component {
           endTime: this.state.endTime,
           fileName: this.state.fileName,
           name: this.state.name,
-          pageNum: this.state.pageNum - 1,
+          pageNum: this.state.pageNum,
           pageSize: this.state.pageSize,
           startTime: this.state.startTime,
           status: this.state.status,
@@ -391,7 +391,7 @@ class History extends Component {
                       <div className="item-composition">A区A班A组</div>
                       <div className="item-state">{this.getStatus(item.statusMessage)}</div>
                       <div className="item-time">{item.createTime}</div>
-                      <div className="data">11项</div>
+                      <div className="data">{item.itemCount}项</div>
                     </li>
                   );
                 })
