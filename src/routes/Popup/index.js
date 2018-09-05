@@ -73,6 +73,7 @@ class Popup extends Component {
       isPlayed: false,
       scrollTop: 100,
       pageNum: 1,
+      customerId: '',
     };
     this.clickChangeTime = this.clickChangeTime.bind(this);
     this.slideChangeTime = this.slideChangeTime.bind(this);
@@ -198,15 +199,12 @@ class Popup extends Component {
                                   type: 'popup/KeyEdit',
                                   payload: {
                                     context: e.target.value,
-                                    taskId: taskId,
+                                    taskid: taskId + '',
                                     optype: 'edit',
                                     type: item,
                                     creat_time: '',
-                                    customId: '',
+                                    customId: this.state.customerId,
                                     status: '',
-                                  },
-                                  callback: (data) => {
-                                    console.log(data);
                                   },
                                 });
                               });
@@ -226,9 +224,7 @@ class Popup extends Component {
                       this.setState({
                         isInputEdit: false,
                       }, () => {
-                        console.log(this.refs)
                         const input = this.refs['input' + index];
-                        console.log(input)
                         input.focus();
                       });
                     }}
@@ -301,7 +297,7 @@ class Popup extends Component {
                           }}
                         >
                           {
-                             <i className={['iconfont', labelItem.status == 'true' ? 'icon-cuowu' : 'icon-gou1'].join(' ')}></i>
+                            <i className={['iconfont', labelItem.status == 'true' ? 'icon-cuowu' : 'icon-gou1'].join(' ')}></i>
                           }
                         </div>
                       </div>
@@ -636,7 +632,6 @@ class Popup extends Component {
                         taskid: taskId
                       },
                       callback: (data) => {
-                        console.log(this.refs.played.getBoundingClientRect().left)
                         this.setState({
                           playedLeft:this.refs.played.getBoundingClientRect().left,
                         }, () => {
@@ -688,6 +683,9 @@ class Popup extends Component {
                     <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index} ref={'filelist' + item.id}
                       onClick={() => {
                         ifToken(() => {
+                          this.setState({
+                            customerId: item.id,
+                          });
                           this.props.dispatch(routerRedux.push({
                             pathname: '/popup',
                             query: {

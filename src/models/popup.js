@@ -387,22 +387,13 @@ export default {
       return { ...state, filesList: payload.data.reslist };
     },
     changeFileResultApi(state, { payload }) {
-      let tempArr = [];
+      let tempArr = state.keylist;
       if (payload.data.keylist.length != 0) {
         state.keylist.map((item, index) => {
           payload.data.keylist.map((keylistItem, keylistIndex) => {
             if (item.type == keylistItem.type) {
               state.keylist[index] = keylistItem;
-            } else {
-              state.keylist[index] = {
-                context: '',
-                creat_time: '',
-                kehuName: '',
-                phonenum: '',
-                status: '',
-                taskid: '',
-                type: item.type,
-              };
+              console.log(state.keylist[index])
             }
           });
         });
