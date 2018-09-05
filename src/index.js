@@ -20,15 +20,16 @@ const app = dva({
   history: useRouterHistory(createHashHistory)({ queryKey: false }),
   onError(e) { /* Global exception handler scope is dva framework only*/
     // console.error('Uncaught in dva: \n', e);
-    if (e.response) {
-      const { status, statusText } = e.response;
-      if (status === 504) {
-        message.error(`Server error ${status}, ${statusText}, please try again later.`, 2);
-      }
+    // if (e.response) {
+    //   const { status, statusText } = e.response;
+    //   if (status === 504) {
+    //     message.error(`Server error ${status}, ${statusText}, please try again later.`, 2);
+    //   }
+    // }
+    if (window.location.port === '9090') {
+      
     }
-    /* if (window.location.port === '9090') {
-      message.error(`Uncaught in dva: \n${e}`, 2);
-    }*/
+    message.error(`Uncaught in dva: \n${e}`, 2);
   },
    onReducer: r => (state, action) => {
     const newState = r(state, action);

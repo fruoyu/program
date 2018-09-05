@@ -1,4 +1,4 @@
-import { Table, Tooltip } from 'antd';
+import { Table, Tooltip, Popconfirm } from 'antd';
 import React from "react";
 
 const DataList = (props) => {
@@ -37,13 +37,15 @@ const DataList = (props) => {
     title: '操作',
     dataIndex: '',
     key: 'x',
-    render: () => <div className="cellWrap">
+    render: (text, record) => <div className="cellWrap">
       <Tooltip placement="bottom" title="编辑">
         <span className='iconfont icon-biaozhugongju' />
       </Tooltip>
-      <Tooltip placement="bottom" title="删除">
-        <span className='iconfont icon-shanchu' />
-      </Tooltip>
+      <Popconfirm title="Sure to delete?" onConfirm={() => props.handleDel(record.key)}>
+        <Tooltip placement="bottom" title="删除">
+          <span className='iconfont icon-shanchu' />
+        </Tooltip>
+      </Popconfirm>
       <Tooltip placement="bottom" title="画像">
         <span className='iconfont icon-huaxiang' />
       </Tooltip>

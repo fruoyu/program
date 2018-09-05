@@ -8,6 +8,7 @@ import { CommonHeader } from '../../components';
 import DatePicker from './DatePicker';
 import DataList from './DataList';
 import PopClient from './popClient';
+import { verify } from '../../utils/cookie';
 
 import './clientList.less';
 import '../../assets/iconfont/iconfont.css';
@@ -21,12 +22,12 @@ class ClientList extends Component {
     this.state = {
       searchInputVal:'',
       name: '',
-      endTime: '', // 结束时间
-      fileName: '', // 录音文件名称
+      endTime: '',
+      startTime: '',
+      customerType: '',
+      userName: '',
       pageNum: 1, // 当前页数
       pageSize: 10, // 请求数
-      startTime: '', // 开始时间
-      status: '',
       popClientShow: false,
       composition: '所属结构',
       compositionList: [
@@ -77,6 +78,54 @@ class ClientList extends Component {
           ],
         },
       ],
+      dataSource: [
+        {
+          key: '1',
+          name: '胡彦斌',
+          phone: 12323132131,
+          star: '三星',
+          fiveStatus: '认购',
+          updateTime: '2018-08-21 13:35:24',
+          belong: '华北区/尖刀班/一组/王志军'
+        }, 
+        {
+          key: '2',
+          name: '胡彦祖',
+          phone: 21413512515,
+          star: '四星',
+          fiveStatus: '认购',
+          updateTime: '2018-08-21 13:35:24',
+          belong: '华北区/尖刀班/一组/王志军'
+        }, 
+        {
+          key: '3',
+          name: '胡彦祖1',
+          phone: 21413512515,
+          star: '四星',
+          fiveStatus: '认购',
+          updateTime: '2018-08-21 13:35:24',
+          belong: '华北区/尖刀班/一组/王志军'
+        }, 
+        {
+          key: '4',
+          name: '胡彦祖2',
+          phone: 21413512515,
+          star: '四星',
+          fiveStatus: '认购',
+          updateTime: '2018-08-21 13:35:24',
+          belong: '华北区/尖刀班/一组/王志军'
+        }, 
+        {
+          key: '5',
+          name: '胡彦祖3',
+          phone: 214135125512,
+          star: '四星',
+          fiveStatus: '认购',
+          updateTime: '2018-08-21 13:35:24',
+          belong: '华北区/尖刀班/一组/王志军'
+        }
+      ],
+
     };
 
     this.onGetClientList = this.onGetClientList.bind(this);
@@ -85,7 +134,14 @@ class ClientList extends Component {
   }
 
   componentDidMount(){
-    // this.onGetClientList();
+    verify((err, decoded) => {
+      if (err) return;
+      const { userName } = decoded.data;
+      this.setState({
+        userName
+      });
+    });
+    this.onGetClientList();
     this.setPaginationTotalNum();
   }
 
@@ -98,11 +154,11 @@ class ClientList extends Component {
     this.props.dispatch({
       type: 'clientList/getClientList',
       payload: {
-        endTime: this.state.endTime,
-        pageNum: this.state.pageNum - 1,
-        pageSize: this.state.pageSize,
         startTime: this.state.startTime,
-        status: this.state.status,
+        endTime: this.state.endTime,
+        username: this.state.userName,
+        whatPage: this.state.pageNum,
+        customerType: this.state.customerType,
       }
     })
   }
@@ -157,53 +213,15 @@ class ClientList extends Component {
       })
     }
   }
+  handleDel = (key) => {
+    const dataSource = [...this.state.dataSource];
+    this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+  }
 
   render() {
 
     // 客户信息列表模拟
-    // const { mClientList } = this.props.clientList;
-    // const dataSource = mClientList.dataSource;
-    const dataSource = [{
-      key: '1',
-      name: '胡彦斌',
-      phone: 12323132131,
-      star: '三星',
-      fiveStatus: '认购',
-      updateTime: '2018-08-21 13:35:24',
-      belong: '华北区/尖刀班/一组/王志军'
-    }, {
-      key: '2',
-      name: '胡彦祖',
-      phone: 21413512515,
-      star: '四星',
-      fiveStatus: '认购',
-      updateTime: '2018-08-21 13:35:24',
-      belong: '华北区/尖刀班/一组/王志军'
-    }, {
-      key: '3',
-      name: '胡彦祖1',
-      phone: 21413512515,
-      star: '四星',
-      fiveStatus: '认购',
-      updateTime: '2018-08-21 13:35:24',
-      belong: '华北区/尖刀班/一组/王志军'
-    }, {
-      key: '4',
-      name: '胡彦祖2',
-      phone: 21413512515,
-      star: '四星',
-      fiveStatus: '认购',
-      updateTime: '2018-08-21 13:35:24',
-      belong: '华北区/尖刀班/一组/王志军'
-    }, {
-      key: '5',
-      name: '胡彦祖3',
-      phone: 214135125512,
-      star: '四星',
-      fiveStatus: '认购',
-      updateTime: '2018-08-21 13:35:24',
-      belong: '华北区/尖刀班/一组/王志军'
-    }];
+    // const { dataSource } = this.props.clientList.mClientList;
     const menu = (
       <Menu
         className="composition-down-load"
@@ -294,7 +312,7 @@ class ClientList extends Component {
                 <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
 
           {/* 列表内容部分 */}
-            <DataList dataSource={dataSource} />
+            <DataList dataSource={this.state.dataSource} handleDel={this.handleDel} />
           </div>
         </Scrollbars>
         <PopClient popClientShow={this.state.popClientShow}
