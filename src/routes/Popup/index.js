@@ -100,14 +100,23 @@ class Popup extends Component {
       type: 'popup/getFilesListByid',
       payload: {
         taskid: taskId,
+        pageSize: '1',
+        pageNum: '10',
+        name: '',
+        status: '',
+        startTime: '',
+        endTime: '',
+        fileName: '',
+        userName: '',
+        groupId: '',
       },
       callback: () => {
         let fileScroll = this.refs['filelist' + taskId].offsetTop;
         $('#file-list>div>div').animate({
           scrollTop: fileScroll + 'px',
         }, 500)
-      }
-    })
+      },
+    });
     // 请求画像数据
     this.props.dispatch({
       type: 'popup/getFileResultApi',
@@ -184,11 +193,14 @@ class Popup extends Component {
                                   payload: {
                                     context: e.target.value,
                                     taskId: taskId,
-                                    optype: 'add',
+                                    optype: 'edit',
                                     type: item,
+                                    creat_time: '',
+                                    customId: '',
+                                    status: '',
                                   },
                                   callback: (data) => {
-                                    console.log(data)
+                                    console.log(data);
                                   },
                                 });
                               });

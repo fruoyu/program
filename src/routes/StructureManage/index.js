@@ -249,7 +249,7 @@ class Structure extends Component {
         this.props.dispatch({
           type: 'structure/searchUsers',
           payload: {
-            roleTypeList: [decoded.data.roleId],
+            roleTypeList: [decoded.data.roleId == 1 ? '' : decoded.data.roleId],
             whetherBind: '0',
           },
         });
@@ -258,7 +258,7 @@ class Structure extends Component {
         this.props.dispatch({
           type: 'structure/searchUsers',
           payload: {
-            roleTypeList: [decoded.data.roleId],
+            roleTypeList: [decoded.data.roleId == 1 ? '' : decoded.data.roleId],
             whetherBind: '1',
           },
         });
@@ -266,6 +266,7 @@ class Structure extends Component {
     });
   }
 
+  // 分配用户确定事件
   preUsers = () => {
     ifToken(() => {
       this.props.dispatch({

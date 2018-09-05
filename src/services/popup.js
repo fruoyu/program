@@ -16,7 +16,7 @@ export async function changeFilesListByid(params) {
   });
 }
 export async function changeFileResultApi(params) {
-  return request('/openApi/voiceQuality/getFileResultApi', {
+  return request('/openApi/voiceQuality/getAudioResultApi', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),
