@@ -32,4 +32,16 @@ const verify = (ck) => {
     ck(err, decoded);
   });
 };
-export { getCookie, setCookie, delCookie, sign, verify };
+// 判断token是否过期
+const ifToken = (ck) => {
+  verify((err) => {
+    if (err) { // cookie 超时了;
+      // 登出删除token
+      delCookie('token');
+      location.href = '/';
+    } else {
+      ck();
+    }
+  });
+}
+export { getCookie, setCookie, delCookie, sign, verify, ifToken };

@@ -2,9 +2,12 @@ import dva from 'dva';
 import { message, notification } from 'antd';
 import {
   delCookie,
+  getCookie,
+  verify,
 } from './utils/cookie';
 import './index.less';
-import { useRouterHistory, browserHistory } from 'dva/router';
+import routes from './routes';
+import {useRouterHistory, browserHistory, routerRedux} from 'dva/router';
 import { createHashHistory } from 'history';
 
 notification.config({
@@ -20,18 +23,16 @@ const app = dva({
   history: useRouterHistory(createHashHistory)({ queryKey: false }),
   onError(e) { /* Global exception handler scope is dva framework only*/
     // console.error('Uncaught in dva: \n', e);
-    // if (e.response) {
-    //   const { status, statusText } = e.response;
-    //   if (status === 504) {
-    //     message.error(`Server error ${status}, ${statusText}, please try again later.`, 2);
-    //   }
-    // }
-    if (window.location.port === '9090') {
-      
+    if (e.response) {
+      const { status, statusText } = e.response;
+      message.error(`Server error ${status}, ${statusText}, please try again later.`, 2);
+      /* if (status === 504) {
+        message.error(`Server error ${status}, ${statusText}, please try again later.`, 2);
+      } */
     }
     message.error(`Uncaught in dva: \n${e}`, 2);
   },
-   onReducer: r => (state, action) => {
+  onReducer: r => (state, action) => {
     const newState = r(state, action);
     // 'login/logout' 为 models 目录文件中 effect 中的方法名
     if (action.type === 'login/loginOutSuccess') {
