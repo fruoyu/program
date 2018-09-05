@@ -109,15 +109,15 @@ class Popup extends Component {
       }
     })
     // 请求画像数据
-    this.props.dispatch({
-      type: 'popup/getFileResultApi',
-      payload: {
-        taskid: taskId,
-      },
-      callback: () => {
-        audio.src = this.props.popup.fileResult.filePath;
-      },
-    });
+    // this.props.dispatch({
+    //   type: 'popup/getFileResultApi',
+    //   payload: {
+    //     taskid: taskId,
+    //   },
+    //   callback: () => {
+    //     audio.src = this.props.popup.fileResult.filePath;
+    //   },
+    // });
   }
 
   // 渲染画像数据
@@ -593,7 +593,7 @@ class Popup extends Component {
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
-        <CommonHeader title="洞察结果" goback home record />
+        <CommonHeader title="洞察结果" goback home record photograph taskId={taskId} />
         <DanaoWrapper>
           <div id="archivesModal" className={this.state.isOriginal ? "archivesBigModal" : ""}>
             <div className="originalTextOperate">

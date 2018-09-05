@@ -15,7 +15,7 @@ class UserPortrait extends Component {
     super();
     this.state = {
       clickIndex: 0,
-      pageNum: 0,
+      pageNum: 1,
       filesList: [],
     };
     this.getQueryKeyItem = this.getQueryKeyItem.bind(this);
@@ -34,13 +34,10 @@ class UserPortrait extends Component {
       payload: {
         taskid: id,
       },
-      callback: () => {
-        // console.log(this.props.history.keyItemData);
-        setTimeout(() => {
-          $('.dashed').slideDown('slow');
-        }, 1000);
-      },
     });
+    setTimeout(() => {
+      $('.dashed').slideDown('slow');
+    }, 1000);
   }
   // 获取列表信息
   sendRequest = () => {
@@ -57,7 +54,7 @@ class UserPortrait extends Component {
           startTime: '',
           status: '',
           userName: decoded.data.userName,
-          // groupId: decoded.data.groupId,
+          groupId: decoded.data.groupId,
         },
         callback: (data) => {
           const newFilesList = [...this.state.filesList, ...data.reslist];
@@ -67,13 +64,12 @@ class UserPortrait extends Component {
         },
       });
     });
-
-  }
+  };
   // 下拉刷新
   scrollFn = (data) => {
     if (data.top === 0 && this.state.filesList.length !== 10) { // 返回到第一页信息
       this.setState({
-        pageNum: 0,
+        pageNum: 1,
       }, () => {
         ifToken(() => {
           this.sendRequest();
@@ -115,7 +111,7 @@ class UserPortrait extends Component {
       <div className="bootContent userPortrait">
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部 */}
-          <CommonHeader title="用户画像" isMain customer photograph  taskId={this.props.location.query.taskId} />
+          <CommonHeader title="用户画像" goback record home photograph taskId={this.props.location.query.taskId} />
           {/* 画像 */}
           <div id="main">
             <div className="userPortrait">
@@ -445,8 +441,8 @@ class UserPortrait extends Component {
                 共计 <span className="total-number">{filesList.length}</span> 个文件
               </div>
             </div>
-            <Scrollbars onScrollFrame={(data) => { this.scrollFn(data); }}>
-              <ul id="file-list">
+            <ul id="file-list">
+              <Scrollbars onScrollFrame={(data) => { this.scrollFn(data); }}>
                 {
                   filesList.length > 0 && filesList.map((item, index) => (
                     <li
@@ -483,8 +479,8 @@ class UserPortrait extends Component {
                     </li>
                   ))
                 }
-              </ul>
-            </Scrollbars>
+              </Scrollbars>
+            </ul>
           </div>
         </Scrollbars>
       </div>

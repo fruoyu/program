@@ -213,7 +213,7 @@ class MainWrapper extends Component {
               }));
             }}
           > <span className="iconfont icon-xiangqing1" />
-            <span className="record">数据</span>
+            <span className="record">洞察结果</span>
           </div>
         }
         {/* 修改密码弹框 */}
