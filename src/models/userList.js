@@ -13,10 +13,14 @@ export default {
       if (data.status === 100) {
         yield put({
           type: 'changeUserList',
-          payload: data.data,
+          payload: { userInfo: data.data.userInfo, userCounts: data.data.userCounts },
         });
         if (callback) callback();
       } else {
+        yield put({
+          type: 'changeUserList',
+          payload: { userInfo: data.data.result, userCounts: 0 },
+        });
         notifyError(data.message);
       }
     },
@@ -60,7 +64,7 @@ export default {
     *getConstruction({ payload, callback }, { call, put }) {
       const { data } = yield call(construction, payload);
       if (data.status === 100) {
-        if (callback) callback();
+        if (callback) callback(data.data.area);
         yield put({
           type: 'changeConstruction',
           payload: data.data,
