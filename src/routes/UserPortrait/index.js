@@ -26,15 +26,14 @@ class UserPortrait extends Component {
   }
   componentWillMount() {
     // this.sendRequest();
-    // this.getQueryKeyItem(this.props.location.query.customerId);
-    this.getQueryKeyItem();
+    this.getQueryKeyItem(this.props.location.query.customerId);
   }
   // 根据id获取画像信息
   getQueryKeyItem(id) {
     this.props.dispatch({
       type: 'history/getQueryKeyItem',
       payload: {
-        customerId: 55,
+        customerId: id,
       },
     });
     setTimeout(() => {
