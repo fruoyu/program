@@ -11,21 +11,21 @@ export async function sGetClientList(params) {
   });
 }
 export async function sAddClient(params) {
-  return request('/customer-controller/addCustomerUsingPOST', {
+  return request('/admin/customer/customeradd.json', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),
   });
 }
 export async function sUpdateClient(params) {
-  return request('/customer-controller/customerUpdateUsingPOST', {
+  return request('/admin/customer/customerupdate.json', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),
   });
 }
 export async function sDelClient(params) {
-  return request('/customer-controller/customerDeleteUsingPOST', {
+  return request('/admin/customer/customerdelete.json', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),

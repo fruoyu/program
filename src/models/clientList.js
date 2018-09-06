@@ -6,29 +6,31 @@ export default {
   state: {
     endTime: '',
     startTime: '',
+    popClientShow: false,
   },
 
 
   effects: {
     *getClientList({ payload, cb }, { call, put }) {
       const { data } = yield call(sGetClientList, payload);
-      
       // FIXME: 数据请求结果判断
-      if(data.result){
+      if(data.status===100){
         yield put({
           type: 'getFileList',
           payload: data.result
         })
         if(cb) cb(data);
+      } else if(data.status===0){
+        if(cb) cb(data);
       } else {
-        notifyError(data.errMsg)
+        notifyError(data.message)
       }
     },
     *addClient({ payload, cb }, { call, put }) {
       const { data } = yield call(sAddClient, payload);
       
       // FIXME: 数据请求结果判断
-      if(data.result){
+      if(data.status===100){
         if(cb) cb(data);
       } else {
         notifyError(data.errMsg)
@@ -38,7 +40,7 @@ export default {
       const { data } = yield call(sUpdateClient, payload);
       
       // FIXME: 数据请求结果判断
-      if(data.result){
+      if(data.status===100){
         if(cb) cb(data);
       } else {
         notifyError(data.errMsg)
@@ -46,9 +48,8 @@ export default {
     },
     *deleteClient({ payload, cb }, { call, put }) {
       const { data } = yield call(sDelClient, payload);
-      
       // FIXME: 数据请求结果判断
-      if(data.result){
+      if(data.status===100){
         if(cb) cb(data);
       } else {
         notifyError(data.errMsg)
