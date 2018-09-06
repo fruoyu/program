@@ -15,7 +15,7 @@ import {
   CommonHeader,
   CommonTable,
 } from '../../components';
-import { verify, ifToken } from '../../utils/cookie';
+import { verify } from '../../utils/cookie';
 
 const FormItem = Form.Item;
 const SubMenu = Menu.SubMenu;
@@ -91,9 +91,7 @@ class UserList extends Component {
     this.setState({
       pageNum: pageNumber,
     }, () => {
-      ifToken(() => {
-        this.sendRequest();
-      });
+      this.sendRequest();
     });
   }
   // 修改，添加信息
@@ -101,43 +99,35 @@ class UserList extends Component {
     this.props.form.validateFields((err, value) => {
       if (err) return false;
       if (this.state.addUser) { // 新增用户
-        ifToken(() => {
-          this.props.dispatch({
-            type: 'userList/addUser',
-            payload: {
-              nickName: value.nickName,
-              passWord: $.md5(value.loginPassword),
-              roleId: value.part,
-              userName: value.name,
-            },
-            callback: () => {
-              this.setState({
-                showUser: false,
-              });
-              ifToken(() => {
-                this.sendRequest();
-              });
-            },
-          });
+        this.props.dispatch({
+          type: 'userList/addUser',
+          payload: {
+            nickName: value.nickName,
+            passWord: $.md5(value.loginPassword),
+            roleId: value.part,
+            userName: value.name,
+          },
+          callback: () => {
+            this.setState({
+              showUser: false,
+            });
+            this.sendRequest();
+          },
         });
       } else { // 修改用户
-        ifToken(() => {
-          this.props.dispatch({
-            type: 'userList/updateUser',
-            payload: {
-              nickName: value.nickName,
-              roleId: value.part,
-              userName: this.state.editUserName,
-            },
-            callback: () => {
-              this.setState({
-                showUser: false,
-              });
-              ifToken(() => {
-                this.sendRequest();
-              });
-            },
-          });
+        this.props.dispatch({
+          type: 'userList/updateUser',
+          payload: {
+            nickName: value.nickName,
+            roleId: value.part,
+            userName: this.state.editUserName,
+          },
+          callback: () => {
+            this.setState({
+              showUser: false,
+            });
+            this.sendRequest();
+          },
         });
       }
     });
@@ -166,9 +156,7 @@ class UserList extends Component {
       groupc,
       pageNum: 1,
     }, () => {
-      ifToken(() => {
-        this.sendRequest();
-      });
+      this.sendRequest();
     });
   }
 
@@ -176,45 +164,43 @@ class UserList extends Component {
   getConstruction() {
     verify((err, decoded) => {
       if (err) return;
-      ifToken(() => {
-        this.props.dispatch({
-          type: 'userList/getConstruction',
-          payload: {
-            groupId: decoded.data.groupId,
-            roleId: decoded.data.roleId,
-          },
-          callback: (res) => {
-            const arr = [];
-            // console.log(res);
-            res.map((item, index) => {
-              arr[index] = {};
-              arr[index].value = res[index].areaId;
-              arr[index].label = res[index].areaName;
-              if (item.class.length > 0) {
-                arr[index].children = [];
-                item.class.map((cl, ind) => {
-                  arr[index].children[ind] = {};
-                  arr[index].children[ind].value = res[index].class[ind].classId;
-                  arr[index].children[ind].label = res[index].class[ind].className;
-                  if (cl.group.length > 0) {
-                    arr[index].children[ind].children = [];
-                    cl.group.map((gr, id) => {
-                      arr[index].children[ind].children[id] = {};
-                      arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
-                      arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
-                      return arr;
-                    });
-                  }
-                  return arr;
-                });
-              }
-              return arr;
-            });
-            this.setState({
-              options: arr,
-            });
-          },
-        });
+      this.props.dispatch({
+        type: 'userList/getConstruction',
+        payload: {
+          groupId: decoded.data.groupId,
+          roleId: decoded.data.roleId,
+        },
+        callback: (res) => {
+          const arr = [];
+          // console.log(res);
+          res.map((item, index) => {
+            arr[index] = {};
+            arr[index].value = res[index].areaId;
+            arr[index].label = res[index].areaName;
+            if (item.class.length > 0) {
+              arr[index].children = [];
+              item.class.map((cl, ind) => {
+                arr[index].children[ind] = {};
+                arr[index].children[ind].value = res[index].class[ind].classId;
+                arr[index].children[ind].label = res[index].class[ind].className;
+                if (cl.group.length > 0) {
+                  arr[index].children[ind].children = [];
+                  cl.group.map((gr, id) => {
+                    arr[index].children[ind].children[id] = {};
+                    arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
+                    arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
+                    return arr;
+                  });
+                }
+                return arr;
+              });
+            }
+            return arr;
+          });
+          this.setState({
+            options: arr,
+          });
+        },
       });
     });
   }
@@ -239,17 +225,13 @@ class UserList extends Component {
     confirm({
       title: '确定删除该用户吗?',
       onOk: () => {
-        ifToken(() => {
-          this.props.dispatch({
-            type: 'userList/deleteUser',
-            payload: { userName },
-            callback: () => {
-              ifToken(() => {
-                this.sendRequest();
-              });
-              message.success('删除成功', 1);
-            },
-          });
+        this.props.dispatch({
+          type: 'userList/deleteUser',
+          payload: { userName },
+          callback: () => {
+            this.sendRequest();
+            message.success('删除成功', 1);
+          },
         });
       },
       onCancel() {
@@ -283,24 +265,20 @@ class UserList extends Component {
         message.error('两次输入密码不一致!', 1);
         return false;
       }
-      ifToken(() => {
-        this.props.dispatch({
-          type: 'userList/revisePwd',
-          payload: {
-            passwrord: $.md5(value.newPassword),
-            userName: this.state.ReviseName,
-          },
-          callback: () => {
-            this.setState({
-              isRevisePwd: false,
-            }, () => {
-              message.success('密码重置成功!', 1);
-              ifToken(() => {
-                this.sendRequest();
-              });
-            });
-          },
-        });
+      this.props.dispatch({
+        type: 'userList/revisePwd',
+        payload: {
+          passwrord: $.md5(value.newPassword),
+          userName: this.state.ReviseName,
+        },
+        callback: () => {
+          this.setState({
+            isRevisePwd: false,
+          }, () => {
+            message.success('密码重置成功!', 1);
+            this.sendRequest();
+          });
+        },
       });
     });
   }
@@ -358,72 +336,6 @@ class UserList extends Component {
       constructionList,
     } = this.props.userList;
     const tabHead = ['用户名称', '所属角色', '用户昵称', '最后登录IP', '最后登录时间', '创建时间'];
-    /* const menu = (
-      <Menu
-        className="composition-down-load"
-        onClick={(item) => {
-          console.log(item);
-          /!*const key = item.keyPath;
-          const len = key.length;
-          let str = '';
-          let area = '';
-          let classc = '';
-          let groupc = '';
-          if (len === 1) {
-            str = `${constructionList[key[0]].areaName}`;
-            area = constructionList[key[0]].areaId;
-          } else if (len === 2) {
-            str = `${constructionList[key[1]].areaName}/${constructionList[key[1]].class[key[0]].className}`;
-            area = constructionList[key[1]].areaId;
-            classc = constructionList[key[1]].class[key[0]].classId;
-          } else if (len === 3) {
-            str = `${constructionList[key[2]].areaName}/${constructionList[key[2]].class[key[1]].className}/${constructionList[key[2]].class[key[1]].group[key[0]].groupName}`;
-            area = constructionList[key[2]].areaId;
-            classc = constructionList[key[2]].class[key[1]].classId;
-            groupc = constructionList[key[2]].class[key[1]].group[key[0]].groupId;
-          }
-          this.setState({
-            composition: str,
-            area,
-            classc,
-            groupc,
-            pageNum: 1,
-          }, () => {
-            ifToken(() => {
-              this.sendRequest();
-            });
-          });*!/
-        }}
-      >
-        {
-          constructionList && constructionList.map((item) => {
-            return (
-             !item.class.length ? <Menu.Item key={item.areaName + '-' + item.areaId}>{item.areaName}</Menu.Item> :
-             <SubMenu title={item.areaName} key={item.areaName}>
-               {
-                 item.class.map((content) => {
-                   return (
-                     !content.group.length ? <Menu.Item key={content.className}>
-                       {content.className}</Menu.Item> : (
-                         <SubMenu title={content.className} key={content.className}>
-                           {
-                             content.group.map((title) => {
-                               return (
-                                 <Menu.Item key={title.groupName}>{title.groupName}</Menu.Item>
-                               );
-                             })
-                           }
-                         </SubMenu>
-                     )
-                   );
-                 })
-               }
-             </SubMenu>
-            );
-          })
-        }
-      </Menu>
-    );*/
     const generation = (
       <Menu
         className="composition-down-load"
@@ -433,9 +345,7 @@ class UserList extends Component {
             pageNum: 1,
             generation: this.changeGeneration(item.key),
           }, () => {
-            ifToken(() => {
-              this.sendRequest();
-            });
+            this.sendRequest();
           });
         }}
       >
@@ -474,9 +384,7 @@ class UserList extends Component {
                       this.setState({
                         pageNum: 1,
                       }, () => {
-                        ifToken(() => {
-                          this.sendRequest();
-                        });
+                        this.sendRequest();
                       });
                     }}
                   />

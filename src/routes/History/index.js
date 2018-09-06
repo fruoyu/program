@@ -74,7 +74,7 @@ class History extends Component {
   }
   componentWillMount() {
     this.sendRequest();
-    // this.getName();
+    this.getName();
     this.getConstruction();
   }
   // 日历操作
@@ -174,11 +174,14 @@ class History extends Component {
   }
   // 获取模糊查询name列表
   getName = () => {
-    this.props.dispatch({
-      type: 'history/getName',
-      payload: {
-        name: this.state.name,
-      },
+    verify((err, decoded) => {
+      if (err) return;
+      this.props.dispatch({
+        type: 'history/getName',
+        payload: {
+          userName: decoded.data.userName,
+        },
+      });
     });
   }
   // document 点击操作
@@ -368,7 +371,7 @@ class History extends Component {
                               <span
                                 key={index} className="list-item"
                                 onClick={() => {
-                                  this.upDataState({ name: item }, () => {
+                                  this.upDataState({ name: item.username }, () => {
                                     this.setState({
                                       pageNum: 1, // 当前页数
                                     }, () => {
@@ -376,7 +379,7 @@ class History extends Component {
                                     });
                                   });
                                 }}
-                              >{item}</span>
+                              >{item.username}</span>
                             );
                           })
                         }
