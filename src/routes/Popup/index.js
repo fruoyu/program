@@ -14,7 +14,10 @@ import './popup.less';
 import '../../assets/iconfont/iconfont.css';
 // import '../../plugs/audio/audio.js';
 import './audio.less';
-import {ifToken} from "../../utils/cookie";
+import {
+  ifToken,
+  verify,
+} from "../../utils/cookie";
 
 class Popup extends Component {
   constructor(props) {
@@ -69,6 +72,8 @@ class Popup extends Component {
       currentMusic: {},
       isPlayed: false,
       scrollTop: 100,
+      pageNum: 1,
+      customerId: '',
     };
     this.clickChangeTime = this.clickChangeTime.bind(this);
     this.slideChangeTime = this.slideChangeTime.bind(this);
@@ -95,29 +100,17 @@ class Popup extends Component {
         // playedLeft: this.refs.played.getBoundingClientRect().left,
       });
     });
-    // 请求已识别文件
+    this.sendRequest();
+    // 请求画像数据
     this.props.dispatch({
-      type: 'popup/getFilesListByid',
+      type: 'popup/getFileResultApi',
       payload: {
         taskid: taskId,
       },
       callback: () => {
-        let fileScroll = this.refs['filelist' + taskId].offsetTop;
-        $('#file-list>div>div').animate({
-          scrollTop: fileScroll + 'px',
-        }, 500)
-      }
-    })
-    // 请求画像数据
-    // this.props.dispatch({
-    //   type: 'popup/getFileResultApi',
-    //   payload: {
-    //     taskid: taskId,
-    //   },
-    //   callback: () => {
-    //     audio.src = this.props.popup.fileResult.filePath;
-    //   },
-    // });
+        audio.src = this.props.popup.fileResult.filePath;
+      },
+    });
   }
 
   // 渲染画像数据
@@ -129,6 +122,7 @@ class Popup extends Component {
       } = {},
     } = this.props.popup;
     const taskId = this.props.location.query.taskId;
+    const customerId = this.props.location.query.customerId;
     return (
       <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')} ref='insightTermWrap'>
         <Scrollbars>
@@ -183,12 +177,20 @@ class Popup extends Component {
                                   type: 'popup/KeyEdit',
                                   payload: {
                                     context: e.target.value,
-                                    taskId: taskId,
-                                    optype: 'add',
+                                    taskid: taskId + '',
+                                    optype: 'edit',
                                     type: item,
+                                    creat_time: '',
+                                    customId: customerId,
+                                    status: '',
                                   },
-                                  callback: (data) => {
-                                    console.log(data)
+                                  callback: () => {
+                                    this.props.dispatch({
+                                      type: 'popup/getFileResultApi',
+                                      payload: {
+                                        taskid: taskId,
+                                      },
+                                    });
                                   },
                                 });
                               });
@@ -208,9 +210,7 @@ class Popup extends Component {
                       this.setState({
                         isInputEdit: false,
                       }, () => {
-                        console.log(this.refs)
                         const input = this.refs['input' + index];
-                        console.log(input)
                         input.focus();
                       });
                     }}
@@ -245,7 +245,6 @@ class Popup extends Component {
                           className={labelItem.status == 'true' ? 'sentenceDel' : 'sentenceRight'}
                           data-name={0}
                           onClick={() => {
-                            let originalScroll = this.refs['originalText' + parseInt(labelItem.time / 1000)].offsetTop;
                             ifToken(() => {
                               this.props.dispatch({
                                 type: 'popup/editItem',
@@ -263,6 +262,7 @@ class Popup extends Component {
                                     });
                                   });
                                   if (this.state.isOriginal) {
+                                    let originalScroll = this.refs['originalText' + parseInt(labelItem.time / 1000)].offsetTop;
                                     ifToken(() => {
                                       this.props.dispatch({
                                         type: 'popup/getOriginalList',
@@ -283,7 +283,7 @@ class Popup extends Component {
                           }}
                         >
                           {
-                             <i className={['iconfont', labelItem.status == 'true' ? 'icon-cuowu' : 'icon-gou1'].join(' ')}></i>
+                            <i className={['iconfont', labelItem.status == 'true' ? 'icon-cuowu' : 'icon-gou1'].join(' ')}></i>
                           }
                         </div>
                       </div>
@@ -585,11 +585,54 @@ class Popup extends Component {
     )
   }
 
+  sendRequest = () => {
+    // 请求已识别文件
+    verify((err, decoded) => {
+      this.props.dispatch({
+        type: 'popup/getFilesListByid',
+        payload: {
+          pageSize: 10,
+          pageNum: this.state.pageNum,
+          name: '',
+          status: '',
+          startTime: '',
+          endTime: '',
+          fileName: '',
+          userName: decoded.data.userName,
+          groupId: '',
+        },
+      });
+    });
+  }
+
+  // 已识别文件下拉刷新
+  scrollFn = (data) => {
+    if (data.top === 0 && this.state.filesList.length !== 10) { // 返回到第一页信息
+      this.setState({
+        pageNum: 1,
+      }, () => {
+        ifToken(() => {
+          this.sendRequest();
+        });
+      });
+    } else if (data.top === 1) {
+      this.setState({
+        pageNum: this.state.pageNum + 1,
+      }, () => {
+        ifToken(() => {
+          this.sendRequest();
+        });
+      });
+    }
+  }
+
   render() {
     let {
       filesList,
+      fileTotal,
     } = this.props.popup
     const taskId = this.props.location.query.taskId;
+    const customerId = this.props.location.query.customerId;
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
@@ -616,7 +659,6 @@ class Popup extends Component {
                         taskid: taskId
                       },
                       callback: (data) => {
-                        console.log(this.refs.played.getBoundingClientRect().left)
                         this.setState({
                           playedLeft:this.refs.played.getBoundingClientRect().left,
                         }, () => {
@@ -658,20 +700,28 @@ class Popup extends Component {
             </div>
             <div id="search">
               <div className="total">
-                共计 <span className="total-number">{filesList.length}</span> 个文件
+                共计 <span className="total-number">{fileTotal}</span> 个文件
               </div>
             </div>
             <ul id="file-list">
-              <Scrollbars>
+              <Scrollbars
+                onScrollFrame={(data) => {
+                  this.scrollFn(data)
+                }}
+              >
                 {
                   filesList.map((item, index) => (
                     <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index} ref={'filelist' + item.id}
                       onClick={() => {
                         ifToken(() => {
+                          this.setState({
+                            customerId: item.id,
+                          });
                           this.props.dispatch(routerRedux.push({
                             pathname: '/popup',
                             query: {
                               taskId: item.id,
+                              customerId: item.customerId,
                             },
                           }));
                           this.props.dispatch({
@@ -686,9 +736,6 @@ class Popup extends Component {
                                   payload: {
                                     taskid: item.id
                                   },
-                                  callback: (data) => {
-
-                                  }
                                 })
                               });
                             }
