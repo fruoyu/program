@@ -8,7 +8,7 @@ import { CommonHeader } from '../../components';
 import DatePick from './DatePicker';
 import DataList from './DataList';
 import PopClient from './popClient';
-import { verify, ifToken } from '../../utils/cookie';
+import { verify } from '../../utils/cookie';
 
 import './clientList.less';
 import '../../assets/iconfont/iconfont.css';
@@ -163,45 +163,43 @@ class ClientList extends Component {
   getConstruction() {
     verify((err, decoded) => {
       if (err) return;
-      ifToken(() => {
-        this.props.dispatch({
-          type: 'userList/getConstruction',
-          payload: {
-            groupId: decoded.data.groupId,
-            roleId: decoded.data.roleId,
-          },
-          callback: (res) => {
-            const arr = [];
-            // console.log(res);
-            res.map((item, index) => {
-              arr[index] = {};
-              arr[index].value = res[index].areaId;
-              arr[index].label = res[index].areaName;
-              if (item.class.length > 0) {
-                arr[index].children = [];
-                item.class.map((cl, ind) => {
-                  arr[index].children[ind] = {};
-                  arr[index].children[ind].value = res[index].class[ind].classId;
-                  arr[index].children[ind].label = res[index].class[ind].className;
-                  if (cl.group.length > 0) {
-                    arr[index].children[ind].children = [];
-                    cl.group.map((gr, id) => {
-                      arr[index].children[ind].children[id] = {};
-                      arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
-                      arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
-                      return arr;
-                    });
-                  }
-                  return arr;
-                });
-              }
-              return arr;
-            });
-            this.setState({
-              options: arr,
-            });
-          },
-        });
+      this.props.dispatch({
+        type: 'userList/getConstruction',
+        payload: {
+          groupId: decoded.data.groupId,
+          roleId: decoded.data.roleId,
+        },
+        callback: (res) => {
+          const arr = [];
+          // console.log(res);
+          res.map((item, index) => {
+            arr[index] = {};
+            arr[index].value = res[index].areaId;
+            arr[index].label = res[index].areaName;
+            if (item.class.length > 0) {
+              arr[index].children = [];
+              item.class.map((cl, ind) => {
+                arr[index].children[ind] = {};
+                arr[index].children[ind].value = res[index].class[ind].classId;
+                arr[index].children[ind].label = res[index].class[ind].className;
+                if (cl.group.length > 0) {
+                  arr[index].children[ind].children = [];
+                  cl.group.map((gr, id) => {
+                    arr[index].children[ind].children[id] = {};
+                    arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
+                    arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
+                    return arr;
+                  });
+                }
+                return arr;
+              });
+            }
+            return arr;
+          });
+          this.setState({
+            options: arr,
+          });
+        },
       });
     });
   }

@@ -1,5 +1,6 @@
 import { notifyError, notifySuccess } from '../services/app.js';
 import { getFilesList, getName, getSingleData, getQueryKeyItem } from '../services/history';
+import { ifToken } from '../utils/cookie';
 
 export default {
   namespace: 'history',
@@ -11,6 +12,7 @@ export default {
   effects: {
     /* 录音列表 */
     * getFilesList({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(getFilesList, payload);
       if (data.data) {
         yield put({
@@ -24,6 +26,7 @@ export default {
     },
     /* 模糊查询用户列表 */
     * getName({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(getName, payload);
       if (data.result) {
         yield put({
@@ -45,6 +48,7 @@ export default {
     },
     /* 单条录音请求 */
     * getSingleData({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(getSingleData, payload);
       if (data.result) {
         yield put({
@@ -58,6 +62,7 @@ export default {
     },
     /* 单条画像信息请求*/
     * getQueryKeyItem({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(getQueryKeyItem, payload);
       if (data.status === 0) {
         yield put({
