@@ -148,6 +148,7 @@ class ClientList extends Component {
   onChangeFn = (date, dateString) => {
     this.setState({
       endTime: dateString[0],
+      pageNum: 1,
       startTime: dateString[1]
     },()=>{
       this.onGetClientList();
@@ -219,7 +220,9 @@ class ClientList extends Component {
   }
 
   onSearchClick = (ev) => {
-    this.onGetClientList();
+    this.setState({pageNum: 1},()=>{
+      this.onGetClientList();
+    })
   }
 
   showPopWin = () => {
@@ -245,9 +248,7 @@ class ClientList extends Component {
         customerId: key
       },
       cb: (data)=>{
-        const dataSource = [...this.state.dataSource];
-        let { total } = this.state;
-        this.setState({ total: total!==0 && total--, dataSource: dataSource.filter(item => item.key !== key) });
+        this.onGetClientList();
       }
     })
   }
