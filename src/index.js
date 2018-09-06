@@ -30,9 +30,7 @@ const app = dva({
         message.error(`Server error ${status}, ${statusText}, please try again later.`, 2);
       } */
     }
-    /* if (window.location.port === '9090') {
-      message.error(`Uncaught in dva: \n${e}`, 2);
-    }*/
+    message.error(`Uncaught in dva: \n${e}`, 2);
   },
   onReducer: r => (state, action) => {
     const newState = r(state, action);

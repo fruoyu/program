@@ -9,7 +9,7 @@ const DataPicker = (props) => {
       <div className="form-group d_t_dater">
         <div className="col-sm-12">
           <div className="input-group">
-            <RangePicker onChange={onChangeFn} />
+            <RangePicker allowClear="true" onChange={onChangeFn} />
           </div>
         </div>
       </div>
