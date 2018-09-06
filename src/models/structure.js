@@ -1,5 +1,6 @@
 import { notifyError, notifySuccess } from '../services/app.js';
 import { changeAssignRolesList, deleteAssignRoles, changeDepartmentName, searchUsers, distributionUsers, addStructure, queryAreaClassCons } from '../services/structure';
+import {ifToken} from "../utils/cookie";
 
 export default {
   namespace: 'structure',
@@ -10,6 +11,7 @@ export default {
   },
   effects: {
     *getAssignRolesList({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(changeAssignRolesList, payload);
       if (data.status === 100) {
         yield put({
@@ -22,6 +24,7 @@ export default {
       }
     },
     *deleteAssignRoles({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(deleteAssignRoles, payload);
       if (data.status === 100) {
         callback && callback()
@@ -30,6 +33,7 @@ export default {
       }
     },
     *changeDepartmentName({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(changeDepartmentName, payload);
       if (data.status === 100) {
         callback && callback(data);
@@ -38,6 +42,7 @@ export default {
       }
     },
     *searchUsers({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(searchUsers, payload);
       if (data.status === 100) {
         if (payload.whetherBind == '0') {
@@ -57,6 +62,7 @@ export default {
       }
     },
     *distributionUsers({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(distributionUsers, payload);
       if (data.status === 100) {
         callback && callback();
@@ -65,6 +71,7 @@ export default {
       }
     },
     *addStructure({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(addStructure, payload);
       if (data.status === 100) {
         if (callback) callback(data);
@@ -73,6 +80,7 @@ export default {
       }
     },
     *queryAreaClassCons({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(queryAreaClassCons);
       if (data.status === 100) {
         yield put({

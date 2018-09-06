@@ -1,5 +1,6 @@
 import { notifyError, notifySuccess } from '../services/app.js';
 import { changeOriginalList, changeFilesListByid, changeFileResultApi, editItemLeft, editItem, KeyEdit } from '../services/popup';
+import {ifToken} from "../utils/cookie";
 
 export default {
   namespace: 'popup',
@@ -321,6 +322,7 @@ export default {
   },
   effects: {
     *getOriginalList({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(changeOriginalList, payload);
       if (data.status == 0) {
         yield put({
@@ -333,6 +335,7 @@ export default {
       }
     },
     *getFilesListByid({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(changeFilesListByid, payload);
       if (data.status == 0) {
         yield put({
@@ -345,6 +348,7 @@ export default {
       }
     },
     *getFileResultApi({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(changeFileResultApi, payload);
       if (data.status == 0) {
         yield put({
@@ -357,6 +361,7 @@ export default {
       }
     },
     *editItemLeft({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(editItemLeft, payload);
       if (data.status == 0) {
         callback && callback(data);
@@ -365,6 +370,7 @@ export default {
       }
     },
     *editItem({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(editItem, payload);
       if (data.status == 0) {
         callback && callback(data);
@@ -373,6 +379,7 @@ export default {
       }
     },
     *KeyEdit({ payload, callback, }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(KeyEdit, payload);
       if (data.status != 0) {
         notifyError(data.message);

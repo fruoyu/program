@@ -9,7 +9,7 @@ export async function getFilesList(params) {
   });
 }
 export async function getName(params) {
-  return request('/user/getName', {
+  return request('/openApi/voiceQuality/getNames', {
     method: 'post',
     headers: headersPost,
     body: JSON.stringify(params),
