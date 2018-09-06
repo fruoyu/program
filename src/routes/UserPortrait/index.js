@@ -7,8 +7,7 @@ import './userPortrait.less';
 import {
   CommonHeader,
 } from '../../components';
-import {ifToken, verify} from '../../utils/cookie';
-
+import { verify } from '../../utils/cookie';
 
 class UserPortrait extends Component {
   constructor() {
@@ -72,18 +71,14 @@ class UserPortrait extends Component {
       this.setState({
         pageNum: 1,
       }, () => {
-        ifToken(() => {
-          this.sendRequest();
-        });
+        this.sendRequest();
       });
     } else if (data.top === 1) {
       this.setState({
         pageNum: this.state.pageNum + 1,
       });
       setTimeout(() => {
-        ifToken(() => {
-          this.sendRequest();
-        });
+        this.sendRequest();
       }, 1000);
     }
   }

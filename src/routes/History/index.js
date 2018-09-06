@@ -13,7 +13,7 @@ import {
   CommonHeader,
   CommonTable,
 } from '../../components';
-import { ifToken, verify } from '../../utils/cookie';
+import { verify } from '../../utils/cookie';
 import PolyDialog from "../../components/PolyDialog";
 
 const SubMenu = Menu.SubMenu;
@@ -99,45 +99,43 @@ class History extends Component {
   getConstruction() {
     verify((err, decoded) => {
       if (err) return;
-      ifToken(() => {
-        this.props.dispatch({
-          type: 'userList/getConstruction',
-          payload: {
-            groupId: decoded.data.groupId,
-            roleId: decoded.data.roleId,
-          },
-          callback: (res) => {
-            const arr = [];
-            // console.log(res);
-            res.map((item, index) => {
-              arr[index] = {};
-              arr[index].value = res[index].areaId;
-              arr[index].label = res[index].areaName;
-              if (item.class.length > 0) {
-                arr[index].children = [];
-                item.class.map((cl, ind) => {
-                  arr[index].children[ind] = {};
-                  arr[index].children[ind].value = res[index].class[ind].classId;
-                  arr[index].children[ind].label = res[index].class[ind].className;
-                  if (cl.group.length > 0) {
-                    arr[index].children[ind].children = [];
-                    cl.group.map((gr, id) => {
-                      arr[index].children[ind].children[id] = {};
-                      arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
-                      arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
-                      return arr;
-                    });
-                  }
-                  return arr;
-                });
-              }
-              return arr;
-            });
-            this.setState({
-              options: arr,
-            });
-          },
-        });
+      this.props.dispatch({
+        type: 'userList/getConstruction',
+        payload: {
+          groupId: decoded.data.groupId,
+          roleId: decoded.data.roleId,
+        },
+        callback: (res) => {
+          const arr = [];
+          // console.log(res);
+          res.map((item, index) => {
+            arr[index] = {};
+            arr[index].value = res[index].areaId;
+            arr[index].label = res[index].areaName;
+            if (item.class.length > 0) {
+              arr[index].children = [];
+              item.class.map((cl, ind) => {
+                arr[index].children[ind] = {};
+                arr[index].children[ind].value = res[index].class[ind].classId;
+                arr[index].children[ind].label = res[index].class[ind].className;
+                if (cl.group.length > 0) {
+                  arr[index].children[ind].children = [];
+                  cl.group.map((gr, id) => {
+                    arr[index].children[ind].children[id] = {};
+                    arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
+                    arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
+                    return arr;
+                  });
+                }
+                return arr;
+              });
+            }
+            return arr;
+          });
+          this.setState({
+            options: arr,
+          });
+        },
       });
     });
   }
@@ -166,9 +164,7 @@ class History extends Component {
       groupc,
       pageNum: 1,
     }, () => {
-      ifToken(() => {
-        this.sendRequest();
-      });
+      this.sendRequest();
     });
   }
   // 列表中完成状态
@@ -234,18 +230,14 @@ class History extends Component {
     confirm({
       title: '确定删除该条录音吗?',
       onOk: () => {
-        ifToken(() => {
-          /* this.props.dispatch({
+        /* this.props.dispatch({
             type: 'userList/deleteUser',
             payload: { userName },
             callback: () => {
-              ifToken(() => {
-                this.sendRequest();
-              });
+             this.sendRequest();
               message.success('删除成功', 1);
             },
           });*/
-        });
       },
       onCancel() {
       },
@@ -328,71 +320,6 @@ class History extends Component {
     } = this.props.userList;
     const tabHead = ['录音名称', '销售人员', '结构', '任务状态', '上传时间', '洞察项'];
     const { getFieldDecorator } = this.props.form;
-    /*const menu = (
-      <Menu
-        className="composition-down-load"
-        onClick={(item) => {
-          const key = item.keyPath;
-          const len = key.length;
-          let str = '';
-          let area = '';
-          let classc = '';
-          let groupc = '';
-          if (len === 1) {
-            str = `${constructionList[key[0]].areaName}`;
-            area = constructionList[key[0]].areaId;
-          } else if (len === 2) {
-            str = `${constructionList[key[1]].areaName}/${constructionList[key[1]].class[key[0]].className}`;
-            area = constructionList[key[1]].areaId;
-            classc = constructionList[key[1]].class[key[0]].classId;
-          } else if (len === 3) {
-            str = `${constructionList[key[2]].areaName}/${constructionList[key[2]].class[key[1]].className}/${constructionList[key[2]].class[key[1]].group[key[0]].groupName}`;
-            area = constructionList[key[2]].areaId;
-            classc = constructionList[key[2]].class[key[1]].classId;
-            groupc = constructionList[key[2]].class[key[1]].group[key[0]].groupId;
-          }
-          this.setState({
-            composition: str,
-            area,
-            classc,
-            groupc,
-            pageNum: 1,
-          }, () => {
-            ifToken(() => {
-              this.sendRequest();
-            });
-          });
-        }}
-      >
-        {
-          constructionList && constructionList.map((item, areaInd) => {
-            return (
-              !item.class.length ? <Menu.Item key={areaInd}>{item.areaName}</Menu.Item> :
-                <SubMenu title={item.areaName} key={areaInd}>
-                  {
-                    item.class.map((content, classInd) => {
-                      return (
-                        !content.group.length ? <Menu.Item key={classInd}>
-                          {content.className}</Menu.Item> : (
-                          <SubMenu title={content.className} key={classInd}>
-                            {
-                              content.group.map((title, groupInd) => {
-                                return (
-                                  <Menu.Item key={groupInd}>{title.groupName}</Menu.Item>
-                                );
-                              })
-                            }
-                          </SubMenu>
-                        )
-                      );
-                    })
-                  }
-                </SubMenu>
-            );
-          })
-        }
-      </Menu>
-    );*/
     return (
       <div className="bootContent historyContent historyIcon" onClick={(e) => { this.documentClick(e); }}>
         <Scrollbars style={{ flex: 1 }} autoHide>
@@ -419,9 +346,7 @@ class History extends Component {
                       this.setState({
                         pageNum: 1,
                       }, () => {
-                        ifToken(() => {
-                          this.sendRequest();
-                        });
+                        this.sendRequest();
                       });
                     }}
                   />
@@ -447,9 +372,7 @@ class History extends Component {
                                     this.setState({
                                       pageNum: 1, // 当前页数
                                     }, () => {
-                                      ifToken(() => {
-                                        this.sendRequest();
-                                      });
+                                      this.sendRequest();
                                     });
                                   });
                                 }}
@@ -495,9 +418,7 @@ class History extends Component {
                                     status: item.retCode,
                                     pageNum: 1, // 当前页数
                                   }, () => {
-                                    ifToken(() => {
-                                      this.sendRequest();
-                                    });
+                                    this.sendRequest();
                                   });
                                 }}
                               >{item.status}</span>

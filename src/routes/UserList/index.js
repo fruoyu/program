@@ -83,9 +83,7 @@ class UserList extends Component {
       startTime: dateString[0], // 开始时间
       endTime: dateString[1], // 结束时间
     }, () => {
-      ifToken(() => {
-        this.sendRequest();
-      });
+      this.sendRequest();
     });
   }
   // 分页器改变时接口操作

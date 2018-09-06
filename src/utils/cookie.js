@@ -34,14 +34,15 @@ const verify = (ck) => {
 };
 // 判断token是否过期
 const ifToken = (ck) => {
+  let bool = true;
   verify((err) => {
     if (err) { // cookie 超时了;
       // 登出删除token
       delCookie('token');
       location.href = '/';
-    } else {
-      ck();
+      bool = false;
     }
   });
+  return bool;
 }
 export { getCookie, setCookie, delCookie, sign, verify, ifToken };

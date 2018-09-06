@@ -13,7 +13,6 @@ import {
 import '../../assets/iconfont/iconfont.css';
 import './structure.less';
 import {
-  ifToken,
   verify,
 } from '../../utils/cookie';
 
@@ -89,9 +88,7 @@ class Structure extends Component {
       startTime: dateString[0], // 开始时间
       endTime: dateString[1], // 结束时间
     }, () => {
-      ifToken(() => {
-        this.sendRequest();
-      });
+      this.sendRequest();
     });
   }
   // 获取添加内区班二级联动
@@ -105,20 +102,16 @@ class Structure extends Component {
     confirm({
       title: '确定删除吗?',
       onOk: () => {
-        ifToken(() => {
-          this.props.dispatch({
-            type: 'structure/deleteAssignRoles',
-            payload: {
-              departmentId: payloadId,
-              departmentLevel: payloadLevel,
-            },
-            callback: () => {
-              ifToken(() => {
-                this.sendRequest();
-              });
-              message.success('删除成功', 1);
-            },
-          });
+        this.props.dispatch({
+          type: 'structure/deleteAssignRoles',
+          payload: {
+            departmentId: payloadId,
+            departmentLevel: payloadLevel,
+          },
+          callback: () => {
+            this.sendRequest();
+            message.success('删除成功', 1);
+          },
         });
       },
       onCancel() {
@@ -132,20 +125,16 @@ class Structure extends Component {
       changeDepartment: false,
       changeDepartmentName: '',
     });
-    ifToken(() => {
-      this.props.dispatch({
-        type: 'structure/changeDepartmentName',
-        payload: {
-          departmentId: `${this.state.departmentId}`,
-          departmentLevel: `${this.state.departmentLevel}`,
-          modifyDepartmentName: this.state.changeDepartmentName,
-        },
-        callback: () => {
-          ifToken(() => {
-            this.sendRequest();
-          });
-        },
-      });
+    this.props.dispatch({
+      type: 'structure/changeDepartmentName',
+      payload: {
+        departmentId: `${this.state.departmentId}`,
+        departmentLevel: `${this.state.departmentLevel}`,
+        modifyDepartmentName: this.state.changeDepartmentName,
+      },
+      callback: () => {
+        this.sendRequest();
+      },
     });
   }
 
@@ -154,9 +143,7 @@ class Structure extends Component {
       areaName: content,
       departmentType: id,
     }, () => {
-      ifToken(() => {
-        this.sendRequest();
-      });
+      this.sendRequest();
     });
   }
   /* 结构转换*/
@@ -173,26 +160,22 @@ class Structure extends Component {
           value.groupName ? value.groupName : null
         )
       );
-      ifToken(() => {
-        this.props.dispatch({
-          type: 'structure/addStructure',
-          payload: {
-            areaId: value.areaId ? value.areaId : '',
-            classId: value.classId ? value.classId : '',
-            departmentName: InputContent,
-            departmentType: value.departmentType,
-          },
-          callback: () => {
-            this.setState({
-              addStructure: false,
-            }, () => {
-              message.success('添加成功!', 1);
-              ifToken(() => {
-                this.sendRequest();
-              });
-            });
-          },
-        });
+      this.props.dispatch({
+        type: 'structure/addStructure',
+        payload: {
+          areaId: value.areaId ? value.areaId : '',
+          classId: value.classId ? value.classId : '',
+          departmentName: InputContent,
+          departmentType: value.departmentType,
+        },
+        callback: () => {
+          this.setState({
+            addStructure: false,
+          }, () => {
+            message.success('添加成功!', 1);
+            this.sendRequest();
+          });
+        },
       });
     });
   }
@@ -217,9 +200,7 @@ class Structure extends Component {
     this.setState({
       whatPage: page,
     }, () => {
-      ifToken(() => {
-        this.sendRequest();
-      });
+      this.sendRequest();
     });
   }
   // 查询请求
@@ -243,44 +224,38 @@ class Structure extends Component {
   searchUsers = () => {
     verify((err, decoded) => {
       if (err) return;
-      ifToken(() => {
-        this.props.dispatch({
-          type: 'structure/searchUsers',
-          payload: {
-            roleTypeList: [decoded.data.roleId == 1 ? '' : decoded.data.roleId],
-            whetherBind: '0',
-          },
-        });
+      this.props.dispatch({
+        type: 'structure/searchUsers',
+        payload: {
+          roleTypeList: [decoded.data.roleId == 1 ? '' : decoded.data.roleId],
+          whetherBind: '0',
+        },
       });
-      ifToken(() => {
-        this.props.dispatch({
-          type: 'structure/searchUsers',
-          payload: {
-            roleTypeList: [decoded.data.roleId == 1 ? '' : decoded.data.roleId],
-            whetherBind: '1',
-          },
-        });
+      this.props.dispatch({
+        type: 'structure/searchUsers',
+        payload: {
+          roleTypeList: [decoded.data.roleId == 1 ? '' : decoded.data.roleId],
+          whetherBind: '1',
+        },
       });
     });
   }
 
   // 分配用户确定事件
   preUsers = () => {
-    ifToken(() => {
-      this.props.dispatch({
-        type: 'structure/distributionUsers',
-        payload: {
-          groupId: this.state.groupId,
-          userIdList: this.props.structure.notOwnedUsers.map(item => {
-            return item.id + '';
-          }),
-        },
-        callback: () => {
-          this.setState({
-            assigningUsers: false,
-          });
-        },
-      });
+    this.props.dispatch({
+      type: 'structure/distributionUsers',
+      payload: {
+        groupId: this.state.groupId,
+        userIdList: this.props.structure.notOwnedUsers.map(item => {
+          return item.id + '';
+        }),
+      },
+      callback: () => {
+        this.setState({
+          assigningUsers: false,
+        });
+      },
     });
   }
 
@@ -303,9 +278,7 @@ class Structure extends Component {
             departmentType: item.key,
             generation: this.changeGeneration(item.key),
           }, () => {
-            ifToken(() => {
-              this.sendRequest();
-            });
+            this.sendRequest();
           });
         }}
       >
@@ -344,9 +317,7 @@ class Structure extends Component {
                       this.setState({
                         whatPage: 1,
                       }, () => {
-                        ifToken(() => {
-                          this.sendRequest();
-                        });
+                        this.sendRequest();
                       });
                     }}
                   />
@@ -524,14 +495,12 @@ class Structure extends Component {
                   <div>
                     <p
                       onClick={() => {
-                        ifToken(() => {
-                          this.props.dispatch({
-                            type: 'structure/saveOwnedUsers',
-                            payload: {
-                              ownedUsers: [...notOwnedUsers, ...ownedUsers],
-                              notOwnedUsers: [],
-                            },
-                          });
+                        this.props.dispatch({
+                          type: 'structure/saveOwnedUsers',
+                          payload: {
+                            ownedUsers: [...notOwnedUsers, ...ownedUsers],
+                            notOwnedUsers: [],
+                          },
                         });
                       }}
                     >
@@ -548,14 +517,12 @@ class Structure extends Component {
                               tempOwnedUsers.unshift(item);
                               let tempNotOwnedUsers = notOwnedUsers;
                               tempNotOwnedUsers.splice(index, 1);
-                              ifToken(() => {
-                                this.props.dispatch({
-                                  type: 'structure/saveOwnedUsers',
-                                  payload: {
-                                    ownedUsers: tempOwnedUsers,
-                                    notOwnedUsers: tempNotOwnedUsers,
-                                  },
-                                });
+                              this.props.dispatch({
+                                type: 'structure/saveOwnedUsers',
+                                payload: {
+                                  ownedUsers: tempOwnedUsers,
+                                  notOwnedUsers: tempNotOwnedUsers,
+                                },
                               });
                             }}
                           >{item.realname}</li>
@@ -570,14 +537,12 @@ class Structure extends Component {
                   <div>
                     <p
                       onClick={() => {
-                        ifToken(() => {
-                          this.props.dispatch({
-                            type: 'structure/saveOwnedUsers',
-                            payload: {
-                              notOwnedUsers: [...ownedUsers, ...notOwnedUsers],
-                              ownedUsers: [],
-                            },
-                          });
+                        this.props.dispatch({
+                          type: 'structure/saveOwnedUsers',
+                          payload: {
+                            notOwnedUsers: [...ownedUsers, ...notOwnedUsers],
+                            ownedUsers: [],
+                          },
                         });
                       }}
                     >
@@ -594,14 +559,12 @@ class Structure extends Component {
                               tempOwnedUsers.splice(index, 1);
                               let tempNotOwnedUsers = notOwnedUsers;
                               tempNotOwnedUsers.unshift(item);
-                              ifToken(() => {
-                                this.props.dispatch({
-                                  type: 'structure/saveOwnedUsers',
-                                  payload: {
-                                    ownedUsers: tempOwnedUsers,
-                                    notOwnedUsers: tempNotOwnedUsers,
-                                  },
-                                });
+                              this.props.dispatch({
+                                type: 'structure/saveOwnedUsers',
+                                payload: {
+                                  ownedUsers: tempOwnedUsers,
+                                  notOwnedUsers: tempNotOwnedUsers,
+                                },
                               });
                             }}
                           >{item.realname}</li>

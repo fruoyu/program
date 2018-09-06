@@ -1,5 +1,6 @@
 import { notifyError, notifySuccess } from '../services/app.js';
 import { sGetClientList, sAddClient, sUpdateClient, sDelClient } from '../services/clientList';
+import {ifToken} from "../utils/cookie";
 
 export default {
   namespace: 'clientList',
@@ -10,6 +11,7 @@ export default {
 
   effects: {
     *getClientList({ payload, cb }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(sGetClientList, payload);
       if(data.status===100){
         yield put({
@@ -24,8 +26,8 @@ export default {
       }
     },
     *addClient({ payload, cb }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(sAddClient, payload);
-      
       if(data.status===100){
         if(cb) cb(data);
       } else {
@@ -33,8 +35,9 @@ export default {
       }
     },
     *updateClient({ payload, cb }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(sUpdateClient, payload);
-      
+
       if(data.status===100){
         if(cb) cb(data);
       } else {
@@ -42,6 +45,7 @@ export default {
       }
     },
     *deleteClient({ payload, cb }, { call, put }) {
+      if (!ifToken()) return;
       const { data } = yield call(sDelClient, payload);
       if(data.status===100){
         if(cb) cb(data);
