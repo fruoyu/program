@@ -4,12 +4,11 @@ import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Cascader, Menu, Dropdown, Icon } from 'antd';
 import $ from 'jquery';
-import { verify, ifToken } from '../../utils/cookie';
 import { CommonHeader } from '../../components';
 import DatePick from './DatePicker';
 import DataList from './DataList';
 import PopClient from './popClient';
-import { verify } from '../../utils/cookie';
+import { verify, ifToken } from '../../utils/cookie';
 
 import './clientList.less';
 import '../../assets/iconfont/iconfont.css';
@@ -97,10 +96,11 @@ class ClientList extends Component {
         userName
       }, ()=>{
         this.onGetClientList();
-        this.setPaginationTotalNum();
+        // this.setPaginationTotalNum();
         this.getConstruction();
       });
     });
+  }
 
   /**
    * 获取客户列表信息
@@ -120,19 +120,19 @@ class ClientList extends Component {
         let dataSource = [];
         if(result) {
           result.map((itm)=>{
-            const { customerId, 
-              customerName, 
-              customerPhone, 
-              customerLevel, 
-              customerFive, 
-              customerUser, 
+            const { customerId,
+              customerName,
+              customerPhone,
+              customerLevel,
+              customerFive,
+              customerUser,
               createTime } = itm;
-            dataSource.push({ key:customerId, 
-              customerName, 
-              customerPhone, 
-              customerLevel, 
-              customerFive, 
-              customerUser, 
+            dataSource.push({ key:customerId,
+              customerName,
+              customerPhone,
+              customerLevel,
+              customerFive,
+              customerUser,
               createTime });
           });
         } else { dataSource.length=0;}
@@ -149,11 +149,9 @@ class ClientList extends Component {
     this.setState({
       endTime: dateString[0],
       startTime: dateString[1]
-    },()=>{this.onGetClientList()})
-    })
-
-    // 日期选择之后请求客户信息
-    // this.onGetClientList()
+    },()=>{
+      this.onGetClientList();
+    });
   }
   // 级联下拉菜单
   onSelectChange = (val, d) => {
@@ -264,7 +262,7 @@ class ClientList extends Component {
   }
 
   editCustomerInfo = (id) => {
-  
+
     this.props.dispatch({
       type: 'clientList/getClientList',
       payload: {
@@ -391,8 +389,8 @@ class ClientList extends Component {
                 <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
 
           {/* 列表内容部分 */}
-            <DataList dataSource={this.state.dataSource} 
-            handleDel={this.handleDel} 
+            <DataList dataSource={this.state.dataSource}
+            handleDel={this.handleDel}
             handleChange={this.handleChange}
             total={this.state.total}
             editCustomerInfo={this.editCustomerInfo}
@@ -402,8 +400,9 @@ class ClientList extends Component {
         {this.state.popClientShow && <PopClient
           clientData={this.state.clientData && this.state.clientData}
           onCloseWin = { this.onCloseWin }
+          onGetClientList={this.onGetClientList}
          /> }
-        
+
       </div>
 
 

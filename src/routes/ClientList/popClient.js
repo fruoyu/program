@@ -71,6 +71,7 @@ class PopClientInfo extends Component {
               message: `${this.state.customerId === '' ? '客户添加成功' : '客户更新成功'}`,
               description: '',
             });
+            this.props.onGetClientList();
           }
         })
       }
