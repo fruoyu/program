@@ -388,20 +388,20 @@ export default {
       return { ...state, filesList: [...state.filesList, ...payload.data.reslist], fileTotal: payload.data.total};
     },
     changeFileResultApi(state, { payload }) {
-      let tempArr = state.keylist;
+      let tempArr = [...state.templist];
       if (payload.data.keylist.length != 0) {
-        state.keylist.map((item, index) => {
+        tempArr.map((item, index) => {
           payload.data.keylist.map((keylistItem, keylistIndex) => {
             if (item.type == keylistItem.type) {
-              state.keylist[index] = keylistItem;
+              tempArr[index] = keylistItem;
             }
           });
         });
-        tempArr = state.keylist;
       } else {
         tempArr = state.templist;
       }
       payload.data.keylist = tempArr;
+      console.log(tempArr)
       return { ...state, fileResult: payload.data };
     },
     saveKeylistForm(state, { payload }) {
