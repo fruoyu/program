@@ -37,7 +37,7 @@
     .cellWrap{
       padding: 0 8px;
       margin: 8px 0;
-      .iconfont { 
+      .iconfont {
         margin-right: 8px; font-size: 18px;
         &.icon-huaxiang { font-size: 16px; margin-right: 0;}
         &.icon-shanchu::before {
@@ -108,11 +108,11 @@
 }
 
 .ant-cascader-picker{
-  border-width:1px;
-  border-style: solid;
-  border-image: linear-gradient(to right, #0b01b8 0, #b303fd 45%, #a43abd 50%, #b303fd 55%, #0b01b8) 5;
+  //border-width:1px;
+  //border-style: solid;
+  //border-image: linear-gradient(to right, #0b01b8 0, #b303fd 45%, #a43abd 50%, #b303fd 55%, #0b01b8) 5;
   background:none;
-  width: 300px;
+  width: 125px;
   height: 35px;
   color:#fff;
   i,i:hover{
@@ -129,6 +129,10 @@
       outline: none;
       appearance: none;
     }
+  }
+  input::placeholder {
+    font-size: 14px;
+    color: #fff;
   }
 }
 
@@ -226,7 +230,7 @@
       text-decoration: none;
     }
   }
-  
+
   .clientInfoPopWindow {
     position: fixed;
     left: 50%;
@@ -247,7 +251,7 @@
       .ant-form-item {
         width: 370px; display: flex; height: 60px; border-bottom: 1px solid #a4a2cb;
         box-sizing: border-box; margin: 0 20px; padding-top: 14px;
-       
+
         .ant-form-item-label {
           width: 92px; text-align: left;
           label{ font-size:14px; }
@@ -285,4 +289,19 @@
   }
   &.historyContent .ch-top .search-input { margin-right: 40px;}
   &.historyContent .input-group .ant-calendar-picker-clear { display: inline;}
+}
+
+}
+
+.icon_arrow {
+  display:block;
+  width: 40px;
+  height: 0;
+  border-top: 4px solid #fff;
+  margin: 100px;
+  position: relative;
+  &::after{
+    position: absolute;
+    width: 0; height: 0; border-bottom: 10px solid #fff; border-right: 14px solid transparent; display: block; content: ''; right:-10px; bottom: 0;
+  }
 }

@@ -2,7 +2,10 @@ import $ from 'jquery';
 import '../../utils/md5.js';
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { DatePicker, Menu, Dropdown, Icon, Form, Input, Select, message, Modal, Tooltip } from 'antd';
+import {
+  DatePicker, Menu, Dropdown, Icon, Form, Input, Select, message, Modal, Tooltip,
+  Cascader,
+} from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import PolyDialog from '../../components/PolyDialog';
@@ -30,7 +33,7 @@ class UserList extends Component {
       addUser: false,
       userName: '', // 搜索用户名
       generation: '所属角色',
-      composition: '所属结构',
+      // composition: '所属结构',
       pageNum: 1, // 当前页数
       area: 0, // 区
       classc: 0, // 班
@@ -69,7 +72,7 @@ class UserList extends Component {
     this.sendRequest = this.sendRequest.bind(this);
     this.changeGeneration = this.changeGeneration.bind(this);
   }
-  componentDidMount() {
+  componentWillMount() {
     this.sendRequest();
     this.getConstruction();
   }
@@ -142,6 +145,35 @@ class UserList extends Component {
     });
   }
 
+  // 级联下拉菜单
+  onSelectChange = (val, d) => {
+    console.log(val);
+    const len = val.length;
+    let area = 0;
+    let classc = 0;
+    let groupc = 0;
+    if (len === 1) {
+      area = val[0];
+    } else if (len === 2) {
+      area = val[0];
+      classc = val[1];
+    } else if (len === 3) {
+      area = val[0];
+      classc = val[1];
+      groupc = val[2];
+    }
+    this.setState({
+      area,
+      classc,
+      groupc,
+      pageNum: 1,
+    }, () => {
+      ifToken(() => {
+        this.sendRequest();
+      });
+    });
+  }
+
   /* 获取所属结构列表*/
   getConstruction() {
     verify((err, decoded) => {
@@ -153,11 +185,41 @@ class UserList extends Component {
             groupId: decoded.data.groupId,
             roleId: decoded.data.roleId,
           },
+          callback: (res) => {
+            const arr = [];
+            // console.log(res);
+            res.map((item, index) => {
+              arr[index] = {};
+              arr[index].value = res[index].areaId;
+              arr[index].label = res[index].areaName;
+              if (item.class.length > 0) {
+                arr[index].children = [];
+                item.class.map((cl, ind) => {
+                  arr[index].children[ind] = {};
+                  arr[index].children[ind].value = res[index].class[ind].classId;
+                  arr[index].children[ind].label = res[index].class[ind].className;
+                  if (cl.group.length > 0) {
+                    arr[index].children[ind].children = [];
+                    cl.group.map((gr, id) => {
+                      arr[index].children[ind].children[id] = {};
+                      arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
+                      arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
+                      return arr;
+                    });
+                  }
+                  return arr;
+                });
+              }
+              return arr;
+            });
+            this.setState({
+              options: arr,
+            });
+          },
         });
       });
     });
   }
-
   // 更新state数据
   upDataState(key, data, callback) {
     let object = {};
@@ -265,17 +327,45 @@ class UserList extends Component {
     const generation = this.state.generationList.filter(item => item.key === code)[0].generation;
     return generation;
   }
+  // 重置
+  reloadFn() {
+    const {
+      userName,
+      area,
+      classc,
+      groupc,
+      generation,
+      startTime,
+      endTime,
+      roleId,
+    } = this.state;
+    // $('.ant-cascader-input').val('');
+    if (userName === '' && roleId === '') return;
+    this.setState({
+      userName: '',
+      roleId: '',
+      // area: 0,
+      // classc: 0,
+      // groupc: 0,
+      generation: '所属角色',
+      // startTime: '',
+      // endTime: '',
+    }, () => {
+      this.sendRequest();
+    });
+  }
   render() {
     const {
       userList,
       constructionList,
     } = this.props.userList;
     const tabHead = ['用户名称', '所属角色', '用户昵称', '最后登录IP', '最后登录时间', '创建时间'];
-    const menu = (
+    /* const menu = (
       <Menu
         className="composition-down-load"
         onClick={(item) => {
-          const key = item.keyPath;
+          console.log(item);
+          /!*const key = item.keyPath;
           const len = key.length;
           let str = '';
           let area = '';
@@ -304,24 +394,24 @@ class UserList extends Component {
             ifToken(() => {
               this.sendRequest();
             });
-          });
+          });*!/
         }}
       >
         {
-          constructionList && constructionList.map((item, areaInd) => {
+          constructionList && constructionList.map((item) => {
             return (
-             !item.class.length ? <Menu.Item key={areaInd}>{item.areaName}</Menu.Item> :
-             <SubMenu title={item.areaName} key={areaInd}>
+             !item.class.length ? <Menu.Item key={item.areaName + '-' + item.areaId}>{item.areaName}</Menu.Item> :
+             <SubMenu title={item.areaName} key={item.areaName}>
                {
-                 item.class.map((content, classInd) => {
+                 item.class.map((content) => {
                    return (
-                     !content.group.length ? <Menu.Item key={classInd}>
+                     !content.group.length ? <Menu.Item key={content.className}>
                        {content.className}</Menu.Item> : (
-                         <SubMenu title={content.className} key={classInd}>
+                         <SubMenu title={content.className} key={content.className}>
                            {
-                             content.group.map((title, groupInd) => {
+                             content.group.map((title) => {
                                return (
-                                 <Menu.Item key={groupInd}>{title.groupName}</Menu.Item>
+                                 <Menu.Item key={title.groupName}>{title.groupName}</Menu.Item>
                                );
                              })
                            }
@@ -335,7 +425,7 @@ class UserList extends Component {
           })
         }
       </Menu>
-    );
+    );*/
     const generation = (
       <Menu
         className="composition-down-load"
@@ -369,7 +459,9 @@ class UserList extends Component {
               <div className="ch-top">
                 <div className="search-input">
                   <input
-                    type="text" placeholder="用户姓名"
+                    type="text"
+                    placeholder="用户姓名"
+                    value={this.state.userName}
                     onChange={(e) => {
                       this.upDataState('userName', e.target.value.trim());
                     }}
@@ -401,12 +493,22 @@ class UserList extends Component {
                     </Dropdown>
                   </div>
                   {/* 所属结构 */}
-                  <div className="composition click-item">
-                    <Dropdown overlay={menu} trigger={['click']}>
+                  <div className="composition click-item cascader">
+                    {/*<span style={{ color: '#fff', fontSize: 14 }}>所在组织</span>*/}
+                    <Cascader
+                      // allowClear={false}
+                      options={this.state.options}
+                      onChange={::this.onSelectChange}
+                      changeOnSelect={true}
+                      popupClassName="selectOptionsPop"
+                      expandTrigger="hover"
+                      placeholder="所属结构"
+                    />
+                    {/* <Dropdown overlay={menu} trigger={['click']}>
                       <span className="ant-dropdown-link">
                         {this.state.composition}<Icon type="down" />
                       </span>
-                    </Dropdown>
+                    </Dropdown>*/}
                   </div>
                 </div>
                 {/* 日历 */}
@@ -418,6 +520,10 @@ class UserList extends Component {
                       </div>
                     </div>
                   </div>
+                </div>
+                {/* 重置 */}
+                <div className="reload-button">
+                  <Icon type="reload" onClick={::this.reloadFn} />
                 </div>
               </div>
 

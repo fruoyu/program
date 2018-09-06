@@ -1,4 +1,14 @@
 .historyContent {
+  .reload-button{
+    color: #fff;
+    font-size: 20px;
+    transform: rotate(360deg);
+    margin-top: 5px;
+    margin-left: 10px;
+  }
+  .reload-button:hover{
+    cursor: pointer;
+  }
   .iconfont {
     color: #fff;
   }
@@ -138,7 +148,6 @@
       transition: .2s;
     }
     .composition{
-
       cursor: pointer;
       span.ant-dropdown-link{
         color: #fff!important;
@@ -155,8 +164,8 @@
 
   .founder {
     .trans-item {
-      width: 145px;
-      left: -60px;
+      width: 100px!important;
+      left: -30px;
     }
     span {
       color: #fff;
@@ -170,12 +179,10 @@
     }
   }
   .task-state {
-
+    margin-left: 40px;
   }
   .founder .trans-item, .task-state .trans-item {
     position: absolute;
-    right: -36px;
-    width: 150px;
     height: auto;
     display: none;
     text-align: center;
@@ -185,6 +192,10 @@
     font-size: 14px;
     z-index: 999;
 
+  }
+  .task-state .trans-item{
+    width: 150px;
+    right: 0px;
   }
   .input-wrap {
     position: relative;
@@ -275,14 +286,66 @@
       color: #fff;
     }
     .ant-calendar-picker-clear{
-     display: none;
+     //display: none;
     }
     .ant-calendar-picker-icon:after {
         color: #fff !important;
         font-size: 18px;
     }
   }
+  // 级联菜单
+  .selectOptionsPop{
 
+    border: 1px solid #0b01b8;
+    background: rgba(20, 14, 62, 0.5);
+    .ant-cascader-menu{
+      border-right: 1px solid #0b01b8;
+      border-radius: 4px;
+      li{
+        color:#fff;
+        font-size: 14px;
+        height: 35px;
+        line-height: 35px;
+        background:none;
+        padding:0 20px; text-align: center;
+      }
+      .ant-cascader-menu-item-expand::after{
+        font-size: 16px; right:3px; color: #fff;
+      }
+      .ant-cascader-menu-item-active:not(.ant-cascader-menu-item-disabled), .ant-cascader-menu-item-active:not(.ant-cascader-menu-item-disabled):hover{
+        background-color:#4332ba; font-weight: normal;
+      }
+    }
+  }
+
+  .ant-cascader-picker{
+    //border-width:1px;
+    //border-style: sol    i,i:hover{id;
+    //border-image: linear-gradient(to right, #0b01b8 0, #b303fd 45%, #a43abd 50%, #b303fd 55%, #0b01b8) 5;
+    background:none;
+    width: 125px;
+    height: 35px;
+    color:#fff;
+    i,i:hover{
+      color:#fff; background:none;
+    }
+    input{
+      border:none;
+      outline: none;
+      height: 33px;
+      line-height: 33px;
+      appearance: none;
+      &:focus{
+        border:none!important;
+        outline: none!important;
+        appearance: none!important;
+      }
+    }
+    input::placeholder {
+      font-size: 14px;
+      color: #fff;
+    }
+  }
 
   .task-state-list .list-item:first-of-type {
     border-top-left-radius: 10px;
@@ -317,7 +380,7 @@
     text-align: center;
   }
   .content-item .item-title, .content-header .item-title{
-    width: 33%;
+    width: 23%;
     text-align: left;
   }
   .content-item .item-title,.content-header .item-title  {
@@ -344,6 +407,17 @@
   .content-item .data, .content-header .data {
     width: 8%;
   }
+  .content-item .item-options, .content-header .item-options {
+    width: 10%;
+  }
+  .content-item .item-options {
+    >span{
+      margin:0 5px;
+    }
+    span:hover{
+      cursor: pointer;
+    }
+  }
 }
 
 .composition-down-load{
@@ -359,7 +433,7 @@
     height: 35px;
   }
   .ant-dropdown-menu-item-active {
-    background: #4332ba;
+    background: #4332ba!important;
   }
   .ant-dropdown-menu-submenu-title:after{
     color:#fff!important;
@@ -463,6 +537,22 @@
     .iconfont {
       transform: rotateY(360deg) !important;
       color: #fff;
+    }
+  }
+  /* 添加用户表单*/
+  .user-form-dailog{
+    padding: 0 40px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    div.ant-row{
+      .ant-input{
+        text-align: left;
+      }
+    }
+    .ant-calendar-picker{
+      width: 100%!important;
     }
   }
 }

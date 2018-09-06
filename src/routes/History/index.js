@@ -1,7 +1,10 @@
 import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { DatePicker, Menu, Dropdown, Icon, message } from 'antd';
+import {
+  DatePicker, Menu, Dropdown, Icon, message, Tooltip, Form, Select, Modal,
+  Cascader,
+ } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import './history.less';
@@ -11,9 +14,12 @@ import {
   CommonTable,
 } from '../../components';
 import { ifToken, verify } from '../../utils/cookie';
+import PolyDialog from "../../components/PolyDialog";
 
 const SubMenu = Menu.SubMenu;
 const { RangePicker } = DatePicker;
+const FormItem = Form.Item;
+const confirm = Modal.confirm;
 
 class History extends Component {
   constructor() {
@@ -49,7 +55,11 @@ class History extends Component {
       pageSize: 10, // 请求数
       startTime: '', // 开始时间
       status: '',
-      composition: '所属结构',
+      composition: '',
+      choseTime: '',
+      area: '',
+      classc: '',
+      groupc: '',
     };
     this.sendRequest = this.sendRequest.bind(this);
     this.upDataState = this.upDataState.bind(this);
@@ -59,8 +69,10 @@ class History extends Component {
     this.makerClick = this.makerClick.bind(this);
     this.statusClick = this.statusClick.bind(this);
     this.getConstruction = this.getConstruction.bind(this);
+    this.editFn = this.editFn.bind(this);
+    this.deleteFn = this.deleteFn.bind(this);
   }
-  componentDidMount() {
+  componentWillMount() {
     this.sendRequest();
     // this.getName();
     this.getConstruction();
@@ -83,23 +95,10 @@ class History extends Component {
       this.sendRequest();
     });
   }
-  // 获取模糊查询name列表
-  getName = () => {
-    this.props.dispatch({
-      type: 'history/getName',
-      payload: {
-        name: this.state.name,
-      },
-    });
-  }
-  // 列表中完成状态
-  getStatus = (status) => {
-    const statusMessage = this.state.statusList.filter(item => item.retCode === status)[0].status;
-    return statusMessage;
-  }
   /* 获取所属结构列表*/
   getConstruction() {
     verify((err, decoded) => {
+      if (err) return;
       ifToken(() => {
         this.props.dispatch({
           type: 'userList/getConstruction',
@@ -107,8 +106,83 @@ class History extends Component {
             groupId: decoded.data.groupId,
             roleId: decoded.data.roleId,
           },
+          callback: (res) => {
+            const arr = [];
+            // console.log(res);
+            res.map((item, index) => {
+              arr[index] = {};
+              arr[index].value = res[index].areaId;
+              arr[index].label = res[index].areaName;
+              if (item.class.length > 0) {
+                arr[index].children = [];
+                item.class.map((cl, ind) => {
+                  arr[index].children[ind] = {};
+                  arr[index].children[ind].value = res[index].class[ind].classId;
+                  arr[index].children[ind].label = res[index].class[ind].className;
+                  if (cl.group.length > 0) {
+                    arr[index].children[ind].children = [];
+                    cl.group.map((gr, id) => {
+                      arr[index].children[ind].children[id] = {};
+                      arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
+                      arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
+                      return arr;
+                    });
+                  }
+                  return arr;
+                });
+              }
+              return arr;
+            });
+            this.setState({
+              options: arr,
+            });
+          },
         });
       });
+    });
+  }
+  // 级联下拉菜单
+  onSelectChange = (val, d) => {
+    console.log(val);
+    const len = val.length;
+    const groupId = val[len - 1];
+    let area = 0;
+    let classc = 0;
+    let groupc = 0;
+    if (len === 1) {
+      area = val[0];
+    } else if (len === 2) {
+      area = val[0];
+      classc = val[1];
+    } else if (len === 3) {
+      area = val[0];
+      classc = val[1];
+      groupc = val[2];
+    }
+    this.setState({
+      groupId,
+      area,
+      classc,
+      groupc,
+      pageNum: 1,
+    }, () => {
+      ifToken(() => {
+        this.sendRequest();
+      });
+    });
+  }
+  // 列表中完成状态
+  getStatus = (status) => {
+    const statusMessage = this.state.statusList.filter(item => item.retCode === status)[0].status;
+    return statusMessage;
+  }
+  // 获取模糊查询name列表
+  getName = () => {
+    this.props.dispatch({
+      type: 'history/getName',
+      payload: {
+        name: this.state.name,
+      },
     });
   }
   // document 点击操作
@@ -155,6 +229,28 @@ class History extends Component {
       if (typeof (key) === 'string' && callback) callback();
     });
   }
+  // 删除数据
+  deleteFn =(userName) => {
+    confirm({
+      title: '确定删除该条录音吗?',
+      onOk: () => {
+        ifToken(() => {
+          /* this.props.dispatch({
+            type: 'userList/deleteUser',
+            payload: { userName },
+            callback: () => {
+              ifToken(() => {
+                this.sendRequest();
+              });
+              message.success('删除成功', 1);
+            },
+          });*/
+        });
+      },
+      onCancel() {
+      },
+    });
+  }
   // 请求
   sendRequest = () => {
     verify((err, decoded) => {
@@ -170,7 +266,7 @@ class History extends Component {
           startTime: this.state.startTime,
           status: this.state.status,
           userName: decoded.data.userName,
-          groupId: decoded.data.groupId,
+          groupId: this.state.groupId,
         },
       });
     });
@@ -184,6 +280,43 @@ class History extends Component {
       },
     }));
   }
+  // 添加客户信息面销时间操作
+  addCustomerMsg() {
+    this.props.form.validateFields((err, value) => {
+      if (err) return;
+      console.log(value, this.state.choseTime);
+    });
+  }
+  // 编辑操作
+  editFn(item) {
+    console.log(item);
+    this.setState({ showEdit: true });
+  }
+  // 重置
+  reloadFn() {
+    const {
+      fileName,
+      name,
+      composition,
+      area,
+      classc,
+      groupc,
+      statusContent,
+      status,
+      startTime,
+      endTime,
+    } = this.state;
+    if (fileName === '' && name === '' && composition === '' && status === '') return;
+    this.setState({
+      fileName: '',
+      name: '',
+      composition: '',
+      status: '',
+      statusContent: '任务状态',
+    }, () => {
+      this.sendRequest();
+    });
+  }
   render() {
     const {
       filesList = [],
@@ -194,7 +327,8 @@ class History extends Component {
       constructionList,
     } = this.props.userList;
     const tabHead = ['录音名称', '销售人员', '结构', '任务状态', '上传时间', '洞察项'];
-    const menu = (
+    const { getFieldDecorator } = this.props.form;
+    /*const menu = (
       <Menu
         className="composition-down-load"
         onClick={(item) => {
@@ -258,7 +392,7 @@ class History extends Component {
           })
         }
       </Menu>
-    );
+    );*/
     return (
       <div className="bootContent historyContent historyIcon" onClick={(e) => { this.documentClick(e); }}>
         <Scrollbars style={{ flex: 1 }} autoHide>
@@ -270,6 +404,7 @@ class History extends Component {
                 <div className="search-input">
                   <input
                     type="text" placeholder="搜索内容"
+                    value={this.state.fileName}
                     onChange={(e) => {
                       this.upDataState('fileName', e.target.value.trim());
                     }}
@@ -328,11 +463,20 @@ class History extends Component {
                   </div>
                   {/* 结构 */}
                   <div className="composition click-item">
-                    <Dropdown overlay={menu} trigger={['click']}>
+                    <Cascader
+                      // allowClear={false}
+                      options={this.state.options}
+                      onChange={::this.onSelectChange}
+                      changeOnSelect={true}
+                      popupClassName="selectOptionsPop"
+                      expandTrigger="hover"
+                      placeholder="所属结构"
+                    />
+                   {/* <Dropdown overlay={menu} trigger={['click']}>
                       <span className="ant-dropdown-link">
                         {this.state.composition}<Icon type="down" />
                       </span>
-                    </Dropdown>
+                    </Dropdown>*/}
                   </div>
                   {/* 任务状态 */}
                   <div className="task-state click-item" onClick={(e) => { this.statusClick(e); }} >
@@ -369,10 +513,13 @@ class History extends Component {
                   <div className="form-group d_t_dater">
                     <div className="col-sm-12">
                       <div className="input-group">
-                        <RangePicker onChange={this.onChangeFn.bind(this)} />
+                        <RangePicker onChange={this.onChangeFn.bind(this)} allowClear={false}/>
                       </div>
                     </div>
                   </div>
+                </div>
+                <div className="reload-button">
+                  <Icon type="reload" onClick={::this.reloadFn} />
                 </div>
               </div>
             </div>
@@ -380,18 +527,29 @@ class History extends Component {
             <CommonTable
               tabHead={tabHead}
               total={total}
+              options="操作"
               onChangePage={(pageNumber) => { this.onChangePage(pageNumber); }}
             >
               {
                 filesList && filesList.map((item, index) => {
                   return (
                     <li className="content-item" data-id="'+ item2.id +'" key={index}>
-                      <div className="item-title" onClick={this.gotoPopup.bind(this, item.id)}>{item.fileName}</div>
+                      <Tooltip placement="bottom" title={item.fileName}>
+                        <div className="item-title" onClick={this.gotoPopup.bind(this, item.id)}>{item.fileName}</div>
+                      </Tooltip>
                       <div className="item-author">{item.userId}</div>
-                      <div className="item-composition">A区A班A组</div>
+                      <div className="item-composition">{item.area}{item.classc}{item.groupc}</div>
                       <div className="item-state">{this.getStatus(item.statusMessage)}</div>
                       <div className="item-time">{item.createTime}</div>
-                      <div className="data">{item.itemCount}项</div>
+                      <div className="data">{!item.itemCount ? 0 : item.itemCount}项</div>
+                      <div className="item-options">
+                        <Tooltip placement="bottom" title="编辑">
+                          <span className="iconfont icon-biaozhugongju" onClick={this.editFn.bind(this, item)} />
+                        </Tooltip>
+                        <Tooltip placement="bottom" title="删除">
+                          <span className="iconfont icon-shanchu" onClick={() => { this.deleteFn(item); }} />
+                        </Tooltip>
+                      </div>
                     </li>
                   );
                 })
@@ -399,9 +557,59 @@ class History extends Component {
             </CommonTable>
           </div>
         </Scrollbars>
+        {/*  编辑框*/}
+        {
+          this.state.showEdit && <PolyDialog
+            visible={this.state.showEdit}
+            style={{
+              height: 'auto',
+              paddingBottom: 40,
+            }}
+            onClose={() => {
+              this.setState({
+                showEdit: false,
+              });
+            }}
+            onOk={::this.addCustomerMsg}
+            onCancel={() => {
+              this.setState({
+                showEdit: false,
+              });
+            }}
+          >
+            <Form className="user-form-dailog">
+              <FormItem className="line-item" label="面销时间">
+                {getFieldDecorator('choseTime', {
+                  rules: [{ required: true, message: '请选择面销时间!' }],
+                })(
+                  <DatePicker
+                    onChange={(val, data) => {
+                      this.setState({
+                        choseTime: data,
+                      });
+                    }}
+                  />,
+                )}
+              </FormItem>
+              <FormItem className="line-item" label="选择用户">
+                {getFieldDecorator('choseUser', {
+                  rules: [{ required: true, message: '请选择用户!' }],
+                })(
+                  <Select
+                    placeholder="选择用户"
+                  >
+                    <Option value="1">张三</Option>
+                    <Option value="1">李四</Option>
+                    <Option value="1">王五</Option>
+                  </Select>,
+                )}
+              </FormItem>
+            </Form>
+          </PolyDialog>
+        }
       </div>
     );
   }
 }
 
-export default connect(({ history, userList }) => ({ history, userList }))(History);
+export default connect(({ history, userList }) => ({ history, userList }))(Form.create()(History));

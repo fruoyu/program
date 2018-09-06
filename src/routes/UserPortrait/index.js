@@ -22,17 +22,19 @@ class UserPortrait extends Component {
     this.sendRequest = this.sendRequest.bind(this);
     this.renderArt = this.renderArt.bind(this);
     this.scrollFn = this.scrollFn.bind(this);
+    this.renderContext = this.renderContext.bind(this);
   }
-  componentDidMount() {
-    this.sendRequest();
-    this.getQueryKeyItem(this.props.location.query.taskId);
+  componentWillMount() {
+    // this.sendRequest();
+    // this.getQueryKeyItem(this.props.location.query.customerId);
+    this.getQueryKeyItem();
   }
   // 根据id获取画像信息
   getQueryKeyItem(id) {
     this.props.dispatch({
       type: 'history/getQueryKeyItem',
       payload: {
-        taskid: id,
+        customerId: 55,
       },
     });
     setTimeout(() => {
@@ -88,30 +90,29 @@ class UserPortrait extends Component {
   }
   // 滑过提示信息
   renderArt =(content) => {
-    if (content) {
+    if (content.length !== 0) {
       return (<small className="has-content">{content}</small>);
     } else {
       return (<small className="not-has-content">无</small>);
     }
   }
   // 具体信息展示函数
-  renderContext = (index) => {
-    const { keyItemData } = this.props.history;
+  renderContext = (value) => {
     let result = '无';
-    if (keyItemData && keyItemData.length > 0 && keyItemData[index] &&
-      keyItemData[index].context.length > 0) {
-      result = keyItemData[index].context;
+    if (value && value.length > 0) {
+      result = value;
     }
     return result;
   }
   render() {
-    const { filesList } = this.state;
-    const taskId = this.props.location.query.taskId;
+    // const { filesList } = this.state;
+    // const taskId = this.props.location.query.taskId;
+    const { keyItemData } = this.props.history;
     return (
       <div className="bootContent userPortrait">
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部 */}
-          <CommonHeader title="用户画像" isMain customer photograph  taskId={this.props.location.query.taskId} />
+          <CommonHeader title="用户画像" isMain customer photograph />
           {/* 画像 */}
           <div id="main">
             <div className="userPortrait">
@@ -138,11 +139,11 @@ class UserPortrait extends Component {
                         <span className="item">子女 :</span>
                         <span className="CUSTOMER_CHILD">
                           {
-                            this.renderContext(0)
+                            keyItemData && this.renderContext(keyItemData.CUSTOMER_CHILD)
                           }
                         </span>
                         {
-                          this.state.key === 0 && this.renderArt(this.renderContext(0))
+                          this.state.key === 0 && this.renderArt(keyItemData.CUSTOMER_CHILD)
                         }
                       </li>
                       <li
@@ -152,11 +153,11 @@ class UserPortrait extends Component {
                         <span>年龄 :</span>
                         <span className="CUSTOMER_AGE">
                           {
-                            this.renderContext(1)
+                            keyItemData && this.renderContext(keyItemData.CUSTOMER_AGE)
                           }
                         </span>
                         {
-                          this.state.key === 1 && this.renderArt(this.renderContext(1))
+                          this.state.key === 1 && this.renderArt(keyItemData.CUSTOMER_AGE)
                         }
                       </li>
                       <li
@@ -166,11 +167,11 @@ class UserPortrait extends Component {
                         <span>性别 :</span>
                         <span className="CUSTOMER_SEX">
                           {
-                            this.renderContext(2)
+                            keyItemData && this.renderContext(keyItemData.CUSTOMER_SEX)
                           }
                         </span>
                         {
-                          this.state.key === 2 && this.renderArt(this.renderContext(2))
+                          this.state.key === 2 && this.renderArt(keyItemData.CUSTOMER_SEX)
                         }
                       </li>
                       <li
@@ -180,11 +181,11 @@ class UserPortrait extends Component {
                         <span>婚姻 :</span>
                         <span className="CUSTOMER_MERRIGE">
                           {
-                            this.renderContext(3)
+                            keyItemData && this.renderContext(keyItemData.CUSTOMER_MERRIGE)
                           }
                         </span>
                         {
-                          this.state.key === 3 && this.renderArt(this.renderContext(3))
+                          this.state.key === 3 && this.renderArt(keyItemData.CUSTOMER_MERRIGE)
                         }
                       </li>
                     </ul>
@@ -208,11 +209,11 @@ class UserPortrait extends Component {
                         <span>从事行业 :</span>
                         <span className="CUSTOMER_JOB">
                           {
-                           this.renderContext(4)
+                            keyItemData && this.renderContext(keyItemData.CUSTOMER_JOB)
                          }
                         </span>
                         {
-                          this.state.key === 4 && this.renderArt(this.renderContext(4))
+                          this.state.key === 4 && this.renderArt(keyItemData.CUSTOMER_JOB)
                         }
                       </li>
                       <li
@@ -222,11 +223,11 @@ class UserPortrait extends Component {
                         <span>房产情况 :</span>
                         <span className="CONSUME_HOUSE">
                           {
-                            this.renderContext(5)
+                            keyItemData && this.renderContext(keyItemData.CONSUME_HOUSE)
                           }
                         </span>
                         {
-                          this.state.key === 5 && this.renderArt(this.renderContext(5))
+                          this.state.key === 5 && this.renderArt(keyItemData.CONSUME_HOUSE)
                         }
                       </li>
                       <li
@@ -236,11 +237,11 @@ class UserPortrait extends Component {
                         <span>车辆情况 :</span>
                         <span className="CONSUME_CAR">
                           {
-                           this.renderContext(6)
+                            keyItemData && this.renderContext(keyItemData.CONSUME_CAR)
                          }
                         </span>
                         {
-                          this.state.key === 6 && this.renderArt(this.renderContext(6))
+                          this.state.key === 6 && this.renderArt(keyItemData.CONSUME_CAR)
                         }
                       </li>
                     </ul>
@@ -264,11 +265,11 @@ class UserPortrait extends Component {
                         <span>爱好的活动 :</span>
                         <span className="CUSTOMER_HOBBY">
                           {
-                           this.renderContext(7)
+                            keyItemData && this.renderContext(keyItemData.CUSTOMER_HOBBY)
                          }
                         </span>
                         {
-                          this.state.key === 7 && this.renderArt(this.renderContext(7))
+                          this.state.key === 7 && this.renderArt(keyItemData.CUSTOMER_HOBBY)
                         }
                       </li>
                       <li
@@ -277,11 +278,11 @@ class UserPortrait extends Component {
                       >
                         <span>欣赏什么样的人 :</span><span className="CUSTOMER_ADMIRE">
                           {
-                            this.renderContext(8)
+                            keyItemData && this.renderContext(keyItemData.CUSTOMER_ADMIRE)
                           }
                         </span>
                         {
-                          this.state.key === 8 && this.renderArt(this.renderContext(8))
+                          this.state.key === 8 && this.renderArt(keyItemData.CUSTOMER_ADMIRE)
                         }
                       </li>
                     </ul>
@@ -305,11 +306,11 @@ class UserPortrait extends Component {
                         <span>社保 :</span>
                         <span className="has-cont">
                           {
-                           this.renderContext(9)
+                            keyItemData && this.renderContext(keyItemData.SOCIAL_SECURITY)
                          }
                         </span>
                         {
-                          this.state.key === 9 && this.renderArt(this.renderContext(9))
+                          this.state.key === 9 && this.renderArt(keyItemData.SOCIAL_SECURITY)
                         }
                       </li>
                       <li
@@ -319,11 +320,11 @@ class UserPortrait extends Component {
                         <span>商保 :</span>
                         <span className="COMMERCIAL_INSURANCE">
                           {
-                           this.renderContext(10)
+                            keyItemData && this.renderContext(keyItemData.COMMERCIAL_INSURANCE)
                          }
                         </span>
                         {
-                            this.state.key === 10 && this.renderArt(this.renderContext(10))
+                          this.state.key === 10 && this.renderArt(keyItemData.COMMERCIAL_INSURANCE)
                         }
                       </li>
                       <li
@@ -333,11 +334,11 @@ class UserPortrait extends Component {
                         <span>保险购买人 :</span>
                         <span className="INSURANCE_PURCHASER">
                           {
-                           this.renderContext(11)
+                            keyItemData && this.renderContext(keyItemData.INSURANCE_PURCHASER)
                          }
                         </span>
                         {
-                          this.state.key === 11 && this.renderArt(this.renderContext(11))
+                          this.state.key === 11 && this.renderArt(keyItemData.INSURANCE_PURCHASER)
                         }
                       </li>
                     </ul>
@@ -361,11 +362,11 @@ class UserPortrait extends Component {
                         <span>投资类型 :</span>
                         <span className="INVESTMENT_TYPE">
                           {
-                           this.renderContext(12)
+                            keyItemData && this.renderContext(keyItemData.INVESTMENT_TYPE)
                          }
                         </span>
                         {
-                          this.state.key === 12 && this.renderArt(this.renderContext(12))
+                          this.state.key === 12 && this.renderArt(keyItemData.INVESTMENT_TYPE)
                         }
                       </li>
                       <li
@@ -375,11 +376,11 @@ class UserPortrait extends Component {
                         <span>投资打理人 :</span>
                         <span className="INVESTMENT_PURCHASER">
                           {
-                           this.renderContext(13)
+                            keyItemData && this.renderContext(keyItemData.INVESTMENT_PURCHASER)
                          }
                         </span>
                         {
-                          this.state.key === 13 && this.renderArt(this.renderContext(13))
+                          this.state.key === 13 && this.renderArt(keyItemData.INVESTMENT_PURCHASER)
                         }
                       </li>
                       <li
@@ -389,11 +390,11 @@ class UserPortrait extends Component {
                         <span>各项投资占比 :</span>
                         <span className="INVESTMENT_RATIO">
                           {
-                           this.renderContext(14)
+                            keyItemData && this.renderContext(keyItemData.INVESTMENT_RATIO)
                          }
                         </span>
                         {
-                          this.state.key === 14 && this.renderArt(this.renderContext(14))
+                          this.state.key === 14 && this.renderArt(keyItemData.INVESTMENT_RATIO)
                         }
                       </li>
                       <li
@@ -403,11 +404,11 @@ class UserPortrait extends Component {
                         <span>投资时长 :</span>
                         <span className="INVESTMENT_DURATION">
                           {
-                           this.renderContext(15)
+                            keyItemData && this.renderContext(keyItemData.INVESTMENT_DURATION)
                          }
                         </span>
                         {
-                          this.state.key === 15 && this.renderArt(this.renderContext(15))
+                          this.state.key === 15 && this.renderArt(keyItemData.INVESTMENT_DURATION)
                         }
                       </li>
                       <li
@@ -417,11 +418,11 @@ class UserPortrait extends Component {
                         <span>理财风险偏好 :</span>
                         <span className="RISK_PREFERENCE">
                           {
-                           this.renderContext(16)
+                            keyItemData && this.renderContext(keyItemData.RISK_PREFERENCE)
                          }
                         </span>
                         {
-                          this.state.key === 16 && this.renderArt(this.renderContext(16))
+                          this.state.key === 16 && this.renderArt(keyItemData.RISK_PREFERENCE)
                         }
                       </li>
                     </ul>
@@ -430,7 +431,7 @@ class UserPortrait extends Component {
               </div>
             </div>
           </div>
-          <div id="recognized-file">
+          {/*<div id="recognized-file">
             <div id="top">
               <div className="title">
                 已识别文件
@@ -481,7 +482,7 @@ class UserPortrait extends Component {
                 }
               </Scrollbars>
             </ul>
-          </div>
+          </div>*/}
         </Scrollbars>
       </div>
     );
