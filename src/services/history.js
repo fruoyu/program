@@ -29,3 +29,17 @@ export async function getQueryKeyItem(params) {
     body: JSON.stringify(params),
   });
 }
+export async function deleteFiles(params) {
+  return request('/openApi/voiceQuality/deleteInsight', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}
+export async function changeCutsom(params) {
+  return request('/openApi/voiceQuality/changeCutsom', {
+    method: 'post',
+    headers: headersPost,
+    body: JSON.stringify(params),
+  });
+}

@@ -581,6 +581,7 @@ class Structure extends Component {
         {/* 添加部门*/}
         {
           this.state.addStructure && <PolyDialog
+            className="addStr"
             visible={this.state.addStructure}
             style={{
               height: 'auto',
