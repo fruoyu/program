@@ -1,13 +1,15 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
+import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Cascader, Menu, Dropdown, Icon } from 'antd';
 import $ from 'jquery';
 import { verify, ifToken } from '../../utils/cookie';
 import { CommonHeader } from '../../components';
-import DatePicker from './DatePicker';
+import DatePick from './DatePicker';
 import DataList from './DataList';
 import PopClient from './popClient';
+import { verify } from '../../utils/cookie';
 
 import './clientList.less';
 import '../../assets/iconfont/iconfont.css';
@@ -21,12 +23,11 @@ class ClientList extends Component {
     this.state = {
       searchInputVal:'',
       name: '',
-      endTime: '', // 结束时间
-      fileName: '', // 录音文件名称
+      endTime: '',
+      startTime: '',
+      userName: '',
       pageNum: 1, // 当前页数
       pageSize: 10, // 请求数
-      startTime: '', // 开始时间
-      status: '',
       popClientShow: false,
       composition: '所属结构',
       compositionList: [
@@ -77,6 +78,9 @@ class ClientList extends Component {
           ],
         },
       ],
+      dataSource: [],
+      clientData: {},
+      total: 0,
     };
 
     this.onGetClientList = this.onGetClientList.bind(this);
@@ -85,26 +89,57 @@ class ClientList extends Component {
     this.getConstruction = this.getConstruction.bind(this);
   }
 
-  componentWillMount(){
-    // this.onGetClientList();
-    // this.setPaginationTotalNum();
-    this.getConstruction();
-  }
+  componentDidMount(){
+    verify((err, decoded) => {
+      if (err) return;
+      const { userName } = decoded.data;
+      this.setState({
+        userName
+      }, ()=>{
+        this.onGetClientList();
+        this.setPaginationTotalNum();
+        this.getConstruction();
+      });
+    });
 
   /**
    * 获取客户列表信息
-   * 因为接口还没出，下面会报错
-   * 所有数据均为模拟
    */
   onGetClientList = () => {
     this.props.dispatch({
       type: 'clientList/getClientList',
       payload: {
-        endTime: this.state.endTime,
-        pageNum: this.state.pageNum - 1,
-        pageSize: this.state.pageSize,
         startTime: this.state.startTime,
-        status: this.state.status,
+        endTime: this.state.endTime,
+        userName: this.state.userName,
+        whatPage: this.state.pageNum,
+        customerType: this.state.searchInputVal,
+      },
+      cb: (data) => {
+        const { result, pageCount: total } = data.data;
+        let dataSource = [];
+        if(result) {
+          result.map((itm)=>{
+            const { customerId, 
+              customerName, 
+              customerPhone, 
+              customerLevel, 
+              customerFive, 
+              customerUser, 
+              createTime } = itm;
+            dataSource.push({ key:customerId, 
+              customerName, 
+              customerPhone, 
+              customerLevel, 
+              customerFive, 
+              customerUser, 
+              createTime });
+          });
+        } else { dataSource.length=0;}
+        this.setState({
+          total,
+          dataSource
+        });
       }
     })
   }
@@ -114,6 +149,7 @@ class ClientList extends Component {
     this.setState({
       endTime: dateString[0],
       startTime: dateString[1]
+    },()=>{this.onGetClientList()})
     })
 
     // 日期选择之后请求客户信息
@@ -185,13 +221,14 @@ class ClientList extends Component {
   }
 
   onSearchClick = (ev) => {
-    console.log(this.state.searchInputVal)
+    this.onGetClientList();
   }
 
   showPopWin = () => {
     if(!this.state.popClientShow) {
       this.setState({
-        popClientShow: true
+        popClientShow: true,
+        clientData: {edit: false}
       })
     }
   }
@@ -203,78 +240,58 @@ class ClientList extends Component {
       })
     }
   }
+  handleDel = (key) => {
+    this.props.dispatch({
+      type: 'clientList/deleteClient',
+      payload:{
+        customerId: key
+      },
+      cb: (data)=>{
+        const dataSource = [...this.state.dataSource];
+        let { total } = this.state;
+        this.setState({ total: total!==0 && total--, dataSource: dataSource.filter(item => item.key !== key) });
+      }
+    })
+  }
+
+  navigateTo = (id) => {
+    this.props.dispatch(routerRedux.push({
+      pathname: '/userPortrait',
+      query: {
+        customerId: id,
+      },
+    }));
+  }
+
+  editCustomerInfo = (id) => {
+  
+    this.props.dispatch({
+      type: 'clientList/getClientList',
+      payload: {
+        startTime: '',
+        endTime: '',
+        userName: this.state.userName,
+        whatPage: 1,
+        customerType: '',
+        customerId: id
+      },
+      cb: (data) => {
+        const { result:[ cdata ] } = data.data;
+        this.setState({
+          clientData:{edit: true, ...cdata},
+          popClientShow: true
+        })
+      }
+    })
+  }
+
+  handleChange = (page) => {
+    this.setState({ pageNum: page },() => {
+      this.onGetClientList();
+    })
+  }
 
   render() {
-
-    // 级联菜单数据模拟
-    const options = [{
-      value: 'district A',
-      label: 'A区',
-      children: [{
-        value: 'class A',
-        label: 'A班',
-        children: [{
-          value: 'team A',
-          label: 'A组',
-        }],
-      }],
-    }, {
-      value: 'district B',
-      label: 'B区',
-      children: [{
-        value: 'class A',
-        label: 'A班',
-        children: [{
-          value: 'team A',
-          label: 'A组',
-        }],
-      }],
-    }];
-
-    // 客户信息列表模拟
-    // const { mClientList } = this.props.clientList;
-    // const dataSource = mClientList.dataSource;
-    const dataSource = [{
-      key: '1',
-      name: '胡彦斌',
-      phone: 12323132131,
-      star: '三星',
-      fiveStatus: '认购',
-      updateTime: '2018-08-21 13:35:24',
-      belong: '华北区/尖刀班/一组/王志军'
-    }, {
-      key: '2',
-      name: '胡彦祖',
-      phone: 21413512515,
-      star: '四星',
-      fiveStatus: '认购',
-      updateTime: '2018-08-21 13:35:24',
-      belong: '华北区/尖刀班/一组/王志军'
-    }, {
-      key: '3',
-      name: '胡彦祖1',
-      phone: 21413512515,
-      star: '四星',
-      fiveStatus: '认购',
-      updateTime: '2018-08-21 13:35:24',
-      belong: '华北区/尖刀班/一组/王志军'
-    }, {
-      key: '4',
-      name: '胡彦祖2',
-      phone: 21413512515,
-      star: '四星',
-      fiveStatus: '认购',
-      updateTime: '2018-08-21 13:35:24',
-      belong: '华北区/尖刀班/一组/王志军'
-    }, {
-      key: '5',
-      name: '胡彦祖3',
-      phone: 214135125512,
-      star: '四星',
-      fiveStatus: '认购',
-      updateTime: '2018-08-21 13:35:24',
-      belong: '华北区/尖刀班/一组/王志军'
-    }];
     const menu = (
       <Menu
         className="composition-down-load"
@@ -323,7 +340,6 @@ class ClientList extends Component {
       </Menu>
     );
     return (
-
       <div className="bootContent historyContent clientCotent" >
         <Scrollbars style={{ flex: 1 }} autoHide>
 
@@ -338,14 +354,13 @@ class ClientList extends Component {
                   <input
                     type="text" placeholder="客户姓名/客户电话"
                     onChange={(e) => {
-                      if( e.target.value !== '') this.setState({
+                      this.setState({
                         searchInputVal: e.target.value
                       });
                     }}
                   />
                   <span className="iconfont icon-qianwang" onClick={this.onSearchClick} />
                 </div>
-
                 <div className="search-condition">
                   {/* 下拉菜单 */}
                   <div className="cascader">
@@ -368,7 +383,7 @@ class ClientList extends Component {
                   </div>*/}
                 </div>
                 {/* 日历 */}
-                <DatePicker onChangeFn={this.onChangeFn} />
+                <DatePick onChangeFn={this.onChangeFn} />
               {/* Filter part end */}
               </div>
             </div>
@@ -376,13 +391,19 @@ class ClientList extends Component {
                 <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
 
           {/* 列表内容部分 */}
-            <DataList dataSource={dataSource} />
+            <DataList dataSource={this.state.dataSource} 
+            handleDel={this.handleDel} 
+            handleChange={this.handleChange}
+            total={this.state.total}
+            editCustomerInfo={this.editCustomerInfo}
+            navigateTo={this.navigateTo} />
           </div>
         </Scrollbars>
-        <PopClient popClientShow={this.state.popClientShow}
+        {this.state.popClientShow && <PopClient
+          clientData={this.state.clientData && this.state.clientData}
           onCloseWin = { this.onCloseWin }
-         />
-         <span className="icon_arrow"></span>
+         /> }
+        
       </div>
 
 

@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-import { Form, Input, Button, DatePicker, Select } from 'antd';
+import { Form, Input, Button, DatePicker, Select, notification } from 'antd';
+import moment from 'moment';
 
 import { verify } from '../../utils/cookie';
 
 
 const FormItem = Form.Item;
+const SelectOption = Select.Option;
 
 class PopClientInfo extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      users: [],
+      customerBirthday: '',
+      customerId: '',
+      defDate: '',
+    }
+  }
 
   componentWillMount() {
     const rdata = {
@@ -21,31 +33,73 @@ class PopClientInfo extends Component {
       if (err) return;
       const { data } = decoded;
       rdata.area = data.areaId ? data.areaId : 0;
-      rdata.userName = data.userName;
       rdata.classc = data.classcId ? data.classcId : 0;
       rdata.groupc = data.groupcId ? data.groupcId : 0;
     });
     this.props.dispatch({
       type: 'userList/getUserList',
       payload: rdata,
-      callback: () => {
-        console.log(this.props);
+    });
+
+
+  }
+
+  componentDidMount() {
+    const { clientData: { edit, customerId, customerName, customerSex, customerBirthday: defDate, customerPhone, customerIdType: idType, customerIdNo, customerLevel, customerFive, customerUser, customerJob, customerMarriage, customerAdress, customerMail }, form: { setFieldsValue } } = this.props;
+    this.setState({
+      customerId,
+      defDate: defDate ? {initialValue: moment(defDate, 'YYYY-MM-DD')} : {} ,
+    })
+    if(edit){
+      setFieldsValue({customerName, customerSex, customerPhone, customerIdType: ''+idType, customerIdNo, customerLevel, customerFive, customerUser, customerJob, customerMarriage, customerAdress, customerMail });
+    }
+  }
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.props.form.validateFieldsAndScroll((err, values) => {
+      if (!err) {
+        const { customerBirthday, customerId } = this.state;
+        const data = { ...values, customerBirthday };
+        if(customerId !== '') data.customerId = customerId;
+        this.props.dispatch({
+          type: `clientList/${this.state.customerId === '' ? 'addClient' : 'updateClient'}`,
+          payload: data,
+          cb: (res) => {
+            this.handleClose();
+            notification['success']({
+              message: `${this.state.customerId === '' ? '客户添加成功' : '客户更新成功'}`,
+              description: '',
+            });
+          }
+        })
       }
     })
+  }
+
+  handleClose = () => {
+    this.props.onCloseWin();
   }
 
   render (){
     const { getFieldDecorator } = this.props.form;
     const stars = ['非星','一星','三星','五星','七星','九星'];
     const five = ['认购','认识','认可','认同','认定'];
+    const { userList } = this.props.userList;
+    const dateInit = {
+      ...this.state.defDate,
+      rules: [{
+      required: true, 
+      message: '请选择日期' }],
+    }
     return (
-      <div className='clientInfoPopWindow' style={{display: this.props.popClientShow ? 'block' : 'none'}} >
+      <div className='clientInfoPopWindow' >
         <span className='iconfont icon-htmal5icon19 close'
-          onClick = { this.props.onCloseWin }
+          onClick = { this.handleClose }
         ></span>
         <Form
         className="formWrap"
-        // onSubmit={}
+        onSubmit={ this.handleSubmit }
         >
           <FormItem
               label="姓名"
@@ -62,24 +116,26 @@ class PopClientInfo extends Component {
               label="性别"
             >
             {getFieldDecorator('customerSex', {
-              initialValue: 'male',
+              initialValue: '0',
               rules: [{
                 required: true, message: '请选择性别',
               }],
             })(
               <Select className="sexSelect">
-                <Option value="male">男</Option>
-                <Option value="female">女</Option>
+                <SelectOption value="0">男</SelectOption>
+                <SelectOption value="1">女</SelectOption>
               </Select>
             )}
           </FormItem>
           <FormItem
               label="出生日期"
             >
-            {getFieldDecorator('customerBirthday', {
-              rules: [{ type: 'object', required: true, message: 'Please select time!' }],
-            })(
-            <DatePicker />
+            {getFieldDecorator('customerBirthday', dateInit)(
+            <DatePicker onChange={(val,date)=>{
+              this.setState({
+                customerBirthday: date
+              })
+            }} />
           )}
           </FormItem>
           <FormItem
@@ -87,25 +143,23 @@ class PopClientInfo extends Component {
             >
             {getFieldDecorator('customerPhone', {
               rules: [{
-                required: true, message: '请输入性别',
+                required: true, message: '请输入手机号',
               }],
             })(
-              <Input placeholder='请输入性别' />
+              <Input placeholder='请输入手机号' />
             )}
           </FormItem>
           <FormItem
               label="证件类型"
             >
-            {getFieldDecorator('custoerIdType', {
-              initialValue: '身份证',
+            {getFieldDecorator('customerIdType', {
+              initialValue: '1',
               rules: [{
                 required: true, message: '请选择证件类型',
               }],
             })(
               <Select className="sexSelect">
-                <Option value="身份证">身份证</Option>
-                <Option value="居住证">居住证</Option>
-                <Option value="军人证">军人证</Option>
+                <SelectOption value="1">身份证</SelectOption>
               </Select>
             )}
           </FormItem>
@@ -133,7 +187,7 @@ class PopClientInfo extends Component {
               {
                 stars.map((itm, index) => {
                   return (
-                    <Option key={index} value={itm}>{itm}</Option>
+                    <SelectOption key={index} value={itm}>{itm}</SelectOption>
                   )
                 })
               }
@@ -153,7 +207,7 @@ class PopClientInfo extends Component {
               {
                 five.map((itm, index) => {
                   return (
-                    <Option key={index} value={itm}>{itm}</Option>
+                    <SelectOption key={index} value={itm}>{itm}</SelectOption>
                   )
                 })
               }
@@ -164,15 +218,18 @@ class PopClientInfo extends Component {
               label="所属销售"
             >
             {getFieldDecorator('customerUser', {
-              initialValue: '张三',
               rules: [{
                 required: true, message: '请选择所属销售',
               }],
             })(
-              <Select className="sexSelect">
-                <Option value="张三">张三</Option>
-                <Option value="四星">四星</Option>
-                <Option value="五星">五星</Option>
+              <Select className="sexSelect" 
+              placeholder="请选择所属销售"
+              >
+                {
+                  userList.map((itm,i)=>{
+                    return (<SelectOption key={itm.userName} value={itm.userName}>{ itm.userName + ' / ' + itm.realName }</SelectOption>)
+                  })
+                }
               </Select>
             )}
           </FormItem>
@@ -180,6 +237,7 @@ class PopClientInfo extends Component {
               label="职业"
             >
             {getFieldDecorator('customerJob', {
+              initialValue: '',
               rules: [{
                 message: '请输入职业',
               }],
@@ -191,15 +249,15 @@ class PopClientInfo extends Component {
               label="感情状况"
             >
             {getFieldDecorator('customerMarriage', {
-              initialValue: '未知',
+              initialValue: '-1',
               rules: [{
                 message: '请选择感情状况',
               }],
             })(
               <Select className="sexSelect">
-                <Option value="未知">未知</Option>
-                <Option value="已婚">已婚</Option>
-                <Option value="未婚">未婚</Option>
+                <SelectOption value="-1">未知</SelectOption>
+                <SelectOption value="0">已婚</SelectOption>
+                <SelectOption value="1">未婚</SelectOption>
               </Select>
             )}
           </FormItem>
@@ -207,6 +265,7 @@ class PopClientInfo extends Component {
               label="现居地"
             >
             {getFieldDecorator('customerAdress', {
+              initialValue: '',
               rules: [{
                 message: '请输入现居地',
               }],
@@ -217,16 +276,17 @@ class PopClientInfo extends Component {
           <FormItem
               label="邮箱"
             >
-            {getFieldDecorator('customerAdress', {
+            {getFieldDecorator('customerMail', {
+              initialValue: '',
               rules: [{
-                 message: '请输入邮箱',
+                type:'email', message: '请输入正确邮箱',
               }],
             })(
               <Input placeholder='请输入邮箱' />
             )}
           </FormItem>
           <FormItem className="buttonPart">
-            <Button className="cancel" onClick={this.props.onCloseWin}>取消</Button>
+            <Button className="cancel" onClick={this.handleClose}>取消</Button>
             <Button type="primary" htmlType="submit" className="confirm">确认</Button>
           </FormItem>
         </Form>
@@ -236,5 +296,5 @@ class PopClientInfo extends Component {
 }
 const PopClient = Form.create()(PopClientInfo);
 
-export default connect(({ userList }) => ({ userList }))(PopClient);
+export default connect(({ clientList, userList }) => ({ clientList, userList }))(PopClient);
 
