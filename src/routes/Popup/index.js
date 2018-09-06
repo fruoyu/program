@@ -100,30 +100,7 @@ class Popup extends Component {
         // playedLeft: this.refs.played.getBoundingClientRect().left,
       });
     });
-    // 请求已识别文件
-    verify((err, decoded) => {
-      if (err) return;
-      this.props.dispatch({
-        type: 'popup/getFilesListByid',
-        payload: {
-          pageSize: 10,
-          pageNum: this.state.pageNum,
-          name: '',
-          status: '',
-          startTime: '',
-          endTime: '',
-          fileName: '',
-          userName: decoded.data.userName,
-          groupId: '',
-        },
-        callback: () => {
-          let fileScroll = this.refs['filelist' + taskId].offsetTop;
-          $('#file-list>div>div').animate({
-            scrollTop: fileScroll + 'px',
-          }, 500);
-        },
-      });
-    });
+    this.sendRequest();
     // 请求画像数据
     this.props.dispatch({
       type: 'popup/getFileResultApi',
@@ -145,6 +122,7 @@ class Popup extends Component {
       } = {},
     } = this.props.popup;
     const taskId = this.props.location.query.taskId;
+    const customerId = this.props.location.query.customerId;
     return (
       <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')} ref='insightTermWrap'>
         <Scrollbars>
@@ -203,8 +181,16 @@ class Popup extends Component {
                                     optype: 'edit',
                                     type: item,
                                     creat_time: '',
-                                    customId: this.state.customerId,
+                                    customId: customerId,
                                     status: '',
+                                  },
+                                  callback: () => {
+                                    this.props.dispatch({
+                                      type: 'popup/getFileResultApi',
+                                      payload: {
+                                        taskid: taskId,
+                                      },
+                                    });
                                   },
                                 });
                               });
@@ -259,7 +245,6 @@ class Popup extends Component {
                           className={labelItem.status == 'true' ? 'sentenceDel' : 'sentenceRight'}
                           data-name={0}
                           onClick={() => {
-                            let originalScroll = this.refs['originalText' + parseInt(labelItem.time / 1000)].offsetTop;
                             ifToken(() => {
                               this.props.dispatch({
                                 type: 'popup/editItem',
@@ -277,6 +262,7 @@ class Popup extends Component {
                                     });
                                   });
                                   if (this.state.isOriginal) {
+                                    let originalScroll = this.refs['originalText' + parseInt(labelItem.time / 1000)].offsetTop;
                                     ifToken(() => {
                                       this.props.dispatch({
                                         type: 'popup/getOriginalList',
@@ -599,13 +585,54 @@ class Popup extends Component {
     )
   }
 
+  sendRequest = () => {
+    // 请求已识别文件
+    verify((err, decoded) => {
+      this.props.dispatch({
+        type: 'popup/getFilesListByid',
+        payload: {
+          pageSize: 10,
+          pageNum: this.state.pageNum,
+          name: '',
+          status: '',
+          startTime: '',
+          endTime: '',
+          fileName: '',
+          userName: decoded.data.userName,
+          groupId: '',
+        },
+      });
+    });
+  }
+
+  // 已识别文件下拉刷新
+  scrollFn = (data) => {
+    if (data.top === 0 && this.state.filesList.length !== 10) { // 返回到第一页信息
+      this.setState({
+        pageNum: 1,
+      }, () => {
+        ifToken(() => {
+          this.sendRequest();
+        });
+      });
+    } else if (data.top === 1) {
+      this.setState({
+        pageNum: this.state.pageNum + 1,
+      }, () => {
+        ifToken(() => {
+          this.sendRequest();
+        });
+      });
+    }
+  }
+
   render() {
     let {
       filesList,
+      fileTotal,
     } = this.props.popup
     const taskId = this.props.location.query.taskId;
-    const customId = this.props.location.query.customId;
-    console.log(customId);
+    const customerId = this.props.location.query.customerId;
     return (
       <div id="popup" className="bootContent">
         {/* 头部信息 */}
@@ -673,11 +700,15 @@ class Popup extends Component {
             </div>
             <div id="search">
               <div className="total">
-                共计 <span className="total-number">{filesList.length}</span> 个文件
+                共计 <span className="total-number">{fileTotal}</span> 个文件
               </div>
             </div>
             <ul id="file-list">
-              <Scrollbars>
+              <Scrollbars
+                onScrollFrame={(data) => {
+                  this.scrollFn(data)
+                }}
+              >
                 {
                   filesList.map((item, index) => (
                     <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index} ref={'filelist' + item.id}
@@ -690,6 +721,7 @@ class Popup extends Component {
                             pathname: '/popup',
                             query: {
                               taskId: item.id,
+                              customerId: item.customerId,
                             },
                           }));
                           this.props.dispatch({

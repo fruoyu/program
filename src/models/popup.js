@@ -6,6 +6,7 @@ export default {
   state: {
     originalList: {},
     filesList: [],
+    fileTotal: '',
     fileResult: {},
     templist: [
       {
@@ -371,12 +372,12 @@ export default {
         notifyError(data.message);
       }
     },
-    *KeyEdit({ payload, callback }, { call, put }) {
+    *KeyEdit({ payload, callback, }, { call, put }) {
       const { data } = yield call(KeyEdit, payload);
       if (data.status != 0) {
         notifyError(data.message);
       }
-      callback && callback(data);
+      callback && callback();
     },
   },
   reducers: {
@@ -384,7 +385,7 @@ export default {
       return { ...state, originalList: payload.data.result };
     },
     changeFilesListByid(state, { payload }) {
-      return { ...state, filesList: payload.data.reslist };
+      return { ...state, filesList: [...state.filesList, ...payload.data.reslist], fileTotal: payload.data.total};
     },
     changeFileResultApi(state, { payload }) {
       let tempArr = state.keylist;
@@ -393,7 +394,6 @@ export default {
           payload.data.keylist.map((keylistItem, keylistIndex) => {
             if (item.type == keylistItem.type) {
               state.keylist[index] = keylistItem;
-              console.log(state.keylist[index])
             }
           });
         });
