@@ -12,12 +12,12 @@ export default {
     /* 录音列表 */
     * getFilesList({ payload, callback }, { call, put }) {
       const { data } = yield call(getFilesList, payload);
-      if (data.result) {
+      if (data.data) {
         yield put({
           type: 'changeFilesList',
-          payload: data.result,
+          payload: data.data,
         });
-        if (callback) callback(data.result);
+        if (callback) callback(data.data);
       } else {
         notifyError(data.errMsg);
       }
@@ -59,14 +59,14 @@ export default {
     /* 单条画像信息请求*/
     * getQueryKeyItem({ payload, callback }, { call, put }) {
       const { data } = yield call(getQueryKeyItem, payload);
-      if (data.result) {
+      if (data.status === 0) {
         yield put({
           type: 'changeQueryKeyItem',
-          payload: data.result,
+          payload: data.data,
         });
         if (callback) callback();
       } else {
-        notifyError(data.errMsg);
+        notifyError(data.message);
       }
     },
   },

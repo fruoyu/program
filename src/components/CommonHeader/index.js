@@ -28,7 +28,7 @@ class MainWrapper extends Component {
       if (err) return;
       this.setState({
         userName: decoded.data.userName,
-        roleId: decoded.roleId,
+        roleId: decoded.data.roleId,
       });
     });
   }
@@ -154,10 +154,10 @@ class MainWrapper extends Component {
             <span className="userName">{this.state.userName}</span>
             <div className="shezhi-content">
               {
-                this.state.userName === 'root' && <p onClick={::this.goUserLIst}>用户管理</p>
+                this.state.roleId === 1 && <p onClick={::this.goUserLIst}>用户管理</p>
               }
               {
-                this.state.userName === 'root' && <p onClick={() => {
+                this.state.roleId === 1 && <p onClick={() => {
                   this.props.dispatch(routerRedux.push({
                     pathname: '/structure',
                   }));
@@ -213,7 +213,7 @@ class MainWrapper extends Component {
               }));
             }}
           > <span className="iconfont icon-xiangqing1" />
-            <span className="record">数据</span>
+            <span className="record">录音详情</span>
           </div>
         }
         {/* 修改密码弹框 */}
