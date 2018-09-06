@@ -4,12 +4,11 @@ import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Cascader, Menu, Dropdown, Icon } from 'antd';
 import $ from 'jquery';
-
 import { CommonHeader } from '../../components';
 import DatePick from './DatePicker';
 import DataList from './DataList';
 import PopClient from './popClient';
-import { verify } from '../../utils/cookie';
+import { verify, ifToken } from '../../utils/cookie';
 
 import './clientList.less';
 import '../../assets/iconfont/iconfont.css';
@@ -44,19 +43,19 @@ class ClientList extends Component {
           area: 'C区',
           class: [
             {
-              key: '1',
+              key: '4',
               class: 'A班',
             },
             {
-              key: '2',
+              key: '5',
               class: 'B班',
               group: [
                 {
-                  key: '1',
+                  key: '6',
                   group: 'A组',
                 },
                 {
-                  key: '2',
+                  key: '7',
                   group: 'B组',
                 },
               ],
@@ -64,15 +63,15 @@ class ClientList extends Component {
           ],
         },
         {
-          key: '4',
+          key: '8',
           area: 'D区',
           class: [
             {
-              key: '1',
+              key: '9',
               class: 'A班',
             },
             {
-              key: '2',
+              key: '10',
               class: 'B班',
             },
           ],
@@ -86,6 +85,7 @@ class ClientList extends Component {
     this.onGetClientList = this.onGetClientList.bind(this);
     this.onSearchClick = this.onSearchClick.bind(this);
     this.showPopWin = this.showPopWin.bind(this);
+    this.getConstruction = this.getConstruction.bind(this);
   }
 
   componentDidMount(){
@@ -96,7 +96,8 @@ class ClientList extends Component {
         userName
       }, ()=>{
         this.onGetClientList();
-        this.setPaginationTotalNum();
+        // this.setPaginationTotalNum();
+        this.getConstruction();
       });
     });
   }
@@ -119,19 +120,19 @@ class ClientList extends Component {
         let dataSource = [];
         if(result) {
           result.map((itm)=>{
-            const { customerId, 
-              customerName, 
-              customerPhone, 
-              customerLevel, 
-              customerFive, 
-              customerUser, 
+            const { customerId,
+              customerName,
+              customerPhone,
+              customerLevel,
+              customerFive,
+              customerUser,
               createTime } = itm;
-            dataSource.push({ key:customerId, 
-              customerName, 
-              customerPhone, 
-              customerLevel, 
-              customerFive, 
-              customerUser, 
+            dataSource.push({ key:customerId,
+              customerName,
+              customerPhone,
+              customerLevel,
+              customerFive,
+              customerUser,
               createTime });
           });
         } else { dataSource.length=0;}
@@ -148,8 +149,61 @@ class ClientList extends Component {
     this.setState({
       endTime: dateString[0],
       startTime: dateString[1]
-    },()=>{this.onGetClientList()})
-    
+    },()=>{
+      this.onGetClientList();
+    });
+  }
+  // 级联下拉菜单
+  onSelectChange = (val, d) => {
+    console.log(val,d)
+    // 选择之后请求下客户信息列表
+    // this.onGetClientList()
+  }
+  /* 获取所属结构列表*/
+  getConstruction() {
+    verify((err, decoded) => {
+      if (err) return;
+      ifToken(() => {
+        this.props.dispatch({
+          type: 'userList/getConstruction',
+          payload: {
+            groupId: decoded.data.groupId,
+            roleId: decoded.data.roleId,
+          },
+          callback: (res) => {
+            const arr = [];
+            // console.log(res);
+            res.map((item, index) => {
+              arr[index] = {};
+              arr[index].value = res[index].areaId;
+              arr[index].label = res[index].areaName;
+              if (item.class.length > 0) {
+                arr[index].children = [];
+                item.class.map((cl, ind) => {
+                  arr[index].children[ind] = {};
+                  arr[index].children[ind].value = res[index].class[ind].classId;
+                  arr[index].children[ind].label = res[index].class[ind].className;
+                  if (cl.group.length > 0) {
+                    arr[index].children[ind].children = [];
+                    cl.group.map((gr, id) => {
+                      arr[index].children[ind].children[id] = {};
+                      arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
+                      arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
+                      return arr;
+                    });
+                  }
+                  return arr;
+                });
+              }
+              return arr;
+            });
+            this.setState({
+              options: arr,
+            });
+          },
+        });
+      });
+    });
   }
 
   // 客户信息列表分页设置文字 ‘共*页’ 位置
@@ -208,7 +262,7 @@ class ClientList extends Component {
   }
 
   editCustomerInfo = (id) => {
-  
+
     this.props.dispatch({
       type: 'clientList/getClientList',
       payload: {
@@ -305,19 +359,29 @@ class ClientList extends Component {
                   />
                   <span className="iconfont icon-qianwang" onClick={this.onSearchClick} />
                 </div>
-
-                {/* 下拉菜单 */}
+                <div className="search-condition">
+                  {/* 下拉菜单 */}
+                  <div className="cascader">
+                    <Cascader
+                      options={this.state.options}
+                      onChange={this.onSelectChange}
+                      changeOnSelect={true}
+                      popupClassName="selectOptionsPop"
+                      expandTrigger="hover"
+                      placeholder="所属结构"
+                    />
+                  </div>
                   {/* 所属结构 */}
-                  <div className="composition click-item">
+                  {/* <div className="composition click-item">
                     <Dropdown overlay={menu} trigger={['click']}>
                       <span className="ant-dropdown-link">
                         {this.state.composition}<Icon type="down" />
                       </span>
                     </Dropdown>
-                  </div>
+                  </div>*/}
+                </div>
                 {/* 日历 */}
                 <DatePick onChangeFn={this.onChangeFn} />
-
               {/* Filter part end */}
               </div>
             </div>
@@ -325,8 +389,8 @@ class ClientList extends Component {
                 <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
 
           {/* 列表内容部分 */}
-            <DataList dataSource={this.state.dataSource} 
-            handleDel={this.handleDel} 
+            <DataList dataSource={this.state.dataSource}
+            handleDel={this.handleDel}
             handleChange={this.handleChange}
             total={this.state.total}
             editCustomerInfo={this.editCustomerInfo}
@@ -336,14 +400,15 @@ class ClientList extends Component {
         {this.state.popClientShow && <PopClient
           clientData={this.state.clientData && this.state.clientData}
           onCloseWin = { this.onCloseWin }
+          onGetClientList={this.onGetClientList}
          /> }
-        
+
       </div>
-                      
-     
+
+
     )
   }
 
 }
 
-export default connect(({ clientList }) => ({ clientList }))(ClientList);
+export default connect(({ clientList, userList }) => ({ clientList, userList }))(ClientList);

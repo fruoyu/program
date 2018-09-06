@@ -80,7 +80,6 @@ class Structure extends Component {
 
   componentDidMount() {
     this.sendRequest();
-    this.getAreaClassCons();
   }
 
   // 日历操作
@@ -185,7 +184,6 @@ class Structure extends Component {
           },
           callback: () => {
             this.setState({
-              whatPage: 1,
               addStructure: false,
             }, () => {
               message.success('添加成功!', 1);
@@ -384,6 +382,7 @@ class Structure extends Component {
                     generationCode: '',
                     addStructure: true,
                   });
+                  this.getAreaClassCons();
                 }}
               >添加部门</div>
             </div>

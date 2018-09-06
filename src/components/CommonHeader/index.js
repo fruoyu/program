@@ -189,9 +189,9 @@ class MainWrapper extends Component {
               if (location.pathname === '/userPortrait') return;
               this.props.dispatch(routerRedux.push({
                 pathname: '/userPortrait',
-                query: {
+                /* query: {
                   taskId,
-                },
+                },*/
               }));
             }}
           >
