@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Form, Input, Button, DatePicker, Select, notification } from 'antd';
+import moment from 'moment';
 
 import { verify } from '../../utils/cookie';
 
@@ -16,6 +17,7 @@ class PopClientInfo extends Component {
       users: [],
       customerBirthday: '',
       customerId: '',
+      defDate: '',
     }
   }
 
@@ -38,14 +40,19 @@ class PopClientInfo extends Component {
       type: 'userList/getUserList',
       payload: rdata,
     });
-    const { clientData, form: { setFieldsValue } } = this.props;
-    console.log(clientData)
-    // const a = {customerName, customerSex, customerBirthday, customerPhone, customerIdType, customerIdNo, customerLevel, customerFive, customerUser, customerJob, customerMarriage, customerAdress, customerMail } = clientData;
-    // if(clientData.edit){
-    //   setFieldsValue({
-    //     a
-    //   });
-    // }
+
+
+  }
+
+  componentDidMount() {
+    const { clientData: { edit, customerId, customerName, customerSex, customerBirthday: defDate, customerPhone, customerIdType: idType, customerIdNo, customerLevel, customerFive, customerUser, customerJob, customerMarriage, customerAdress, customerMail }, form: { setFieldsValue } } = this.props;
+    this.setState({
+      customerId,
+      defDate: defDate ? {initialValue: moment(defDate, 'YYYY-MM-DD')} : {} ,
+    })
+    if(edit){
+      setFieldsValue({customerName, customerSex, customerPhone, customerIdType: ''+idType, customerIdNo, customerLevel, customerFive, customerUser, customerJob, customerMarriage, customerAdress, customerMail });
+    }
   }
 
   handleSubmit = (e) => {
@@ -79,6 +86,12 @@ class PopClientInfo extends Component {
     const stars = ['非星','一星','三星','五星','七星','九星'];
     const five = ['认购','认识','认可','认同','认定'];
     const { userList } = this.props.userList;
+    const dateInit = {
+      ...this.state.defDate,
+      rules: [{
+      required: true, 
+      message: '请选择日期' }],
+    }
     return (
       <div className='clientInfoPopWindow' >
         <span className='iconfont icon-htmal5icon19 close'
@@ -103,7 +116,7 @@ class PopClientInfo extends Component {
               label="性别"
             >
             {getFieldDecorator('customerSex', {
-              initialValue: '男',
+              initialValue: '0',
               rules: [{
                 required: true, message: '请选择性别',
               }],
@@ -117,11 +130,7 @@ class PopClientInfo extends Component {
           <FormItem
               label="出生日期"
             >
-            {getFieldDecorator('customerBirthday', {
-              rules: [{
-              required: true, 
-              message: '请选择日期' }],
-            })(
+            {getFieldDecorator('customerBirthday', dateInit)(
             <DatePicker onChange={(val,date)=>{
               this.setState({
                 customerBirthday: date

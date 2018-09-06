@@ -4,16 +4,13 @@ import { sGetClientList, sAddClient, sUpdateClient, sDelClient } from '../servic
 export default {
   namespace: 'clientList',
   state: {
-    endTime: '',
-    startTime: '',
-    popClientShow: false,
+    customerData: {}
   },
 
 
   effects: {
     *getClientList({ payload, cb }, { call, put }) {
       const { data } = yield call(sGetClientList, payload);
-      // FIXME: 数据请求结果判断
       if(data.status===100){
         yield put({
           type: 'getFileList',
@@ -29,7 +26,6 @@ export default {
     *addClient({ payload, cb }, { call, put }) {
       const { data } = yield call(sAddClient, payload);
       
-      // FIXME: 数据请求结果判断
       if(data.status===100){
         if(cb) cb(data);
       } else {
@@ -39,7 +35,6 @@ export default {
     *updateClient({ payload, cb }, { call, put }) {
       const { data } = yield call(sUpdateClient, payload);
       
-      // FIXME: 数据请求结果判断
       if(data.status===100){
         if(cb) cb(data);
       } else {
@@ -48,7 +43,6 @@ export default {
     },
     *deleteClient({ payload, cb }, { call, put }) {
       const { data } = yield call(sDelClient, payload);
-      // FIXME: 数据请求结果判断
       if(data.status===100){
         if(cb) cb(data);
       } else {

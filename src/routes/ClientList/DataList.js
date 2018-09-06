@@ -61,6 +61,8 @@ const DataList = (props) => {
           {
             showQuickJumper:true,
             pageSize:10,
+            total: props.total,
+            onChange: props.handleChange,
             itemRender: (page, type, originaElement) => {
               // if(type === 'next') return <div class="containTotal"><a>next</a></div>
               return originaElement;

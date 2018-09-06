@@ -80,6 +80,7 @@ class ClientList extends Component {
       ],
       dataSource: [],
       clientData: {},
+      total: 0,
     };
 
     this.onGetClientList = this.onGetClientList.bind(this);
@@ -114,7 +115,7 @@ class ClientList extends Component {
         customerType: this.state.searchInputVal,
       },
       cb: (data) => {
-        const { result } = data.data;
+        const { result, pageCount: total } = data.data;
         let dataSource = [];
         if(result) {
           result.map((itm)=>{
@@ -135,6 +136,7 @@ class ClientList extends Component {
           });
         } else { dataSource.length=0;}
         this.setState({
+          total,
           dataSource
         });
       }
@@ -169,7 +171,8 @@ class ClientList extends Component {
   showPopWin = () => {
     if(!this.state.popClientShow) {
       this.setState({
-        popClientShow: true
+        popClientShow: true,
+        clientData: {edit: false}
       })
     }
   }
@@ -189,7 +192,8 @@ class ClientList extends Component {
       },
       cb: (data)=>{
         const dataSource = [...this.state.dataSource];
-        this.setState({ dataSource: dataSource.filter(item => item.key !== key) });
+        let { total } = this.state;
+        this.setState({ total: total!==0 && total--, dataSource: dataSource.filter(item => item.key !== key) });
       }
     })
   }
@@ -218,11 +222,16 @@ class ClientList extends Component {
       cb: (data) => {
         const { result:[ cdata ] } = data.data;
         this.setState({
-          clientData:{edit: true, ...cdata}
-        },() => {
-          this.showPopWin();
+          clientData:{edit: true, ...cdata},
+          popClientShow: true
         })
       }
+    })
+  }
+
+  handleChange = (page) => {
+    this.setState({ pageNum: page },() => {
+      this.onGetClientList();
     })
   }
 
@@ -318,6 +327,8 @@ class ClientList extends Component {
           {/* 列表内容部分 */}
             <DataList dataSource={this.state.dataSource} 
             handleDel={this.handleDel} 
+            handleChange={this.handleChange}
+            total={this.state.total}
             editCustomerInfo={this.editCustomerInfo}
             navigateTo={this.navigateTo} />
           </div>
