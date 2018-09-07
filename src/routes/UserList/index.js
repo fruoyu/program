@@ -320,30 +320,34 @@ class UserList extends Component {
       userName,
       startTime,
       endTime,
-      roleId].some((el)=>{
-        return el.length>0
+      roleId].some((el) => {
+        return el.length > 0;
       });
     if (!a && [
       area,
       classc,
-      groupc].every((e)=>e===0)) return;
+      groupc].every((e) => {
+        return e === 0;
+      })) return;
     this.setState({
       flag: false,
-        userName: '',
-        roleId: '',
-        area: 0,
-        classc: 0,
-        groupc: 0,
-        generation: '所属角色',
-    },()=>{
-      this.setState({flag: true})
+      userName: '',
+      roleId: '',
+      area: 0,
+      classc: 0,
+      groupc: 0,
+      startTime: '',
+      endTime: '',
+      generation: '所属角色',
+    }, () => {
+      this.setState({ flag: true });
       this.sendRequest();
-    })
+    });
   }
   render() {
     const {
       userList,
-      constructionList,
+      // constructionList,
     } = this.props.userList;
     const tabHead = ['用户名称', '所属角色', '用户昵称', '最后登录IP', '最后登录时间', '创建时间'];
     const generation = (
