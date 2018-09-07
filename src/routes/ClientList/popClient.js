@@ -72,7 +72,9 @@ class PopClientInfo extends Component {
               message: `${isUpdate ? '客户添加成功' : '客户更新成功'}`,
               description: '',
             });
-            
+            if(!isUpdate){
+              this.props.onGetClientList();
+            }
           }
         })
       }
@@ -145,7 +147,9 @@ class PopClientInfo extends Component {
             >
             {getFieldDecorator('customerPhone', {
               rules: [{
-                required: true, message: '请输入手机号',
+                required: true,
+                pattern: /^[1][3-9][0-9]{9}$/g,
+                message: '手机号为空或错误',
               }],
             })(
               <Input placeholder='请输入手机号' />
@@ -170,7 +174,8 @@ class PopClientInfo extends Component {
             >
             {getFieldDecorator('customerIdNo', {
               rules: [{
-                required: true, message: '请输入证件号码',
+                required: true, 
+                message: '请输入证件号码',
               }],
             })(
               <Input placeholder='请输入证件号码' />
