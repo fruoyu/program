@@ -170,7 +170,7 @@ class Main extends Component {
         },
       });
     })
-    
+
 
     // let s = setInterval(() => {
     //   let ajaxArr1 = ajaxArr.filter(function(item,index){
@@ -207,7 +207,7 @@ class Main extends Component {
       filter: [],  //可以接受的文件后缀
     };
     option = $.extend(true, defau, option);
-    
+
     let fileP = $('#upload').attr('data-name') || "file";  //传给后端得 file对应字段
     // let fileP = this.refs || "file";  //传给后端得 file对应字段
     let files = defau.files;
@@ -233,7 +233,7 @@ class Main extends Component {
     });
     if (files.length != defau.files.length) {
       $('#upload').val('');
-      notifyError('当前上传存在文件格式错误,正确格式为大区-销售名称-客户名称-客户电话!');
+      notifyError('当前上传存在文件格式错误,正确格式为大区-销售名称-客户名称-客户电话!', 'Error', 4);
     }
     if (files.length > 0) {
       $('.upload-btn .icon-shangchuan').css('font-size','55px');
@@ -265,13 +265,13 @@ class Main extends Component {
     function fileUpload (file, index) {
       let fd = new FormData();
       fd.append(fileP,file);
-  
+
       // 追加其他参数
       for(let i in option.data){
         fd.append(i,option.data[i]);
       }
       console.log(fd)
-      
+
       ifToken(() => {
         verify((err, decoded) => {
           const ajax = $.ajax({
@@ -301,9 +301,9 @@ class Main extends Component {
           });
           ajaxArr.push(ajax);
         })
-          
+
       })
-      
+
 
       function onprogress (evt) {
         let loaded = evt.loaded;     //已经上传大小情况
@@ -403,7 +403,7 @@ class Main extends Component {
     return (
       <div className="mainShouye">
         {/* 头部信息 */}
-        <CommonHeader isMain isUserPort home />
+        <CommonHeader isMain isUserPort home customer />
         <div id="info">告诉MOXI你想要挖掘的信息</div>
         {/* 启动洞察 */}
         <div

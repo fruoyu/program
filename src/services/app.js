@@ -1,7 +1,7 @@
 import { notification } from 'antd';
 
 // 报错提示
-export function notifyError(messageInfo, title = 'Error') {
+export function notifyError(messageInfo, title = 'Error', s) {
   const text = messageInfo && messageInfo.split(/\s+/g);
   const elements = [];
   for (const i in text) {
@@ -13,7 +13,7 @@ export function notifyError(messageInfo, title = 'Error') {
   notification.error({
     message: title,
     description: messageInfo,
-    duration: 1,
+    duration: s ? s : 1,
     style: { width: 500, marginLeft: 335 - 500, overflowX: 'auto' },
   });
 }

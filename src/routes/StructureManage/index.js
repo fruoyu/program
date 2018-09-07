@@ -71,6 +71,8 @@ class Structure extends Component {
       startTime: '', // 开始时间
       endTime: '', // 结束时间
       classList: [],
+      notOwnedReale: [],
+      ownedReale: [],
     };
     this.changeGeneration = this.changeGeneration.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -222,23 +224,22 @@ class Structure extends Component {
       },
     });
   }
-  searchUsers = () => {
-    verify((err, decoded) => {
-      if (err) return;
-      this.props.dispatch({
-        type: 'structure/searchUsers',
-        payload: {
-          roleTypeList: [decoded.data.roleId == 1 ? '' : decoded.data.roleId],
-          whetherBind: '0',
-        },
-      });
-      this.props.dispatch({
-        type: 'structure/searchUsers',
-        payload: {
-          roleTypeList: [decoded.data.roleId == 1 ? '' : decoded.data.roleId],
-          whetherBind: '1',
-        },
-      });
+  searchUsers = (roleLevel, groupId) => {
+    this.props.dispatch({
+      type: 'structure/searchUsers',
+      payload: {
+        roleTypeList: [roleLevel == 1 ? '' : roleLevel],
+        whetherBind: '0',
+        groupId: '',
+      },
+    });
+    this.props.dispatch({
+      type: 'structure/searchUsers',
+      payload: {
+        roleTypeList: [roleLevel == 1 ? '' : roleLevel],
+        whetherBind: '1',
+        groupId,
+      },
     });
   }
 
@@ -259,7 +260,7 @@ class Structure extends Component {
       },
     });
   }
-  
+
   // 重置
   reloadFn() {
     const {
@@ -268,7 +269,7 @@ class Structure extends Component {
       endTime,
       departmentType,
     } = this.state;
-   
+
     const a = [
       departmentName,
       startTime,
@@ -292,6 +293,17 @@ class Structure extends Component {
     });
   }
 
+  // 部门级别
+  groupName = (roleLevel) => {
+    if (roleLevel == 2) {
+      return '区';
+    } else if (roleLevel == 3) {
+      return '班';
+    } else if (roleLevel == 4) {
+      return '组';
+    }
+  }
+
   render() {
     const {
       assignRolesList = [],
@@ -302,6 +314,8 @@ class Structure extends Component {
     } = this.props.structure;
     const tabHead = ['部门名称', '部门级别', '区', '班', '组'];
     const { getFieldDecorator } = this.props.form;
+    let notOwnedReale = [];
+    let ownedReale = [];
     const generation = (
       <Menu
         className="composition-down-load"
@@ -325,10 +339,10 @@ class Structure extends Component {
     return (
       <div id='structure' className="bootContent historyContent structureContent">
         <Scrollbars>
-          <CommonHeader title="结构管理" isMain isUserPort customer />
+          <CommonHeader title="结构管理" isMain isUserPort customer home />
           <div className='structure-box' id="content">
           {
-            this.state.flag && 
+            this.state.flag &&
             <div className='structure-header content-head' >
               <div className="ch-top">
                 <div className="search-input">
@@ -359,8 +373,11 @@ class Structure extends Component {
                   />
                 </div>
                 <div className="search-condition">
-                  <div className="generation click-item">
-                    <Dropdown overlay={generation} trigger={['click']}>
+                  <div className="generation click-item" id="bumen">
+                    <Dropdown
+                      overlay={generation} trigger={['click']}
+                      getPopupContainer={() => document.getElementById('bumen')}
+                    >
                       <span className="ant-dropdown-link">
                         {this.state.generation}<Icon type="down" />
                       </span>
@@ -397,7 +414,7 @@ class Structure extends Component {
                 }}
               >添加部门</div>
             </div>
-            
+
           }
             <CommonTable
               filesList={assignRolesList}
@@ -412,12 +429,12 @@ class Structure extends Component {
                 assignRolesList.map((item, index) => (
                   <li className="content-item" key={index}>
                     <div className="item-title">{typeof item.groupName == null ? '' : item.groupName}</div>
-                    <div className="item-author">{item.roleLevel == 2 ? '区' : (item.roleLevel == 3 ? '班' : '组')}</div>
+                    <div className="item-author">{this.groupName(item.roleLevel)}</div>
                     <div className="item-composition">{item.standbyFlag1 == null ? '' : item.standbyFlag1}</div>
                     <div className="item-state">{item.standbyFlag2 == null ? '' : item.standbyFlag2}</div>
                     <div className="item-time">{item.standbyFlag3 == null ? '' : item.standbyFlag3}</div>
                     <div className="item-options">
-                      <Tooltip placement="bottom" title="编辑">
+                      <Tooltip placement="bottom" title="修改名称">
                         <span
                           className="iconfont icon-biaozhugongju"
                           onClick={() => {
@@ -445,7 +462,9 @@ class Structure extends Component {
                               assigningUsers: true,
                               assigningDepartmentName: item.groupName
                             });
-                            this.searchUsers();
+                            this.searchUsers(item.roleLevel, item.groupId);
+                            notOwnedReale = [];
+                            ownedReale = [];
                           }}
                         />
                       </Tooltip>
@@ -535,41 +554,53 @@ class Structure extends Component {
                   <p>未拥有用户</p>
                   <p>{notOwnedUsers.length}条记录</p>
                   <div>
-                    <p
-                      onClick={() => {
-                        this.props.dispatch({
-                          type: 'structure/saveOwnedUsers',
-                          payload: {
-                            ownedUsers: [...notOwnedUsers, ...ownedUsers],
-                            notOwnedUsers: [],
-                          },
-                        });
-                      }}
-                    >
-                      <img src={require('../../assets/image/havent.png')}></img>
+                    <p>
+                      <input
+                        placeholder='请输入'
+                        value={this.state.notOwnedValue}
+                        onChange={(e) => {
+                          console.log(e.currentTarget.value)
+                        }}
+                      />
+                      <img
+                        src={require('../../assets/image/havent.png')}
+                        onClick={() => {
+                          this.props.dispatch({
+                            type: 'structure/saveOwnedUsers',
+                            payload: {
+                              ownedUsers: [...notOwnedUsers, ...ownedUsers],
+                              notOwnedUsers: [],
+                            },
+                          });
+                        }}
+                      />
                     </p>
                     <ul>
-                      {
-                        notOwnedUsers.map((item, index) => (
-                          <li
-                            key={index}
-                            style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
-                            onClick={() => {
-                              let tempOwnedUsers = ownedUsers;
-                              tempOwnedUsers.unshift(item);
-                              let tempNotOwnedUsers = notOwnedUsers;
-                              tempNotOwnedUsers.splice(index, 1);
-                              this.props.dispatch({
-                                type: 'structure/saveOwnedUsers',
-                                payload: {
-                                  ownedUsers: tempOwnedUsers,
-                                  notOwnedUsers: tempNotOwnedUsers,
-                                },
-                              });
-                            }}
-                          >{item.realname}</li>
-                        ))
-                      }
+                      <Scrollbars>
+                        {
+                          notOwnedUsers.map((item, index) => {
+                            notOwnedReale.push(item.username + '-' + item.realname);
+                            return <li
+                              key={index}
+                              style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
+                              onClick={() => {
+                                console.log(item)
+                                let tempOwnedUsers = ownedUsers;
+                                tempOwnedUsers.unshift(item);
+                                let tempNotOwnedUsers = notOwnedUsers;
+                                tempNotOwnedUsers.splice(index, 1);
+                                this.props.dispatch({
+                                  type: 'structure/saveOwnedUsers',
+                                  payload: {
+                                    ownedUsers: tempOwnedUsers,
+                                    notOwnedUsers: tempNotOwnedUsers,
+                                  },
+                                });
+                              }}
+                            >{item.username}-{item.realname}</li>
+                          })
+                        }
+                      </Scrollbars>
                     </ul>
                   </div>
                 </div>
@@ -577,42 +608,51 @@ class Structure extends Component {
                   <p>已拥有用户</p>
                   <p>{ownedUsers.length}条记录</p>
                   <div>
-                    <p
-                      onClick={() => {
-                        this.props.dispatch({
-                          type: 'structure/saveOwnedUsers',
-                          payload: {
-                            notOwnedUsers: [...ownedUsers, ...notOwnedUsers],
-                            ownedUsers: [],
-                          },
-                        });
-                      }}
-                    >
-                      <img src={require('../../assets/image/have.png')}></img>
+                    <p>
+                      <img
+                        src={require('../../assets/image/have.png')} 
+                        onClick={() => {
+                          this.props.dispatch({
+                            type: 'structure/saveOwnedUsers',
+                            payload: {
+                              notOwnedUsers: [...ownedUsers, ...notOwnedUsers],
+                              ownedUsers: [],
+                            },
+                          });
+                        }}
+                      />
+                      <input
+                        placeholder='请输入'
+                        value={this.state.ownedValue}
+                        onChange={(e) => {
+                          console.log(e.currentTarget.value)
+                        }}
+                      />
                     </p>
                     <ul>
-                      {
-                        ownedUsers.map((item, index) => (
-                          <li
-                            key={index}
-                            style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
-                            onClick={() => {
-                              let tempOwnedUsers = ownedUsers;
-                              tempOwnedUsers.splice(index, 1);
-                              let tempNotOwnedUsers = notOwnedUsers;
-                              tempNotOwnedUsers.unshift(item);
-                              this.props.dispatch({
-                                type: 'structure/saveOwnedUsers',
-                                payload: {
-                                  ownedUsers: tempOwnedUsers,
-                                  notOwnedUsers: tempNotOwnedUsers,
-                                },
-                              });
-                            }}
-                          >{item.realname}</li>
-                        ))
-                      }
-
+                      <Scrollbars>
+                        {
+                          ownedUsers.map((item, index) => (
+                            <li
+                              key={index}
+                              style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
+                              onClick={() => {
+                                let tempOwnedUsers = ownedUsers;
+                                tempOwnedUsers.splice(index, 1);
+                                let tempNotOwnedUsers = notOwnedUsers;
+                                tempNotOwnedUsers.unshift(item);
+                                this.props.dispatch({
+                                  type: 'structure/saveOwnedUsers',
+                                  payload: {
+                                    ownedUsers: tempOwnedUsers,
+                                    notOwnedUsers: tempNotOwnedUsers,
+                                  },
+                                });
+                              }}
+                            >{item.username}-{item.realname}</li>
+                          ))
+                        }
+                      </Scrollbars>
                     </ul>
                   </div>
                 </div>
