@@ -296,7 +296,7 @@ class ClientList extends Component {
       endTime,
       departmentType,
     } = this.state;
-   
+
     const a = [
       searchInputVal,
       startTime,
@@ -375,7 +375,7 @@ class ClientList extends Component {
           <CommonHeader title="客户列表" isMain customer isUserPort />
           <div id="content">
           {
-            this.state.flag && 
+            this.state.flag &&
             <div className="content-head">
               <div className="ch-top">
 
@@ -416,15 +416,19 @@ class ClientList extends Component {
             </div>
 
           }
-                <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
+            <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
 
           {/* 列表内容部分 */}
-            <DataList dataSource={this.state.dataSource}
-            handleDel={this.handleDel}
-            handleChange={this.handleChange}
-            total={this.state.total}
-            editCustomerInfo={this.editCustomerInfo}
-            navigateTo={this.navigateTo} />
+            {
+              this.state.dataSource.length > 0 && <DataList
+                dataSource={this.state.dataSource}
+                handleDel={this.handleDel}
+                handleChange={this.handleChange}
+                total={this.state.total}
+                editCustomerInfo={this.editCustomerInfo}
+                navigateTo={this.navigateTo}
+              />
+            }
           </div>
         </Scrollbars>
         {this.state.popClientShow && <PopClient
