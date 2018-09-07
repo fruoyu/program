@@ -1,6 +1,7 @@
 import { Table, Tooltip, Popconfirm } from 'antd';
 import React from "react";
 
+
 const DataList = (props) => {
   const { dataSource } = props;
   const columns = [{
@@ -41,11 +42,9 @@ const DataList = (props) => {
       <Tooltip placement="bottom" title="编辑">
         <span className='iconfont icon-biaozhugongju' onClick={() => props.editCustomerInfo(record.key)} />
       </Tooltip>
-      <Popconfirm title="Sure to delete?" onConfirm={() => props.handleDel(record.key)}>
-        <Tooltip placement="bottom" title="删除">
-          <span className='iconfont icon-shanchu' />
-        </Tooltip>
-      </Popconfirm>
+      <Tooltip placement="bottom" title="删除">
+        <span className='iconfont icon-shanchu' onClick={() => props.handleDel(record.key)} />
+      </Tooltip>
       <Tooltip placement="bottom" title="画像">
         <span className='iconfont icon-huaxiang' onClick={()=> props.navigateTo(record.key)} />
       </Tooltip>
