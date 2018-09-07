@@ -368,19 +368,19 @@ class UserList extends Component {
     )
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className="bootContent historyContent userContent" >
+      <div className="bootContent historyContent userContent" id="bootContent">
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
-          <CommonHeader title="用户管理" isMain customer isUserPort />
+          <CommonHeader title="用户管理" isMain customer isUserPort home />
           <div id="content">
             {
-              this.state.flag && 
+              this.state.flag &&
             <div className="content-head">
               <div className="ch-top">
                 <div className="search-input">
                   <input
                     type="text"
-                    placeholder="用户姓名"
+                    placeholder="用户名称"
                     value={this.state.userName}
                     onChange={(e) => {
                       this.upDataState('userName', e.target.value.trim());
@@ -390,7 +390,7 @@ class UserList extends Component {
                     className="iconfont icon-qianwang"
                     onClick={() => {
                       if (!this.state.userName.length) {
-                        message.warning('用户名不能为空', 1);
+                        message.warning('用户名称不能为空', 1);
                         return false;
                       }
                       this.setState({
@@ -403,15 +403,18 @@ class UserList extends Component {
                 </div>
                 <div className="search-condition">
                   {/* 所属角色 */}
-                  <div className="generation click-item">
-                    <Dropdown overlay={generation} trigger={['click']}>
+                  <div className="generation click-item" id="gen">
+                    <Dropdown
+                      overlay={generation} trigger={['click']}
+                      getPopupContainer={() => document.getElementById('gen')}
+                    >
                       <span className="ant-dropdown-link">
                         {this.state.generation}<Icon type="down" />
                       </span>
                     </Dropdown>
                   </div>
                   {/* 所属结构 */}
-                  <div className="composition click-item cascader">
+                  <div className="composition click-item cascader" id="area">
                     {/*<span style={{ color: '#fff', fontSize: 14 }}>所在组织</span>*/}
                     <Cascader
                       allowClear={false}
@@ -421,6 +424,7 @@ class UserList extends Component {
                       popupClassName="selectOptionsPop"
                       expandTrigger="hover"
                       placeholder="所属结构"
+                      getPopupContainer={() => document.getElementById('area')}
                     />
                     {/* <Dropdown overlay={menu} trigger={['click']}>
                       <span className="ant-dropdown-link">
@@ -438,8 +442,8 @@ class UserList extends Component {
                     </div>
                   </div>
                 </div>
-                
-                
+
+
                 {/* 重置 */}
                 <div className="reload-button">
                   <Icon type="reload" onClick={::this.reloadFn} />
@@ -457,7 +461,7 @@ class UserList extends Component {
               >新建用户</div>
             </div>
             }
-            
+
             {/* 内容区域 */}
             <CommonTable
               tabHead={tabHead}

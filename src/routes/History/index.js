@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import {
   DatePicker, Menu, Icon, message, Tooltip, Form, Select, Modal,
-  Cascader,
- } from 'antd';
+  Cascader, Dropdown,
+} from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import './history.less';
@@ -269,11 +269,13 @@ class History extends Component {
     });
   }
   // 进入数据界面
-  gotoPopup(id) {
+  gotoPopup(id, customerId) {
+    console.log(customerId)
     this.props.dispatch(routerRedux.push({
       pathname: '/popup',
       query: {
         taskId: id,
+        customerId,
       },
     }));
   }
@@ -284,11 +286,14 @@ class History extends Component {
       this.props.dispatch({
         type: 'history/changeCutsom',
         payload: {
-          customId: value.choseUser,
+          customId: 54,
           realTime: this.state.choseTime,
           taskId: this.state.taskId,
         },
         callback: () => {
+          this.setState({
+            showEdit: false,
+          });
           this.sendRequest();
         },
       });
@@ -311,7 +316,7 @@ class History extends Component {
       startTime,
       endTime,
     } = this.state;
-   
+
     const a = [
       fileName,
       name,
@@ -353,15 +358,15 @@ class History extends Component {
       <div className="bootContent historyContent historyIcon" onClick={(e) => { this.documentClick(e); }}>
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
-          <CommonHeader title="录音列表" isMain customer isUserPort />
+          <CommonHeader title="录音列表" isMain customer isUserPort home />
           <div id="content">
           {
-            this.state.flag && 
+            this.state.flag &&
             <div className="content-head">
               <div className="ch-top">
                 <div className="search-input">
                   <input
-                    type="text" placeholder="搜索内容"
+                    type="text" placeholder="录音名称"
                     value={this.state.fileName}
                     onChange={(e) => {
                       this.upDataState('fileName', e.target.value.trim());
@@ -371,7 +376,7 @@ class History extends Component {
                     className="iconfont icon-qianwang"
                     onClick={() => {
                       if (!this.state.fileName.length) {
-                        message.warning('请输入搜索内容');
+                        message.warning('请输入录音名称');
                         return;
                       }
                       this.setState({
@@ -416,7 +421,7 @@ class History extends Component {
 
                   </div>
                   {/* 结构 */}
-                  <div className="composition click-item">
+                  <div className="composition click-item" id="jiegou">
                     <Cascader
                       allowClear={false}
                       options={this.state.options}
@@ -425,6 +430,7 @@ class History extends Component {
                       popupClassName="selectOptionsPop"
                       expandTrigger="hover"
                       placeholder="所属结构"
+                      getPopupContainer={() => document.getElementById('jiegou')}
                     />
                   </div>
                   {/* 任务状态 */}
@@ -484,7 +490,7 @@ class History extends Component {
                   return (
                     <li className="content-item" data-id="'+ item2.id +'" key={index}>
                       <Tooltip placement="bottom" title={item.fileName}>
-                        <div className="item-title" onClick={this.gotoPopup.bind(this, item.id)}>{item.fileName}</div>
+                        <div className="item-title" onClick={this.gotoPopup.bind(this, item.id, item.customerId)}>{item.fileName}</div>
                       </Tooltip>
                       <div className="item-author">{item.userId}</div>
                       <div className="item-composition">{item.area}{item.classc}{item.groupc}</div>

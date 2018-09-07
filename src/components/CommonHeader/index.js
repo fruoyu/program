@@ -203,7 +203,7 @@ class MainWrapper extends Component {
         {
           record && <div
             className="shuju"
-            onClick={() => {
+            /* onClick={() => {
               if (location.pathname === '/popup') return;
               this.props.dispatch(routerRedux.push({
                 pathname: '/popup',
@@ -211,7 +211,7 @@ class MainWrapper extends Component {
                   taskId,
                 },
               }));
-            }}
+            }}*/
           > <span className="iconfont icon-xiangqing1" />
             <span className="record">录音详情</span>
           </div>

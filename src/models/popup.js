@@ -408,7 +408,6 @@ export default {
         tempArr = state.templist;
       }
       payload.data.keylist = tempArr;
-      console.log(tempArr)
       return { ...state, fileResult: payload.data };
     },
     saveKeylistForm(state, { payload }) {
