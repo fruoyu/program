@@ -367,7 +367,6 @@ class Structure extends Component {
                       this.setState({
                         departmentName: e.target.value.trim(),
                       });
-                      // this.updataState('fileName', e.target.value.trim());
                     }}
                   />
                   <span
