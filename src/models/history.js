@@ -1,5 +1,5 @@
 import { notifyError, notifySuccess } from '../services/app.js';
-import { getFilesList, getName, getSingleData, getQueryKeyItem } from '../services/history';
+import { getFilesList, getName, getSingleData, getQueryKeyItem, deleteFiles, changeCutsom } from '../services/history';
 import { ifToken } from '../utils/cookie';
 
 export default {
@@ -69,6 +69,26 @@ export default {
           type: 'changeQueryKeyItem',
           payload: data.data,
         });
+        if (callback) callback();
+      } else {
+        notifyError(data.message);
+      }
+    },
+    /* 删除单条录音*/
+    * deleteFiles({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
+      const { data } = yield call(deleteFiles, payload);
+      if (data.status === 0) {
+        if (callback) callback();
+      } else {
+        notifyError(data.message);
+      }
+    },
+    // 绑定客户、面销时间
+    * changeCutsom({ payload, callback }, { call, put }) {
+      if (!ifToken()) return;
+      const { data } = yield call(changeCutsom, payload);
+      if (data.status === 0) {
         if (callback) callback();
       } else {
         notifyError(data.message);
