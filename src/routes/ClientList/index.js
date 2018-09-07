@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { Cascader, Menu, Dropdown, Icon } from 'antd';
+import { Cascader, Menu, Icon, Modal } from 'antd';
 import $ from 'jquery';
 import { CommonHeader } from '../../components';
 import DatePick from './DatePicker';
@@ -14,6 +14,7 @@ import './clientList.less';
 import '../../assets/iconfont/iconfont.css';
 
 const SubMenu = Menu.SubMenu;
+const confirm = Modal.confirm;
 
 class ClientList extends Component {
   constructor(props){
@@ -101,6 +102,7 @@ class ClientList extends Component {
         this.getConstruction();
       });
     });
+
   }
 
   /**
@@ -241,15 +243,22 @@ class ClientList extends Component {
     }
   }
   handleDel = (key) => {
-    this.props.dispatch({
-      type: 'clientList/deleteClient',
-      payload:{
-        customerId: key
+    confirm({
+      title: '确定删除该客户吗?',
+      onOk: () => {
+        this.props.dispatch({
+          type: 'clientList/deleteClient',
+          payload:{
+            customerId: key
+          },
+          cb: (data)=>{
+            this.onGetClientList();
+          }
+        })
       },
-      cb: (data)=>{
-        this.onGetClientList();
-      }
-    })
+      onCancel() {
+      },
+    });
   }
 
   navigateTo = (id) => {
