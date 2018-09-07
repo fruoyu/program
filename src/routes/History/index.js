@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import {
   DatePicker, Menu, Icon, message, Tooltip, Form, Select, Modal,
-  Cascader,
- } from 'antd';
+  Cascader, Dropdown,
+} from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
 import './history.less';
@@ -270,6 +270,7 @@ class History extends Component {
   }
   // 进入数据界面
   gotoPopup(id, customerId) {
+    console.log(customerId)
     this.props.dispatch(routerRedux.push({
       pathname: '/popup',
       query: {
@@ -420,7 +421,7 @@ class History extends Component {
 
                   </div>
                   {/* 结构 */}
-                  <div className="composition click-item">
+                  <div className="composition click-item" id="jiegou">
                     <Cascader
                       allowClear={false}
                       options={this.state.options}
@@ -429,6 +430,7 @@ class History extends Component {
                       popupClassName="selectOptionsPop"
                       expandTrigger="hover"
                       placeholder="所属结构"
+                      getPopupContainer={() => document.getElementById('jiegou')}
                     />
                   </div>
                   {/* 任务状态 */}

@@ -368,7 +368,7 @@ class UserList extends Component {
     )
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className="bootContent historyContent userContent" >
+      <div className="bootContent historyContent userContent" id="bootContent">
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
           <CommonHeader title="用户管理" isMain customer isUserPort home />
@@ -403,15 +403,18 @@ class UserList extends Component {
                 </div>
                 <div className="search-condition">
                   {/* 所属角色 */}
-                  <div className="generation click-item">
-                    <Dropdown overlay={generation} trigger={['click']}>
+                  <div className="generation click-item" id="gen">
+                    <Dropdown
+                      overlay={generation} trigger={['click']}
+                      getPopupContainer={() => document.getElementById('gen')}
+                    >
                       <span className="ant-dropdown-link">
                         {this.state.generation}<Icon type="down" />
                       </span>
                     </Dropdown>
                   </div>
                   {/* 所属结构 */}
-                  <div className="composition click-item cascader">
+                  <div className="composition click-item cascader" id="area">
                     {/*<span style={{ color: '#fff', fontSize: 14 }}>所在组织</span>*/}
                     <Cascader
                       allowClear={false}
@@ -421,6 +424,7 @@ class UserList extends Component {
                       popupClassName="selectOptionsPop"
                       expandTrigger="hover"
                       placeholder="所属结构"
+                      getPopupContainer={() => document.getElementById('area')}
                     />
                     {/* <Dropdown overlay={menu} trigger={['click']}>
                       <span className="ant-dropdown-link">

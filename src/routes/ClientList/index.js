@@ -394,7 +394,7 @@ class ClientList extends Component {
                 </div>
                 <div className="search-condition">
                   {/* 下拉菜单 */}
-                  <div className="cascader">
+                  <div className="cascader" id="cascader">
                     <Cascader
                       allowClear={false}
                       options={this.state.options}
@@ -403,6 +403,7 @@ class ClientList extends Component {
                       popupClassName="selectOptionsPop"
                       expandTrigger="hover"
                       placeholder="所属结构"
+                      getPopupContainer={() => document.getElementById('cascader')}
                     />
                   </div>
                 </div>

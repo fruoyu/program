@@ -359,8 +359,11 @@ class Structure extends Component {
                   />
                 </div>
                 <div className="search-condition">
-                  <div className="generation click-item">
-                    <Dropdown overlay={generation} trigger={['click']}>
+                  <div className="generation click-item" id="bumen">
+                    <Dropdown
+                      overlay={generation} trigger={['click']}
+                      getPopupContainer={() => document.getElementById('bumen')}
+                    >
                       <span className="ant-dropdown-link">
                         {this.state.generation}<Icon type="down" />
                       </span>
