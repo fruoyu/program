@@ -25,7 +25,6 @@ class Structure extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      flag: true,
       changeDepartment: false,
       areaName: '',
       departmentName: '',
@@ -240,7 +239,6 @@ class Structure extends Component {
       default:
         result = [4,5];
     };
-    console.log(result);
     this.props.dispatch({
       type: 'structure/searchUsers',
       payload: {
@@ -274,38 +272,6 @@ class Structure extends Component {
           assigningUsers: false,
         });
       },
-    });
-  }
-  
-  // 重置
-  reloadFn() {
-    const {
-      departmentName,
-      startTime,
-      endTime,
-      departmentType,
-    } = this.state;
-   
-    const a = [
-      departmentName,
-      startTime,
-      endTime,
-      departmentType,
-      ].some((el)=>{
-        return el.length>0
-      });
-    if (!a) return;
-
-    this.setState({
-      departmentName:'',
-      startTime:'',
-      endTime:'',
-      generation:'所属结构',
-      departmentType:'',
-      flag:false
-    }, () => {
-      this.setState({flag: true})
-      this.sendRequest();
     });
   }
 
@@ -357,20 +323,17 @@ class Structure extends Component {
         <Scrollbars>
           <CommonHeader title="结构管理" isMain isUserPort customer />
           <div className='structure-box' id="content">
-          {
-            this.state.flag && 
             <div className='structure-header content-head' >
               <div className="ch-top">
                 <div className="search-input">
                   <input
                     type="text"
-                    value={this.state.departmentName}
                     placeholder={this.state.departmentName == '' ? '部门名称' : this.state.departmentName}
                     onChange={(e) => {
                       this.setState({
                         departmentName: e.target.value.trim(),
                       });
-                      this.updataState('departmentName', e.target.value.trim());
+                      // this.updataState('fileName', e.target.value.trim());
                     }}
                   />
                   <span
@@ -402,16 +365,12 @@ class Structure extends Component {
                   <div className="form-group d_t_dater">
                     <div className="col-sm-12">
                       <div className="input-group">
-                        <RangePicker onChange={::this.onChangeFn} allowClear={false}/>
+                        <RangePicker onChange={::this.onChangeFn} />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="reload-button">
-                  <Icon type="reload" onClick={::this.reloadFn} />
-                </div>
-
               <div
                 className="buttonCont"
                 onClick={() => {
@@ -427,8 +386,6 @@ class Structure extends Component {
                 }}
               >添加部门</div>
             </div>
-            
-          }
             <CommonTable
               filesList={assignRolesList}
               tabHead={tabHead}
@@ -693,7 +650,6 @@ class Structure extends Component {
         {/* 添加部门*/}
         {
           this.state.addStructure && <PolyDialog
-            className="addStr"
             visible={this.state.addStructure}
             style={{
               height: 'auto',
