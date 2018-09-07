@@ -233,7 +233,7 @@ class Main extends Component {
     });
     if (files.length != defau.files.length) {
       $('#upload').val('');
-      notifyError('当前上传存在文件格式错误,正确格式为大区-销售名称-客户名称-客户电话!');
+      notifyError('当前上传存在文件格式错误,正确格式为大区-销售名称-客户名称-客户电话!', 'Error', 4);
     }
     if (files.length > 0) {
       $('.upload-btn .icon-shangchuan').css('font-size','55px');
