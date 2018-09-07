@@ -407,6 +407,10 @@ class Structure extends Component {
                     </div>
                   </div>
                 </div>
+                {/* */}
+                <div className="reload-button">
+                  <Icon type="reload" onClick={::this.reloadFn} />
+                </div>
               </div>
               <div
                 className="buttonCont"
