@@ -348,13 +348,11 @@ class Structure extends Component {
                 <div className="search-input">
                   <input
                     type="text"
-                    value={this.state.departmentName}
                     placeholder={this.state.departmentName == '' ? '部门名称' : this.state.departmentName}
                     onChange={(e) => {
                       this.setState({
                         departmentName: e.target.value.trim(),
                       });
-                      this.updataState('departmentName', e.target.value.trim());
                     }}
                   />
                   <span
