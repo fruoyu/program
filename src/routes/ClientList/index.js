@@ -372,7 +372,7 @@ class ClientList extends Component {
         <Scrollbars style={{ flex: 1 }} autoHide>
 
           {/* 头部信息 */}
-          <CommonHeader title="客户列表" isMain customer isUserPort />
+          <CommonHeader title="客户列表" isMain customer isUserPort home />
           <div id="content">
           {
             this.state.flag &&

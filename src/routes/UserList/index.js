@@ -371,10 +371,10 @@ class UserList extends Component {
       <div className="bootContent historyContent userContent" >
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
-          <CommonHeader title="用户管理" isMain customer isUserPort />
+          <CommonHeader title="用户管理" isMain customer isUserPort home />
           <div id="content">
             {
-              this.state.flag && 
+              this.state.flag &&
             <div className="content-head">
               <div className="ch-top">
                 <div className="search-input">
@@ -438,8 +438,8 @@ class UserList extends Component {
                     </div>
                   </div>
                 </div>
-                
-                
+
+
                 {/* 重置 */}
                 <div className="reload-button">
                   <Icon type="reload" onClick={::this.reloadFn} />
@@ -457,7 +457,7 @@ class UserList extends Component {
               >新建用户</div>
             </div>
             }
-            
+
             {/* 内容区域 */}
             <CommonTable
               tabHead={tabHead}

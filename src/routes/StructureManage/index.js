@@ -259,7 +259,7 @@ class Structure extends Component {
       },
     });
   }
-  
+
   // 重置
   reloadFn() {
     const {
@@ -268,7 +268,7 @@ class Structure extends Component {
       endTime,
       departmentType,
     } = this.state;
-   
+
     const a = [
       departmentName,
       startTime,
@@ -325,10 +325,10 @@ class Structure extends Component {
     return (
       <div id='structure' className="bootContent historyContent structureContent">
         <Scrollbars>
-          <CommonHeader title="结构管理" isMain isUserPort customer />
+          <CommonHeader title="结构管理" isMain isUserPort customer home />
           <div className='structure-box' id="content">
           {
-            this.state.flag && 
+            this.state.flag &&
             <div className='structure-header content-head' >
               <div className="ch-top">
                 <div className="search-input">
@@ -397,7 +397,7 @@ class Structure extends Component {
                 }}
               >添加部门</div>
             </div>
-            
+
           }
             <CommonTable
               filesList={assignRolesList}
