@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { Cascader, Menu, Dropdown, Icon } from 'antd';
+import { Cascader, Menu, Icon, Modal } from 'antd';
 import $ from 'jquery';
 import { CommonHeader } from '../../components';
 import DatePick from './DatePicker';
@@ -14,6 +14,7 @@ import './clientList.less';
 import '../../assets/iconfont/iconfont.css';
 
 const SubMenu = Menu.SubMenu;
+const confirm = Modal.confirm;
 
 class ClientList extends Component {
   constructor(props){
@@ -101,6 +102,7 @@ class ClientList extends Component {
         this.getConstruction();
       });
     });
+
   }
 
   /**
@@ -241,15 +243,22 @@ class ClientList extends Component {
     }
   }
   handleDel = (key) => {
-    this.props.dispatch({
-      type: 'clientList/deleteClient',
-      payload:{
-        customerId: key
+    confirm({
+      title: '确定删除该客户吗?',
+      onOk: () => {
+        this.props.dispatch({
+          type: 'clientList/deleteClient',
+          payload:{
+            customerId: key
+          },
+          cb: (data)=>{
+            this.onGetClientList();
+          }
+        })
       },
-      cb: (data)=>{
-        this.onGetClientList();
-      }
-    })
+      onCancel() {
+      },
+    });
   }
 
   navigateTo = (id) => {
@@ -296,7 +305,7 @@ class ClientList extends Component {
       endTime,
       departmentType,
     } = this.state;
-   
+
     const a = [
       searchInputVal,
       startTime,
@@ -372,10 +381,10 @@ class ClientList extends Component {
         <Scrollbars style={{ flex: 1 }} autoHide>
 
           {/* 头部信息 */}
-          <CommonHeader title="客户列表" isMain customer isUserPort />
+          <CommonHeader title="客户列表" isMain customer isUserPort home />
           <div id="content">
           {
-            this.state.flag && 
+            this.state.flag &&
             <div className="content-head">
               <div className="ch-top">
 
@@ -394,7 +403,7 @@ class ClientList extends Component {
                 </div>
                 <div className="search-condition">
                   {/* 下拉菜单 */}
-                  <div className="cascader">
+                  <div className="cascader" id="cascader">
                     <Cascader
                       allowClear={false}
                       options={this.state.options}
@@ -403,6 +412,7 @@ class ClientList extends Component {
                       popupClassName="selectOptionsPop"
                       expandTrigger="hover"
                       placeholder="所属结构"
+                      getPopupContainer={() => document.getElementById('cascader')}
                     />
                   </div>
                 </div>
@@ -416,15 +426,19 @@ class ClientList extends Component {
             </div>
 
           }
-                <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
+            <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
 
           {/* 列表内容部分 */}
-            <DataList dataSource={this.state.dataSource}
-            handleDel={this.handleDel}
-            handleChange={this.handleChange}
-            total={this.state.total}
-            editCustomerInfo={this.editCustomerInfo}
-            navigateTo={this.navigateTo} />
+            {
+              this.state.dataSource.length > 0 && <DataList
+                dataSource={this.state.dataSource}
+                handleDel={this.handleDel}
+                handleChange={this.handleChange}
+                total={this.state.total}
+                editCustomerInfo={this.editCustomerInfo}
+                navigateTo={this.navigateTo}
+              />
+            }
           </div>
         </Scrollbars>
         {this.state.popClientShow && <PopClient

@@ -25,6 +25,7 @@ class Structure extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      flag: true,
       changeDepartment: false,
       areaName: '',
       departmentName: '',
@@ -274,6 +275,37 @@ class Structure extends Component {
       },
     });
   }
+  // 重置
+  reloadFn() {
+    const {
+      departmentName,
+      startTime,
+      endTime,
+      departmentType,
+    } = this.state;
+
+    const a = [
+      departmentName,
+      startTime,
+      endTime,
+      departmentType,
+      ].some((el)=>{
+        return el.length>0
+      });
+    if (!a) return;
+
+    this.setState({
+      departmentName:'',
+      startTime:'',
+      endTime:'',
+      generation:'所属结构',
+      departmentType:'',
+      flag:false
+    }, () => {
+      this.setState({flag: true})
+      this.sendRequest();
+    });
+  }
 
   // 部门级别
   groupName = (roleLevel) => {
@@ -321,8 +353,10 @@ class Structure extends Component {
     return (
       <div id='structure' className="bootContent historyContent structureContent">
         <Scrollbars>
-          <CommonHeader title="结构管理" isMain isUserPort customer />
+          <CommonHeader title="结构管理" isMain isUserPort customer home />
           <div className='structure-box' id="content">
+          {
+            this.state.flag &&
             <div className='structure-header content-head' >
               <div className="ch-top">
                 <div className="search-input">
@@ -352,8 +386,11 @@ class Structure extends Component {
                   />
                 </div>
                 <div className="search-condition">
-                  <div className="generation click-item">
-                    <Dropdown overlay={generation} trigger={['click']}>
+                  <div className="generation click-item" id="bumen">
+                    <Dropdown
+                      overlay={generation} trigger={['click']}
+                      getPopupContainer={() => document.getElementById('bumen')}
+                    >
                       <span className="ant-dropdown-link">
                         {this.state.generation}<Icon type="down" />
                       </span>
@@ -386,6 +423,8 @@ class Structure extends Component {
                 }}
               >添加部门</div>
             </div>
+
+          }
             <CommonTable
               filesList={assignRolesList}
               tabHead={tabHead}
