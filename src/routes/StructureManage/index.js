@@ -224,10 +224,26 @@ class Structure extends Component {
     });
   }
   searchUsers = (roleLevel, groupId) => {
+    const n = 3;
+    let result = [];
+    switch(roleLevel){
+      case '1':
+        result=[''];
+        break;
+      case '2':
+        result = [roleLevel];
+        break;
+      case '3':
+        result = [roleLevel];
+        break;
+      default:
+        result = [4,5];
+    };
+    console.log(result);
     this.props.dispatch({
       type: 'structure/searchUsers',
       payload: {
-        roleTypeList: [roleLevel == 1 ? '' : roleLevel],
+        roleTypeList: result,
         whetherBind: '0',
         groupId: '',
       },
@@ -235,7 +251,7 @@ class Structure extends Component {
     this.props.dispatch({
       type: 'structure/searchUsers',
       payload: {
-        roleTypeList: [roleLevel == 1 ? '' : roleLevel],
+        roleTypeList: result,
         whetherBind: '1',
         groupId,
       },
@@ -534,7 +550,10 @@ class Structure extends Component {
                       <Scrollbars>
                         {
                           notOwnedUsers.map((item, index) => {
-                            notOwnedReale.push(item.username + '-' + item.realname);
+                            notOwnedReale.push({
+                              ...item,
+                              spliceName: item.username + '-' + item.realname,
+                            });
                             return <li
                               key={index}
                               style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
@@ -580,15 +599,29 @@ class Structure extends Component {
                         placeholder='请输入'
                         value={this.state.ownedValue}
                         onChange={(e) => {
-                          console.log(e.currentTarget.value)
+                          let tempArr = [];
+                          if (e.currentTarget.value == '') {
+
+                          } else {
+                            ownedReale.map((ownedItem, ownedIndex) => {
+                              if (ownedItem.spliceName.indexOf(e.currentTarget.value) != -1) {
+                                tempArr.push(ownedItem);
+                              }
+                            });
+                            console.log(tempArr)
+                          }
                         }}
                       />
                     </p>
                     <ul>
                       <Scrollbars>
                         {
-                          ownedUsers.map((item, index) => (
-                            <li
+                          ownedUsers.map((item, index) => {
+                            ownedReale.push({
+                              ...item,
+                              spliceName: item.username + '-' + item.realname,
+                            });
+                            return <li
                               key={index}
                               style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
                               onClick={() => {
@@ -605,7 +638,7 @@ class Structure extends Component {
                                 });
                               }}
                             >{item.username}-{item.realname}</li>
-                          ))
+                          })
                         }
                       </Scrollbars>
                     </ul>
