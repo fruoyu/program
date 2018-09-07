@@ -25,8 +25,10 @@ class History extends Component {
   constructor() {
     super();
     this.state = {
+      flag: true,
       statusContent: '任务状态', // 状态选择
       name: '',
+      groupId: '',
       statusList: [
         {
           key: '0',
@@ -143,7 +145,7 @@ class History extends Component {
   onSelectChange = (val, d) => {
     console.log(val);
     const len = val.length;
-    const groupId = val[len - 1];
+    const groupId = val[len - 1] + '';
     let area = 0;
     let classc = 0;
     let groupc = 0;
@@ -307,23 +309,35 @@ class History extends Component {
     const {
       fileName,
       name,
-      composition,
-      area,
-      classc,
-      groupc,
-      statusContent,
+      groupId,
       status,
       startTime,
       endTime,
     } = this.state;
-    if (fileName === '' && name === '' && composition === '' && status === '') return;
+   
+    const a = [
+      fileName,
+      name,
+      groupId,
+      startTime,
+      endTime,
+      status
+      ].some((el)=>{
+        return el.length>0
+      });
+    if (!a) return;
+
     this.setState({
       fileName: '',
       name: '',
-      composition: '',
       status: '',
+      startTime:'',
+      endTime:'',
+      groupId:'',
       statusContent: '任务状态',
+      flag:false
     }, () => {
+      this.setState({flag: true})
       this.sendRequest();
     });
   }
@@ -344,6 +358,8 @@ class History extends Component {
           {/* 头部信息 */}
           <CommonHeader title="录音列表" isMain customer isUserPort />
           <div id="content">
+          {
+            this.state.flag && 
             <div className="content-head">
               <div className="ch-top">
                 <div className="search-input">
@@ -405,7 +421,7 @@ class History extends Component {
                   {/* 结构 */}
                   <div className="composition click-item">
                     <Cascader
-                      // allowClear={false}
+                      allowClear={false}
                       options={this.state.options}
                       onChange={::this.onSelectChange}
                       changeOnSelect={true}
@@ -452,11 +468,13 @@ class History extends Component {
                     </div>
                   </div>
                 </div>
+                {/* */}
                 <div className="reload-button">
                   <Icon type="reload" onClick={::this.reloadFn} />
                 </div>
               </div>
             </div>
+            }
             {/* 内容区域 */}
             <CommonTable
               tabHead={tabHead}

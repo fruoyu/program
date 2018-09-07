@@ -28,6 +28,7 @@ class UserList extends Component {
     super(props);
 
     this.state = {
+      flag: true,
       showUser: false,
       isRevisePwd: false,
       addUser: false,
@@ -307,28 +308,37 @@ class UserList extends Component {
   reloadFn() {
     const {
       userName,
-      area,
-      classc,
-      groupc,
-      generation,
       startTime,
       endTime,
       roleId,
+      area,
+      classc,
+      groupc,
     } = this.state;
-    // $('.ant-cascader-input').val('');
-    if (userName === '' && roleId === '') return;
+
+    const a = [
+      userName,
+      startTime,
+      endTime,
+      roleId].some((el)=>{
+        return el.length>0
+      });
+    if (!a && [
+      area,
+      classc,
+      groupc].every((e)=>e===0)) return;
     this.setState({
-      userName: '',
-      roleId: '',
-      // area: 0,
-      // classc: 0,
-      // groupc: 0,
-      generation: '所属角色',
-      // startTime: '',
-      // endTime: '',
-    }, () => {
+      flag: false,
+        userName: '',
+        roleId: '',
+        area: 0,
+        classc: 0,
+        groupc: 0,
+        generation: '所属角色',
+    },()=>{
+      this.setState({flag: true})
       this.sendRequest();
-    });
+    })
   }
   render() {
     const {
@@ -363,6 +373,8 @@ class UserList extends Component {
           {/* 头部信息 */}
           <CommonHeader title="用户管理" isMain customer isUserPort />
           <div id="content">
+            {
+              this.state.flag && 
             <div className="content-head">
               <div className="ch-top">
                 <div className="search-input">
@@ -402,7 +414,7 @@ class UserList extends Component {
                   <div className="composition click-item cascader">
                     {/*<span style={{ color: '#fff', fontSize: 14 }}>所在组织</span>*/}
                     <Cascader
-                      // allowClear={false}
+                      allowClear={false}
                       options={this.state.options}
                       onChange={::this.onSelectChange}
                       changeOnSelect={true}
@@ -417,16 +429,17 @@ class UserList extends Component {
                     </Dropdown>*/}
                   </div>
                 </div>
-                {/* 日历 */}
-                <div className="search-calendar">
+                {/* 日历 */}<div className="search-calendar">
                   <div className="form-group d_t_dater">
                     <div className="col-sm-12">
                       <div className="input-group">
-                        <RangePicker onChange={::this.onChangeFn} />
+                        <RangePicker onChange={::this.onChangeFn} allowClear={false} />
                       </div>
                     </div>
                   </div>
                 </div>
+                
+                
                 {/* 重置 */}
                 <div className="reload-button">
                   <Icon type="reload" onClick={::this.reloadFn} />
@@ -443,6 +456,8 @@ class UserList extends Component {
                 }}
               >新建用户</div>
             </div>
+            }
+            
             {/* 内容区域 */}
             <CommonTable
               tabHead={tabHead}
