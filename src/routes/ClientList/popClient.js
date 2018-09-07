@@ -47,9 +47,9 @@ class PopClientInfo extends Component {
   componentDidMount() {
     const { clientData: { edit, customerId, customerName, customerSex, customerBirthday: defDate, customerPhone, customerIdType: idType, customerIdNo, customerLevel, customerFive, customerUser, customerJob, customerMarriage, customerAdress, customerMail }, form: { setFieldsValue } } = this.props;
     this.setState({
-      customerId,
+      customerId: customerId ? customerId : '',
       defDate: defDate ? {initialValue: moment(defDate, 'YYYY-MM-DD')} : {} ,
-    })
+    });
     if(edit){
       setFieldsValue({customerName, customerSex, customerPhone, customerIdType: ''+idType, customerIdNo, customerLevel, customerFive, customerUser, customerJob, customerMarriage, customerAdress, customerMail });
     }
@@ -59,19 +59,20 @@ class PopClientInfo extends Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        const isUpdate = this.state.customerId === '';
         const { customerBirthday, customerId } = this.state;
         const data = { ...values, customerBirthday };
         if(customerId !== '') data.customerId = customerId;
         this.props.dispatch({
-          type: `clientList/${this.state.customerId === '' ? 'addClient' : 'updateClient'}`,
+          type: `clientList/${isUpdate ? 'addClient' : 'updateClient'}`,
           payload: data,
           cb: (res) => {
             this.handleClose();
             notification['success']({
-              message: `${this.state.customerId === '' ? '客户添加成功' : '客户更新成功'}`,
+              message: `${isUpdate ? '客户添加成功' : '客户更新成功'}`,
               description: '',
             });
-            this.props.onGetClientList();
+            
           }
         })
       }

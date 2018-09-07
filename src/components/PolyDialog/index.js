@@ -32,13 +32,15 @@ export default class PolyDialog extends Component {
       onOk,
       onCancel,
       style,
+      className,
     } = this.props;
+    const claN = className ? `${className} main` : 'main';
     return (
       <div className="cover">
-        <div className="main" style={style}>
+        <div className={claN} style={style}>
           {/* 标题 */}
           <p className="title">
-            <span onClick={this.onClose.bind(this)}>X</span>
+            <span className="iconfont icon-htmal5icon19 close" onClick={this.onClose.bind(this)} />
           </p>
           {/* 主要内容区域 */}
           <section style={{ flex: 1, overflow: 'hidden' }}>

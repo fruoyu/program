@@ -219,6 +219,7 @@ class MainWrapper extends Component {
         {/* 修改密码弹框 */}
         {
           this.state.changePassword && <PolyDialog
+            class="reset-pas"
             title="修改密码"
             visible={this.state.changePassword}
             onClose={() => {

@@ -20,6 +20,7 @@ class ClientList extends Component {
     super(props);
 
     this.state = {
+      flag: true,
       searchInputVal:'',
       name: '',
       endTime: '',
@@ -147,9 +148,9 @@ class ClientList extends Component {
   // 日历操作
   onChangeFn = (date, dateString) => {
     this.setState({
-      endTime: dateString[0],
+      endTime: dateString[1],
       pageNum: 1,
-      startTime: dateString[1]
+      startTime: dateString[0]
     },()=>{
       this.onGetClientList();
     });
@@ -287,6 +288,36 @@ class ClientList extends Component {
       this.onGetClientList();
     })
   }
+  // 重置
+  reloadFn() {
+    const {
+      searchInputVal,
+      startTime,
+      endTime,
+      departmentType,
+    } = this.state;
+   
+    const a = [
+      searchInputVal,
+      startTime,
+      endTime,
+      departmentType,
+      ].some((el)=>{
+        return el.length>0
+      });
+    if (!a) return;
+
+    this.setState({
+      searchInputVal:'',
+      startTime:'',
+      endTime:'',
+      departmentType:'',
+      flag:false
+    }, () => {
+      this.setState({flag: true})
+      this.onGetClientList();
+    });
+  }
 
   render() {
     const menu = (
@@ -343,12 +374,15 @@ class ClientList extends Component {
           {/* 头部信息 */}
           <CommonHeader title="客户列表" isMain customer isUserPort />
           <div id="content">
+          {
+            this.state.flag && 
             <div className="content-head">
               <div className="ch-top">
 
               {/* Filter part start */}
                 <div className="search-input">
                   <input
+                  value={this.state.searchInputVal}
                     type="text" placeholder="客户姓名/客户电话"
                     onChange={(e) => {
                       this.setState({
@@ -362,6 +396,7 @@ class ClientList extends Component {
                   {/* 下拉菜单 */}
                   <div className="cascader">
                     <Cascader
+                      allowClear={false}
                       options={this.state.options}
                       onChange={this.onSelectChange}
                       changeOnSelect={true}
@@ -370,21 +405,17 @@ class ClientList extends Component {
                       placeholder="所属结构"
                     />
                   </div>
-                  {/* 所属结构 */}
-                  {/* <div className="composition click-item">
-                    <Dropdown overlay={menu} trigger={['click']}>
-                      <span className="ant-dropdown-link">
-                        {this.state.composition}<Icon type="down" />
-                      </span>
-                    </Dropdown>
-                  </div>*/}
                 </div>
                 {/* 日历 */}
-                <DatePick onChangeFn={this.onChangeFn} />
+                <DatePick onChangeFn={this.onChangeFn} allowClear={false} />
+                <div className="reload-button">
+                  <Icon type="reload" onClick={::this.reloadFn} />
+                </div>
               {/* Filter part end */}
               </div>
             </div>
 
+          }
                 <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
 
           {/* 列表内容部分 */}
