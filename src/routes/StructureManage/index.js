@@ -599,7 +599,7 @@ class Structure extends Component {
                             });
                           } else {
                             notOwnedUsers.map((ownedItem, ownedIndex) => {
-                              if (ownedItem.username.indexOf(e.currentTarget.value) != -1) {
+                              if (ownedItem.standbyFlag1.indexOf(e.currentTarget.value) != -1) {
                                 tempArr.push(ownedItem);
                               }
                             });
@@ -706,7 +706,7 @@ class Structure extends Component {
                             });
                           } else {
                             ownedUsers.map((ownedItem, ownedIndex) => {
-                              if (ownedItem.username.indexOf(e.currentTarget.value) != -1) {
+                              if (ownedItem.standbyFlag1.indexOf(e.currentTarget.value) != -1) {
                                 tempArr.push(ownedItem);
                               }
                             });
