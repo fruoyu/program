@@ -392,7 +392,7 @@ export default {
       return { ...state, originalList: payload.data.result };
     },
     changeFilesListByid(state, { payload }) {
-      return { ...state, filesList: [...state.filesList, ...payload.data.reslist], fileTotal: payload.data.total};
+      return { ...state, filesList: payload.data.reslist, fileTotal: payload.data.total};
     },
     changeFileResultApi(state, { payload }) {
       let tempArr = [...state.templist];
