@@ -368,7 +368,7 @@ class UserList extends Component {
                 <div className="search-input">
                   <input
                     type="text"
-                    placeholder="用户姓名"
+                    placeholder="用户名称"
                     value={this.state.userName}
                     onChange={(e) => {
                       this.upDataState('userName', e.target.value.trim());
@@ -378,7 +378,7 @@ class UserList extends Component {
                     className="iconfont icon-qianwang"
                     onClick={() => {
                       if (!this.state.userName.length) {
-                        message.warning('用户名不能为空', 1);
+                        message.warning('用户名称不能为空', 1);
                         return false;
                       }
                       this.setState({

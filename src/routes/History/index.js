@@ -282,11 +282,14 @@ class History extends Component {
       this.props.dispatch({
         type: 'history/changeCutsom',
         payload: {
-          customId: value.choseUser,
+          customId: 54,
           realTime: this.state.choseTime,
           taskId: this.state.taskId,
         },
         callback: () => {
+          this.setState({
+            showEdit: false,
+          });
           this.sendRequest();
         },
       });
