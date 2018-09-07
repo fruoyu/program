@@ -47,12 +47,12 @@ export default {
       if (data.status === 100) {
         if (payload.whetherBind == '0') {
           yield put({
-            type: 'changeOwnedUsers',
+            type: 'changeNotOwnedUsers',
             payload: { ...data },
           });
         } else {
           yield put({
-            type: 'changeNotOwnedUsers',
+            type: 'changeOwnedUsers',
             payload: { ...data },
           });
         }
@@ -98,12 +98,15 @@ export default {
       return { ...state, assignRolesList: payload.data, count: payload.count };
     },
     changeOwnedUsers(state, { payload }) {
+      console.log('已拥有', payload.data)
       return { ...state, ownedUsers: payload.data };
     },
     changeNotOwnedUsers(state, { payload }) {
+      console.log('未拥有', payload.data)
       return { ...state, notOwnedUsers: payload.data };
     },
-    saveOwnedUsers(state, { payload }) {
+    saveOwnedUsers(state, { payload }, callback, ) {
+      callback && callback();
       return { ...state, ...payload };
     },
     changeAreaClassCons(state, { payload }) {

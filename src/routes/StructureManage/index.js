@@ -73,6 +73,10 @@ class Structure extends Component {
       classList: [],
       notOwnedReale: [],
       ownedReale: [],
+      userGroupId: '',
+      userRoleLevel: '',
+      stateOwnedUsers: [],
+      stateNotOwnedUsers: [],
     };
     this.changeGeneration = this.changeGeneration.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -227,15 +231,15 @@ class Structure extends Component {
   searchUsers = (roleLevel, groupId) => {
     const n = 3;
     let result = [];
-    switch(roleLevel){
+    switch(this.state.userRoleLevel){
       case '1':
         result=[''];
         break;
       case '2':
-        result = [roleLevel];
+        result = [this.state.userRoleLevel];
         break;
       case '3':
-        result = [roleLevel];
+        result = [this.state.userRoleLevel];
         break;
       default:
         result = [4,5];
@@ -247,13 +251,23 @@ class Structure extends Component {
         whetherBind: '0',
         groupId: '',
       },
+      callback: () => {
+        this.setState({
+          stateNotOwnedUsers: this.props.structure.notOwnedUsers,
+        });
+      },
     });
     this.props.dispatch({
       type: 'structure/searchUsers',
       payload: {
         roleTypeList: result,
         whetherBind: '1',
-        groupId,
+        groupId: this.state.userGroupId,
+      },
+      callback: () => {
+        this.setState({
+          stateOwnedUsers: this.props.structure.ownedUsers,
+        });
       },
     });
   }
@@ -473,9 +487,12 @@ class Structure extends Component {
                           onClick={() => {
                             this.setState({
                               assigningUsers: true,
-                              assigningDepartmentName: item.groupName
+                              assigningDepartmentName: item.groupName,
+                              userGroupId: item.groupId,
+                              userRoleLevel: item.roleLevel,
+                            }, () => {
+                              this.searchUsers(item.roleLevel, item.groupId);
                             });
-                            this.searchUsers(item.roleLevel, item.groupId);
                             notOwnedReale = [];
                             ownedReale = [];
                           }}
@@ -572,7 +589,27 @@ class Structure extends Component {
                         placeholder='请输入'
                         value={this.state.notOwnedValue}
                         onChange={(e) => {
-                          console.log(e.currentTarget.value)
+                          let tempArr = [];
+                          if (e.currentTarget.value == '') {
+                            this.props.dispatch({
+                              type: 'structure/saveOwnedUsers',
+                              payload: {
+                                notOwnedUsers: this.state.stateNotOwnedUsers,
+                              },
+                            });
+                          } else {
+                            notOwnedUsers.map((ownedItem, ownedIndex) => {
+                              if (ownedItem.username.indexOf(e.currentTarget.value) != -1) {
+                                tempArr.push(ownedItem);
+                              }
+                            });
+                            this.props.dispatch({
+                              type: 'structure/saveOwnedUsers',
+                              payload: {
+                                notOwnedUsers: tempArr,
+                              },
+                            });
+                          }
                         }}
                       />
                       <img
@@ -583,6 +620,12 @@ class Structure extends Component {
                             payload: {
                               ownedUsers: [...notOwnedUsers, ...ownedUsers],
                               notOwnedUsers: [],
+                            },
+                            callback: () => {
+                              this.setState({
+                                stateNotOwnedUsers: [],
+                                stateOwnedUsers: [...notOwnedUsers, ...ownedUsers],
+                              });
                             },
                           });
                         }}
@@ -611,6 +654,12 @@ class Structure extends Component {
                                     ownedUsers: tempOwnedUsers,
                                     notOwnedUsers: tempNotOwnedUsers,
                                   },
+                                  callback: () => {
+                                    this.setState({
+                                      stateNotOwnedUsers: tempNotOwnedUsers,
+                                      stateOwnedUsers: tempOwnedUsers,
+                                    })
+                                  },
                                 });
                               }}
                             >{item.username}-{item.realname}</li>
@@ -634,6 +683,12 @@ class Structure extends Component {
                               notOwnedUsers: [...ownedUsers, ...notOwnedUsers],
                               ownedUsers: [],
                             },
+                            callback: () => {
+                              this.setState({
+                                stateNotOwnedUsers: [...ownedUsers, ...notOwnedUsers],
+                                stateOwnedUsers: [],
+                              });
+                            },
                           });
                         }}
                       />
@@ -643,14 +698,24 @@ class Structure extends Component {
                         onChange={(e) => {
                           let tempArr = [];
                           if (e.currentTarget.value == '') {
-
+                            this.props.dispatch({
+                              type: 'structure/saveOwnedUsers',
+                              payload: {
+                                ownedUsers: this.state.stateOwnedUsers,
+                              },
+                            });
                           } else {
-                            ownedReale.map((ownedItem, ownedIndex) => {
-                              if (ownedItem.spliceName.indexOf(e.currentTarget.value) != -1) {
+                            ownedUsers.map((ownedItem, ownedIndex) => {
+                              if (ownedItem.username.indexOf(e.currentTarget.value) != -1) {
                                 tempArr.push(ownedItem);
                               }
                             });
-                            console.log(tempArr)
+                            this.props.dispatch({
+                              type: 'structure/saveOwnedUsers',
+                              payload: {
+                                ownedUsers: tempArr,
+                              },
+                            });
                           }
                         }}
                       />
@@ -676,6 +741,12 @@ class Structure extends Component {
                                   payload: {
                                     ownedUsers: tempOwnedUsers,
                                     notOwnedUsers: tempNotOwnedUsers,
+                                  },
+                                  callback: () => {
+                                    this.setState({
+                                      stateNotOwnedUsers: tempNotOwnedUsers,
+                                      stateOwnedUsers: tempOwnedUsers,
+                                    })
                                   },
                                 });
                               }}
