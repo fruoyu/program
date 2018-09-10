@@ -14,14 +14,10 @@ export default {
       if (data.status === 100) {
         yield put({
           type: 'changeUserList',
-          payload: { userInfo: data.data.userInfo, userCounts: data.data.userCounts },
+          payload: data.data,
         });
         if (callback) callback();
       } else {
-        yield put({
-          type: 'changeUserList',
-          payload: { userInfo: data.data.result, userCounts: 0 },
-        });
         notifyError(data.message);
       }
     },
