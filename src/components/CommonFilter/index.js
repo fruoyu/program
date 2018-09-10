@@ -18,7 +18,9 @@ class CommonFilter extends Component {
     };
   }
   componentDidMount() {
-    this.getConstruction();
+    if (!this.props.addBtn) {
+      this.getConstruction();
+    }
   }
   /* 获取所属结构列表*/
   getConstruction() {
