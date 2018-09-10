@@ -746,7 +746,7 @@ class Structure extends Component {
                                     this.setState({
                                       stateNotOwnedUsers: tempNotOwnedUsers,
                                       stateOwnedUsers: tempOwnedUsers,
-                                    })
+                                    });
                                   },
                                 });
                               }}

@@ -98,14 +98,12 @@ export default {
       return { ...state, assignRolesList: payload.data, count: payload.count };
     },
     changeOwnedUsers(state, { payload }) {
-      console.log('已拥有', payload.data)
       return { ...state, ownedUsers: payload.data };
     },
     changeNotOwnedUsers(state, { payload }) {
-      console.log('未拥有', payload.data)
       return { ...state, notOwnedUsers: payload.data };
     },
-    saveOwnedUsers(state, { payload }, callback, ) {
+    saveOwnedUsers(state, { payload }, callback) {
       callback && callback();
       return { ...state, ...payload };
     },
