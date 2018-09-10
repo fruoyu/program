@@ -8,7 +8,7 @@ import {
   CommonHeader,
   CommonTable,
   PolyDialog,
-  CommonFilter，
+  CommonFilter,
 } from '../../components';
 import '../../assets/iconfont/iconfont.css';
 import './structure.less';
