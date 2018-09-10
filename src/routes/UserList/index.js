@@ -419,7 +419,6 @@ class UserList extends Component {
                   </div>
                   {/* 所属结构 */}
                   <div className="composition click-item cascader" id="area">
-                    {/*<span style={{ color: '#fff', fontSize: 14 }}>所在组织</span>*/}
                     <Cascader
                       allowClear={false}
                       options={this.state.options}
@@ -430,14 +429,10 @@ class UserList extends Component {
                       placeholder="所属结构"
                       getPopupContainer={() => document.getElementById('area')}
                     />
-                    {/* <Dropdown overlay={menu} trigger={['click']}>
-                      <span className="ant-dropdown-link">
-                        {this.state.composition}<Icon type="down" />
-                      </span>
-                    </Dropdown>*/}
                   </div>
                 </div>
-                {/* 日历 */}<div className="search-calendar">
+                {/* 日历 */}
+                <div className="search-calendar">
                   <div className="form-group d_t_dater">
                     <div className="col-sm-12">
                       <div className="input-group">
@@ -446,11 +441,11 @@ class UserList extends Component {
                     </div>
                   </div>
                 </div>
-
-
                 {/* 重置 */}
                 <div className="reload-button">
-                  <Icon type="reload" onClick={::this.reloadFn} />
+                  <Tooltip placement="bottom" title="重置">
+                    <Icon type="reload" onClick={::this.reloadFn} />
+                  </Tooltip>
                 </div>
               </div>
 

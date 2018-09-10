@@ -471,9 +471,11 @@ class History extends Component {
                     </div>
                   </div>
                 </div>
-                {/* */}
+                {/* 重置*/}
                 <div className="reload-button">
-                  <Icon type="reload" onClick={::this.reloadFn} />
+                  <Tooltip placement="bottom" title="重置">
+                    <Icon type="reload" onClick={::this.reloadFn} />
+                  </Tooltip>
                 </div>
               </div>
             </div>

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { Cascader, Menu, Icon, Modal } from 'antd';
+import { Cascader, Menu, Icon, Modal, Tooltip } from 'antd';
 import $ from 'jquery';
 import { CommonHeader } from '../../components';
 import DatePick from './DatePicker';
@@ -418,8 +418,11 @@ class ClientList extends Component {
                 </div>
                 {/* 日历 */}
                 <DatePick onChangeFn={this.onChangeFn} allowClear={false} />
+                {/* 重置 */}
                 <div className="reload-button">
-                  <Icon type="reload" onClick={::this.reloadFn} />
+                  <Tooltip placement="bottom" title="重置">
+                    <Icon type="reload" onClick={::this.reloadFn} />
+                  </Tooltip>
                 </div>
               {/* Filter part end */}
               </div>

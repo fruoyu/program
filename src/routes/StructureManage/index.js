@@ -406,9 +406,11 @@ class Structure extends Component {
                     </div>
                   </div>
                 </div>
-                {/* */}
+                {/* 重置*/}
                 <div className="reload-button">
-                  <Icon type="reload" onClick={::this.reloadFn} />
+                  <Tooltip placement="bottom" title="重置">
+                    <Icon type="reload" onClick={::this.reloadFn} />
+                  </Tooltip>
                 </div>
               </div>
               <div
@@ -625,7 +627,7 @@ class Structure extends Component {
                   <div>
                     <p>
                       <img
-                        src={require('../../assets/image/have.png')} 
+                        src={require('../../assets/image/have.png')}
                         onClick={() => {
                           this.props.dispatch({
                             type: 'structure/saveOwnedUsers',
