@@ -4,7 +4,6 @@ import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { connect } from 'dva';
 import { Menu, Dropdown, Icon, Form, Input, Select, message, Modal, DatePicker, Tooltip } from 'antd';
-
 import {
   CommonHeader,
   CommonTable,
@@ -15,6 +14,10 @@ import './structure.less';
 import {
   verify,
 } from '../../utils/cookie';
+import {
+  notifyError,
+  notifyWarning,
+} from '../../services/app';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -71,8 +74,10 @@ class Structure extends Component {
       startTime: '', // 开始时间
       endTime: '', // 结束时间
       classList: [],
-      notOwnedReale: [],
-      ownedReale: [],
+      userGroupId: '',
+      userRoleLevel: '',
+      stateOwnedUsers: [],
+      stateNotOwnedUsers: [],
     };
     this.changeGeneration = this.changeGeneration.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
@@ -227,15 +232,15 @@ class Structure extends Component {
   searchUsers = (roleLevel, groupId) => {
     const n = 3;
     let result = [];
-    switch(roleLevel){
+    switch(this.state.userRoleLevel){
       case '1':
         result=[''];
         break;
       case '2':
-        result = [roleLevel];
+        result = [this.state.userRoleLevel];
         break;
       case '3':
-        result = [roleLevel];
+        result = [this.state.userRoleLevel];
         break;
       default:
         result = [4,5];
@@ -247,33 +252,67 @@ class Structure extends Component {
         whetherBind: '0',
         groupId: '',
       },
+      callback: () => {
+        this.setState({
+          stateNotOwnedUsers: this.props.structure.notOwnedUsers,
+        });
+      },
     });
     this.props.dispatch({
       type: 'structure/searchUsers',
       payload: {
         roleTypeList: result,
         whetherBind: '1',
-        groupId,
+        groupId: this.state.userGroupId + '',
+      },
+      callback: () => {
+        this.setState({
+          stateOwnedUsers: this.props.structure.ownedUsers,
+        });
       },
     });
   }
 
   // 分配用户确定事件
   preUsers = () => {
-    this.props.dispatch({
-      type: 'structure/distributionUsers',
-      payload: {
-        groupId: this.state.groupId,
-        userIdList: this.props.structure.notOwnedUsers.map(item => {
-          return item.id + '';
-        }),
-      },
-      callback: () => {
-        this.setState({
-          assigningUsers: false,
-        });
-      },
-    });
+    const {
+      ownedUsers,
+      notOwnedUsers,
+    } = this.props.structure;
+    // if (ownedUsers.length == 0) {
+    //   notifyWarning('已拥有用户不能为空');
+    // } else if (notOwnedUsers.length == 0) {
+    //   notifyWarning('未拥有用户不能为空');
+    // } else {
+      this.props.dispatch({
+        type: 'structure/distributionUsers',
+        payload: {
+          groupId: this.state.userGroupId + '',
+          userIdList: ownedUsers.length == 0 ? [''] : ownedUsers.map(item => {
+            return item.id + '';
+          }),
+        },
+        callback: () => {
+          this.setState({
+            assigningUsers: false,
+          });
+        },
+      });
+      this.props.dispatch({
+        type: 'structure/distributionUsers',
+        payload: {
+          groupId: '',
+          userIdList: notOwnedUsers.length == 0 ? [''] : notOwnedUsers.map(item => {
+            return item.id + '';
+          }),
+        },
+        callback: () => {
+          this.setState({
+            assigningUsers: false,
+          });
+        },
+      });
+    // }
   }
   // 重置
   reloadFn() {
@@ -328,8 +367,10 @@ class Structure extends Component {
     } = this.props.structure;
     const tabHead = ['部门名称', '部门级别', '区', '班', '组'];
     const { getFieldDecorator } = this.props.form;
-    let notOwnedReale = [];
-    let ownedReale = [];
+    let {
+      stateNotOwnedUsers,
+      stateOwnedUsers
+    } = this.state;
     const generation = (
       <Menu
         className="composition-down-load"
@@ -472,11 +513,12 @@ class Structure extends Component {
                           onClick={() => {
                             this.setState({
                               assigningUsers: true,
-                              assigningDepartmentName: item.groupName
+                              assigningDepartmentName: item.groupName,
+                              userGroupId: item.groupId,
+                              userRoleLevel: item.roleLevel,
+                            }, () => {
+                              this.searchUsers(item.roleLevel, item.groupId);
                             });
-                            this.searchUsers(item.roleLevel, item.groupId);
-                            notOwnedReale = [];
-                            ownedReale = [];
                           }}
                         />
                       </Tooltip>
@@ -571,7 +613,27 @@ class Structure extends Component {
                         placeholder='请输入'
                         value={this.state.notOwnedValue}
                         onChange={(e) => {
-                          console.log(e.currentTarget.value)
+                          let tempArr = [];
+                          if (e.currentTarget.value == '') {
+                            this.props.dispatch({
+                              type: 'structure/saveOwnedUsers',
+                              payload: {
+                                notOwnedUsers: this.state.stateNotOwnedUsers,
+                              },
+                            });
+                          } else {
+                            this.state.stateNotOwnedUsers.map((ownedItem, ownedIndex) => {
+                              if (ownedItem.standbyFlag1.indexOf(e.currentTarget.value) != -1) {
+                                tempArr.push(ownedItem);
+                              }
+                            });
+                            this.props.dispatch({
+                              type: 'structure/saveOwnedUsers',
+                              payload: {
+                                notOwnedUsers: tempArr,
+                              },
+                            });
+                          }
                         }}
                       />
                       <img
@@ -583,6 +645,12 @@ class Structure extends Component {
                               ownedUsers: [...notOwnedUsers, ...ownedUsers],
                               notOwnedUsers: [],
                             },
+                            callback: () => {
+                              this.setState({
+                                stateNotOwnedUsers: [],
+                                stateOwnedUsers: [...notOwnedUsers, ...ownedUsers],
+                              });
+                            },
                           });
                         }}
                       />
@@ -591,10 +659,6 @@ class Structure extends Component {
                       <Scrollbars>
                         {
                           notOwnedUsers.map((item, index) => {
-                            notOwnedReale.push({
-                              ...item,
-                              spliceName: item.username + '-' + item.realname,
-                            });
                             return <li
                               key={index}
                               style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
@@ -609,6 +673,12 @@ class Structure extends Component {
                                   payload: {
                                     ownedUsers: tempOwnedUsers,
                                     notOwnedUsers: tempNotOwnedUsers,
+                                  },
+                                  callback: () => {
+                                    this.setState({
+                                      stateNotOwnedUsers: tempNotOwnedUsers,
+                                      stateOwnedUsers: tempOwnedUsers,
+                                    })
                                   },
                                 });
                               }}
@@ -633,6 +703,12 @@ class Structure extends Component {
                               notOwnedUsers: [...ownedUsers, ...notOwnedUsers],
                               ownedUsers: [],
                             },
+                            callback: () => {
+                              this.setState({
+                                stateNotOwnedUsers: [...ownedUsers, ...notOwnedUsers],
+                                stateOwnedUsers: [],
+                              });
+                            },
                           });
                         }}
                       />
@@ -642,14 +718,24 @@ class Structure extends Component {
                         onChange={(e) => {
                           let tempArr = [];
                           if (e.currentTarget.value == '') {
-
+                            this.props.dispatch({
+                              type: 'structure/saveOwnedUsers',
+                              payload: {
+                                ownedUsers: this.state.stateOwnedUsers,
+                              },
+                            });
                           } else {
-                            ownedReale.map((ownedItem, ownedIndex) => {
-                              if (ownedItem.spliceName.indexOf(e.currentTarget.value) != -1) {
+                            stateOwnedUsers.map((ownedItem, ownedIndex) => {
+                              if (ownedItem.standbyFlag1.indexOf(e.currentTarget.value) != -1) {
                                 tempArr.push(ownedItem);
                               }
                             });
-                            console.log(tempArr)
+                            this.props.dispatch({
+                              type: 'structure/saveOwnedUsers',
+                              payload: {
+                                ownedUsers: tempArr,
+                              },
+                            });
                           }
                         }}
                       />
@@ -658,10 +744,6 @@ class Structure extends Component {
                       <Scrollbars>
                         {
                           ownedUsers.map((item, index) => {
-                            ownedReale.push({
-                              ...item,
-                              spliceName: item.username + '-' + item.realname,
-                            });
                             return <li
                               key={index}
                               style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
@@ -675,6 +757,12 @@ class Structure extends Component {
                                   payload: {
                                     ownedUsers: tempOwnedUsers,
                                     notOwnedUsers: tempNotOwnedUsers,
+                                  },
+                                  callback: () => {
+                                    this.setState({
+                                      stateNotOwnedUsers: tempNotOwnedUsers,
+                                      stateOwnedUsers: tempOwnedUsers,
+                                    });
                                   },
                                 });
                               }}
