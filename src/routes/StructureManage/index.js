@@ -597,7 +597,7 @@ class Structure extends Component {
                               },
                             });
                           } else {
-                            notOwnedUsers.map((ownedItem, ownedIndex) => {
+                            this.state.stateNotOwnedUsers.map((ownedItem, ownedIndex) => {
                               if (ownedItem.standbyFlag1.indexOf(e.currentTarget.value) != -1) {
                                 tempArr.push(ownedItem);
                               }
@@ -634,10 +634,6 @@ class Structure extends Component {
                       <Scrollbars>
                         {
                           notOwnedUsers.map((item, index) => {
-                            notOwnedReale.push({
-                              ...item,
-                              spliceName: item.username + '-' + item.realname,
-                            });
                             return <li
                               key={index}
                               style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
@@ -704,7 +700,7 @@ class Structure extends Component {
                               },
                             });
                           } else {
-                            ownedUsers.map((ownedItem, ownedIndex) => {
+                            this.state.stateOwnedUsers.map((ownedItem, ownedIndex) => {
                               if (ownedItem.standbyFlag1.indexOf(e.currentTarget.value) != -1) {
                                 tempArr.push(ownedItem);
                               }
