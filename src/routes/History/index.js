@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import {
@@ -12,6 +11,7 @@ import '../../assets/iconfont/iconfont.css';
 import {
   CommonHeader,
   CommonTable,
+  CommonFilter,
 } from '../../components';
 import { verify } from '../../utils/cookie';
 import PolyDialog from "../../components/PolyDialog";
@@ -52,7 +52,7 @@ class History extends Component {
         },
       ], // 状态选择数组
       endTime: '', // 结束时间
-      fileName: '', // 录音文件名称
+      searchThing: '', // 录音文件名称
       pageNum: 1, // 当前页数
       pageSize: 10, // 请求数
       startTime: '', // 开始时间
@@ -68,16 +68,15 @@ class History extends Component {
     this.getStatus = this.getStatus.bind(this);
     this.getName = this.getName.bind(this);
     this.onChangePage = this.onChangePage.bind(this);
-    this.makerClick = this.makerClick.bind(this);
-    this.statusClick = this.statusClick.bind(this);
-    this.getConstruction = this.getConstruction.bind(this);
+    // this.getConstruction = this.getConstruction.bind(this);
     this.editFn = this.editFn.bind(this);
     this.deleteFn = this.deleteFn.bind(this);
+    this.reloadFn = this.reloadFn.bind(this);
   }
   componentWillMount() {
     this.sendRequest();
     this.getName();
-    this.getConstruction();
+    // this.getConstruction();
   }
   // 日历操作
   onChangeFn = (date, dateString) => {
@@ -93,6 +92,34 @@ class History extends Component {
   onChangePage = (pageNumber) => {
     this.setState({
       pageNum: pageNumber,
+    }, () => {
+      this.sendRequest();
+    });
+  }
+  // 级联下拉菜单
+  onSelectChange = (val, d) => {
+    console.log(val);
+    const len = val.length;
+    const groupId = val[len - 1] + '';
+    let area = 0;
+    let classc = 0;
+    let groupc = 0;
+    if (len === 1) {
+      area = val[0];
+    } else if (len === 2) {
+      area = val[0];
+      classc = val[1];
+    } else if (len === 3) {
+      area = val[0];
+      classc = val[1];
+      groupc = val[2];
+    }
+    this.setState({
+      groupId,
+      area,
+      classc,
+      groupc,
+      pageNum: 1,
     }, () => {
       this.sendRequest();
     });
@@ -124,8 +151,10 @@ class History extends Component {
                   arr[index].children[ind].children = [];
                   cl.group.map((gr, id) => {
                     arr[index].children[ind].children[id] = {};
-                    arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
-                    arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
+                    arr[index].children[ind].children[id].value =
+                      res[index].class[ind].group[id].groupId;
+                    arr[index].children[ind].children[id].label =
+                      res[index].class[ind].group[id].groupName;
                     return arr;
                   });
                 }
@@ -139,34 +168,6 @@ class History extends Component {
           });
         },
       });
-    });
-  }
-  // 级联下拉菜单
-  onSelectChange = (val, d) => {
-    console.log(val);
-    const len = val.length;
-    const groupId = val[len - 1] + '';
-    let area = 0;
-    let classc = 0;
-    let groupc = 0;
-    if (len === 1) {
-      area = val[0];
-    } else if (len === 2) {
-      area = val[0];
-      classc = val[1];
-    } else if (len === 3) {
-      area = val[0];
-      classc = val[1];
-      groupc = val[2];
-    }
-    this.setState({
-      groupId,
-      area,
-      classc,
-      groupc,
-      pageNum: 1,
-    }, () => {
-      this.sendRequest();
     });
   }
   // 列表中完成状态
@@ -185,34 +186,6 @@ class History extends Component {
         },
       });
     });
-  }
-  // document 点击操作
-  documentClick = (e) => {
-    if ($('.trans-item-founder').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-founder').length === 0) {
-      $('.trans-item-founder').siblings('.zhankai').removeClass('rotate');
-      $('.trans-item-founder').removeClass('active');
-      $('.trans-item-founder').hide();
-    } else if ($('.trans-item-state').attr('class').indexOf('active') > -1 && $(e.target).closest('.trans-item-state').length === 0) {
-      $('.trans-item-state').siblings('.zhankai').removeClass('rotate');
-      $('.trans-item-state').removeClass('active');
-      $('.trans-item-state').hide();
-    }
-  }
-  // 点击创建人下拉
-  makerClick = (e) => {
-    e.stopPropagation();
-    $('.maker').find('.zhankai').toggleClass('rotate');
-    $('.task-state').find('.zhankai').removeClass('rotate');
-    $('.maker').find('.trans-item').toggle().toggleClass('active');
-    $('.maker').siblings('.click-item').find('.trans-item').hide().removeClass('active');
-  }
-  // 任务状态点击下拉
-  statusClick = (e) => {
-    e.stopPropagation();
-    $('.task-state').find('.zhankai').toggleClass('rotate');
-    $('.maker').find('.zhankai').removeClass('rotate');
-    $('.task-state').find('.trans-item').toggle().toggleClass('active');
-    $('.task-state').siblings('.click-item').find('.trans-item').hide().removeClass('active');
   }
   // 更新state数据
   upDataState(key, data, callback) {
@@ -256,7 +229,7 @@ class History extends Component {
         type: 'history/getFilesList',
         payload: {
           endTime: this.state.endTime,
-          fileName: this.state.fileName,
+          fileName: this.state.searchThing,
           name: this.state.name,
           pageNum: this.state.pageNum,
           pageSize: this.state.pageSize,
@@ -309,7 +282,7 @@ class History extends Component {
   // 重置
   reloadFn() {
     const {
-      fileName,
+      searchThing,
       name,
       groupId,
       status,
@@ -318,30 +291,35 @@ class History extends Component {
     } = this.state;
 
     const a = [
-      fileName,
+      searchThing,
       name,
       groupId,
       startTime,
       endTime,
-      status
-      ].some((el)=>{
-        return el.length>0
-      });
+      status,
+    ].some((el) => {
+      return el.length > 0;
+    });
     if (!a) return;
 
     this.setState({
-      fileName: '',
+      searchThing: '',
       name: '',
       status: '',
-      startTime:'',
-      endTime:'',
-      groupId:'',
+      startTime: '',
+      endTime: '',
+      groupId: '',
       statusContent: '任务状态',
-      flag:false
+      flag: false,
     }, () => {
-      this.setState({flag: true})
+      this.setState({ flag: true });
       this.sendRequest();
     });
+  }
+  // 改变状态
+  changeStatus = (code) => {
+    const statusContent = this.state.generationList.filter(item => item.key === code)[0].generation;
+    return statusContent;
   }
   render() {
     const {
@@ -354,129 +332,60 @@ class History extends Component {
     } = this.props.userList;
     const tabHead = ['录音名称', '销售人员', '结构', '任务状态', '上传时间', '洞察项'];
     const { getFieldDecorator } = this.props.form;
+    const options = (
+      <Menu
+        className="composition-down-load"
+        onClick={(item) => {
+          this.upDataState({ name: item.key, pageNum: 1 }, () => {
+            this.sendRequest();
+          });
+        }}
+      >
+        {
+          nameList.map((item) => {
+            return <Menu.Item key={item.username}>{item.username}</Menu.Item>;
+          })
+        }
+      </Menu>
+    )
+    const status = (
+      <Menu
+        className="composition-down-load"
+        onClick={(item) => {
+          this.upDataState({
+            statusContent: item.key === 'item_0' ? '全部' : this.getStatus(item.key),
+            status: item.key === 'item_0' ? '' : item.key,
+            pageNum: 1, // 当前页数
+          }, () => {
+            this.sendRequest();
+          });
+        }}
+      >
+        {
+          this.state.statusList.map((item) => {
+            return <Menu.Item key={item.retCode}>{item.status}</Menu.Item>;
+          })
+        }
+      </Menu>
+    )
     return (
-      <div className="bootContent historyContent historyIcon" onClick={(e) => { this.documentClick(e); }}>
+      <div className="bootContent historyContent historyIcon">
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部信息 */}
           <CommonHeader title="录音列表" isMain customer isUserPort home />
           <div id="content">
-          {
-            this.state.flag &&
-            <div className="content-head">
-              <div className="ch-top">
-                <div className="search-input">
-                  <input
-                    type="text" placeholder="录音名称"
-                    value={this.state.fileName}
-                    onChange={(e) => {
-                      this.upDataState('fileName', e.target.value.trim());
-                    }}
-                  />
-                  <span
-                    className="iconfont icon-qianwang"
-                    onClick={() => {
-                      if (!this.state.fileName.length) {
-                        message.warning('请输入录音名称');
-                        return;
-                      }
-                      this.setState({
-                        pageNum: 1,
-                      }, () => {
-                        this.sendRequest();
-                      });
-                    }}
-                  />
-                </div>
-                <div className="search-condition">
-                  {/* 创建人 */}
-                  <div className="founder click-item maker" onClick={(e) => { this.makerClick(e); }}>
-                    <span className="mr-15">
-                      {
-                        this.state.name.length > 0 ? this.state.name : '创建人'
-                      }
-                    </span>
-                    <span className="iconfont icon-down-trangle zhankai" />
-                    <div className="trans-item trans-item-founder">
-                      <div className="founder-list">
-                        {
-                          nameList && nameList.map((item, index) => {
-                            return (
-                              <span
-                                key={index} className="list-item"
-                                onClick={() => {
-                                  this.upDataState({ name: item.username }, () => {
-                                    this.setState({
-                                      pageNum: 1, // 当前页数
-                                    }, () => {
-                                      this.sendRequest();
-                                    });
-                                  });
-                                }}
-                              >{item.username}</span>
-                            );
-                          })
-                        }
-                      </div>
-                    </div>
-
-                  </div>
-                  {/* 结构 */}
-                  <div className="composition click-item" id="jiegou">
-                    <Cascader
-                      allowClear={false}
-                      options={this.state.options}
-                      onChange={::this.onSelectChange}
-                      changeOnSelect={true}
-                      popupClassName="selectOptionsPop"
-                      expandTrigger="hover"
-                      placeholder="所属结构"
-                      getPopupContainer={() => document.getElementById('jiegou')}
-                    />
-                  </div>
-                  {/* 任务状态 */}
-                  <div className="task-state click-item" onClick={(e) => { this.statusClick(e); }} >
-                    <span className="mr-15">{this.state.statusContent}</span>
-                    <span className="iconfont icon-down-trangle zhankai" />
-                    <div className="trans-item trans-item-state">
-                      <div className="task-state-list">
-                        {
-                          this.state.statusList.map((item) => {
-                            return (
-                              <span
-                                key={item.key} className="list-item"
-                                onClick={() => {
-                                  this.upDataState({
-                                    statusContent: item.status,
-                                    status: item.retCode,
-                                    pageNum: 1, // 当前页数
-                                  }, () => {
-                                    this.sendRequest();
-                                  });
-                                }}
-                              >{item.status}</span>
-                            );
-                          })
-                        }
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* 日历 */}
-                <div className="search-calendar">
-                  <div className="form-group d_t_dater">
-                    <div className="col-sm-12">
-                      <div className="input-group">
-                        <RangePicker onChange={this.onChangeFn.bind(this)} allowClear={false}/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* */}
-                <div className="reload-button">
-                  <Icon type="reload" onClick={::this.reloadFn} />
-                </div>
-              </div>
-            </div>
+            {
+            this.state.flag && <CommonFilter
+              status={status}
+              searchTitle="录音名称"
+              state={this.state}
+              options={options}
+              upDataState={this.upDataState}
+              sendRequest={this.sendRequest}
+              onSelectChange={this.onSelectChange}
+              onChangeFn={this.onChangeFn}
+              reloadFn={this.reloadFn}
+            />
             }
             {/* 内容区域 */}
             <CommonTable

@@ -16,6 +16,7 @@ import {
   CommonTable,
 } from '../../components';
 import { verify } from '../../utils/cookie';
+import CommonFilter from "../../components/CommonFilter";
 
 const FormItem = Form.Item;
 const SubMenu = Menu.SubMenu;
@@ -32,7 +33,7 @@ class UserList extends Component {
       showUser: false,
       isRevisePwd: false,
       addUser: false,
-      userName: '', // 搜索用户名
+      searchThing: '', // 搜索用户名
       generation: '所属角色',
       // composition: '所属结构',
       pageNum: 1, // 当前页数
@@ -69,6 +70,7 @@ class UserList extends Component {
 
     this.deleteFn = this.deleteFn.bind(this);
     this.editFn = this.editFn.bind(this);
+    this.onSelectChange = this.onSelectChange.bind(this);
     // this.handleSelectChange = this.handleSelectChange.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
     this.changeGeneration = this.changeGeneration.bind(this);
@@ -289,7 +291,7 @@ class UserList extends Component {
       type: 'userList/getUserList',
       payload: {
         roleId: this.state.roleId,
-        userName: this.state.userName,
+        userName: this.state.searchThing,
         area: this.state.area,
         classc: this.state.classc,
         groupc: this.state.groupc,
@@ -307,7 +309,7 @@ class UserList extends Component {
   // 重置
   reloadFn() {
     const {
-      userName,
+      searchThing,
       startTime,
       endTime,
       roleId,
@@ -317,7 +319,7 @@ class UserList extends Component {
     } = this.state;
 
     const a = [
-      userName,
+      searchThing,
       startTime,
       endTime,
       roleId].some((el) => {
@@ -331,7 +333,7 @@ class UserList extends Component {
       })) return;
     this.setState({
       flag: false,
-      userName: '',
+      searchThing: '',
       roleId: '',
       area: 0,
       classc: 0,
@@ -378,94 +380,17 @@ class UserList extends Component {
           <CommonHeader title="用户管理" isMain customer isUserPort home />
           <div id="content">
             {
-              this.state.flag &&
-            <div className="content-head">
-              <div className="ch-top">
-                <div className="search-input">
-                  <input
-                    type="text"
-                    placeholder="用户名称"
-                    value={this.state.userName}
-                    onChange={(e) => {
-                      this.upDataState('userName', e.target.value.trim());
-                    }}
-                  />
-                  <span
-                    className="iconfont icon-qianwang"
-                    onClick={() => {
-                      if (!this.state.userName.length) {
-                        message.warning('用户名称不能为空', 1);
-                        return false;
-                      }
-                      this.setState({
-                        pageNum: 1,
-                      }, () => {
-                        this.sendRequest();
-                      });
-                    }}
-                  />
-                </div>
-                <div className="search-condition">
-                  {/* 所属角色 */}
-                  <div className="generation click-item" id="gen">
-                    <Dropdown
-                      overlay={generation} trigger={['click']}
-                      getPopupContainer={() => document.getElementById('gen')}
-                    >
-                      <span className="ant-dropdown-link">
-                        {this.state.generation}<Icon type="down" />
-                      </span>
-                    </Dropdown>
-                  </div>
-                  {/* 所属结构 */}
-                  <div className="composition click-item cascader" id="area">
-                    {/*<span style={{ color: '#fff', fontSize: 14 }}>所在组织</span>*/}
-                    <Cascader
-                      allowClear={false}
-                      options={this.state.options}
-                      onChange={::this.onSelectChange}
-                      changeOnSelect={true}
-                      popupClassName="selectOptionsPop"
-                      expandTrigger="hover"
-                      placeholder="所属结构"
-                      getPopupContainer={() => document.getElementById('area')}
-                    />
-                    {/* <Dropdown overlay={menu} trigger={['click']}>
-                      <span className="ant-dropdown-link">
-                        {this.state.composition}<Icon type="down" />
-                      </span>
-                    </Dropdown>*/}
-                  </div>
-                </div>
-                {/* 日历 */}<div className="search-calendar">
-                  <div className="form-group d_t_dater">
-                    <div className="col-sm-12">
-                      <div className="input-group">
-                        <RangePicker onChange={::this.onChangeFn} allowClear={false} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-                {/* 重置 */}
-                <div className="reload-button">
-                  <Icon type="reload" onClick={::this.reloadFn} />
-                </div>
-              </div>
-
-              <div
-                className="buttonCont"
-                onClick={() => {
-                  this.setState({
-                    showUser: true,
-                    addUser: true,
-                  });
-                }}
-              >新建用户</div>
-            </div>
+              this.state.flag && <CommonFilter
+                searchTitle="用户名称"
+                state={this.state}
+                generation={generation}
+                upDataState={::this.upDataState}
+                sendRequest={::this.sendRequest}
+                onSelectChange={::this.onSelectChange}
+                onChangeFn={::this.onChangeFn}
+                reloadFn={::this.reloadFn}
+              />
             }
-
             {/* 内容区域 */}
             <CommonTable
               tabHead={tabHead}

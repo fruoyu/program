@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { Cascader, Menu, Icon, Modal } from 'antd';
+import { Cascader, Menu, Icon, Modal, Tooltip } from 'antd';
 import $ from 'jquery';
 import { CommonHeader } from '../../components';
 import DatePick from './DatePicker';
@@ -12,6 +12,7 @@ import { verify } from '../../utils/cookie';
 
 import './clientList.less';
 import '../../assets/iconfont/iconfont.css';
+import CommonFilter from "../../components/CommonFilter";
 
 const SubMenu = Menu.SubMenu;
 const confirm = Modal.confirm;
@@ -22,7 +23,7 @@ class ClientList extends Component {
 
     this.state = {
       flag: true,
-      searchInputVal:'',
+      searchThing:'',
       name: '',
       endTime: '',
       startTime: '',
@@ -116,7 +117,7 @@ class ClientList extends Component {
         endTime: this.state.endTime,
         userName: this.state.userName,
         whatPage: this.state.pageNum,
-        customerType: this.state.searchInputVal,
+        customerType: this.state.searchThing,
       },
       cb: (data) => {
         const { result, pageCount: total } = data.data;
@@ -225,7 +226,22 @@ class ClientList extends Component {
       this.onGetClientList();
     })
   }
-
+// 更新state数据
+  upDataState(key, data, callback) {
+    let object = {};
+    if (typeof (key) === 'string') {
+      object[key] = data;
+    } else {
+      object = key;
+    }
+    this.setState({
+      ...this.state,
+      ...object,
+    }, () => {
+      if (typeof (key) === 'object' && data) data();
+      if (typeof (key) === 'string' && callback) callback();
+    });
+  }
   showPopWin = () => {
     if(!this.state.popClientShow) {
       this.setState({
@@ -300,14 +316,14 @@ class ClientList extends Component {
   // 重置
   reloadFn() {
     const {
-      searchInputVal,
+      searchThing,
       startTime,
       endTime,
       departmentType,
     } = this.state;
 
     const a = [
-      searchInputVal,
+      searchThing,
       startTime,
       endTime,
       departmentType,
@@ -317,7 +333,7 @@ class ClientList extends Component {
     if (!a) return;
 
     this.setState({
-      searchInputVal:'',
+      searchThing:'',
       startTime:'',
       endTime:'',
       departmentType:'',
@@ -384,50 +400,17 @@ class ClientList extends Component {
           <CommonHeader title="客户列表" isMain customer isUserPort home />
           <div id="content">
           {
-            this.state.flag &&
-            <div className="content-head">
-              <div className="ch-top">
-
-              {/* Filter part start */}
-                <div className="search-input">
-                  <input
-                  value={this.state.searchInputVal}
-                    type="text" placeholder="客户姓名/客户电话"
-                    onChange={(e) => {
-                      this.setState({
-                        searchInputVal: e.target.value
-                      });
-                    }}
-                  />
-                  <span className="iconfont icon-qianwang" onClick={this.onSearchClick} />
-                </div>
-                <div className="search-condition">
-                  {/* 下拉菜单 */}
-                  <div className="cascader" id="cascader">
-                    <Cascader
-                      allowClear={false}
-                      options={this.state.options}
-                      onChange={this.onSelectChange}
-                      changeOnSelect={true}
-                      popupClassName="selectOptionsPop"
-                      expandTrigger="hover"
-                      placeholder="所属结构"
-                      getPopupContainer={() => document.getElementById('cascader')}
-                    />
-                  </div>
-                </div>
-                {/* 日历 */}
-                <DatePick onChangeFn={this.onChangeFn} allowClear={false} />
-                <div className="reload-button">
-                  <Icon type="reload" onClick={::this.reloadFn} />
-                </div>
-              {/* Filter part end */}
-              </div>
-            </div>
-
+            this.state.flag && <CommonFilter
+              searchTitle="客户姓名/客户电话"
+              state={this.state}
+              upDataState={::this.upDataState}
+              sendRequest={::this.onGetClientList}
+              onSelectChange={::this.onSelectChange}
+              onChangeFn={::this.onChangeFn}
+              reloadFn={::this.reloadFn}
+            />
           }
             <div className='btn-newClient'><a className='btn' onClick={this.showPopWin}>新建客户</a></div>
-
           {/* 列表内容部分 */}
             {
               this.state.dataSource.length > 0 && <DataList

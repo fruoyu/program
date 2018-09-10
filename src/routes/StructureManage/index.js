@@ -8,6 +8,7 @@ import {
   CommonHeader,
   CommonTable,
   PolyDialog,
+  CommonFilter，
 } from '../../components';
 import '../../assets/iconfont/iconfont.css';
 import './structure.less';
@@ -31,8 +32,8 @@ class Structure extends Component {
       flag: true,
       changeDepartment: false,
       areaName: '',
-      departmentName: '',
-      changeDepartmentName: '',
+      searchThing: '',
+      changesearchThing: '',
       departmentId: '',
       departmentType: '',
       departmentLevel: '',
@@ -69,7 +70,7 @@ class Structure extends Component {
       generation: '所属结构',
       addStructure: false,
       generationCode: '',
-      whatPage: 1,
+      pageNum: 1,
       addDepartmentName: '',
       startTime: '', // 开始时间
       endTime: '', // 结束时间
@@ -81,6 +82,7 @@ class Structure extends Component {
     };
     this.changeGeneration = this.changeGeneration.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.upDataState = this.upDataState.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
     this.getAreaClassCons = this.getAreaClassCons.bind(this);
   }
@@ -92,7 +94,7 @@ class Structure extends Component {
   // 日历操作
   onChangeFn = (date, dateString) => {
     this.setState({
-      whatPage: 1,
+      pageNum: 1,
       startTime: dateString[0], // 开始时间
       endTime: dateString[1], // 结束时间
     }, () => {
@@ -146,12 +148,20 @@ class Structure extends Component {
     });
   }
 
-  updataState = (content, id) => {
+  // 更新state数据
+  upDataState(key, data, callback) {
+    let object = {};
+    if (typeof (key) === 'string') {
+      object[key] = data;
+    } else {
+      object = key;
+    }
     this.setState({
-      areaName: content,
-      departmentType: id,
+      ...this.state,
+      ...object,
     }, () => {
-      this.sendRequest();
+      if (typeof (key) === 'object' && data) data();
+      if (typeof (key) === 'string' && callback) callback();
     });
   }
   /* 结构转换*/
@@ -206,7 +216,7 @@ class Structure extends Component {
   // 分页
   changePageNum(page) {
     this.setState({
-      whatPage: page,
+      pageNum: page,
     }, () => {
       this.sendRequest();
     });
@@ -219,11 +229,11 @@ class Structure extends Component {
         areaId: '',
         classId: '',
         departmentId: '',
-        departmentName: this.state.departmentName,
+        departmentName: this.state.searchThing,
         departmentType: this.state.departmentType,
         groupId: '',
         pageSize: '10',
-        whatPage: this.state.whatPage,
+        whatPage: this.state.pageNum,
         startTime: this.state.startTime, // 开始时间
         endTime: this.state.endTime, // 结束时间
       },
@@ -317,14 +327,14 @@ class Structure extends Component {
   // 重置
   reloadFn() {
     const {
-      departmentName,
+      searchThing,
       startTime,
       endTime,
       departmentType,
     } = this.state;
 
     const a = [
-      departmentName,
+      searchThing,
       startTime,
       endTime,
       departmentType,
@@ -334,7 +344,7 @@ class Structure extends Component {
     if (!a) return;
 
     this.setState({
-      departmentName:'',
+      searchThing:'',
       startTime:'',
       endTime:'',
       generation:'所属结构',
@@ -376,7 +386,7 @@ class Structure extends Component {
         className="composition-down-load"
         onClick={(item) => {
           this.setState({
-            whatPage: 1,
+            pageNum: 1,
             departmentType: item.key,
             generation: this.changeGeneration(item.key),
           }, () => {
@@ -397,77 +407,17 @@ class Structure extends Component {
           <CommonHeader title="结构管理" isMain isUserPort customer home />
           <div className='structure-box' id="content">
           {
-            this.state.flag &&
-            <div className='structure-header content-head' >
-              <div className="ch-top">
-                <div className="search-input">
-                  <input
-                    type="text"
-                    placeholder={this.state.departmentName == '' ? '部门名称' : this.state.departmentName}
-                    onChange={(e) => {
-                      this.setState({
-                        departmentName: e.target.value.trim(),
-                      });
-                    }}
-                  />
-                  <span
-                    className="iconfont icon-qianwang"
-                    onClick={() => {
-                      if (!this.state.departmentName.length) {
-                        message.warning('部门名称不能为空', 1);
-                        return false;
-                      }
-                      this.setState({
-                        whatPage: 1,
-                      }, () => {
-                        this.sendRequest();
-                      });
-                    }}
-                  />
-                </div>
-                <div className="search-condition">
-                  <div className="generation click-item" id="bumen">
-                    <Dropdown
-                      overlay={generation} trigger={['click']}
-                      getPopupContainer={() => document.getElementById('bumen')}
-                    >
-                      <span className="ant-dropdown-link">
-                        {this.state.generation}<Icon type="down" />
-                      </span>
-                    </Dropdown>
-                  </div>
-                </div>
-                {/* 日历 */}
-                <div className="search-calendar">
-                  <div className="form-group d_t_dater">
-                    <div className="col-sm-12">
-                      <div className="input-group">
-                        <RangePicker onChange={::this.onChangeFn} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* */}
-                <div className="reload-button">
-                  <Icon type="reload" onClick={::this.reloadFn} />
-                </div>
-              </div>
-              <div
-                className="buttonCont"
-                onClick={() => {
-                  this.setState({
-                    departmentName: '',
-                    departmentType: '',
-                    startTime: '', // 开始时间
-                    endTime: '', // 结束时间
-                    generationCode: '',
-                    addStructure: true,
-                  });
-                  this.getAreaClassCons();
-                }}
-              >添加部门</div>
-            </div>
-
+            this.state.flag && <CommonFilter
+              searchTitle={this.state.searchThing === '' ? '部门名称' : this.state.searchThing}
+              state={this.state}
+              addBtn
+              department={generation}
+              upDataState={::this.upDataState}
+              sendRequest={::this.sendRequest}
+              onChangeFn={::this.onChangeFn}
+              reloadFn={::this.reloadFn}
+              getAreaClassCons={::this.getAreaClassCons}
+            />
           }
             <CommonTable
               filesList={assignRolesList}
@@ -695,7 +645,7 @@ class Structure extends Component {
                   <div>
                     <p>
                       <img
-                        src={require('../../assets/image/have.png')} 
+                        src={require('../../assets/image/have.png')}
                         onClick={() => {
                           this.props.dispatch({
                             type: 'structure/saveOwnedUsers',

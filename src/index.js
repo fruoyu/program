@@ -20,7 +20,7 @@ message.config({
 // 1. Initialize
 const app = dva({
   // history: browserHistory,
-  history: useRouterHistory(createHashHistory)({ queryKey: false }),
+  // history: useRouterHistory(createHashHistory)({ queryKey: false }),
   onError(e) { /* Global exception handler scope is dva framework only*/
     // console.error('Uncaught in dva: \n', e);
     if (e.response) {
