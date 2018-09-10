@@ -69,7 +69,7 @@ class CommonFilter extends Component {
     });
   }
   render() {
-    const { options, state, status, searchTitle, generation, addBtn } = this.props;
+    const { options, state, status, searchTitle, generation, addBtn, addUser } = this.props;
     return (
       <div className="content-head">
       <div className="ch-top">
@@ -198,6 +198,17 @@ class CommonFilter extends Component {
               this.props.getAreaClassCons();
             }}
           >添加部门</div>
+        }
+        {
+          addUser && <div
+            className="buttonCont"
+            onClick={() => {
+              this.props.upDataState({
+                showUser: true,
+                addUser: true,
+              });
+            }}
+          >新建用户</div>
         }
       </div>
       </div>
