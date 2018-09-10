@@ -175,13 +175,20 @@
     flex:1;
     font-size: 14px;
     span {
-      color: #fff;
+      color: #fff;font-size: 14px;
     }
   }
   .task-state {
     margin-left: 40px;
   }
-  .founder .trans-item, .task-state .trans-item {
+  .founder, .task-state {
+    .anticon-up, .anticon-down{
+      margin-left: 10px!important;
+      font-size: 18px;
+      vertical-align: middle!important;
+    }
+  }
+  /*.founder .trans-item, .task-state .trans-item {
     position: absolute;
     height: auto;
     display: none;
@@ -192,7 +199,7 @@
     font-size: 14px;
     z-index: 999;
 
-  }
+  }*/
   .task-state .trans-item{
     width: 150px;
     right: 0px;
@@ -389,9 +396,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  .content-item .item-title:hover {
+  /*.content-item .item-title:hover {
     cursor: pointer;
-  }
+  }*/
   .content-item .item-author, .content-header .item-author {
     width: 12%;
   }

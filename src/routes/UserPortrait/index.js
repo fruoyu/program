@@ -106,7 +106,7 @@ class UserPortrait extends Component {
       <div className="bootContent userPortrait">
         <Scrollbars style={{ flex: 1 }} autoHide>
           {/* 头部 */}
-          <CommonHeader title="用户画像" isMain customer photograph home />
+          <CommonHeader title="用户画像" isMain customer photograph />
           {/* 画像 */}
           <div id="main">
             <div className="userPortrait">
@@ -425,7 +425,7 @@ class UserPortrait extends Component {
               </div>
             </div>
           </div>
-          {/*<div id="recognized-file">
+          {/* <div id="recognized-file">
             <div id="top">
               <div className="title">
                 已识别文件
