@@ -18,9 +18,9 @@ class UserPortrait extends Component {
       filesList: [],
     };
     this.getQueryKeyItem = this.getQueryKeyItem.bind(this);
-    this.sendRequest = this.sendRequest.bind(this);
+    // this.sendRequest = this.sendRequest.bind(this);
     this.renderArt = this.renderArt.bind(this);
-    this.scrollFn = this.scrollFn.bind(this);
+    // this.scrollFn = this.scrollFn.bind(this);
     this.renderContext = this.renderContext.bind(this);
   }
   componentWillMount() {
@@ -39,7 +39,7 @@ class UserPortrait extends Component {
       $('.dashed').slideDown('slow');
     }, 1000);
   }
-  // 获取列表信息
+  /* // 获取列表信息
   sendRequest = () => {
     verify((err, decoded) => {
       if (err) return;
@@ -81,7 +81,7 @@ class UserPortrait extends Component {
         this.sendRequest();
       }, 1000);
     }
-  }
+  }*/
   // 滑过提示信息
   renderArt =(content) => {
     if (content.length !== 0) {
