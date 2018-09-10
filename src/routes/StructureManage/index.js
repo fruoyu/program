@@ -71,8 +71,6 @@ class Structure extends Component {
       startTime: '', // 开始时间
       endTime: '', // 结束时间
       classList: [],
-      notOwnedReale: [],
-      ownedReale: [],
       userGroupId: '',
       userRoleLevel: '',
       stateOwnedUsers: [],
@@ -262,7 +260,7 @@ class Structure extends Component {
       payload: {
         roleTypeList: result,
         whetherBind: '1',
-        groupId: this.state.userGroupId,
+        groupId: this.state.userGroupId + '',
       },
       callback: () => {
         this.setState({
@@ -277,7 +275,21 @@ class Structure extends Component {
     this.props.dispatch({
       type: 'structure/distributionUsers',
       payload: {
-        groupId: this.state.groupId,
+        groupId: this.state.userGroupId + '',
+        userIdList: this.props.structure.ownedUsers.map(item => {
+          return item.id + '';
+        }),
+      },
+      callback: () => {
+        this.setState({
+          assigningUsers: false,
+        });
+      },
+    });
+    this.props.dispatch({
+      type: 'structure/distributionUsers',
+      payload: {
+        groupId: '',
         userIdList: this.props.structure.notOwnedUsers.map(item => {
           return item.id + '';
         }),
@@ -342,8 +354,10 @@ class Structure extends Component {
     } = this.props.structure;
     const tabHead = ['部门名称', '部门级别', '区', '班', '组'];
     const { getFieldDecorator } = this.props.form;
-    let notOwnedReale = [];
-    let ownedReale = [];
+    let {
+      stateNotOwnedUsers,
+      stateOwnedUsers
+    } = this.state;
     const generation = (
       <Menu
         className="composition-down-load"
@@ -492,8 +506,6 @@ class Structure extends Component {
                             }, () => {
                               this.searchUsers(item.roleLevel, item.groupId);
                             });
-                            notOwnedReale = [];
-                            ownedReale = [];
                           }}
                         />
                       </Tooltip>
@@ -700,7 +712,7 @@ class Structure extends Component {
                               },
                             });
                           } else {
-                            this.state.stateOwnedUsers.map((ownedItem, ownedIndex) => {
+                            stateOwnedUsers.map((ownedItem, ownedIndex) => {
                               if (ownedItem.standbyFlag1.indexOf(e.currentTarget.value) != -1) {
                                 tempArr.push(ownedItem);
                               }
@@ -719,10 +731,6 @@ class Structure extends Component {
                       <Scrollbars>
                         {
                           ownedUsers.map((item, index) => {
-                            ownedReale.push({
-                              ...item,
-                              spliceName: item.username + '-' + item.realname,
-                            });
                             return <li
                               key={index}
                               style={{ background: index % 2 == 0 ? '#fff' : '#f6f4ff' }}
