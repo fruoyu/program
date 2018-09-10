@@ -8,7 +8,7 @@ const DataList = (props) => {
     title: '姓名',
     dataIndex: 'customerName',
     key: 'customerName',
-    render: text => <div className="cellWrap"><a href="javascript:;">{text}</a></div>,
+    render: text => <div className="cellWrap">{text}</div>,
   }, {
     title: '手机号',
     dataIndex: 'customerPhone',

@@ -72,9 +72,7 @@ class PopClientInfo extends Component {
               message: `${isUpdate ? '客户添加成功' : '客户更新成功'}`,
               description: '',
             });
-            if(!isUpdate){
-              this.props.onGetClientList();
-            }
+            this.props.onGetClientList();
           }
         })
       }

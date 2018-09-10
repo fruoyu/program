@@ -1,11 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { Cascader, Menu, Icon, Modal, Tooltip } from 'antd';
+import { Modal } from 'antd';
 import $ from 'jquery';
 import { CommonHeader } from '../../components';
-import DatePick from './DatePicker';
 import DataList from './DataList';
 import PopClient from './popClient';
 import { verify } from '../../utils/cookie';
@@ -14,7 +13,6 @@ import './clientList.less';
 import '../../assets/iconfont/iconfont.css';
 import CommonFilter from "../../components/CommonFilter";
 
-const SubMenu = Menu.SubMenu;
 const confirm = Modal.confirm;
 
 class ClientList extends Component {
@@ -31,64 +29,15 @@ class ClientList extends Component {
       pageNum: 1, // 当前页数
       pageSize: 10, // 请求数
       popClientShow: false,
-      composition: '所属结构',
-      compositionList: [
-        {
-          key: '1',
-          area: 'A区',
-        },
-        {
-          key: '2',
-          area: 'B区',
-        },
-        {
-          key: '3',
-          area: 'C区',
-          class: [
-            {
-              key: '4',
-              class: 'A班',
-            },
-            {
-              key: '5',
-              class: 'B班',
-              group: [
-                {
-                  key: '6',
-                  group: 'A组',
-                },
-                {
-                  key: '7',
-                  group: 'B组',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          key: '8',
-          area: 'D区',
-          class: [
-            {
-              key: '9',
-              class: 'A班',
-            },
-            {
-              key: '10',
-              class: 'B班',
-            },
-          ],
-        },
-      ],
       dataSource: [],
       clientData: {},
       total: 0,
+      arrArea: []
     };
 
     this.onGetClientList = this.onGetClientList.bind(this);
     this.onSearchClick = this.onSearchClick.bind(this);
     this.showPopWin = this.showPopWin.bind(this);
-    this.getConstruction = this.getConstruction.bind(this);
   }
 
   componentDidMount(){
@@ -100,7 +49,6 @@ class ClientList extends Component {
       }, ()=>{
         this.onGetClientList();
         // this.setPaginationTotalNum();
-        this.getConstruction();
       });
     });
 
@@ -110,9 +58,11 @@ class ClientList extends Component {
    * 获取客户列表信息
    */
   onGetClientList = () => {
+    const [area='', classc='', groupc=''] = this.state.arrArea;
     this.props.dispatch({
       type: 'clientList/getClientList',
       payload: {
+        area, groupc, classc,
         startTime: this.state.startTime,
         endTime: this.state.endTime,
         userName: this.state.userName,
@@ -124,20 +74,13 @@ class ClientList extends Component {
         let dataSource = [];
         if(result) {
           result.map((itm)=>{
-            const { customerId,
-              customerName,
-              customerPhone,
-              customerLevel,
-              customerFive,
-              customerUser,
-              createTime } = itm;
-            dataSource.push({ key:customerId,
-              customerName,
-              customerPhone,
-              customerLevel,
-              customerFive,
-              customerUser,
-              createTime });
+            dataSource.push({ key:itm.customerId,
+              customerName:itm.customerName,
+              customerPhone:itm.customerPhone,
+              customerLevel:itm.customerLevel,
+              customerFive:itm.customerFive,
+              customerUser:itm.customerUser,
+              createTime:itm.createTime });
           });
         } else { dataSource.length=0;}
         this.setState({
@@ -160,54 +103,11 @@ class ClientList extends Component {
   }
   // 级联下拉菜单
   onSelectChange = (val, d) => {
-    console.log(val,d)
-    // 选择之后请求下客户信息列表
-    // this.onGetClientList()
+    this.setState({
+      arrArea: val
+    },()=>this.onGetClientList())
   }
-  /* 获取所属结构列表*/
-  getConstruction() {
-    verify((err, decoded) => {
-      if (err) return;
-      this.props.dispatch({
-        type: 'userList/getConstruction',
-        payload: {
-          groupId: decoded.data.groupId,
-          roleId: decoded.data.roleId,
-        },
-        callback: (res) => {
-          const arr = [];
-          // console.log(res);
-          res.map((item, index) => {
-            arr[index] = {};
-            arr[index].value = res[index].areaId;
-            arr[index].label = res[index].areaName;
-            if (item.class.length > 0) {
-              arr[index].children = [];
-              item.class.map((cl, ind) => {
-                arr[index].children[ind] = {};
-                arr[index].children[ind].value = res[index].class[ind].classId;
-                arr[index].children[ind].label = res[index].class[ind].className;
-                if (cl.group.length > 0) {
-                  arr[index].children[ind].children = [];
-                  cl.group.map((gr, id) => {
-                    arr[index].children[ind].children[id] = {};
-                    arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
-                    arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
-                    return arr;
-                  });
-                }
-                return arr;
-              });
-            }
-            return arr;
-          });
-          this.setState({
-            options: arr,
-          });
-        },
-      });
-    });
-  }
+
 
   // 客户信息列表分页设置文字 ‘共*页’ 位置
   setPaginationTotalNum = () => {
@@ -267,13 +167,12 @@ class ClientList extends Component {
           payload:{
             customerId: key
           },
-          cb: (data)=>{
+          cb: ()=>{
             this.onGetClientList();
           }
         })
       },
-      onCancel() {
-      },
+      onCancel() {},
     });
   }
 
@@ -287,7 +186,6 @@ class ClientList extends Component {
   }
 
   editCustomerInfo = (id) => {
-
     this.props.dispatch({
       type: 'clientList/getClientList',
       payload: {
@@ -319,14 +217,14 @@ class ClientList extends Component {
       searchThing,
       startTime,
       endTime,
-      departmentType,
+      arrArea,
     } = this.state;
 
     const a = [
       searchThing,
       startTime,
       endTime,
-      departmentType,
+      arrArea,
       ].some((el)=>{
         return el.length>0
       });
@@ -336,7 +234,7 @@ class ClientList extends Component {
       searchThing:'',
       startTime:'',
       endTime:'',
-      departmentType:'',
+      arrArea:[],
       flag:false
     }, () => {
       this.setState({flag: true})
@@ -345,53 +243,6 @@ class ClientList extends Component {
   }
 
   render() {
-    const menu = (
-      <Menu
-        className="composition-down-load"
-        onClick={(item) => {
-          const key = item.keyPath;
-          const len = key.length;
-          let str = ''
-          if (len === 1) {
-            str = `${this.state.compositionList[key[0] - 1].area}`;
-          } else if (len === 2) {
-            str = `${this.state.compositionList[key[1] - 1].area}/${this.state.compositionList[key[1] - 1].class[key[0] - 1].class}`;
-          } else if (len === 3) {
-            str = `${this.state.compositionList[key[2] - 1].area}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].class}/${this.state.compositionList[key[2] - 1].class[key[1] - 1].group[key[0] - 1].group}`;
-          }
-          this.setState({
-            composition: str,
-          });
-        }}
-      >
-        {
-          this.state.compositionList.map((item) => {
-            return (
-             !item.class ? <Menu.Item key={item.key}>{item.area}</Menu.Item> :
-             <SubMenu title={item.area} key={item.key}>
-               {
-                 item.class.map((content) => {
-                   return (
-                     !content.group ? <Menu.Item key={content.key}>{content.class}</Menu.Item> : (
-                       <SubMenu title={content.class} key={content.key}>
-                         {
-                           content.group.map((title) => {
-                             return (
-                               <Menu.Item key={title.key}>{title.group}</Menu.Item>
-                             );
-                           })
-                         }
-                       </SubMenu>
-                     )
-                   );
-                 })
-               }
-             </SubMenu>
-            );
-          })
-        }
-      </Menu>
-    );
     return (
       <div className="bootContent historyContent clientCotent" >
         <Scrollbars style={{ flex: 1 }} autoHide>
