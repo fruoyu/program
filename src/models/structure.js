@@ -47,12 +47,12 @@ export default {
       if (data.status === 100) {
         if (payload.whetherBind == '0') {
           yield put({
-            type: 'changeOwnedUsers',
+            type: 'changeNotOwnedUsers',
             payload: { ...data },
           });
         } else {
           yield put({
-            type: 'changeNotOwnedUsers',
+            type: 'changeOwnedUsers',
             payload: { ...data },
           });
         }
@@ -103,7 +103,8 @@ export default {
     changeNotOwnedUsers(state, { payload }) {
       return { ...state, notOwnedUsers: payload.data };
     },
-    saveOwnedUsers(state, { payload }) {
+    saveOwnedUsers(state, { payload }, callback) {
+      callback && callback();
       return { ...state, ...payload };
     },
     changeAreaClassCons(state, { payload }) {
