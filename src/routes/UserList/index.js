@@ -3,24 +3,20 @@ import '../../utils/md5.js';
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import {
-  DatePicker, Menu, Dropdown, Icon, Form, Input, Select, message, Modal, Tooltip,
-  Cascader,
+  DatePicker, Menu, Form, Input, Select, message, Modal, Tooltip,
 } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { routerRedux } from 'dva/router';
 import PolyDialog from '../../components/PolyDialog';
 import './userList.less';
 import '../../assets/iconfont/iconfont.css';
 import {
   CommonHeader,
   CommonTable,
+  CommonFilter,
 } from '../../components';
 import { verify } from '../../utils/cookie';
-import CommonFilter from "../../components/CommonFilter";
 
 const FormItem = Form.Item;
-const SubMenu = Menu.SubMenu;
-const { RangePicker } = DatePicker;
 const Option = Select.Option;
 const confirm = Modal.confirm;
 
@@ -71,7 +67,6 @@ class UserList extends Component {
     this.deleteFn = this.deleteFn.bind(this);
     this.editFn = this.editFn.bind(this);
     this.onSelectChange = this.onSelectChange.bind(this);
-    // this.handleSelectChange = this.handleSelectChange.bind(this);
     this.sendRequest = this.sendRequest.bind(this);
     this.changeGeneration = this.changeGeneration.bind(this);
   }
@@ -190,8 +185,10 @@ class UserList extends Component {
                   arr[index].children[ind].children = [];
                   cl.group.map((gr, id) => {
                     arr[index].children[ind].children[id] = {};
-                    arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
-                    arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
+                    arr[index].children[ind].children[id].value =
+                      res[index].class[ind].group[id].groupId;
+                    arr[index].children[ind].children[id].label =
+                      res[index].class[ind].group[id].groupName;
                     return arr;
                   });
                 }
@@ -460,7 +457,6 @@ class UserList extends Component {
                 })(
                   <Select
                     placeholder="请选择角色"
-                    // onChange={this.handleSelectChange}
                   >
                     {
                       this.state.generationList.map((item) => {

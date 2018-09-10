@@ -7,16 +7,12 @@ import {
   DanaoWrapper,
   CommonHeader,
 } from '../../components';
-// import '../../assets/css/daterangepicker.css';
-// import '../../assets/css/pagination.css';
-// import '../../assets/css/public.css';
 import './popup.less';
 import '../../assets/iconfont/iconfont.css';
-// import '../../plugs/audio/audio.js';
 import './audio.less';
 import {
   verify,
-} from "../../utils/cookie";
+} from '../../utils/cookie';
 
 class Popup extends Component {
   constructor(props) {

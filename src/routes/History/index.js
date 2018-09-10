@@ -16,7 +16,6 @@ import {
 import { verify } from '../../utils/cookie';
 import PolyDialog from "../../components/PolyDialog";
 
-const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 const confirm = Modal.confirm;
 const Option = Select.Option;
@@ -76,7 +75,6 @@ class History extends Component {
   componentWillMount() {
     this.sendRequest();
     this.getName();
-    // this.getConstruction();
   }
   // 日历操作
   onChangeFn = (date, dateString) => {
@@ -122,52 +120,6 @@ class History extends Component {
       pageNum: 1,
     }, () => {
       this.sendRequest();
-    });
-  }
-  /* 获取所属结构列表*/
-  getConstruction() {
-    verify((err, decoded) => {
-      if (err) return;
-      this.props.dispatch({
-        type: 'userList/getConstruction',
-        payload: {
-          groupId: decoded.data.groupId,
-          roleId: decoded.data.roleId,
-        },
-        callback: (res) => {
-          const arr = [];
-          // console.log(res);
-          res.map((item, index) => {
-            arr[index] = {};
-            arr[index].value = res[index].areaId;
-            arr[index].label = res[index].areaName;
-            if (item.class.length > 0) {
-              arr[index].children = [];
-              item.class.map((cl, ind) => {
-                arr[index].children[ind] = {};
-                arr[index].children[ind].value = res[index].class[ind].classId;
-                arr[index].children[ind].label = res[index].class[ind].className;
-                if (cl.group.length > 0) {
-                  arr[index].children[ind].children = [];
-                  cl.group.map((gr, id) => {
-                    arr[index].children[ind].children[id] = {};
-                    arr[index].children[ind].children[id].value =
-                      res[index].class[ind].group[id].groupId;
-                    arr[index].children[ind].children[id].label =
-                      res[index].class[ind].group[id].groupName;
-                    return arr;
-                  });
-                }
-                return arr;
-              });
-            }
-            return arr;
-          });
-          this.setState({
-            options: arr,
-          });
-        },
-      });
     });
   }
   // 列表中完成状态
@@ -327,9 +279,6 @@ class History extends Component {
       nameList = [],
       total = 0,
     } = this.props.history;
-    const {
-      constructionList,
-    } = this.props.userList;
     const tabHead = ['录音名称', '销售人员', '结构', '任务状态', '上传时间', '洞察项'];
     const { getFieldDecorator } = this.props.form;
     const options = (

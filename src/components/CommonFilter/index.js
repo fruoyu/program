@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { verify } from '../../utils/cookie';
 import {
-  DatePicker, Menu, Dropdown, Icon, message, Tooltip, Form, Select, Modal,
+  DatePicker,
+  Dropdown,
+  Icon,
+  message,
+  Tooltip,
   Cascader,
  } from 'antd';
 
 const { RangePicker } = DatePicker;
-const FormItem = Form.Item;
-const confirm = Modal.confirm;
-const Option = Select.Option;
 
 class CommonFilter extends Component {
   constructor() {
