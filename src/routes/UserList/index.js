@@ -383,6 +383,7 @@ class UserList extends Component {
               this.state.flag && <CommonFilter
                 searchTitle="用户名称"
                 state={this.state}
+                addUser
                 generation={generation}
                 upDataState={::this.upDataState}
                 sendRequest={::this.sendRequest}
