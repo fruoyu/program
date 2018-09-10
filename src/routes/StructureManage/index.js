@@ -4,7 +4,6 @@ import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { connect } from 'dva';
 import { Menu, Dropdown, Icon, Form, Input, Select, message, Modal, DatePicker, Tooltip } from 'antd';
-
 import {
   CommonHeader,
   CommonTable,
@@ -15,6 +14,10 @@ import './structure.less';
 import {
   verify,
 } from '../../utils/cookie';
+import {
+  notifyError,
+  notifyWarning,
+} from '../../services/app';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -272,34 +275,44 @@ class Structure extends Component {
 
   // 分配用户确定事件
   preUsers = () => {
-    this.props.dispatch({
-      type: 'structure/distributionUsers',
-      payload: {
-        groupId: this.state.userGroupId + '',
-        userIdList: this.props.structure.ownedUsers.map(item => {
-          return item.id + '';
-        }),
-      },
-      callback: () => {
-        this.setState({
-          assigningUsers: false,
-        });
-      },
-    });
-    this.props.dispatch({
-      type: 'structure/distributionUsers',
-      payload: {
-        groupId: '',
-        userIdList: this.props.structure.notOwnedUsers.map(item => {
-          return item.id + '';
-        }),
-      },
-      callback: () => {
-        this.setState({
-          assigningUsers: false,
-        });
-      },
-    });
+    const {
+      ownedUsers,
+      notOwnedUsers,
+    } = this.props.structure;
+    // if (ownedUsers.length == 0) {
+    //   notifyWarning('已拥有用户不能为空');
+    // } else if (notOwnedUsers.length == 0) {
+    //   notifyWarning('未拥有用户不能为空');
+    // } else {
+      this.props.dispatch({
+        type: 'structure/distributionUsers',
+        payload: {
+          groupId: this.state.userGroupId + '',
+          userIdList: ownedUsers.length == 0 ? [''] : ownedUsers.map(item => {
+            return item.id + '';
+          }),
+        },
+        callback: () => {
+          this.setState({
+            assigningUsers: false,
+          });
+        },
+      });
+      this.props.dispatch({
+        type: 'structure/distributionUsers',
+        payload: {
+          groupId: '',
+          userIdList: notOwnedUsers.length == 0 ? [''] : notOwnedUsers.map(item => {
+            return item.id + '';
+          }),
+        },
+        callback: () => {
+          this.setState({
+            assigningUsers: false,
+          });
+        },
+      });
+    // }
   }
   // 重置
   reloadFn() {
