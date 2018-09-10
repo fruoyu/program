@@ -1,32 +1,27 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
-
+import { verify } from '../../utils/cookie';
 import {
   DatePicker, Menu, Dropdown, Icon, message, Tooltip, Form, Select, Modal,
   Cascader,
  } from 'antd';
 
 const { RangePicker } = DatePicker;
+const FormItem = Form.Item;
+const confirm = Modal.confirm;
+const Option = Select.Option;
+
 class CommonFilter extends Component {
   constructor() {
     super();
-    
     this.state = {
     };
   }
-  // 日历操作
-  onChangeFn = (date, dateString) => {
-    this.props.upDataState({
-      pageNum: 1, // 当前页数
-      startTime: dateString[0], // 开始时间
-      endTime: dateString[1], // 结束时间
-    }, () => {
-      this.props.sendRequest();
-    });
+  componentDidMount() {
+    this.getConstruction();
   }
-
-   /* 获取所属结构列表*/
-   getConstruction() {
+  /* 获取所属结构列表*/
+  getConstruction() {
     verify((err, decoded) => {
       if (err) return;
       this.props.dispatch({
@@ -52,8 +47,10 @@ class CommonFilter extends Component {
                   arr[index].children[ind].children = [];
                   cl.group.map((gr, id) => {
                     arr[index].children[ind].children[id] = {};
-                    arr[index].children[ind].children[id].value = res[index].class[ind].group[id].groupId;
-                    arr[index].children[ind].children[id].label = res[index].class[ind].group[id].groupName;
+                    arr[index].children[ind].children[id].value =
+                      res[index].class[ind].group[id].groupId;
+                    arr[index].children[ind].children[id].label =
+                      res[index].class[ind].group[id].groupName;
                     return arr;
                   });
                 }
@@ -69,93 +66,23 @@ class CommonFilter extends Component {
       });
     });
   }
-// 更新state数据
-upDataState(key, data, callback) {
-  let object = {};
-  if (typeof (key) === 'string') {
-    object[key] = data;
-  } else {
-    object = key;
-  }
-  this.props.upDataState({
-    ...this.state,
-    ...object,
-  }, () => {
-    if (typeof (key) === 'object' && data) data();
-    if (typeof (key) === 'string' && callback) callback();
-  });
-}
-    // 级联下拉菜单
-    onSelectChange = (val, d) => {
-      console.log(val);
-      const len = val.length;
-      const groupId = val[len - 1];
-      let area = 0;
-      let classc = 0;
-      let groupc = 0;
-      if (len === 1) {
-        area = val[0];
-      } else if (len === 2) {
-        area = val[0];
-        classc = val[1];
-      } else if (len === 3) {
-        area = val[0];
-        classc = val[1];
-        groupc = val[2];
-      }
-      this.props.upDataState({
-        groupId,
-        area,
-        classc,
-        groupc,
-        pageNum: 1,
-      }, () => {
-        this.props.sendRequest();
-      });
-    }
-
-      // 重置
-  reloadFn() {
-    const {
-      fileName,
-      name,
-      composition,
-      area,
-      classc,
-      groupc,
-      statusContent,
-      status,
-      startTime,
-      endTime,
-    } = this.props.state;
-    if (fileName === '' && name === '' && composition === '' && status === '') return;
-    this.props.upDataState({
-      fileName: '',
-      name: '',
-      composition: '',
-      status: '',
-      statusContent: '任务状态',
-    }, () => {
-      this.props.sendRequest();
-    });
-  }
   render() {
-    const { nameList, state } = this.props
+    const { options, state, status, searchTitle, generation, addBtn } = this.props;
     return (
       <div className="content-head">
       <div className="ch-top">
         <div className="search-input">
           <input
-            type="text" placeholder="搜索内容"
-            value={this.props.state.fileName}
+            type="text" placeholder={searchTitle}
+            value={state.fileName}
             onChange={(e) => {
-              this.props.upDataState('fileName', e.target.value.trim());
+              this.props.upDataState('searchThing', e.target.value.trim());
             }}
           />
           <span
             className="iconfont icon-qianwang"
             onClick={() => {
-              if (!this.props.state.fileName.length) {
+              if (!this.props.state.searchThing.length) {
                 message.warning('请输入搜索内容');
                 return;
               }
@@ -169,89 +96,110 @@ upDataState(key, data, callback) {
         </div>
         <div className="search-condition">
           {/* 创建人 */}
-          <div className="founder click-item maker" onClick={(e) => { this.makerClick(e); }}>
-            <span className="mr-15">
-              {
-                this.props.state.name.length > 0 ? this.props.state.name : '创建人'
-              }
-            </span>
-            <span className="iconfont icon-down-trangle zhankai" />
-            <div className="trans-item trans-item-founder">
-              <div className="founder-list">
-                {
-                  nameList && nameList.map((item, index) => {
-                    return (
-                      <span
-                        key={index} className="list-item"
-                        onClick={() => {
-                          this.props.upDataState({ name: item.username, pageNum: 1, }, () => {
-                            this.props.sendRequest();
-                          });
-                        }}
-                      >{item.username}</span>
-                    );
-                  })
-                }
-              </div>
+          {
+            options && <div className="founder click-item maker" id="maker">
+              <Dropdown
+                overlay={this.props.options} trigger={['click']}
+                getPopupContainer={() => document.getElementById('maker')}
+              >
+                <span className="ant-dropdown-link">
+                  {
+                    state.name.length > 0 ? state.name : '创建人'
+                  }<Icon type="down" />
+                </span>
+              </Dropdown>
             </div>
-
-          </div>
+          }
+          {/* 所属角色 */}
+          {
+            generation && <div className="generation click-item" id="gen">
+              <Dropdown
+                overlay={this.props.generation} trigger={['click']}
+                getPopupContainer={() => document.getElementById('gen')}
+              >
+                <span className="ant-dropdown-link">
+                  {this.props.state.generation}<Icon type="down" />
+                </span>
+              </Dropdown>
+            </div>
+          }
           {/* 结构 */}
-          <div className="composition click-item">
-            <Cascader
-              allowClear={false}
-              options={this.state.options}
-              onChange={::this.onSelectChange}
-              changeOnSelect={true}
-              popupClassName="selectOptionsPop"
-              expandTrigger="hover"
-              placeholder="所属结构"
-            />
-          </div>
-          {/* 任务状态 */}
-          <div className="task-state click-item" onClick={(e) => { this.statusClick(e); }} >
-            <span className="mr-15">{this.props.state.statusContent}</span>
-            <span className="iconfont icon-down-trangle zhankai" />
-            <div className="trans-item trans-item-state">
-              <div className="task-state-list">
-                {
-                  this.props.state.statusList.map((item) => {
-                    return (
-                      <span
-                        key={item.key} className="list-item"
-                        onClick={() => {
-                          this.props.upDataState({
-                            statusContent: item.status,
-                            status: item.retCode,
-                            pageNum: 1, // 当前页数
-                          }, () => {
-                            this.props.sendRequest();
-                          });
-                        }}
-                      >{item.status}</span>
-                    );
-                  })
-                }
+          {
+            addBtn ? <div className="search-condition">
+              <div className="generation click-item" id="bumen">
+                <Dropdown
+                  overlay={this.props.department} trigger={['click']}
+                  getPopupContainer={() => document.getElementById('bumen')}
+                >
+                  <span className="ant-dropdown-link">
+                    {state.generation}<Icon type="down" />
+                  </span>
+                </Dropdown>
               </div>
+            </div> : <div className="composition click-item" id="jieg">
+              <Cascader
+                allowClear={false}
+                options={this.state.options}
+                onChange={this.props.onSelectChange}
+                changeOnSelect={true}
+                popupClassName="selectOptionsPop"
+                expandTrigger="hover"
+                placeholder="所属结构"
+                getPopupContainer={() => document.getElementById('jieg')}
+              />
             </div>
-          </div>
+          }
+          {/* 任务状态 */}
+          {
+            status && <div className="task-state click-item" id="task-state">
+              <Dropdown
+                overlay={this.props.status} trigger={['click']}
+                getPopupContainer={() => document.getElementById('task-state')}
+              >
+                <span className="ant-dropdown-link">
+                  {this.props.state.statusContent}<Icon type="down" />
+                </span>
+              </Dropdown>
+            </div>
+          }
         </div>
         {/* 日历 */}
         <div className="search-calendar">
           <div className="form-group d_t_dater">
             <div className="col-sm-12">
               <div className="input-group">
-                <RangePicker onChange={this.onChangeFn.bind(this)} allowClear={false}/>
+                <RangePicker onChange={this.props.onChangeFn} allowClear={false} />
               </div>
             </div>
           </div>
         </div>
+        {/* 重置 */}
         <div className="reload-button">
-          <Icon type="reload" onClick={::this.reloadFn} />
+          <Tooltip placement="bottom" title="重置">
+            <Icon type="reload" onClick={this.props.reloadFn} />
+          </Tooltip>
         </div>
+        {/* 添加按钮*/}
+        {
+          addBtn &&
+          <div
+            className="buttonCont"
+            onClick={() => {
+              this.props.upDataState({
+                searchThing: '',
+                departmentType: '',
+                startTime: '', // 开始时间
+                endTime: '', // 结束时间
+                generationCode: '',
+                addStructure: true,
+              });
+              this.props.getAreaClassCons();
+            }}
+          >添加部门</div>
+        }
       </div>
-    </div>
+      </div>
     );
   }
 }
-export default connect(({userList }) => ({userList }))(CommonFilter);
+export default connect(({ userList }) => ({ userList }))(CommonFilter);
