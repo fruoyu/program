@@ -272,37 +272,32 @@ class Main extends Component {
       }
       console.log(fd)
 
-      ifToken(() => {
-        verify((err, decoded) => {
-          const ajax = $.ajax({
-            url: option.url,
-            type: option.type,
-            data: fd,
-            cache: option.cache,
-            processData: option.processData,
-            contentType: option.contentType,
-            success: (data) => {
-              option.success(data, index,_count);
-              uploadedNumber++;
-              $('.uploaded-number').html(uploadedNumber);
-              $('#upload').val('');
-            },
-            error:(error) => {
-              console.log(error);
-              option.error(error,index,_count);
-            },
-            xhr: () => {
-              let xhr = $.ajaxSettings.xhr();
-              if(onprogress && xhr.upload) {
-                xhr.upload.addEventListener("progress", onprogress, false);
-                return xhr;
-              }
-            }
-          });
-          ajaxArr.push(ajax);
-        })
-
-      })
+      const ajax = $.ajax({
+        url: option.url,
+        type: option.type,
+        data: fd,
+        cache: option.cache,
+        processData: option.processData,
+        contentType: option.contentType,
+        success: (data) => {
+          option.success(data, index,_count);
+          uploadedNumber++;
+          $('.uploaded-number').html(uploadedNumber);
+          $('#upload').val('');
+        },
+        error:(error) => {
+          console.log(error);
+          option.error(error,index,_count);
+        },
+        xhr: () => {
+          let xhr = $.ajaxSettings.xhr();
+          if(onprogress && xhr.upload) {
+            xhr.upload.addEventListener("progress", onprogress, false);
+            return xhr;
+          }
+        }
+      });
+      ajaxArr.push(ajax);
 
 
       function onprogress (evt) {
