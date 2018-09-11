@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import {
-  DatePicker, Menu, Icon, message, Tooltip, Form, Select, Modal,
-  Cascader, Dropdown,
+  DatePicker, Menu, Icon, message, Tooltip, Form, Select, Modal, Spin,
 } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
@@ -61,6 +60,10 @@ class History extends Component {
       area: '',
       classc: '',
       groupc: '',
+
+      data: [],
+      value: [],
+      fetching: false,
     };
     this.sendRequest = this.sendRequest.bind(this);
     this.upDataState = this.upDataState.bind(this);
@@ -273,6 +276,34 @@ class History extends Component {
     const statusContent = this.state.generationList.filter(item => item.key === code)[0].generation;
     return statusContent;
   }
+
+  fetchUser = (value) => {
+    console.log('fetching user', value);
+    this.setState({ data: [], fetching: true });
+    verify((err, decoded) => {
+      this.props.dispatch({
+        type: 'clientList/getClientList',
+        payload: {
+          userName: decoded.data.userName,
+          whatPage: -1,
+          customerType: value,
+        },
+        callback: (res) => {
+          console.log(res);
+          // this.setState({ data, fetching: false });
+        },
+      });
+    });
+  }
+
+  handleChange = (value) => {
+    console.log(1)
+    this.setState({
+      value,
+      data: [],
+      fetching: false,
+    });
+  }
   render() {
     const {
       filesList = [],
@@ -281,6 +312,7 @@ class History extends Component {
     } = this.props.history;
     const tabHead = ['录音名称', '销售人员', '结构', '任务状态', '上传时间', '洞察项'];
     const { getFieldDecorator } = this.props.form;
+    const { fetching, data, value } = this.state;
     const options = (
       <Menu
         className="composition-down-load"
@@ -410,11 +442,16 @@ class History extends Component {
                   rules: [{ required: true, message: '请选择客户!' }],
                 })(
                   <Select
+                    mode="multiple"
+                    labelInValue
                     placeholder="选择客户"
+                    notFoundContent={fetching ? <Spin size="small" /> : null}
+                    filterOption={false}
+                    onSearch={::this.fetchUser}
+                    onChange={::this.handleChange}
+                    style={{ width: '100%' }}
                   >
-                    <Option value="1">张三</Option>
-                    <Option value="2">李四</Option>
-                    <Option value="3">王五</Option>
+                    {data.map(d => <Option key={d.value}>{d.text}</Option>)}
                   </Select>,
                 )}
               </FormItem>
