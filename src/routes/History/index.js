@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import {
-  DatePicker, Menu, Icon, message, Tooltip, Form, Select, Modal,
-  Cascader, Dropdown,
+  DatePicker, Menu, Icon, message, Tooltip, Form, Select, Modal, Spin,
 } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
@@ -16,7 +15,6 @@ import {
 import { verify } from '../../utils/cookie';
 import PolyDialog from "../../components/PolyDialog";
 
-const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 const confirm = Modal.confirm;
 const Option = Select.Option;
@@ -62,6 +60,10 @@ class History extends Component {
       area: '',
       classc: '',
       groupc: '',
+
+      data: [],
+      value: [],
+      fetching: false,
     };
     this.sendRequest = this.sendRequest.bind(this);
     this.upDataState = this.upDataState.bind(this);
@@ -76,7 +78,6 @@ class History extends Component {
   componentWillMount() {
     this.sendRequest();
     this.getName();
-    // this.getConstruction();
   }
   // 日历操作
   onChangeFn = (date, dateString) => {
@@ -122,52 +123,6 @@ class History extends Component {
       pageNum: 1,
     }, () => {
       this.sendRequest();
-    });
-  }
-  /* 获取所属结构列表*/
-  getConstruction() {
-    verify((err, decoded) => {
-      if (err) return;
-      this.props.dispatch({
-        type: 'userList/getConstruction',
-        payload: {
-          groupId: decoded.data.groupId,
-          roleId: decoded.data.roleId,
-        },
-        callback: (res) => {
-          const arr = [];
-          // console.log(res);
-          res.map((item, index) => {
-            arr[index] = {};
-            arr[index].value = res[index].areaId;
-            arr[index].label = res[index].areaName;
-            if (item.class.length > 0) {
-              arr[index].children = [];
-              item.class.map((cl, ind) => {
-                arr[index].children[ind] = {};
-                arr[index].children[ind].value = res[index].class[ind].classId;
-                arr[index].children[ind].label = res[index].class[ind].className;
-                if (cl.group.length > 0) {
-                  arr[index].children[ind].children = [];
-                  cl.group.map((gr, id) => {
-                    arr[index].children[ind].children[id] = {};
-                    arr[index].children[ind].children[id].value =
-                      res[index].class[ind].group[id].groupId;
-                    arr[index].children[ind].children[id].label =
-                      res[index].class[ind].group[id].groupName;
-                    return arr;
-                  });
-                }
-                return arr;
-              });
-            }
-            return arr;
-          });
-          this.setState({
-            options: arr,
-          });
-        },
-      });
     });
   }
   // 列表中完成状态
@@ -321,17 +276,43 @@ class History extends Component {
     const statusContent = this.state.generationList.filter(item => item.key === code)[0].generation;
     return statusContent;
   }
+
+  fetchUser = (value) => {
+    console.log('fetching user', value);
+    this.setState({ data: [], fetching: true });
+    verify((err, decoded) => {
+      this.props.dispatch({
+        type: 'clientList/getClientList',
+        payload: {
+          userName: decoded.data.userName,
+          whatPage: -1,
+          customerType: value,
+        },
+        callback: (res) => {
+          console.log(res);
+          // this.setState({ data, fetching: false });
+        },
+      });
+    });
+  }
+
+  handleChange = (value) => {
+    console.log(1)
+    this.setState({
+      value,
+      data: [],
+      fetching: false,
+    });
+  }
   render() {
     const {
       filesList = [],
       nameList = [],
       total = 0,
     } = this.props.history;
-    const {
-      constructionList,
-    } = this.props.userList;
     const tabHead = ['录音名称', '销售人员', '结构', '任务状态', '上传时间', '洞察项'];
     const { getFieldDecorator } = this.props.form;
+    const { fetching, data, value } = this.state;
     const options = (
       <Menu
         className="composition-down-load"
@@ -461,11 +442,16 @@ class History extends Component {
                   rules: [{ required: true, message: '请选择客户!' }],
                 })(
                   <Select
+                    mode="multiple"
+                    labelInValue
                     placeholder="选择客户"
+                    notFoundContent={fetching ? <Spin size="small" /> : null}
+                    filterOption={false}
+                    onSearch={::this.fetchUser}
+                    onChange={::this.handleChange}
+                    style={{ width: '100%' }}
                   >
-                    <Option value="1">张三</Option>
-                    <Option value="2">李四</Option>
-                    <Option value="3">王五</Option>
+                    {data.map(d => <Option key={d.value}>{d.text}</Option>)}
                   </Select>,
                 )}
               </FormItem>

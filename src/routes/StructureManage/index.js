@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
-import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { connect } from 'dva';
-import { Menu, Dropdown, Icon, Form, Input, Select, message, Modal, DatePicker, Tooltip } from 'antd';
+import { Menu, Form, Input, Select, message, Modal, DatePicker, Tooltip } from 'antd';
 import {
   CommonHeader,
   CommonTable,
@@ -12,18 +10,10 @@ import {
 } from '../../components';
 import '../../assets/iconfont/iconfont.css';
 import './structure.less';
-import {
-  verify,
-} from '../../utils/cookie';
-import {
-  notifyError,
-  notifyWarning,
-} from '../../services/app';
 
 const FormItem = Form.Item;
 const Option = Select.Option;
 const confirm = Modal.confirm;
-const { RangePicker } = DatePicker;
 
 class Structure extends Component {
   constructor(props) {
@@ -242,9 +232,9 @@ class Structure extends Component {
   searchUsers = (roleLevel, groupId) => {
     const n = 3;
     let result = [];
-    switch(this.state.userRoleLevel){
+    switch (this.state.userRoleLevel){
       case '1':
-        result=[''];
+        result = [''];
         break;
       case '2':
         result = [this.state.userRoleLevel];
@@ -253,7 +243,7 @@ class Structure extends Component {
         result = [this.state.userRoleLevel];
         break;
       default:
-        result = [4,5];
+        result = [4, 5];
     };
     this.props.dispatch({
       type: 'structure/searchUsers',

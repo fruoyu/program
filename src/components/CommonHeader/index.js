@@ -98,7 +98,6 @@ class MainWrapper extends Component {
       customer,
       photograph,
       record,
-      taskId,
     } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
