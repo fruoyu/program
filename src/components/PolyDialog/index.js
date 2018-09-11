@@ -21,11 +21,9 @@ export default class PolyDialog extends Component {
   }
   onOk = () => {
     this.props.onOk && this.props.onOk();
-    // this.onClose();
   }
   onCancel = () => {
     this.props.onCancel && this.props.onCancel();
-    // this.onClose();
   }
   render() {
     const {
