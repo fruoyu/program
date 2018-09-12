@@ -32,6 +32,7 @@ class PopClientInfo extends Component {
     verify((err, decoded) => {
       if (err) return;
       const { data } = decoded;
+      rdata.userName = data.roleId === 5 ? data.userName : '';
       rdata.area = data.areaId ? data.areaId : 0;
       rdata.classc = data.classcId ? data.classcId : 0;
       rdata.groupc = data.groupcId ? data.groupcId : 0;

@@ -60,6 +60,7 @@ const DataList = (props) => {
           {
             showQuickJumper:true,
             pageSize:10,
+            current: props.defaultCurrent,
             total: props.total,
             onChange: props.handleChange,
             itemRender: (page, type, originaElement) => {
