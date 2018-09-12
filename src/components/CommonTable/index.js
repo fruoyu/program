@@ -13,6 +13,7 @@ class CommonTable extends Component {
     const {
       tabHead,
       total,
+      current
     } = this.props;
     const classNameList = ['item-title', 'item-author', 'item-composition', 'item-state', 'item-time', 'data'];
     return (
@@ -38,7 +39,7 @@ class CommonTable extends Component {
         {/* 分页器 */}
         <Pagination
           className="my-pagination"
-          defaultCurrent={1} total={total} showQuickJumper style={{ marginTop: 60 }}
+          defaultCurrent={1} total={total} current={current} showQuickJumper style={{ marginTop: 60 }}
           onChange={(pageNumber) => {
             this.props.onChangePage(pageNumber);
           }}

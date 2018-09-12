@@ -106,6 +106,7 @@ class UserList extends Component {
             userName: value.name,
           },
           callback: () => {
+            message.success('添加成功', 1);
             this.setState({
               showUser: false,
             });
@@ -392,6 +393,7 @@ class UserList extends Component {
             {/* 内容区域 */}
             <CommonTable
               tabHead={tabHead}
+              current={this.state.pageNum}
               total={this.props.userList.userCounts}
               options="操作"
               onChangePage={(pageNumber) => { this.onChangePage(pageNumber); }}

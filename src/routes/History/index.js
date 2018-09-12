@@ -5,6 +5,7 @@ import {
 } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
+import moment from 'moment';
 import './history.less';
 import '../../assets/iconfont/iconfont.css';
 import {
@@ -24,6 +25,7 @@ class History extends Component {
     super();
     this.state = {
       flag: true,
+      taskData: {},
       statusContent: '任务状态', // 状态选择
       name: '',
       groupId: '',
@@ -198,7 +200,6 @@ class History extends Component {
   }
   // 进入数据界面
   gotoPopup(id, customerId) {
-    console.log(customerId)
     this.props.dispatch(routerRedux.push({
       pathname: '/popup',
       query: {
@@ -211,14 +212,16 @@ class History extends Component {
   addCustomerMsg() {
     this.props.form.validateFields((err, value) => {
       if (err) return;
+      const { choseUser:{key:customerId} } = value;
       this.props.dispatch({
         type: 'history/changeCutsom',
         payload: {
-          customId: 54,
+          customerId,
           realTime: this.state.choseTime,
           taskId: this.state.taskId,
         },
         callback: () => {
+          message.success('录音绑定成功', 1);
           this.setState({
             showEdit: false,
           });
@@ -228,10 +231,25 @@ class History extends Component {
     });
   }
   // 编辑操作
-  editFn(taskId) {
+  editFn(item) {
+    const {id: taskId, RealTime, customerId, customerName} = item;  
+    const defDate = RealTime ? {initialValue: moment(RealTime, 'YYYY-MM-DD')} : {};
+    const initCustomerId = customerId ? { initialValue: {key: ''+customerId, label: customerId+''} } : {};
+    const initCustomerName = customerName ? customerName : null;
+    const dateInit = {
+      ...defDate,
+      rules: [{ required: true, message: '请选择面销时间!' }],
+    }
     this.setState({
       showEdit: true,
       taskId,
+      choseTime: RealTime,
+      taskData: {
+        dateInit,
+        customerId,
+        initCustomerId,
+        initCustomerName
+      }
     });
   }
   // 重置
@@ -278,26 +296,25 @@ class History extends Component {
   }
 
   fetchUser = (value) => {
-    console.log('fetching user', value);
     this.setState({ data: [], fetching: true });
     verify((err, decoded) => {
       this.props.dispatch({
         type: 'clientList/getClientList',
         payload: {
           userName: decoded.data.userName,
-          whatPage: -1,
+          page: -1,
           customerType: value,
         },
-        callback: (res) => {
-          console.log(res);
-          // this.setState({ data, fetching: false });
+        cb: (res) => {
+          const { result: data } = res.data;
+          this.setState({ data, fetching: false });
         },
       });
     });
   }
 
   handleChange = (value) => {
-    console.log(1)
+    console.log(value)
     this.setState({
       value,
       data: [],
@@ -312,7 +329,7 @@ class History extends Component {
     } = this.props.history;
     const tabHead = ['录音名称', '销售人员', '结构', '任务状态', '上传时间', '洞察项'];
     const { getFieldDecorator } = this.props.form;
-    const { fetching, data, value } = this.state;
+    const { fetching, data, value} = this.state;
     const options = (
       <Menu
         className="composition-down-load"
@@ -349,6 +366,7 @@ class History extends Component {
         }
       </Menu>
     )
+
     return (
       <div className="bootContent historyContent historyIcon">
         <Scrollbars style={{ flex: 1 }} autoHide>
@@ -374,13 +392,14 @@ class History extends Component {
               total={total}
               options="操作"
               onChangePage={(pageNumber) => { this.onChangePage(pageNumber); }}
+              current={this.state.pageNum}
             >
               {
                 filesList && filesList.map((item, index) => {
                   return (
                     <li className="content-item" data-id="'+ item2.id +'" key={index}>
                       <Tooltip placement="bottom" title={item.fileName}>
-                        <div className="item-title" onClick={this.gotoPopup.bind(this, item.id, item.customerId)}>{item.fileName}</div>
+                        <div className="item-title pointer" onClick={this.gotoPopup.bind(this, item.id, item.customerId)}>{item.fileName}</div>
                       </Tooltip>
                       <div className="item-author">{item.userId}</div>
                       <div className="item-composition">{item.area}{item.classc}{item.groupc}</div>
@@ -389,7 +408,7 @@ class History extends Component {
                       <div className="data">{!item.itemCount ? 0 : item.itemCount}项</div>
                       <div className="item-options">
                         <Tooltip placement="bottom" title="编辑">
-                          <span className="iconfont icon-biaozhugongju" onClick={this.editFn.bind(this, item.id)} />
+                          <span className="iconfont icon-biaozhugongju" onClick={this.editFn.bind(this, item)} />
                         </Tooltip>
                         <Tooltip placement="bottom" title="删除">
                           <span className="iconfont icon-shanchu" onClick={() => { this.deleteFn(item.id); }} />
@@ -423,11 +442,9 @@ class History extends Component {
               });
             }}
           >
-            <Form className="user-form-dailog">
+            <Form className="user-form-dailog" >
               <FormItem className="line-item" label="面销时间">
-                {getFieldDecorator('choseTime', {
-                  rules: [{ required: true, message: '请选择面销时间!' }],
-                })(
+                {getFieldDecorator('choseTime', this.state.taskData.dateInit)(
                   <DatePicker
                     onChange={(val, data) => {
                       this.setState({
@@ -439,19 +456,20 @@ class History extends Component {
               </FormItem>
               <FormItem className="line-item" label="选择客户">
                 {getFieldDecorator('choseUser', {
+                  ...this.state.taskData.initCustomerId,
                   rules: [{ required: true, message: '请选择客户!' }],
                 })(
                   <Select
-                    mode="multiple"
+                    showSearch
                     labelInValue
                     placeholder="选择客户"
-                    notFoundContent={fetching ? <Spin size="small" /> : null}
+                    optionFilterProp="children"
                     filterOption={false}
                     onSearch={::this.fetchUser}
                     onChange={::this.handleChange}
                     style={{ width: '100%' }}
                   >
-                    {data.map(d => <Option key={d.value}>{d.text}</Option>)}
+                    {data.map(d => <Option key={d.customerId} value={''+d.customerId} >{d.customerName}</Option>)}
                   </Select>,
                 )}
               </FormItem>
