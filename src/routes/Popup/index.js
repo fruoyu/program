@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { connect } from 'dva';
+import { Spin, Alert } from 'antd';
 import {
   DanaoWrapper,
   CommonHeader,
@@ -58,7 +59,6 @@ class Popup extends Component {
       totalTime: 0,
       playPer: 0,
       bufferedPer: 0,
-      playedLeft: 0,
       volumnLeft: 0,
       remainTime: 0,
       angle: 0,
@@ -69,6 +69,9 @@ class Popup extends Component {
       scrollTop: 100,
       pageNum: 1,
       customerId: '',
+      filesList: [],
+      isLoading: false,
+      cordLoading: false,
     };
     this.clickChangeTime = this.clickChangeTime.bind(this);
     this.slideChangeTime = this.slideChangeTime.bind(this);
@@ -84,6 +87,7 @@ class Popup extends Component {
     let taskId = this.props.location.query.taskId;
     let audio = this.refs.audio;
     this.setState({
+      filePath: `http://114.112.96.62:8658${this.props.popup.fileResult.filePath}`,
       remainTime: this.formatSeconds(0),
     });
     //获取总时间
@@ -92,8 +96,11 @@ class Popup extends Component {
       this.setState({
         totalTime: this.formatSeconds(totalTime),
         // remainTime: this.formatSeconds(0),
-        // playedLeft: this.refs.played.getBoundingClientRect().left,
       });
+
+      let playPer = audio.currentTime/audio.duration;
+      this.refs.played.style.width = playPer*100+"%";
+      this.refs.circle.style.left = playPer*100+"%";
     });
     this.sendRequest();
     // 请求画像数据
@@ -103,7 +110,7 @@ class Popup extends Component {
         taskid: taskId,
       },
       callback: () => {
-        audio.src = this.props.popup.fileResult.filePath;
+        audio.src = 'http://114.112.96.62:8658'+this.props.popup.fileResult.filePath;
       },
     });
   }
@@ -565,32 +572,42 @@ class Popup extends Component {
   sendRequest = () => {
     // 请求已识别文件
     verify((err, decoded) => {
-      this.props.dispatch({
-        type: 'popup/getFilesListByid',
-        payload: {
-          pageSize: 10,
-          pageNum: this.state.pageNum,
-          name: '',
-          status: '',
-          startTime: '',
-          endTime: '',
-          fileName: '',
-          userName: decoded.data.userName,
-          groupId: '',
-        },
-      });
+      if(!this.state.isLoading){
+        this.setState({ isLoading: true }, ()=>{
+          this.props.dispatch({
+            type: 'popup/getFilesListByid',
+            payload: {
+              pageSize: 10,
+              pageNum: this.state.pageNum,
+              name: '',
+              status: '',
+              startTime: '',
+              endTime: '',
+              fileName: '',
+              userName: decoded.data.userName,
+              groupId: '',
+            },
+            callback: (res) => {
+              const { reslist: filesList, total: fileTotal } = res.data;
+              const list = this.state.filesList;
+              this.setState({
+                filesList: [ ...list, ...filesList ],
+                fileTotal,
+                isLoading: false
+              })
+            }
+          });
+        });
+      }
     });
   }
 
   // 已识别文件下拉刷新
   scrollFn = (data) => {
-    if (data.top === 0 && this.state.filesList.length !== 10) { // 返回到第一页信息
-      this.setState({
-        pageNum: 1,
-      }, () => {
-        this.sendRequest();
-      });
-    } else if (data.top === 1) {
+    const { fileTotal } = this.state,
+      page = Math.ceil(fileTotal/10);
+
+    if(data.top === 1 && this.state.pageNum < page) {
       this.setState({
         pageNum: this.state.pageNum + 1,
       }, () => {
@@ -603,7 +620,7 @@ class Popup extends Component {
     let {
       filesList,
       fileTotal,
-    } = this.props.popup
+    } = this.state;
     const taskId = this.props.location.query.taskId;
     const customerId = this.props.location.query.customerId;
     return (
@@ -612,6 +629,13 @@ class Popup extends Component {
         <CommonHeader title="洞察结果" goback home record customer/>
         <DanaoWrapper>
           <div id="archivesModal" className={this.state.isOriginal ? "archivesBigModal" : ""}>
+            {
+              this.state.cordLoading && <Spin size="large" wrapperClassName ='loadingMsk' tip="Loading..." >
+              <Alert message="Alert message title" />
+            </Spin>
+            }
+            
+
             <div className="originalTextOperate">
               {/* 点击原文或收起 */}
               {
@@ -625,20 +649,8 @@ class Popup extends Component {
                   <span className="retractSpan">收起</span>
                 </div> :
                 <div className="view" onClick={() => {
-                  this.props.dispatch({
-                    type: 'popup/getOriginalList',
-                    payload: {
-                      taskid: taskId
-                    },
-                    callback: (data) => {
-                      this.setState({
-                        playedLeft:this.refs.played.getBoundingClientRect().left,
-                      }, () => {
-                        this.setState({
-                          isOriginal: true,
-                        })
-                      })
-                    }
+                  this.setState({
+                    isOriginal: true,
                   })
                 }}>
                   <i className="iconfont icon-wenbenzhantie"></i>
@@ -685,8 +697,11 @@ class Popup extends Component {
                     <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index} ref={'filelist' + item.id}
                       onClick={() => {
                         this.setState({
+                          isPlay: false,
                           customerId: item.id,
+                          cordLoading: true,
                         });
+                        
                         this.props.dispatch(routerRedux.push({
                           pathname: '/popup',
                           query: {
@@ -695,19 +710,28 @@ class Popup extends Component {
                           },
                         }));
                         this.props.dispatch({
-                          type: 'history/saveTaskId',
+                          type: 'popup/getFileResultApi',
                           payload: {
-                            taskId: item.id,
+                            taskid: item.id
                           },
-                          callback: () => {
-                            this.props.dispatch({
-                              type: 'popup/getFileResultApi',
-                              payload: {
-                                taskid: item.id
-                              },
+                          callback: (data) =>{
+                            let audio = this.refs.audio;
+                            this.setState({
+                              filePath: this.props.popup.fileResult.filePath,
+                              cordLoading: false
+                            },() => {
+                              audio.src = 'http://114.112.96.62:8658'+this.state.filePath;
                             })
                           }
-                        });
+                        })
+
+                        // 获取录音原文
+                        this.props.dispatch({
+                          type: 'popup/getOriginalList',
+                          payload: {
+                            taskid: taskId
+                          }
+                        })
                       }}
                       onMouseEnter={() => {
                         this.setState({
@@ -724,9 +748,10 @@ class Popup extends Component {
                     </li>
                   ))
                 }
+                { this.state.isLoading && <li className="loading"></li>}
               </Scrollbars>
             </ul>
-          </div>
+          </div>   
         </DanaoWrapper>
       </div>
     );

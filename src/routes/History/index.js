@@ -38,7 +38,7 @@ class History extends Component {
         {
           key: '1',
           status: '未完成',
-          retCode: 'delete',
+          retCode: 'analyse-error',
         },
         {
           key: '2',
@@ -216,7 +216,7 @@ class History extends Component {
       this.props.dispatch({
         type: 'history/changeCutsom',
         payload: {
-          customerId,
+          customId: customerId,
           realTime: this.state.choseTime,
           taskId: this.state.taskId,
         },
@@ -314,7 +314,6 @@ class History extends Component {
   }
 
   handleChange = (value) => {
-    console.log(value)
     this.setState({
       value,
       data: [],

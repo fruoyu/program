@@ -45,7 +45,6 @@ class Main extends Component {
         filter: [],  // 后缀文件筛选
         sendBefore: (files) => {
           // 开始之前
-          console.log(files);
           currentUploadItme.find('.progress-grey').css('width','100%');
           currentUploadItme.find('.icon-shuaxin').hide();
           currentUploadItme.find('.percent').show();
@@ -270,7 +269,6 @@ class Main extends Component {
       for(let i in option.data){
         fd.append(i,option.data[i]);
       }
-      console.log(fd)
 
       const ajax = $.ajax({
         url: option.url,
