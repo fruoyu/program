@@ -6,7 +6,6 @@ import { Input, message, Form } from 'antd';
 import { routerRedux } from 'dva/router';
 import PolyDialog from '../PolyDialog';
 import {
-  ifToken,
   verify,
 } from '../../utils/cookie';
 
@@ -50,19 +49,17 @@ class MainWrapper extends Component {
           message.error('新密码与确认密码不一致', 1);
           return false;
         }
-        ifToken(() => {
-          this.props.dispatch({
-            type: 'login/resolvePassword',
-            payload: {
-              userName: 'root',
-              oldPassWord: $.md5(oldPassword),
-              newPassWord: $.md5(newPassword),
-            },
-            callback: () => {
-              // 退出登录
-              this.loginOut();
-            },
-          });
+        this.props.dispatch({
+          type: 'login/resolvePassword',
+          payload: {
+            userName: this.state.userName,
+            oldPassWord: $.md5(oldPassword),
+            newPassWord: $.md5(newPassword),
+          },
+          callback: () => {
+            // 退出登录
+            this.loginOut();
+          },
         });
       }
     });
@@ -72,7 +69,7 @@ class MainWrapper extends Component {
     this.props.dispatch({
       type: 'login/loginOut',
       payload: {
-        userName: 'root',
+        userName: this.state.userName,
       },
       callback: () => {
         this.props.dispatch({
