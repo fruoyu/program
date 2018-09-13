@@ -50,11 +50,11 @@ class MainWrapper extends Component {
           message.error('新密码与确认密码不一致', 1);
           return false;
         }
-        ifToken(() => {
+        // ifToken(() => {
           this.props.dispatch({
             type: 'login/resolvePassword',
             payload: {
-              userName: 'root',
+              userName: this.state.userName,
               oldPassWord: $.md5(oldPassword),
               newPassWord: $.md5(newPassword),
             },
@@ -63,7 +63,7 @@ class MainWrapper extends Component {
               this.loginOut();
             },
           });
-        });
+        // });
       }
     });
   }
@@ -72,7 +72,7 @@ class MainWrapper extends Component {
     this.props.dispatch({
       type: 'login/loginOut',
       payload: {
-        userName: 'root',
+        userName: this.state.userName,
       },
       callback: () => {
         this.props.dispatch({

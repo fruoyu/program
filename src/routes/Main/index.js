@@ -100,7 +100,7 @@ class Main extends Component {
             const item = sendFiles[i];
             const itemName = item.name.substr(0,item.name.length-4);
             const fileNameStrArr = itemName.split('-');
-            const patrn = /^(?:[\u4E00-\u9FA5]+-){3}([0-9]+)$/g;
+            const patrn = /^(?:.+-){3}([0-9]+)$/g;
             const patrnPhone = /^[1][3-9][0-9]{9}$/g;
             const regArr = patrn.exec(itemName);
             if (!patrnPhone.test(regArr[1])) {
@@ -162,7 +162,7 @@ class Main extends Component {
           // file.percent  百分比
           // file.index   第多少个文件
           const length = $('.list-wrap').length - file._count - 1;
-          console.log(length, file, file._count, $('.list-wrap').eq(length))
+          // console.log(length, file, file._count, $('.list-wrap').eq(length))
           const per = file.percent.split('%')[0];
           $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.percent').html(per+'%');
           $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.progress-grey').css('width',(100-per) + '%');
@@ -215,8 +215,8 @@ class Main extends Component {
     files = Array.prototype.slice.call(files);
     //排除掉格式错误的数据
     files = files.filter((ele, index, array) => {
-      const patrn = /^(?:[\u4E00-\u9FA5]+-){3}([0-9]+)$/g;
-      const patrnPhone = /^[1][3-9][0-9]{9}$/g;
+      // const patrn = /^(?:[\u4E00-\u9FA5]+-){3}([0-9]+)$/g;
+      // const patrnPhone = /^[1][3-9][0-9]{9}$/g;
 
       let fileName = ele.name.substr(0, ele.name.length - 4);
       let fileNameStrArr = fileName.split('-');
@@ -330,7 +330,7 @@ class Main extends Component {
         <div className="upload-middle">
           <div className="upload-btn">
             {/* <accept="audio/wav, audio/mp3">*/}
-            <input id="upload" type="file" data-name='file' multiple="multiple" accept="audio/wav, audio/mp3" ref='uploadInput' hidden onChange={(e) => {
+            <input id="upload" type="file" data-name='file' multiple="multiple" accept="audio/wav, audio/mp3, audio/m4a" ref='uploadInput' hidden onChange={(e) => {
               this.changeUploadFile(e);
             }} />
             <span className="iconfont icon-shangchuan" />
