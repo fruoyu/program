@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Scrollbars } from 'react-custom-scrollbars';
-import { Modal } from 'antd';
+import { Modal, message } from 'antd';
 import $ from 'jquery';
 import { CommonHeader } from '../../components';
 import DataList from './DataList';
@@ -66,11 +66,11 @@ class ClientList extends Component {
         startTime: this.state.startTime,
         endTime: this.state.endTime,
         userName: this.state.userName,
-        whatPage: this.state.pageNum,
+        page: this.state.pageNum,
         customerType: this.state.searchThing,
       },
       cb: (data) => {
-        const { result, pageCount: total } = data.data;
+        const { data: { result }, count: total } = data;
         let dataSource = [];
         if(result) {
           result.map((itm)=>{
@@ -168,6 +168,7 @@ class ClientList extends Component {
             customerId: key
           },
           cb: ()=>{
+            message.success('客户删除成功', 1);
             this.onGetClientList();
           }
         })
@@ -192,7 +193,7 @@ class ClientList extends Component {
         startTime: '',
         endTime: '',
         userName: this.state.userName,
-        whatPage: 1,
+        page: 1,
         customerType: '',
         customerId: id
       },
@@ -265,10 +266,11 @@ class ClientList extends Component {
           {/* 列表内容部分 */}
             {
               this.state.dataSource.length > 0 && <DataList
+                current= {this.state.pageNum}
                 dataSource={this.state.dataSource}
                 handleDel={this.handleDel}
                 handleChange={this.handleChange}
-                total={this.state.total}
+                total={parseInt(this.state.total)}
                 editCustomerInfo={this.editCustomerInfo}
                 navigateTo={this.navigateTo}
               />
