@@ -72,6 +72,7 @@ class Popup extends Component {
       filesList: [],
       isLoading: false,
       cordLoading: false,
+      sctop: 0,
     };
     this.clickChangeTime = this.clickChangeTime.bind(this);
     this.slideChangeTime = this.slideChangeTime.bind(this);
@@ -228,7 +229,11 @@ class Popup extends Component {
                             {labelItem.context}
                             <i
                               className="audioJump iconfont icon-yuyin1-copy"
-                              onClick={() => {
+                              onClick={(e) => {
+                                var _this = $(e.currentTarget);
+                                var time = _this.parents('.digSentenceWrap').attr('data-time');
+                                var scrollH = $('.originalText[data-time='+time+']')[0].offsetTop-20;
+                                $('.insightTextWrap div').animate({scrollTop: scrollH+'px'}, 500);
                                 this.playMusic(labelItem.time);
                               }}
                             >
@@ -301,10 +306,10 @@ class Popup extends Component {
     const taskId = this.props.location.query.taskId;
     return (
       <div className="insightTextWrap" style={{ boxSizing: 'border-box', }}>
-        <Scrollbars>
+        <Scrollbars ref='scrollBarsVoice'>
           {
             Object.keys(originalList).map((item, index) => (
-              <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')} ref={'originalText' + parseInt(originalList[item].startTime / 1000)}>
+              <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')} ref={'originalText' + parseInt(originalList[item].startTime / 1000)} data-time={parseInt(originalList[item].startTime / 1000)} > 
                 {
                   originalList[item].role == 'USER' ?
                     <div className="fristLine">

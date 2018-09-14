@@ -11,7 +11,7 @@ import { notifyError } from '../../services/app';
 import $ from 'jquery';
 import {ifToken, verify, } from "../../utils/cookie";
 let count = 0;
-let totalNumber = 0;
+// let totalNumber = 0;
 let filesTotal = [];
 let ajaxArr = [];
 let uploadedNumber = 0;
@@ -28,6 +28,7 @@ class Main extends Component {
       fileSuccess: true,
       uploadSure: false,
       uploadFileList: [],
+      totalNumber: 0,
     };
   }
 
@@ -196,7 +197,7 @@ class Main extends Component {
       data: {
       },
       files: [''],
-      isShuaxin: false,
+      isShuaxin: option.isShuaxin,
       processData: false,
       contentType: false,
       success: () => {},
@@ -240,8 +241,12 @@ class Main extends Component {
       $('.upload-num').show()
     }
     if (!defau.isShuaxin) {
+      let {totalNumber} = this.state;
       totalNumber += files.length;
-      $('.total-num').html(totalNumber);
+      this.setState({
+        totalNumber
+      },()=>{$('.total-num').html(totalNumber);})
+      
       filesTotal.unshift(files);
     }
     //发送之前
@@ -333,7 +338,7 @@ class Main extends Component {
             }} />
             <span className="iconfont icon-shangchuan" />
             <p style={{ marginBottom: '10px' }}>上传文件</p>
-            <p>支持扩展名 .wav .mp3</p >
+            <p>支持扩展名 .wav .mp3 .m4a</p >
           </div>
           <div className="upload-num">
             <span className="total">共<span className="total-num">0</span>个文件</span>
@@ -362,7 +367,7 @@ class Main extends Component {
           </div>
           {
             this.state.fileSuccess ? <div className="successTop">
-              您已成功上传<span className="successNum"></span>个文件，现在可以去往历史任务页面查看分析结果。
+              您已成功上传<span className="successNum"></span>文件，现在可以去往历史任务页面查看分析结果。
             </div> : <div className="unSuccessTop">
               您有文件未上传成功，是否终止上传
             </div>

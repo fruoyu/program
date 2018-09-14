@@ -200,13 +200,22 @@ class History extends Component {
   }
   // 进入数据界面
   gotoPopup(id, customerId) {
-    this.props.dispatch(routerRedux.push({
-      pathname: '/popup',
-      query: {
-        taskId: id,
-        customerId,
-      },
-    }));
+    if(!customerId){
+      Modal.info({
+        title: '完善客户信息',
+        content: '请先绑定客户，添加面销时间'
+      });
+    } else {
+      this.props.dispatch(routerRedux.push({
+        pathname: '/popup',
+        query: {
+          taskId: id,
+          customerId,
+        },
+      }));
+    }
+    
+   
   }
   // 添加客户信息面销时间操作
   addCustomerMsg() {
@@ -232,9 +241,9 @@ class History extends Component {
   }
   // 编辑操作
   editFn(item) {
-    const {id: taskId, RealTime, customerId, customerName} = item;  
+    const {id: taskId, RealTime, customerId, customerName, CustomerPhone } = item;  
     const defDate = RealTime ? {initialValue: moment(RealTime, 'YYYY-MM-DD')} : {};
-    const initCustomerId = customerId ? { initialValue: {key: ''+customerId, label: customerId+''} } : {};
+    const initCustomerId = customerId ? { initialValue: {key: ''+customerId, label: `${customerName}-${CustomerPhone}`} } : {};
     const initCustomerName = customerName ? customerName : null;
     const dateInit = {
       ...defDate,
@@ -468,7 +477,7 @@ class History extends Component {
                     onChange={::this.handleChange}
                     style={{ width: '100%' }}
                   >
-                    {data.map(d => <Option key={d.customerId} value={''+d.customerId} >{d.customerName}</Option>)}
+                    {data.map(d => <Option key={d.customerId} value={''+d.customerId} >{d.customerName+'-'+d.customerPhone}</Option>)}
                   </Select>,
                 )}
               </FormItem>
