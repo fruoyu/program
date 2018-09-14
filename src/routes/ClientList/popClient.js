@@ -52,7 +52,7 @@ class PopClientInfo extends Component {
       defDate: defDate ? {initialValue: moment(defDate, 'YYYY-MM-DD')} : {} ,
     });
     if(edit){
-      setFieldsValue({customerName, customerSex, customerPhone, customerIdType: ''+idType, customerIdNo, customerLevel, customerFive, customerUser, customerJob, customerMarriage, customerAdress, customerMail });
+      setFieldsValue({customerName, customerSex: customerSex===null? '0' : customerSex, customerPhone, customerIdType: idType===null?'1':''+idType, customerIdNo, customerLevel, customerFive, customerUser, customerJob, customerMarriage, customerAdress, customerMail });
     }
   }
 
