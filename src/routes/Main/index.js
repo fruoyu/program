@@ -14,6 +14,7 @@ let count = 0;
 // let totalNumber = 0;
 let filesTotal = [];
 let ajaxArr = [];
+let uploadedArr = [];
 let uploadedNumber = 0;
 
 
@@ -29,6 +30,7 @@ class Main extends Component {
       uploadSure: false,
       uploadFileList: [],
       totalNumber: 0,
+      allUpload: false,
       // uploadedNumber:0
     };
   }
@@ -86,6 +88,7 @@ class Main extends Component {
   changeUploadFile = (e) => {
     let files = e.currentTarget.files;
     let $wrap = $('<div class="list-wrap"></div>');
+    let uploadProgress = [];
     verify((err, decoded) => {
       this.uploadFile({
         url: "/api/openApi/voiceQuality/uploadFilesIo",
@@ -132,12 +135,28 @@ class Main extends Component {
           $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status', 'success');
           $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.percent').html('100%');
           $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.progress-grey').css('width','0%');
-          if (!this.state.gotoOtherPage) {
+          // 判断是否全部音频上传成功
+          uploadedArr.push('100%');  // 每上传成功一次push一次以便判断是否全部上传成功
+          const itemLength = $('.list-wrap .upload-item').length;
+          if (uploadedArr.length == itemLength) {
             this.setState({
               gotoOtherPage: true,
               fileSuccess: true,
+              allUpload: true,
             });
           }
+          // $('.list-wrap').map((index, item) => {
+          //   console.log($(item).find('.upload-item'))
+          //   console.log($(item).find('.upload-item').every((uploadIndex, uploadItem) => {
+          //     return $(uploadItem).find('.parant').html() === '100%';
+          //   }));
+          // });
+          // if (!this.state.gotoOtherPage) {
+          //   this.setState({
+          //     gotoOtherPage: true,
+          //     fileSuccess: true,
+          //   });
+          // }
         },
         error: (err, index, _count) => {
           $('.upload-failed').show();
@@ -312,16 +331,24 @@ class Main extends Component {
           <div className="title">上传语音文件</div>
           <span
             className="close iconfont icon-htmal5icon19" onClick={() => {
-              $('#upload-voice').hide();
-              uploadedNumber=0;
-              this.setState({
-                totalNumber:0,
-              },()=>{
-                $('.upload-btn .icon-shangchuan').css('font-size','55px');
-                $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
-                $('.upload-num').hide();
-                $('.uploaded-number').html(uploadedNumber);
-              });
+              if (this.state.allUpload) {
+                $('#upload-voice').hide();
+                uploadedArr = [];
+                uploadedNumber=0;
+                this.setState({
+                  totalNumber:0,
+                },()=>{
+                  $('.upload-btn .icon-shangchuan').css('font-size','55px');
+                  $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
+                  $('.upload-num').hide();
+                  $('.uploaded-number').html(uploadedNumber);
+                });
+              } else {
+                this.setState({
+                  gotoOtherPage: true,
+                  fileSuccess: false,
+                });
+              }
             }}
           />
         </div>
