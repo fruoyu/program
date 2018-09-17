@@ -412,6 +412,7 @@ class Structure extends Component {
             <CommonTable
               filesList={assignRolesList}
               tabHead={tabHead}
+              current={this.state.pageNum}
               options="操作"
               total={count * 1}
               onChangePage={(pageNumber) => {
