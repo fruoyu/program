@@ -102,16 +102,16 @@ class Main extends Component {
           let str = '';
           for (let i = 0; i < sendFiles.length; i ++) {
             const item = sendFiles[i];
-            const itemName = item.name.substr(0,item.name.length-4);
-            const fileNameStrArr = itemName.split('-');
-            const patrn = /^(?:.+-){3}([0-9]+)$/g;
-            const patrnPhone = /^[1][3-9][0-9]{9}$/g;
-            const regArr = patrn.exec(itemName);
-            if (!patrnPhone.test(regArr[1])) {
-              return;
-            } else if (fileNameStrArr.indexOf('') > -1) {
-              return;
-            }
+            // const itemName = item.name.substr(0,item.name.length-4);
+            // const fileNameStrArr = itemName.split('-');
+            // const patrn = /^(?:.+-){3}([0-9]+)$/g;
+            // const patrnPhone = /^[1][3-9][0-9]{9}$/g;
+            // const regArr = patrn.exec(itemName);
+            // if (!patrnPhone.test(regArr[1])) {
+            //   return;
+            // } else if (fileNameStrArr.indexOf('') > -1) {
+            //   return;
+            // }
 
             str += '<div class="upload-item">' +
                 '<div class="file-info">' + item.name + '</div>' +
@@ -144,6 +144,8 @@ class Main extends Component {
               fileSuccess: true,
               allUpload: true,
             });
+            const successNum = $('.upload-item[status=success]').length;
+            $('.successNum').html(successNum);
           }
           // $('.list-wrap').map((index, item) => {
           //   console.log($(item).find('.upload-item'))
@@ -331,24 +333,55 @@ class Main extends Component {
           <div className="title">上传语音文件</div>
           <span
             className="close iconfont icon-htmal5icon19" onClick={() => {
-              if (this.state.allUpload) {
-                $('#upload-voice').hide();
-                uploadedArr = [];
-                uploadedNumber=0;
-                this.setState({
-                  totalNumber:0,
-                },()=>{
-                  $('.upload-btn .icon-shangchuan').css('font-size','55px');
-                  $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
-                  $('.upload-num').hide();
-                  $('.uploaded-number').html(uploadedNumber);
-                });
+              const successNum = $('.upload-item[status=success]').length;
+              const errorNum = $('.upload-item[status=error]').length;
+              const totalNum = $('.upload-item').length;
+              if (totalNum == 0) {
+                  $('#upload-voice').hide();
               } else {
-                this.setState({
-                  gotoOtherPage: true,
-                  fileSuccess: false,
-                });
+                $('.successNum').html(successNum);
+                console.log(successNum);
+                if(successNum == totalNum) {
+                  $('#upload-voice').hide();
+                  uploadedArr = [];
+                  this.setState({
+                    totalNumber:0,
+                  }, () => {
+                    $('.upload-btn .icon-shangchuan').css('font-size','55px');
+                    $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
+                    $('.upload-num').hide();
+                    $('.uploaded-number').html(uploadedNumber);
+                  });
+                  $('.successTop').show();
+                  $('.unSuccessTop').hide();
+                  $('.b_success').show();
+                  $('.b_unsuccess').hide();
+                } else {
+                  this.setState({
+                    gotoOtherPage: true,
+                    fileSuccess: false,
+                  });
+                }
               }
+              // ajaxArr = [];
+              // if (this.state.allUpload) {
+              //   $('#upload-voice').hide();
+              //   uploadedArr = [];
+              //   uploadedNumber=0;
+              //   this.setState({
+              //     totalNumber:0,
+              //   },()=>{
+              //     $('.upload-btn .icon-shangchuan').css('font-size','55px');
+              //     $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
+              //     $('.upload-num').hide();
+              //     $('.uploaded-number').html(uploadedNumber);
+              //   });
+              // } else {
+              //   this.setState({
+              //     gotoOtherPage: true,
+              //     fileSuccess: false,
+              //   });
+              // }
             }}
           />
         </div>
@@ -399,7 +432,7 @@ class Main extends Component {
               <div className={this.state.fileSuccess ? 'guanbi' : 'go-anyway'} onClick={() => {
                 this.setState({
                   gotoOtherPage: false,
-                })
+                });
               }}>{this.state.fileSuccess ? '关闭' : '去意已决'}</div>
               <div className={this.state.fileSuccess ? 'toHistory' : 'wait'} onClick={() => {
                 if (this.state.fileSuccess) {
