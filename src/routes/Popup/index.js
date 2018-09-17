@@ -68,6 +68,7 @@ class Popup extends Component {
       isPlayed: false,
       scrollTop: 100,
       pageNum: 1,
+      pageSize: 10,
       customerId: '',
       filesList: [],
       isLoading: false,
@@ -85,10 +86,10 @@ class Popup extends Component {
   }
   componentDidMount() {
     // 获取taskId
-    let taskId = this.props.location.query.taskId;
+    let { taskId, pageNum } = this.props.location.query;
     let audio = this.refs.audio;
     this.setState({
-      filePath: `http://114.112.96.62:8658${this.props.popup.fileResult.filePath}`,
+      filePath: `${this.props.popup.fileResult.filePath}`,
       remainTime: this.formatSeconds(0),
     });
     //获取总时间
@@ -103,17 +104,33 @@ class Popup extends Component {
       this.refs.played.style.width = playPer*100+"%";
       this.refs.circle.style.left = playPer*100+"%";
     });
-    this.sendRequest();
-    // 请求画像数据
-    this.props.dispatch({
-      type: 'popup/getFileResultApi',
-      payload: {
-        taskid: taskId,
-      },
-      callback: () => {
-        audio.src = 'http://114.112.96.62:8658'+this.props.popup.fileResult.filePath;
-      },
+    this.setState({
+      pageSize: pageNum*10,
+      cordLoading: true,
+    }, () => {
+      this.props.dispatch({
+        type: 'popup/getFileResultApi',
+        payload: {
+          taskid: taskId,
+        },
+        callback: () => {
+          audio.src = this.props.popup.fileResult.filePath;
+          this.setState({cordLoading: false})
+        },
+      });
+      this.sendRequest(()=>{
+        pageNum>1 && $('#file-list div').animate({scrollTop: 600*(pageNum-1)+'px'}, 500);
+      });
     });
+ 
+
+
+    this.props.dispatch({
+      type: 'popup/getOriginalList',
+      payload: {
+        taskid: taskId
+      },
+    })
   }
 
   // 渲染画像数据
@@ -232,8 +249,11 @@ class Popup extends Component {
                               onClick={(e) => {
                                 var _this = $(e.currentTarget);
                                 var time = _this.parents('.digSentenceWrap').attr('data-time');
-                                var scrollH = $('.originalText[data-time='+time+']')[0].offsetTop-20;
-                                $('.insightTextWrap div').animate({scrollTop: scrollH+'px'}, 500);
+                                let o = $('.originalText[data-time='+time+']')[0];
+                                if(o){
+                                  var scrollH = o.offsetTop-20;
+                                  $('.insightTextWrap div').animate({scrollTop: scrollH+'px'}, 500);
+                                }
                                 this.playMusic(labelItem.time);
                               }}
                             >
@@ -529,8 +549,10 @@ class Popup extends Component {
   playMusic = (startTime) => {
     let audio = this.refs.audio;
     audio.currentTime = parseInt(startTime / 1000);
+    audio.play();
     this.setState({
       remainTime:this.formatSeconds(parseInt(startTime / 1000)),
+      isPlay: true,
     });
     let playPer = audio.currentTime/audio.duration;
     this.refs.played.style.width = playPer*100+"%";
@@ -574,7 +596,7 @@ class Popup extends Component {
     )
   }
 
-  sendRequest = () => {
+  sendRequest = (cb) => {
     // 请求已识别文件
     verify((err, decoded) => {
       if(!this.state.isLoading){
@@ -582,10 +604,10 @@ class Popup extends Component {
           this.props.dispatch({
             type: 'popup/getFilesListByid',
             payload: {
-              pageSize: 10,
+              pageSize: this.state.pageSize,
               pageNum: this.state.pageNum,
               name: '',
-              status: '',
+              status: 'done',
               startTime: '',
               endTime: '',
               fileName: '',
@@ -599,7 +621,8 @@ class Popup extends Component {
                 filesList: [ ...list, ...filesList ],
                 fileTotal,
                 isLoading: false
-              })
+              });
+              if(cb) cb();
             }
           });
         });
@@ -611,9 +634,9 @@ class Popup extends Component {
   scrollFn = (data) => {
     const { fileTotal } = this.state,
       page = Math.ceil(fileTotal/10);
-
     if(data.top === 1 && this.state.pageNum < page) {
       this.setState({
+        pageSize: 10,
         pageNum: this.state.pageNum + 1,
       }, () => {
         this.sendRequest();
@@ -725,7 +748,7 @@ class Popup extends Component {
                               filePath: this.props.popup.fileResult.filePath,
                               cordLoading: false
                             },() => {
-                              audio.src = 'http://114.112.96.62:8658'+this.state.filePath;
+                              audio.src = this.state.filePath;
                             })
                           }
                         })
@@ -734,7 +757,10 @@ class Popup extends Component {
                         this.props.dispatch({
                           type: 'popup/getOriginalList',
                           payload: {
-                            taskid: taskId
+                            taskid: item.id
+                          },
+                          callback: (d)=>{
+                            console.log(d)
                           }
                         })
                       }}
