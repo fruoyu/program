@@ -10,6 +10,7 @@ import '../../assets/iconfont/iconfont.css';
 import { notifyError } from '../../services/app';
 import $ from 'jquery';
 import {ifToken, verify, } from "../../utils/cookie";
+let ajax = null;
 let count = 0;
 // let totalNumber = 0;
 let filesTotal = [];
@@ -102,16 +103,16 @@ class Main extends Component {
           let str = '';
           for (let i = 0; i < sendFiles.length; i ++) {
             const item = sendFiles[i];
-            const itemName = item.name.substr(0,item.name.length-4);
-            const fileNameStrArr = itemName.split('-');
-            const patrn = /^(?:.+-){3}([0-9]+)$/g;
-            const patrnPhone = /^[1][3-9][0-9]{9}$/g;
-            const regArr = patrn.exec(itemName);
-            if (!patrnPhone.test(regArr[1])) {
-              return;
-            } else if (fileNameStrArr.indexOf('') > -1) {
-              return;
-            }
+            // const itemName = item.name.substr(0,item.name.length-4);
+            // const fileNameStrArr = itemName.split('-');
+            // const patrn = /^(?:.+-){3}([0-9]+)$/g;
+            // const patrnPhone = /^[1][3-9][0-9]{9}$/g;
+            // const regArr = patrn.exec(itemName);
+            // if (!patrnPhone.test(regArr[1])) {
+            //   return;
+            // } else if (fileNameStrArr.indexOf('') > -1) {
+            //   return;
+            // }
 
             str += '<div class="upload-item">' +
                 '<div class="file-info">' + item.name + '</div>' +
@@ -280,7 +281,7 @@ class Main extends Component {
       for(let i in option.data){
         fd.append(i,option.data[i]);
       }
-      const ajax = $.ajax({
+      ajax = $.ajax({
         url: option.url,
         type: option.type,
         data: fd,
@@ -399,7 +400,13 @@ class Main extends Component {
               <div className={this.state.fileSuccess ? 'guanbi' : 'go-anyway'} onClick={() => {
                 this.setState({
                   gotoOtherPage: false,
-                })
+                }, () => {
+                  // $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
+                });
+                $('#upload-voice').hide();
+                if (ajax && !this.state.fileSuccess) {
+                  ajax.abort(); // 停止上传
+                }
               }}>{this.state.fileSuccess ? '关闭' : '去意已决'}</div>
               <div className={this.state.fileSuccess ? 'toHistory' : 'wait'} onClick={() => {
                 if (this.state.fileSuccess) {
