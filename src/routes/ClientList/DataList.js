@@ -60,15 +60,12 @@ const DataList = (props) => {
           {
             showQuickJumper:true,
             pageSize:10,
+            current: props.current,
             total: props.total,
             onChange: props.handleChange,
-            itemRender: (page, type, originaElement) => {
-              // if(type === 'next') return <div class="containTotal"><a>next</a></div>
-              return originaElement;
-            },
-            showTotal: (total, range) => {
-              return `共${Math.ceil(total/10)}页`
-            },
+            // showTotal: (total, range) => {
+            //   return `共${Math.ceil(total/10)}页`
+            // },
           }
         }
         />

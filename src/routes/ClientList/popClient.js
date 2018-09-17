@@ -32,6 +32,7 @@ class PopClientInfo extends Component {
     verify((err, decoded) => {
       if (err) return;
       const { data } = decoded;
+      rdata.userName = data.roleId === 5 ? data.userName : '';
       rdata.area = data.areaId ? data.areaId : 0;
       rdata.classc = data.classcId ? data.classcId : 0;
       rdata.groupc = data.groupcId ? data.groupcId : 0;
@@ -51,7 +52,7 @@ class PopClientInfo extends Component {
       defDate: defDate ? {initialValue: moment(defDate, 'YYYY-MM-DD')} : {} ,
     });
     if(edit){
-      setFieldsValue({customerName, customerSex, customerPhone, customerIdType: ''+idType, customerIdNo, customerLevel, customerFive, customerUser, customerJob, customerMarriage, customerAdress, customerMail });
+      setFieldsValue({customerName, customerSex: customerSex===null? '0' : customerSex, customerPhone, customerIdType: idType===null?'1':''+idType, customerIdNo, customerLevel, customerFive, customerUser, customerJob, customerMarriage, customerAdress, customerMail });
     }
   }
 

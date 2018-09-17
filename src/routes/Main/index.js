@@ -11,7 +11,7 @@ import { notifyError } from '../../services/app';
 import $ from 'jquery';
 import {ifToken, verify, } from "../../utils/cookie";
 let count = 0;
-let totalNumber = 0;
+// let totalNumber = 0;
 let filesTotal = [];
 let ajaxArr = [];
 let uploadedNumber = 0;
@@ -28,6 +28,8 @@ class Main extends Component {
       fileSuccess: true,
       uploadSure: false,
       uploadFileList: [],
+      totalNumber: 0,
+      // uploadedNumber:0
     };
   }
 
@@ -45,7 +47,6 @@ class Main extends Component {
         filter: [],  // 后缀文件筛选
         sendBefore: (files) => {
           // 开始之前
-          console.log(files);
           currentUploadItme.find('.progress-grey').css('width','100%');
           currentUploadItme.find('.icon-shuaxin').hide();
           currentUploadItme.find('.percent').show();
@@ -100,7 +101,7 @@ class Main extends Component {
             const item = sendFiles[i];
             const itemName = item.name.substr(0,item.name.length-4);
             const fileNameStrArr = itemName.split('-');
-            const patrn = /^(?:[\u4E00-\u9FA5]+-){3}([0-9]+)$/g;
+            const patrn = /^(?:.+-){3}([0-9]+)$/g;
             const patrnPhone = /^[1][3-9][0-9]{9}$/g;
             const regArr = patrn.exec(itemName);
             if (!patrnPhone.test(regArr[1])) {
@@ -108,9 +109,7 @@ class Main extends Component {
             } else if (fileNameStrArr.indexOf('') > -1) {
               return;
             }
-            // this.setState({
-            //   uploadFileList: [sendFiles, ...this.state.uploadFileList],
-            // });
+
             str += '<div class="upload-item">' +
                 '<div class="file-info">' + item.name + '</div>' +
                 '<div class="file-progress">' +
@@ -162,7 +161,7 @@ class Main extends Component {
           // file.percent  百分比
           // file.index   第多少个文件
           const length = $('.list-wrap').length - file._count - 1;
-          console.log(length, file, file._count, $('.list-wrap').eq(length))
+          // console.log(length, file, file._count, $('.list-wrap').eq(length))
           const per = file.percent.split('%')[0];
           $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.percent').html(per+'%');
           $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.progress-grey').css('width',(100-per) + '%');
@@ -171,18 +170,6 @@ class Main extends Component {
       });
     })
 
-
-    // let s = setInterval(() => {
-    //   let ajaxArr1 = ajaxArr.filter(function(item,index){
-    //     if (item.readyState == 4) {
-    //       return true;
-    //     }
-    //   });
-    //   if (ajaxArr1.length == ajaxArr.length && ajaxArr.length != 0) {
-    //     $('#upload-voice .close').trigger('click');
-    //     clearInterval(s)
-    //   }
-    // }, 1000);
   }
 
   uploadFile = (option) => {
@@ -197,7 +184,7 @@ class Main extends Component {
       data: {
       },
       files: [''],
-      isShuaxin: false,
+      isShuaxin: option.isShuaxin,
       processData: false,
       contentType: false,
       success: () => {},
@@ -215,8 +202,8 @@ class Main extends Component {
     files = Array.prototype.slice.call(files);
     //排除掉格式错误的数据
     files = files.filter((ele, index, array) => {
-      const patrn = /^(?:[\u4E00-\u9FA5]+-){3}([0-9]+)$/g;
-      const patrnPhone = /^[1][3-9][0-9]{9}$/g;
+      // const patrn = /^(?:[\u4E00-\u9FA5]+-){3}([0-9]+)$/g;
+      // const patrnPhone = /^[1][3-9][0-9]{9}$/g;
 
       let fileName = ele.name.substr(0, ele.name.length - 4);
       let fileNameStrArr = fileName.split('-');
@@ -241,8 +228,12 @@ class Main extends Component {
       $('.upload-num').show()
     }
     if (!defau.isShuaxin) {
+      let {totalNumber} = this.state;
       totalNumber += files.length;
-      $('.total-num').html(totalNumber);
+      this.setState({
+        totalNumber
+      },()=>{$('.total-num').html(totalNumber);})
+      
       filesTotal.unshift(files);
     }
     //发送之前
@@ -270,8 +261,6 @@ class Main extends Component {
       for(let i in option.data){
         fd.append(i,option.data[i]);
       }
-      console.log(fd)
-
       const ajax = $.ajax({
         url: option.url,
         type: option.type,
@@ -318,12 +307,21 @@ class Main extends Component {
   // 渲染上传文件弹框
   renderUpload = () => {
     return (
-      <div id="upload-voice" className={this.state.uploadSure ? 'big' : ''}>
+      <div id="upload-voice">
         <div className="upload-top">
           <div className="title">上传语音文件</div>
           <span
             className="close iconfont icon-htmal5icon19" onClick={() => {
               $('#upload-voice').hide();
+              uploadedNumber=0;
+              this.setState({
+                totalNumber:0,
+              },()=>{
+                $('.upload-btn .icon-shangchuan').css('font-size','55px');
+                $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
+                $('.upload-num').hide();
+                $('.uploaded-number').html(uploadedNumber);
+              });
             }}
           />
         </div>
@@ -364,7 +362,7 @@ class Main extends Component {
           </div>
           {
             this.state.fileSuccess ? <div className="successTop">
-              您已成功上传<span className="successNum"></span>个文件，现在可以去往历史任务页面查看分析结果。
+              您已成功上传<span className="successNum"></span>文件，现在可以去往历史任务页面查看分析结果。
             </div> : <div className="unSuccessTop">
               您有文件未上传成功，是否终止上传
             </div>

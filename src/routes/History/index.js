@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import {
-  DatePicker, Menu, Icon, message, Tooltip, Form, Select, Modal,
-  Cascader, Dropdown,
+  DatePicker, Menu, Icon, message, Tooltip, Form, Select, Modal, Spin,
 } from 'antd';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { routerRedux } from 'dva/router';
+import moment from 'moment';
 import './history.less';
 import '../../assets/iconfont/iconfont.css';
 import {
@@ -16,7 +16,6 @@ import {
 import { verify } from '../../utils/cookie';
 import PolyDialog from "../../components/PolyDialog";
 
-const { RangePicker } = DatePicker;
 const FormItem = Form.Item;
 const confirm = Modal.confirm;
 const Option = Select.Option;
@@ -26,6 +25,7 @@ class History extends Component {
     super();
     this.state = {
       flag: true,
+      taskData: {},
       statusContent: '任务状态', // 状态选择
       name: '',
       groupId: '',
@@ -38,7 +38,7 @@ class History extends Component {
         {
           key: '1',
           status: '未完成',
-          retCode: 'delete',
+          retCode: 'analyse-error',
         },
         {
           key: '2',
@@ -62,6 +62,10 @@ class History extends Component {
       area: '',
       classc: '',
       groupc: '',
+
+      data: [],
+      value: [],
+      fetching: false,
     };
     this.sendRequest = this.sendRequest.bind(this);
     this.upDataState = this.upDataState.bind(this);
@@ -76,7 +80,6 @@ class History extends Component {
   componentWillMount() {
     this.sendRequest();
     this.getName();
-    // this.getConstruction();
   }
   // 日历操作
   onChangeFn = (date, dateString) => {
@@ -98,7 +101,6 @@ class History extends Component {
   }
   // 级联下拉菜单
   onSelectChange = (val, d) => {
-    console.log(val);
     const len = val.length;
     const groupId = val[len - 1] + '';
     let area = 0;
@@ -122,52 +124,6 @@ class History extends Component {
       pageNum: 1,
     }, () => {
       this.sendRequest();
-    });
-  }
-  /* 获取所属结构列表*/
-  getConstruction() {
-    verify((err, decoded) => {
-      if (err) return;
-      this.props.dispatch({
-        type: 'userList/getConstruction',
-        payload: {
-          groupId: decoded.data.groupId,
-          roleId: decoded.data.roleId,
-        },
-        callback: (res) => {
-          const arr = [];
-          // console.log(res);
-          res.map((item, index) => {
-            arr[index] = {};
-            arr[index].value = res[index].areaId;
-            arr[index].label = res[index].areaName;
-            if (item.class.length > 0) {
-              arr[index].children = [];
-              item.class.map((cl, ind) => {
-                arr[index].children[ind] = {};
-                arr[index].children[ind].value = res[index].class[ind].classId;
-                arr[index].children[ind].label = res[index].class[ind].className;
-                if (cl.group.length > 0) {
-                  arr[index].children[ind].children = [];
-                  cl.group.map((gr, id) => {
-                    arr[index].children[ind].children[id] = {};
-                    arr[index].children[ind].children[id].value =
-                      res[index].class[ind].group[id].groupId;
-                    arr[index].children[ind].children[id].label =
-                      res[index].class[ind].group[id].groupName;
-                    return arr;
-                  });
-                }
-                return arr;
-              });
-            }
-            return arr;
-          });
-          this.setState({
-            options: arr,
-          });
-        },
-      });
     });
   }
   // 列表中完成状态
@@ -242,28 +198,45 @@ class History extends Component {
     });
   }
   // 进入数据界面
-  gotoPopup(id, customerId) {
-    console.log(customerId)
-    this.props.dispatch(routerRedux.push({
-      pathname: '/popup',
-      query: {
-        taskId: id,
-        customerId,
-      },
-    }));
+  gotoPopup(id, customerId, pageNum, status, realTime) {
+    console.log(realTime)
+    if(status==='analysing'){
+      Modal.info({
+        title: '不能查看洞察详情',
+        content: '录音正在分析中，请稍后。。。'
+      });
+    } else if(!customerId || !realTime){
+      Modal.info({
+        title: '完善客户信息',
+        content: '请先绑定客户或添加面销时间'
+      });
+    } else {
+      this.props.dispatch(routerRedux.push({
+        pathname: '/popup',
+        query: {
+          taskId: id,
+          customerId,
+          pageNum
+        },
+      }));
+    }
+    
+   
   }
   // 添加客户信息面销时间操作
   addCustomerMsg() {
     this.props.form.validateFields((err, value) => {
       if (err) return;
+      const { choseUser:{key:customerId} } = value;
       this.props.dispatch({
         type: 'history/changeCutsom',
         payload: {
-          customId: 54,
+          customId: customerId,
           realTime: this.state.choseTime,
           taskId: this.state.taskId,
         },
         callback: () => {
+          message.success('录音绑定成功', 1);
           this.setState({
             showEdit: false,
           });
@@ -273,10 +246,25 @@ class History extends Component {
     });
   }
   // 编辑操作
-  editFn(taskId) {
+  editFn(item) {
+    const {id: taskId, RealTime, customerId, customerName, CustomerPhone } = item;  
+    const defDate = RealTime ? {initialValue: moment(RealTime, 'YYYY-MM-DD')} : {};
+    const initCustomerId = customerId ? { initialValue: {key: ''+customerId, label: `${customerName}-${CustomerPhone}`} } : {};
+    const initCustomerName = customerName ? customerName : null;
+    const dateInit = {
+      ...defDate,
+      rules: [{ required: true, message: '请选择面销时间!' }],
+    }
     this.setState({
       showEdit: true,
       taskId,
+      choseTime: RealTime,
+      taskData: {
+        dateInit,
+        customerId,
+        initCustomerId,
+        initCustomerName
+      }
     });
   }
   // 重置
@@ -321,17 +309,41 @@ class History extends Component {
     const statusContent = this.state.generationList.filter(item => item.key === code)[0].generation;
     return statusContent;
   }
+
+  fetchUser = (value) => {
+    this.setState({ data: [], fetching: true });
+    verify((err, decoded) => {
+      this.props.dispatch({
+        type: 'clientList/getClientList',
+        payload: {
+          userName: decoded.data.userName,
+          page: -1,
+          customerType: value,
+        },
+        cb: (res) => {
+          const { result: data } = res.data;
+          this.setState({ data, fetching: false });
+        },
+      });
+    });
+  }
+
+  handleChange = (value) => {
+    this.setState({
+      value,
+      data: [],
+      fetching: false,
+    });
+  }
   render() {
     const {
       filesList = [],
       nameList = [],
       total = 0,
     } = this.props.history;
-    const {
-      constructionList,
-    } = this.props.userList;
     const tabHead = ['录音名称', '销售人员', '结构', '任务状态', '上传时间', '洞察项'];
     const { getFieldDecorator } = this.props.form;
+    const { fetching, data, value} = this.state;
     const options = (
       <Menu
         className="composition-down-load"
@@ -368,6 +380,7 @@ class History extends Component {
         }
       </Menu>
     )
+
     return (
       <div className="bootContent historyContent historyIcon">
         <Scrollbars style={{ flex: 1 }} autoHide>
@@ -393,13 +406,14 @@ class History extends Component {
               total={total}
               options="操作"
               onChangePage={(pageNumber) => { this.onChangePage(pageNumber); }}
+              current={this.state.pageNum}
             >
               {
                 filesList && filesList.map((item, index) => {
                   return (
                     <li className="content-item" data-id="'+ item2.id +'" key={index}>
                       <Tooltip placement="bottom" title={item.fileName}>
-                        <div className="item-title" onClick={this.gotoPopup.bind(this, item.id, item.customerId)}>{item.fileName}</div>
+                        <div className="item-title pointer" onClick={this.gotoPopup.bind(this, item.id, item.customerId, this.state.pageNum, item.statusMessage, item.RealTime)}>{item.fileName}</div>
                       </Tooltip>
                       <div className="item-author">{item.userId}</div>
                       <div className="item-composition">{item.area}{item.classc}{item.groupc}</div>
@@ -408,7 +422,7 @@ class History extends Component {
                       <div className="data">{!item.itemCount ? 0 : item.itemCount}项</div>
                       <div className="item-options">
                         <Tooltip placement="bottom" title="编辑">
-                          <span className="iconfont icon-biaozhugongju" onClick={this.editFn.bind(this, item.id)} />
+                          <span className="iconfont icon-biaozhugongju" onClick={this.editFn.bind(this, item)} />
                         </Tooltip>
                         <Tooltip placement="bottom" title="删除">
                           <span className="iconfont icon-shanchu" onClick={() => { this.deleteFn(item.id); }} />
@@ -442,11 +456,9 @@ class History extends Component {
               });
             }}
           >
-            <Form className="user-form-dailog">
+            <Form className="user-form-dailog" >
               <FormItem className="line-item" label="面销时间">
-                {getFieldDecorator('choseTime', {
-                  rules: [{ required: true, message: '请选择面销时间!' }],
-                })(
+                {getFieldDecorator('choseTime', this.state.taskData.dateInit)(
                   <DatePicker
                     onChange={(val, data) => {
                       this.setState({
@@ -458,14 +470,20 @@ class History extends Component {
               </FormItem>
               <FormItem className="line-item" label="选择客户">
                 {getFieldDecorator('choseUser', {
+                  ...this.state.taskData.initCustomerId,
                   rules: [{ required: true, message: '请选择客户!' }],
                 })(
                   <Select
+                    showSearch
+                    labelInValue
                     placeholder="选择客户"
+                    optionFilterProp="children"
+                    filterOption={false}
+                    onSearch={::this.fetchUser}
+                    onChange={::this.handleChange}
+                    style={{ width: '100%' }}
                   >
-                    <Option value="1">张三</Option>
-                    <Option value="2">李四</Option>
-                    <Option value="3">王五</Option>
+                    {data.map(d => <Option key={d.customerId} value={''+d.customerId} >{d.customerName+'-'+d.customerPhone}</Option>)}
                   </Select>,
                 )}
               </FormItem>
