@@ -101,7 +101,6 @@ class History extends Component {
   }
   // 级联下拉菜单
   onSelectChange = (val, d) => {
-    console.log(val);
     const len = val.length;
     const groupId = val[len - 1] + '';
     let area = 0;
@@ -199,11 +198,17 @@ class History extends Component {
     });
   }
   // 进入数据界面
-  gotoPopup(id, customerId) {
-    if(!customerId){
+  gotoPopup(id, customerId, pageNum, status, realTime) {
+    console.log(realTime)
+    if(status==='analysing'){
+      Modal.info({
+        title: '不能查看洞察详情',
+        content: '录音正在分析中，请稍后。。。'
+      });
+    } else if(!customerId || !realTime){
       Modal.info({
         title: '完善客户信息',
-        content: '请先绑定客户，添加面销时间'
+        content: '请先绑定客户或添加面销时间'
       });
     } else {
       this.props.dispatch(routerRedux.push({
@@ -211,6 +216,7 @@ class History extends Component {
         query: {
           taskId: id,
           customerId,
+          pageNum
         },
       }));
     }
@@ -407,7 +413,7 @@ class History extends Component {
                   return (
                     <li className="content-item" data-id="'+ item2.id +'" key={index}>
                       <Tooltip placement="bottom" title={item.fileName}>
-                        <div className="item-title pointer" onClick={this.gotoPopup.bind(this, item.id, item.customerId)}>{item.fileName}</div>
+                        <div className="item-title pointer" onClick={this.gotoPopup.bind(this, item.id, item.customerId, this.state.pageNum, item.statusMessage, item.RealTime)}>{item.fileName}</div>
                       </Tooltip>
                       <div className="item-author">{item.userId}</div>
                       <div className="item-composition">{item.area}{item.classc}{item.groupc}</div>

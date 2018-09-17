@@ -29,6 +29,7 @@ class Main extends Component {
       uploadSure: false,
       uploadFileList: [],
       totalNumber: 0,
+      // uploadedNumber:0
     };
   }
 
@@ -108,9 +109,7 @@ class Main extends Component {
             } else if (fileNameStrArr.indexOf('') > -1) {
               return;
             }
-            // this.setState({
-            //   uploadFileList: [sendFiles, ...this.state.uploadFileList],
-            // });
+
             str += '<div class="upload-item">' +
                 '<div class="file-info">' + item.name + '</div>' +
                 '<div class="file-progress">' +
@@ -171,18 +170,6 @@ class Main extends Component {
       });
     })
 
-
-    // let s = setInterval(() => {
-    //   let ajaxArr1 = ajaxArr.filter(function(item,index){
-    //     if (item.readyState == 4) {
-    //       return true;
-    //     }
-    //   });
-    //   if (ajaxArr1.length == ajaxArr.length && ajaxArr.length != 0) {
-    //     $('#upload-voice .close').trigger('click');
-    //     clearInterval(s)
-    //   }
-    // }, 1000);
   }
 
   uploadFile = (option) => {
@@ -274,7 +261,6 @@ class Main extends Component {
       for(let i in option.data){
         fd.append(i,option.data[i]);
       }
-
       const ajax = $.ajax({
         url: option.url,
         type: option.type,
@@ -321,24 +307,33 @@ class Main extends Component {
   // 渲染上传文件弹框
   renderUpload = () => {
     return (
-      <div id="upload-voice" className={this.state.uploadSure ? 'big' : ''}>
+      <div id="upload-voice">
         <div className="upload-top">
           <div className="title">上传语音文件</div>
           <span
             className="close iconfont icon-htmal5icon19" onClick={() => {
               $('#upload-voice').hide();
+              uploadedNumber=0;
+              this.setState({
+                totalNumber:0,
+              },()=>{
+                $('.upload-btn .icon-shangchuan').css('font-size','55px');
+                $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
+                $('.upload-num').hide();
+                $('.uploaded-number').html(uploadedNumber);
+              });
             }}
           />
         </div>
         <div className="upload-middle">
           <div className="upload-btn">
             {/* <accept="audio/wav, audio/mp3">*/}
-            <input id="upload" type="file" data-name='file' multiple="multiple" accept="audio/wav, audio/mp3, audio/m4a" ref='uploadInput' hidden onChange={(e) => {
+            <input id="upload" type="file" data-name='file' multiple="multiple" accept="audio/wav, audio/mp3" ref='uploadInput' hidden onChange={(e) => {
               this.changeUploadFile(e);
             }} />
             <span className="iconfont icon-shangchuan" />
             <p style={{ marginBottom: '10px' }}>上传文件</p>
-            <p>支持扩展名 .wav .mp3 .m4a</p >
+            <p>支持扩展名 .wav .mp3</p >
           </div>
           <div className="upload-num">
             <span className="total">共<span className="total-num">0</span>个文件</span>
