@@ -95,7 +95,11 @@ class UserList extends Component {
   // 修改，添加信息
   onOk =() => {
     this.props.form.validateFields((err, value) => {
-      if (err) return false;
+      if (err) return false; 
+      if (value.loginPassword !== value.confirmPassword) {
+        message.error('两次输入密码不一致!', 1);
+        return false;
+      }
       if (this.state.addUser) { // 新增用户
         this.props.dispatch({
           type: 'userList/addUser',

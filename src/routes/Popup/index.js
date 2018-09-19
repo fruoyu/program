@@ -87,6 +87,7 @@ class Popup extends Component {
   componentDidMount() {
     // 获取taskId
     let { taskId, pageNum } = this.props.location.query;
+    pageNum = parseInt(pageNum);
     let audio = this.refs.audio;
     this.setState({
       filePath: `${this.props.popup.fileResult.filePath}`,
@@ -119,10 +120,27 @@ class Popup extends Component {
         },
       });
       this.sendRequest(()=>{
-        pageNum>1 && $('#file-list div').animate({scrollTop: 600*(pageNum-1)+'px'}, 500);
+        this.setState({
+          pageNum
+        },()=>{
+          rfn();
+          pageNum>1 && $('#file-list div').animate({scrollTop: 600*(pageNum-1)+'px'}, 500);
+        })
+        
       });
     });
- 
+    
+    const rfn = ()=>{
+      const page = Math.ceil(this.state.fileTotal/10);
+      if(this.state.filesList.length<=10 && this.state.pageNum < page){
+        this.setState({
+          pageSize: 10,
+          pageNum: this.state.pageNum + 1,
+        }, () => {
+          this.sendRequest(rfn);
+        });
+      }
+    }
 
 
     this.props.dispatch({
@@ -617,8 +635,12 @@ class Popup extends Component {
             callback: (res) => {
               const { reslist: filesList, total: fileTotal } = res.data;
               const list = this.state.filesList;
+              const rlist = filesList.filter((t,n)=>{
+                return t.RealTime && t.customerId
+              });
+              const flist = [ ...list, ...rlist ];
               this.setState({
-                filesList: [ ...list, ...filesList ],
+                filesList: flist,
                 fileTotal,
                 isLoading: false
               });
@@ -711,7 +733,7 @@ class Popup extends Component {
             </div>
             <div id="search">
               <div className="total">
-                共计 <span className="total-number">{fileTotal}</span> 个文件
+                共计 <span className="total-number">{filesList.length}</span> 个文件
               </div>
             </div>
             <ul id="file-list">
