@@ -332,6 +332,7 @@ class Main extends Component {
           <div className="title">上传语音文件</div>
           <span
             className="close iconfont icon-htmal5icon19" onClick={() => {
+            
               if (this.state.allUpload) {
                 $('#upload-voice').hide();
                 uploadedArr = [];
@@ -398,6 +399,7 @@ class Main extends Component {
           {
             <div className={['bottom', this.state.fileSuccess ? 'b_success' : 'b_unsuccess'].join(' ')}>
               <div className={this.state.fileSuccess ? 'guanbi' : 'go-anyway'} onClick={() => {
+                if(!this.state.fileSuccess) window.location.reload();
                 this.setState({
                   gotoOtherPage: false,
                 }, () => {

@@ -199,7 +199,6 @@ class History extends Component {
   }
   // 进入数据界面
   gotoPopup(id, customerId, pageNum, status, realTime) {
-    console.log(realTime)
     if(status==='analysing'){
       Modal.info({
         title: '不能查看洞察详情',
