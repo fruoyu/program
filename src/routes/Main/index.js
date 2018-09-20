@@ -91,6 +91,7 @@ class Main extends Component {
     let $wrap = $('<div class="list-wrap"></div>');
     let uploadProgress = [];
     verify((err, decoded) => {
+      if (err) location.href = '/';
       this.uploadFile({
         url: "/api/openApi/voiceQuality/uploadFilesIo",
         data: {
@@ -145,6 +146,8 @@ class Main extends Component {
               fileSuccess: true,
               allUpload: true,
             });
+            const successNum = $('.upload-item[status=success]').length;
+            $('.successNum').html(successNum);
           }
           // $('.list-wrap').map((index, item) => {
           //   console.log($(item).find('.upload-item'))
@@ -189,7 +192,6 @@ class Main extends Component {
         },
       });
     })
-
   }
 
   uploadFile = (option) => {
@@ -332,25 +334,56 @@ class Main extends Component {
           <div className="title">上传语音文件</div>
           <span
             className="close iconfont icon-htmal5icon19" onClick={() => {
-            
-              if (this.state.allUpload) {
-                $('#upload-voice').hide();
-                uploadedArr = [];
-                uploadedNumber=0;
-                this.setState({
-                  totalNumber:0,
-                },()=>{
-                  $('.upload-btn .icon-shangchuan').css('font-size','55px');
-                  $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
-                  $('.upload-num').hide();
-                  $('.uploaded-number').html(uploadedNumber);
-                });
+              const successNum = $('.upload-item[status=success]').length;
+              const errorNum = $('.upload-item[status=error]').length;
+              const totalNum = $('.upload-item').length;
+              if (totalNum == 0) {
+                  $('#upload-voice').hide();
               } else {
-                this.setState({
-                  gotoOtherPage: true,
-                  fileSuccess: false,
-                });
+                $('.successNum').html(successNum);
+                console.log(successNum);
+                if(successNum == totalNum) {
+                  $('#upload-voice').hide();
+                  uploadedArr = [];
+                  this.setState({
+                    totalNumber:0,
+                  }, () => {
+                    $('.upload-btn .icon-shangchuan').css('font-size','55px');
+                    $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
+                    $('.upload-num').hide();
+                    $('.uploaded-number').html(uploadedNumber);
+                    $('.upload-failed').hide();
+                  });
+                  $('.successTop').show();
+                  $('.unSuccessTop').hide();
+                  $('.b_success').show();
+                  $('.b_unsuccess').hide();
+                } else {
+                  this.setState({
+                    gotoOtherPage: true,
+                    fileSuccess: false,
+                  });
+                }
               }
+              // ajaxArr = [];
+              // if (this.state.allUpload) {
+              //   $('#upload-voice').hide();
+              //   uploadedArr = [];
+              //   uploadedNumber=0;
+              //   this.setState({
+              //     totalNumber:0,
+              //   },()=>{
+              //     $('.upload-btn .icon-shangchuan').css('font-size','55px');
+              //     $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
+              //     $('.upload-num').hide();
+              //     $('.uploaded-number').html(uploadedNumber);
+              //   });
+              // } else {
+              //   this.setState({
+              //     gotoOtherPage: true,
+              //     fileSuccess: false,
+              //   });
+              // }
             }}
           />
         </div>
@@ -391,7 +424,7 @@ class Main extends Component {
           </div>
           {
             this.state.fileSuccess ? <div className="successTop">
-              您已成功上传<span className="successNum"></span>文件，现在可以去往历史任务页面查看分析结果。
+              您已成功上传<span className="successNum"></span>个文件，现在可以去往历史任务页面查看分析结果。
             </div> : <div className="unSuccessTop">
               您有文件未上传成功，是否终止上传
             </div>
@@ -402,13 +435,13 @@ class Main extends Component {
                 if(!this.state.fileSuccess) window.location.reload();
                 this.setState({
                   gotoOtherPage: false,
-                }, () => {
-                  // $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
                 });
-                $('#upload-voice').hide();
-                if (ajax && !this.state.fileSuccess) {
-                  ajax.abort(); // 停止上传
+                if (!this.state.fileSuccess) {
+                  $('#upload-voice').hide();
                 }
+                // if (ajax && !this.state.fileSuccess) {
+                //   ajax.abort(); // 停止上传
+                // }
               }}>{this.state.fileSuccess ? '关闭' : '去意已决'}</div>
               <div className={this.state.fileSuccess ? 'toHistory' : 'wait'} onClick={() => {
                 if (this.state.fileSuccess) {
@@ -439,6 +472,7 @@ class Main extends Component {
           id="start-insight"
           onClick={() => {
             $('#upload-voice').show();
+            $('#upload-voice').removeClass('big').find('.upload-bottom').hide().find('.list-wrap').remove();
           }}
         />
         <DanaoWrapper>
