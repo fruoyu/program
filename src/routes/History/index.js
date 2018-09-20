@@ -382,7 +382,7 @@ class History extends Component {
 
     return (
       <div className="bootContent historyContent historyIcon">
-        <Scrollbars style={{ flex: 1 }} autoHide>
+        <Scrollbars style={{ flex:1 }} autoHide={false}>
           {/* 头部信息 */}
           <CommonHeader title="录音列表" isMain customer isUserPort home />
           <div id="content">
