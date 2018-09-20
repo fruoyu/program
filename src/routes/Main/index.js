@@ -89,111 +89,108 @@ class Main extends Component {
     let files = e.currentTarget.files;
     let $wrap = $('<div class="list-wrap"></div>');
     let uploadProgress = [];
-    ifToken(() => {
-        
-      verify((err, decoded) => {
-        this.uploadFile({
-          url: "/api/openApi/voiceQuality/uploadFilesIo",
-          data: {
-            userName: decoded.data.userName,
-          },
-          files,
-          filter: [],
-          sendBefore: (sendFiles) => {
-            // 开始之前
-            let str = '';
-            for (let i = 0; i < sendFiles.length; i ++) {
-              const item = sendFiles[i];
-              // const itemName = item.name.substr(0,item.name.length-4);
-              // const fileNameStrArr = itemName.split('-');
-              // const patrn = /^(?:.+-){3}([0-9]+)$/g;
-              // const patrnPhone = /^[1][3-9][0-9]{9}$/g;
-              // const regArr = patrn.exec(itemName);
-              // if (!patrnPhone.test(regArr[1])) {
-              //   return;
-              // } else if (fileNameStrArr.indexOf('') > -1) {
-              //   return;
-              // }
-
-              str += '<div class="upload-item">' +
-                  '<div class="file-info">' + item.name + '</div>' +
-                  '<div class="file-progress">' +
-                  '<div class="progress-color"></div>' +
-                  '<div class="progress-grey"><span class="percent">0%</span></div>' +
-                  '</div>' +
-                  '<div class="is-complete">' +
-                  '<span class="iconfont icon-gou1"></span>' +
-                  '<span class="iconfont icon-shuaxin"></span>' +
-                  '</div>' +
-                  '</div>';
-            }
-            $wrap.prepend(str);
-            $('.upload-bottom').prepend($wrap);
-          },
-          success: (data, index, _count) => {
-            // 某个文件传完
-            const length = $('.list-wrap').length - _count - 1;
-            $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.icon-gou1').show();
-            $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status', 'success');
-            $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.percent').html('100%');
-            $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.progress-grey').css('width','0%');
-            // 判断是否全部音频上传成功
-            uploadedArr.push('100%');  // 每上传成功一次push一次以便判断是否全部上传成功
-            const itemLength = $('.list-wrap .upload-item').length;
-            if (uploadedArr.length == itemLength) {
-              this.setState({
-                gotoOtherPage: true,
-                fileSuccess: true,
-                allUpload: true,
-              });
-              const successNum = $('.upload-item[status=success]').length;
-              $('.successNum').html(successNum);
-            }
-            // $('.list-wrap').map((index, item) => {
-            //   console.log($(item).find('.upload-item'))
-            //   console.log($(item).find('.upload-item').every((uploadIndex, uploadItem) => {
-            //     return $(uploadItem).find('.parant').html() === '100%';
-            //   }));
-            // });
-            // if (!this.state.gotoOtherPage) {
-            //   this.setState({
-            //     gotoOtherPage: true,
-            //     fileSuccess: true,
-            //   });
+    verify((err, decoded) => {
+      if (err) location.href = '/';
+      this.uploadFile({
+        url: "/api/openApi/voiceQuality/uploadFilesIo",
+        data: {
+          userName: decoded.data.userName,
+        },
+        files,
+        filter: [],
+        sendBefore: (sendFiles) => {
+          // 开始之前
+          let str = '';
+          for (let i = 0; i < sendFiles.length; i ++) {
+            const item = sendFiles[i];
+            // const itemName = item.name.substr(0,item.name.length-4);
+            // const fileNameStrArr = itemName.split('-');
+            // const patrn = /^(?:.+-){3}([0-9]+)$/g;
+            // const patrnPhone = /^[1][3-9][0-9]{9}$/g;
+            // const regArr = patrn.exec(itemName);
+            // if (!patrnPhone.test(regArr[1])) {
+            //   return;
+            // } else if (fileNameStrArr.indexOf('') > -1) {
+            //   return;
             // }
-          },
-          error: (err, index, _count) => {
-            $('.upload-failed').show();
-            const length = $('.list-wrap').length - _count - 1;
-            $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.icon-shuaxin').show();
-            $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status', 'error');
-            $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.progress-grey').addClass('width100');
-            $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.percent').html('0%').hide();
-            if (!this.state.gotoOtherPage) {
-              this.setState({
-                gotoOtherPage: true,
-                fileSuccess: false,
-              });
-            }
-          },
-          progress: (file) => {
-            // 某个文件的上传进度
 
-            // file.loaded  已经上传的
-            // flie.total  总量
-            // file.percent  百分比
-            // file.index   第多少个文件
-            const length = $('.list-wrap').length - file._count - 1;
-            // console.log(length, file, file._count, $('.list-wrap').eq(length))
-            const per = file.percent.split('%')[0];
-            $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.percent').html(per+'%');
-            $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.progress-grey').css('width',(100-per) + '%');
-            // console.log(file.name + ':第' + file.index + '个:' + file.percent);
-          },
-        });
-      })
+            str += '<div class="upload-item">' +
+                '<div class="file-info">' + item.name + '</div>' +
+                '<div class="file-progress">' +
+                '<div class="progress-color"></div>' +
+                '<div class="progress-grey"><span class="percent">0%</span></div>' +
+                '</div>' +
+                '<div class="is-complete">' +
+                '<span class="iconfont icon-gou1"></span>' +
+                '<span class="iconfont icon-shuaxin"></span>' +
+                '</div>' +
+                '</div>';
+          }
+          $wrap.prepend(str);
+          $('.upload-bottom').prepend($wrap);
+        },
+        success: (data, index, _count) => {
+          // 某个文件传完
+          const length = $('.list-wrap').length - _count - 1;
+          $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.icon-gou1').show();
+          $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status', 'success');
+          $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.percent').html('100%');
+          $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.progress-grey').css('width','0%');
+          // 判断是否全部音频上传成功
+          uploadedArr.push('100%');  // 每上传成功一次push一次以便判断是否全部上传成功
+          const itemLength = $('.list-wrap .upload-item').length;
+          if (uploadedArr.length == itemLength) {
+            this.setState({
+              gotoOtherPage: true,
+              fileSuccess: true,
+              allUpload: true,
+            });
+            const successNum = $('.upload-item[status=success]').length;
+            $('.successNum').html(successNum);
+          }
+          // $('.list-wrap').map((index, item) => {
+          //   console.log($(item).find('.upload-item'))
+          //   console.log($(item).find('.upload-item').every((uploadIndex, uploadItem) => {
+          //     return $(uploadItem).find('.parant').html() === '100%';
+          //   }));
+          // });
+          // if (!this.state.gotoOtherPage) {
+          //   this.setState({
+          //     gotoOtherPage: true,
+          //     fileSuccess: true,
+          //   });
+          // }
+        },
+        error: (err, index, _count) => {
+          $('.upload-failed').show();
+          const length = $('.list-wrap').length - _count - 1;
+          $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.icon-shuaxin').show();
+          $('.list-wrap').eq(length).find('.upload-item').eq(index).attr('status', 'error');
+          $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.progress-grey').addClass('width100');
+          $('.list-wrap').eq(length).find('.upload-item').eq(index).find('.percent').html('0%').hide();
+          if (!this.state.gotoOtherPage) {
+            this.setState({
+              gotoOtherPage: true,
+              fileSuccess: false,
+            });
+          }
+        },
+        progress: (file) => {
+          // 某个文件的上传进度
+
+          // file.loaded  已经上传的
+          // flie.total  总量
+          // file.percent  百分比
+          // file.index   第多少个文件
+          const length = $('.list-wrap').length - file._count - 1;
+          // console.log(length, file, file._count, $('.list-wrap').eq(length))
+          const per = file.percent.split('%')[0];
+          $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.percent').html(per+'%');
+          $('.list-wrap').eq(length).find('.upload-item').eq(file.index).find('.progress-grey').css('width',(100-per) + '%');
+          // console.log(file.name + ':第' + file.index + '个:' + file.percent);
+        },
+      });
     })
-
   }
 
   uploadFile = (option) => {
@@ -426,7 +423,7 @@ class Main extends Component {
           </div>
           {
             this.state.fileSuccess ? <div className="successTop">
-              您已成功上传<span className="successNum"></span>文件，现在可以去往历史任务页面查看分析结果。
+              您已成功上传<span className="successNum"></span>个文件，现在可以去往历史任务页面查看分析结果。
             </div> : <div className="unSuccessTop">
               您有文件未上传成功，是否终止上传
             </div>
