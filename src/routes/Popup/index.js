@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { routerRedux } from 'dva/router';
+import ReactScrollbar from 'react-scrollbar-js';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { connect } from 'dva';
 import { Spin, Alert } from 'antd';
@@ -163,7 +164,8 @@ class Popup extends Component {
     const customerId = this.props.location.query.customerId;
     return (
       <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')} ref='insightTermWrap'>
-        <Scrollbars>
+        <ReactScrollbar style={{ width: '100%', height: '100%' }}>
+          <div style={{ marginRight: 10 }}>
           {
             Object.keys(this.state.customer).map((item, index) => (
               <div className="insightTerm" data-type={item} key={index} ref={'insightTerm' + item}>
@@ -330,7 +332,8 @@ class Popup extends Component {
               </div>
             ))
           }
-        </Scrollbars>
+          </div>
+        </ReactScrollbar>
       </div>
     )
   }
@@ -736,74 +739,78 @@ class Popup extends Component {
                 共计 <span className="total-number">{filesList.length}</span> 个文件
               </div>
             </div>
-            <ul id="file-list">
-              <Scrollbars
-                onScrollFrame={(data) => {
-                  this.scrollFn(data)
-                }}
-              >
-                {
-                  filesList.map((item, index) => (
-                    <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index} ref={'filelist' + item.id}
-                      onClick={() => {
-                        this.setState({
-                          isPlay: false,
-                          customerId: item.id,
-                          cordLoading: true,
-                        });
-                        
-                        this.props.dispatch(routerRedux.push({
-                          pathname: '/popup',
-                          query: {
-                            taskId: item.id,
-                            customerId: item.customerId,
-                          },
-                        }));
-                        this.props.dispatch({
-                          type: 'popup/getFileResultApi',
-                          payload: {
-                            taskid: item.id
-                          },
-                          callback: (data) =>{
-                            let audio = this.refs.audio;
-                            this.setState({
-                              filePath: this.props.popup.fileResult.filePath,
-                              cordLoading: false
-                            },() => {
-                              audio.src = this.state.filePath;
-                            })
-                          }
-                        })
+              <ul id="file-list">
+                <ReactScrollbar
+                  style={{ width: '100%', height: '90%' }}
+                  // onScrollFrame={(data) => {
+                  //   this.scrollFn(data)
+                  // }}
+                >
+                  <div style={{ width: '100%', height: '100%' }} className="box">
+                      {
+                        filesList.map((item, index) => (
+                          <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index} ref={'filelist' + item.id}
+                            onClick={() => {
+                              this.setState({
+                                isPlay: false,
+                                customerId: item.id,
+                                cordLoading: true,
+                              });
+                              
+                              this.props.dispatch(routerRedux.push({
+                                pathname: '/popup',
+                                query: {
+                                  taskId: item.id,
+                                  customerId: item.customerId,
+                                },
+                              }));
+                              this.props.dispatch({
+                                type: 'popup/getFileResultApi',
+                                payload: {
+                                  taskid: item.id
+                                },
+                                callback: (data) =>{
+                                  let audio = this.refs.audio;
+                                  this.setState({
+                                    filePath: this.props.popup.fileResult.filePath,
+                                    cordLoading: false
+                                  },() => {
+                                    audio.src = this.state.filePath;
+                                  })
+                                }
+                              })
 
-                        // 获取录音原文
-                        this.props.dispatch({
-                          type: 'popup/getOriginalList',
-                          payload: {
-                            taskid: item.id
-                          },
-                          callback: (d)=>{
-                            console.log(d)
-                          }
-                        })
-                      }}
-                      onMouseEnter={() => {
-                        this.setState({
-                          hoverIndex: index,
-                        });
-                      }}
-                      onMouseLeave={() => {
-                        this.setState({
-                          hoverIndex: -1,
-                        });
-                      }}>
-                      <span className="item-name">{item.fileName}</span>
-                      <span className="item-size">{item.size}</span>
-                    </li>
-                  ))
-                }
-                { this.state.isLoading && <li className="loading"></li>}
-              </Scrollbars>
-            </ul>
+                              // 获取录音原文
+                              this.props.dispatch({
+                                type: 'popup/getOriginalList',
+                                payload: {
+                                  taskid: item.id
+                                },
+                                callback: (d)=>{
+                                  console.log(d)
+                                }
+                              })
+                            }}
+                            onMouseEnter={() => {
+                              this.setState({
+                                hoverIndex: index,
+                              });
+                            }}
+                            onMouseLeave={() => {
+                              this.setState({
+                                hoverIndex: -1,
+                              });
+                            }}>
+                            <span className="item-name">{item.fileName}</span>
+                            <span className="item-size">{item.size}</span>
+                          </li>
+                        ))
+                      }
+
+                      { this.state.isLoading && <li className="loading"></li>}
+                  </div>
+                </ReactScrollbar>
+              </ul>
           </div>   
         </DanaoWrapper>
       </div>
