@@ -237,7 +237,7 @@
     .loadingMsk{
       position: absolute; left:0; top:0; width: 100%; height: 100%; z-index: 10;
       .ant-spin-blur{
-        position: absolute; 
+        position: absolute;
         width: 100%; height: 100%;
         transform: scale(.9, .94);
         border-radius: 28px;
@@ -879,10 +879,11 @@ p {
 .insightTermWrapWidth{
   width: 33%;
 }
-.react-scrollbar-default .-reactjs-scrollbar-track\:vertical{
+
+.scrollarea .scrollbar-container , .react-scrollbar-default .-reactjs-scrollbar-track\:vertical{
   background: rgba(0,0,0,0)!important;
 }
-.react-scrollbar-default .-reactjs-scrollbar-thumb{
+.scrollarea .scrollbar-container .scrollbar, .react-scrollbar-default .-reactjs-scrollbar-thumb{
   background:rgba(0,0,255,.4)!important;
-  border-radius: 10px
+  border-radius: 10px;
 }
