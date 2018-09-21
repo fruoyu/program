@@ -199,10 +199,10 @@ class History extends Component {
   }
   // 进入数据界面
   gotoPopup(id, customerId, pageNum, status, realTime) {
-    if(status==='analysing'){
+    if(status==='analysing'|| status ==='analyse-error'){
       Modal.info({
         title: '不能查看洞察详情',
-        content: '录音正在分析中，请稍后。。。'
+        content: '录音未完成或正在分析中，请稍后。。。'
       });
     } else if(!customerId || !realTime){
       Modal.info({

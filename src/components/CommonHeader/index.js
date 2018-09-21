@@ -98,7 +98,7 @@ class MainWrapper extends Component {
     } = this.props;
     const { getFieldDecorator } = this.props.form;
     return (
-      <div>
+      <div className='headerWrapper'>
         {/* 头部信息 */}
         <div className="header">
           <div>

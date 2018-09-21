@@ -133,7 +133,7 @@ class Popup extends Component {
     
     const rfn = ()=>{
       const page = Math.ceil(this.state.fileTotal/10);
-      if(this.state.filesList.length<=10 && this.state.pageNum < page){
+      if(this.state.filesList.length<10 && this.state.pageNum < page){
         this.setState({
           pageSize: 10,
           pageNum: this.state.pageNum + 1,
@@ -152,36 +152,6 @@ class Popup extends Component {
     })
   }
 
-  scrollFn1 = (data, parent) => {
-    const bar = $(`${parent} .thumb-vertical-bar`);
-    const per = data.clientHeight/data.scrollHeight;
-    bar[0].style.top=data.scrollTop*per+'px';
-  }
-  handleUpdate=(data, parent)=>{ 
-      const bar = $(`${parent} .thumb-vertical-bar`),p=$(`${parent} div div`);
-    if(!bar.attr('a')){
-      let per = data.clientHeight/data.scrollHeight;
-      per= per<0.2?0.2:per;
-      bar.height(data.clientHeight*per);
-      const bPer = data.clientHeight*(1-per)/(data.scrollHeight-data.clientHeight);
-      bar.attr('per', bPer);
-      bar.mousedown((e)=>{
-        const iT = parseFloat(bar[0].style.top);
-        bar.attr('startY',e.pageY);
-        $(document).mousemove((e)=>{
-          const sY = parseFloat(bar.attr('startY'));
-          bar[0].style.top = (e.pageY-sY+iT) +'px';
-          if((e.pageY-sY+iT)<=0) {bar[0].style.top='0px';}
-            else p.scrollTop((e.pageY-sY+iT)/bPer);
-        });
-        $(document).mouseup((e)=>{
-          $(document).off('mousemove');
-        })
-      });
-    }
-   
-    bar.attr('a','1');
-  }
 
   // 渲染画像数据
   renderTermWrap = () => {
@@ -378,14 +348,8 @@ class Popup extends Component {
     const taskId = this.props.location.query.taskId;
     return (
       <div className="insightTextWrap" style={{ boxSizing: 'border-box', }}>
-        <Scrollbars
-          renderTrackVertical={props => <div {...props} style={{display:'block'}} className="track-vertical-wrap"/>}
-          renderThumbVertical={props => <div {...props} style={{position: 'absolute'}} className="thumb-vertical-bar"/>}
-          onUpdate={(data)=>{this.handleUpdate(data,'.insightTextWrap')}}
-          onScrollFrame={(data) => {
-            this.scrollFn1(data, '.insightTextWrap')
-          }}
-          ref='scrollBarsVoice'>
+        <ReactScrollbar style={{ width: '100%', height:'100%'}}>
+          <div style={{ marginRight: 10}}>
           {
             Object.keys(originalList).map((item, index) => (
               <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')} ref={'originalText' + parseInt(originalList[item].startTime / 1000)} data-time={parseInt(originalList[item].startTime / 1000)} > 
@@ -506,7 +470,8 @@ class Popup extends Component {
               </div>
             ))
           }
-        </Scrollbars>
+          </div>
+        </ReactScrollbar>
       </div>
     )
   }
@@ -670,6 +635,7 @@ class Popup extends Component {
               startTime: '',
               endTime: '',
               fileName: '',
+              hasCustomer: true,
               userName: decoded.data.userName,
               groupId: '',
             },
@@ -694,22 +660,22 @@ class Popup extends Component {
   }
 
   // 已识别文件下拉刷新
-  scrollFn = (data) => {
-    const { fileTotal } = this.state,
-      page = Math.ceil(fileTotal/10);
-    const per = data.clientHeight/data.scrollHeight;
-    const bar = $('#file-list .thumb-vertical-bar');
-    bar.height(data.clientHeight*per);
-    bar[0].style.top = data.scrollTop*per+ 'px';
-      
-    if(data.top === 1 && this.state.pageNum < page) {
-      this.setState({
-        pageSize: 10,
-        pageNum: this.state.pageNum + 1,
-      }, () => {
-        this.sendRequest();
-      });
-    }
+  scrollFn = (c) => {
+      if(c){
+          console.log(c)
+        const { fileTotal } = this.state,
+          page = Math.ceil(fileTotal/10);
+        const { state: { scrollAreaHeight, scrollWrapperHeight, top } } = c;
+        if ((scrollAreaHeight - scrollWrapperHeight) === top && this.state.pageNum < page && !this.state.isLoading) {
+          this.setState({
+            pageSize: 10,
+            pageNum: this.state.pageNum + 1,
+          }, () => {
+            // this.sendRequest();
+          });
+        }
+      }
+   
   }
 
   render() {
@@ -779,15 +745,13 @@ class Popup extends Component {
             </div>
             <div id="search">
               <div className="total">
-                共计 <span className="total-number">{filesList.length}</span> 个文件
+                共计 <span className="total-number">{this.state.fileTotal}</span> 个文件
               </div>
             </div>
               <ul id="file-list">
                 <ReactScrollbar
                   style={{ width: '100%', height: '90%' }}
-                  // onScrollFrame={(data) => {
-                  //   this.scrollFn(data)
-                  // }}
+                  ref={(c) => { this.scrollFn(c); this.scroll = c; }}
                 >
                   <div style={{ width: '100%', height: '100%' }} className="box">
                       {
