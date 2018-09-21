@@ -153,6 +153,37 @@ class Popup extends Component {
     })
   }
 
+  scrollFn1 = (data, parent) => {
+    const bar = $(`${parent} .thumb-vertical-bar`);
+    const per = data.clientHeight/data.scrollHeight;
+    bar[0].style.top=data.scrollTop*per+'px';
+  }
+  handleUpdate=(data, parent)=>{ 
+      const bar = $(`${parent} .thumb-vertical-bar`),p=$(`${parent} div div`);
+    if(!bar.attr('a')){
+      let per = data.clientHeight/data.scrollHeight;
+      per= per<0.2?0.2:per;
+      bar.height(data.clientHeight*per);
+      const bPer = data.clientHeight*(1-per)/(data.scrollHeight-data.clientHeight);
+      bar.attr('per', bPer);
+      bar.mousedown((e)=>{
+        const iT = parseFloat(bar[0].style.top);
+        bar.attr('startY',e.pageY);
+        $(document).mousemove((e)=>{
+          const sY = parseFloat(bar.attr('startY'));
+          bar[0].style.top = (e.pageY-sY+iT) +'px';
+          if((e.pageY-sY+iT)<=0) {bar[0].style.top='0px';}
+            else p.scrollTop((e.pageY-sY+iT)/bPer);
+        });
+        $(document).mouseup((e)=>{
+          $(document).off('mousemove');
+        })
+      });
+    }
+   
+    bar.attr('a','1');
+  }
+
   // 渲染画像数据
   renderTermWrap = () => {
     const {
@@ -352,7 +383,14 @@ class Popup extends Component {
     const taskId = this.props.location.query.taskId;
     return (
       <div className="insightTextWrap" style={{ boxSizing: 'border-box', }}>
-        <Scrollbars ref='scrollBarsVoice'>
+        <Scrollbars
+          renderTrackVertical={props => <div {...props} style={{display:'block'}} className="track-vertical-wrap"/>}
+          renderThumbVertical={props => <div {...props} style={{position: 'absolute'}} className="thumb-vertical-bar"/>}
+          onUpdate={(data)=>{this.handleUpdate(data,'.insightTextWrap')}}
+          onScrollFrame={(data) => {
+            this.scrollFn1(data, '.insightTextWrap')
+          }}
+          ref='scrollBarsVoice'>
           {
             Object.keys(originalList).map((item, index) => (
               <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')} ref={'originalText' + parseInt(originalList[item].startTime / 1000)} data-time={parseInt(originalList[item].startTime / 1000)} >
