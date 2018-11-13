@@ -3,6 +3,7 @@ import $ from 'jquery';
 import { routerRedux } from 'dva/router';
 import ReactScrollbar from 'react-scrollbar-js';
 import { Scrollbars } from 'react-custom-scrollbars';
+import ScrollArea from 'react-scrollbar';
 import { connect } from 'dva';
 import { Spin, Alert } from 'antd';
 import {
@@ -127,16 +128,16 @@ class Popup extends Component {
           rfn();
           pageNum>1 && $('#file-list div').animate({scrollTop: 600*(pageNum-1)+'px'}, 500);
         })
-        
+
       });
     });
-    
+
     const rfn = ()=>{
       const page = Math.ceil(this.state.fileTotal/10);
       if(this.state.filesList.length<10 && this.state.pageNum < page){
         this.setState({
           pageSize: 10,
-          pageNum: this.state.pageNum + 1,
+          pageNum: this.state.pageNum,
         }, () => {
           this.sendRequest(rfn);
         });
@@ -165,174 +166,178 @@ class Popup extends Component {
     const customerId = this.props.location.query.customerId;
     return (
       <div className={['insightTermWrap', this.state.isOriginal ? 'insightTermWrapWidth' : ''].join(' ')} ref='insightTermWrap'>
-        <ReactScrollbar style={{ width: '100%', height: '100%' }}>
-          <div style={{ marginRight: 10 }}>
-          {
-            Object.keys(this.state.customer).map((item, index) => (
-              <div className="insightTerm" data-type={item} key={index} ref={'insightTerm' + item}>
-                <div className="insightTermTitle">
-                  <p>{this.state.customer[item]}:</p>
-                  <div
-                    onClick={() => {
-                      this.setState({
-                        isInputEdit: false,
-                      }, () => {
-                        const input = this.refs['input' + index];
-                        input.focus();
-                      });
-                    }}
-                  >
-                    {
-                      keylist && keylist.length && keylist.map((keylistItem, keylistIndex) => {
-                        if (keylistItem.type == item) {
-                          return <input
-                            data-name={item}
-                            type="text"
-                            className='insightName'
-                            value={keylistItem.context}
-                            disabled={this.state.isInputEdit}
-                            key={keylistIndex}
-                            ref={'input' + index}
-                            onChange={(e) => {
-                              let keylistObj = keylist;
-                              keylistObj.map((objItem, objIndex) => {
-                                if (objItem.type == item) {
-                                  keylistObj[objIndex].context = e.target.value;
-                                }
-                              });
-                              this.props.dispatch({
-                                type: 'popup/saveKeylistForm',
-                                payload: {
-                                  fileResult: {
-                                    ...this.props.popup.fileResult,
-                                    keylist: keylistObj,
+        <ReactScrollbar
+          style={{ width: '100%', height: '100%' }}
+        >
+          <div
+            style={{ marginRight: 10 }}
+          >
+            {
+              Object.keys(this.state.customer).map((item, index) => (
+                <div className="insightTerm" data-type={item} key={index} ref={'insightTerm' + item}>
+                  <div className="insightTermTitle">
+                    <p>{this.state.customer[item]}:</p>
+                    <div
+                      onClick={() => {
+                        this.setState({
+                          isInputEdit: false,
+                        }, () => {
+                          const input = this.refs['input' + index];
+                          input.focus();
+                        });
+                      }}
+                    >
+                      {
+                        keylist && keylist.length && keylist.map((keylistItem, keylistIndex) => {
+                          if (keylistItem.type == item) {
+                            return <input
+                              data-name={item}
+                              type="text"
+                              className='insightName'
+                              value={keylistItem.context}
+                              disabled={this.state.isInputEdit}
+                              key={keylistIndex}
+                              ref={'input' + index}
+                              onChange={(e) => {
+                                let keylistObj = keylist;
+                                keylistObj.map((objItem, objIndex) => {
+                                  if (objItem.type == item) {
+                                    keylistObj[objIndex].context = e.target.value;
+                                  }
+                                });
+                                this.props.dispatch({
+                                  type: 'popup/saveKeylistForm',
+                                  payload: {
+                                    fileResult: {
+                                      ...this.props.popup.fileResult,
+                                      keylist: keylistObj,
+                                    },
                                   },
-                                },
-                              });
-                            }}
-                            onBlur={(e) => {
+                                });
+                              }}
+                              onBlur={(e) => {
+                                this.props.dispatch({
+                                  type: 'popup/KeyEdit',
+                                  payload: {
+                                    context: e.target.value,
+                                    taskid: taskId + '',
+                                    optype: 'edit',
+                                    type: item,
+                                    creat_time: '',
+                                    customId: customerId,
+                                    status: '',
+                                  },
+                                  callback: () => {
+                                    this.props.dispatch({
+                                      type: 'popup/getFileResultApi',
+                                      payload: {
+                                        taskid: taskId,
+                                      },
+                                    });
+                                  },
+                                });
+                                this.setState({
+                                  isInputEdit: true,
+                                });
+                              }}
+                            ></input>
+                          }
+                        })
+                      }
+                    </div>
+                    <span
+                      className="insightTermNamedit pull-right"
+                      data-type={item}
+                      onClick={() => {
+                        this.setState({
+                          isInputEdit: false,
+                        }, () => {
+                          const input = this.refs['input' + index];
+                          input.focus();
+                        });
+                      }}
+                    >
+                      <i className="iconfont icon-xiugai"></i>
+                      <i className="iconfont icon-gou1"></i>
+                    </span>
+                  </div>
+                  <div className="insightTermContent">
+                    <div className="digTitle">挖掘出的语句</div>
+                    {
+                      keylist && labellist[item].map((labelItem, labelIndex) => (
+                        <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
+                          <div className="digSentence">
+                            <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
+                            <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
+                              {labelItem.context}
+                              <i
+                                className="audioJump iconfont icon-yuyin1-copy"
+                                onClick={(e) => {
+                                  var _this = $(e.currentTarget);
+                                  var time = _this.parents('.digSentenceWrap').attr('data-time');
+                                  let o = $('.originalText[data-time='+time+']')[0];
+                                  if(o){
+                                    var scrollH = o.offsetTop-20;
+                                    $('.insightTextWrap div').animate({scrollTop: scrollH+'px'}, 500);
+                                  }
+                                  this.playMusic(labelItem.time);
+                                }}
+                              >
+                              </i>
+                            </p>
+                            <div className="arrow">
+                              <i className="iconfont icon-sanjiaoright"></i>
+                            </div>
+                          </div>
+                          <div className="border-wrap"></div>
+                          <div
+                            className={labelItem.status == 'true' ? 'sentenceDel' : 'sentenceRight'}
+                            data-name={0}
+                            onClick={() => {
                               this.props.dispatch({
-                                type: 'popup/KeyEdit',
+                                type: 'popup/editItem',
                                 payload: {
-                                  context: e.target.value,
-                                  taskid: taskId + '',
-                                  optype: 'edit',
-                                  type: item,
-                                  creat_time: '',
-                                  customId: customerId,
-                                  status: '',
+                                  id: labelItem.id,
+                                  status: labelItem.status == 'true' ? false: true,
                                 },
-                                callback: () => {
+                                callback: (data) => {
                                   this.props.dispatch({
                                     type: 'popup/getFileResultApi',
                                     payload: {
                                       taskid: taskId,
                                     },
                                   });
+                                  if (this.state.isOriginal) {
+                                    let originalScroll = this.refs['originalText' + parseInt(labelItem.time / 1000)].offsetTop;
+                                    this.props.dispatch({
+                                      type: 'popup/getOriginalList',
+                                      payload: {
+                                        taskid: taskId,
+                                      },
+                                      callback: () => {
+                                        $('.insightTextWrap > div > div').animate({
+                                          scrollTop: originalScroll + 'px',
+                                        }, 500)
+                                      }
+                                    });
+                                  }
                                 },
                               });
-                              this.setState({
-                                isInputEdit: true,
-                              });
                             }}
-                          ></input>
-                        }
-                      })
-                    }
-                  </div>
-                  <span
-                    className="insightTermNamedit pull-right"
-                    data-type={item}
-                    onClick={() => {
-                      this.setState({
-                        isInputEdit: false,
-                      }, () => {
-                        const input = this.refs['input' + index];
-                        input.focus();
-                      });
-                    }}
-                  >
-                    <i className="iconfont icon-xiugai"></i>
-                    <i className="iconfont icon-gou1"></i>
-                  </span>
-                </div>
-                <div className="insightTermContent">
-                  <div className="digTitle">挖掘出的语句</div>
-                  {
-                    keylist && labellist[item].map((labelItem, labelIndex) => (
-                      <div className="digSentenceWrap" data-time={parseInt(labelItem.time / 1000)} data-boolean={labelItem.status} key={labelIndex}>
-                        <div className="digSentence">
-                          <p className={labelItem.status == 'true' ? '' : 'line-through'}>{this.formatSeconds(parseInt(labelItem.time / 1000))}</p>
-                          <p className={['content', labelItem.status == 'true' ? '' : 'line-through'].join(" ")}>
-                            {labelItem.context}
-                            <i
-                              className="audioJump iconfont icon-yuyin1-copy"
-                              onClick={(e) => {
-                                var _this = $(e.currentTarget);
-                                var time = _this.parents('.digSentenceWrap').attr('data-time');
-                                let o = $('.originalText[data-time='+time+']')[0];
-                                if(o){
-                                  var scrollH = o.offsetTop-20;
-                                  $('.insightTextWrap div').animate({scrollTop: scrollH+'px'}, 500);
-                                }
-                                this.playMusic(labelItem.time);
-                              }}
-                            >
-                            </i>
-                          </p>
-                          <div className="arrow">
-                            <i className="iconfont icon-sanjiaoright"></i>
+                          >
+                            {
+                              <i className={['iconfont', labelItem.status == 'true' ? 'icon-cuowu' : 'icon-gou1'].join(' ')}></i>
+                            }
                           </div>
                         </div>
-                        <div className="border-wrap"></div>
-                        <div
-                          className={labelItem.status == 'true' ? 'sentenceDel' : 'sentenceRight'}
-                          data-name={0}
-                          onClick={() => {
-                            this.props.dispatch({
-                              type: 'popup/editItem',
-                              payload: {
-                                id: labelItem.id,
-                                status: labelItem.status == 'true' ? false: true,
-                              },
-                              callback: (data) => {
-                                this.props.dispatch({
-                                  type: 'popup/getFileResultApi',
-                                  payload: {
-                                    taskid: taskId,
-                                  },
-                                });
-                                if (this.state.isOriginal) {
-                                  let originalScroll = this.refs['originalText' + parseInt(labelItem.time / 1000)].offsetTop;
-                                  this.props.dispatch({
-                                    type: 'popup/getOriginalList',
-                                    payload: {
-                                      taskid: taskId,
-                                    },
-                                    callback: () => {
-                                      $('.insightTextWrap > div > div').animate({
-                                        scrollTop: originalScroll + 'px',
-                                      }, 500)
-                                    }
-                                  });
-                                }
-                              },
-                            });
-                          }}
-                        >
-                          {
-                            <i className={['iconfont', labelItem.status == 'true' ? 'icon-cuowu' : 'icon-gou1'].join(' ')}></i>
-                          }
-                        </div>
-                      </div>
 
-                    ))
-                  }
+                      ))
+                    }
 
+                  </div>
                 </div>
-              </div>
-            ))
-          }
+              ))
+            }
           </div>
         </ReactScrollbar>
       </div>
@@ -352,7 +357,7 @@ class Popup extends Component {
           <div style={{ marginRight: 10}}>
           {
             Object.keys(originalList).map((item, index) => (
-              <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')} ref={'originalText' + parseInt(originalList[item].startTime / 1000)} data-time={parseInt(originalList[item].startTime / 1000)} > 
+              <div key={index} className={['originalText', originalList[item].role == 'USER' ? 'rightText' : 'leftText'].join(' ')} ref={'originalText' + parseInt(originalList[item].startTime / 1000)} data-time={parseInt(originalList[item].startTime / 1000)} >
                 {
                   originalList[item].role == 'USER' ?
                     <div className="fristLine">
@@ -660,22 +665,17 @@ class Popup extends Component {
   }
 
   // 已识别文件下拉刷新
-  scrollFn = (c) => {
-      if(c){
-          console.log(c)
-        const { fileTotal } = this.state,
-          page = Math.ceil(fileTotal/10);
-        const { state: { scrollAreaHeight, scrollWrapperHeight, top } } = c;
-        if ((scrollAreaHeight - scrollWrapperHeight) === top && this.state.pageNum < page && !this.state.isLoading) {
-          this.setState({
-            pageSize: 10,
-            pageNum: this.state.pageNum + 1,
-          }, () => {
-            // this.sendRequest();
-          });
-        }
-      }
-   
+  scrollFn = (data) => {
+    const { fileTotal } = this.state,
+      page = Math.ceil(fileTotal / 10);
+    if (data.topPosition > 0 && data.topPosition % 148 === 0 && this.state.pageNum < page) {
+      this.setState({
+        pageSize: 10,
+        pageNum: this.state.pageNum + 1,
+      }, () => {
+        this.sendRequest();
+      });
+    }
   }
 
   render() {
@@ -696,7 +696,7 @@ class Popup extends Component {
               <Alert message="Alert message title" />
             </Spin>
             }
-            
+
 
             <div className="originalTextOperate">
               {/* 点击原文或收起 */}
@@ -707,7 +707,7 @@ class Popup extends Component {
                     isOriginal: false,
                   })
                 }}>
-                  <i className="iconfont icon-shouqi" style={{ fontSize: '16px'}}></i>
+                  <i className="iconfont icon-shouqi" style={{ fontSize: '16px' }}></i>
                   <span className="retractSpan">收起</span>
                 </div> :
                 <div className="view" onClick={() => {
@@ -749,76 +749,83 @@ class Popup extends Component {
               </div>
             </div>
               <ul id="file-list">
-                <ReactScrollbar
+                <ScrollArea
                   style={{ width: '100%', height: '90%' }}
-                  ref={(c) => { this.scrollFn(c); this.scroll = c; }}
+                  onScroll={(value) => {
+                    if (value.topPosition > 0 && value.topPosition % 148 === 0) {
+                      this.scrollFn(value);
+                    }
+                  }}
                 >
-                  <div style={{ width: '100%', height: '100%' }} className="box">
-                      {
-                        filesList.map((item, index) => (
-                          <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index} ref={'filelist' + item.id}
-                            onClick={() => {
-                              this.setState({
-                                isPlay: false,
-                                customerId: item.id,
-                                cordLoading: true,
-                              });
-                              
-                              this.props.dispatch(routerRedux.push({
-                                pathname: '/popup',
-                                query: {
-                                  taskId: item.id,
-                                  customerId: item.customerId,
-                                },
-                              }));
-                              this.props.dispatch({
-                                type: 'popup/getFileResultApi',
-                                payload: {
-                                  taskid: item.id
-                                },
-                                callback: (data) =>{
-                                  let audio = this.refs.audio;
-                                  this.setState({
-                                    filePath: this.props.popup.fileResult.filePath,
-                                    cordLoading: false
-                                  },() => {
-                                    audio.src = this.state.filePath;
-                                  })
-                                }
-                              })
+                  <div
+                    style={{ width: '100%', height: '100%' }}
+                    className="box"
+                  >
+                    {
+                      filesList.map((item, index) => (
+                        <li className={['file-item', item.id == taskId ? 'item-active-2' : '', index == this.state.hoverIndex ? 'item-active' : ''].join(' ')} data-name={item.id} data-status={item.statusMessage} key={index} ref={'filelist' + item.id}
+                          onClick={() => {
+                            this.setState({
+                              isPlay: false,
+                              customerId: item.id,
+                              cordLoading: true,
+                            });
 
-                              // 获取录音原文
-                              this.props.dispatch({
-                                type: 'popup/getOriginalList',
-                                payload: {
-                                  taskid: item.id
-                                },
-                                callback: (d)=>{
-                                  console.log(d)
-                                }
-                              })
-                            }}
-                            onMouseEnter={() => {
-                              this.setState({
-                                hoverIndex: index,
-                              });
-                            }}
-                            onMouseLeave={() => {
-                              this.setState({
-                                hoverIndex: -1,
-                              });
-                            }}>
-                            <span className="item-name">{item.fileName}</span>
-                            <span className="item-size">{item.size}</span>
-                          </li>
-                        ))
-                      }
+                            this.props.dispatch(routerRedux.push({
+                              pathname: '/popup',
+                              query: {
+                                taskId: item.id,
+                                customerId: item.customerId,
+                              },
+                            }));
+                            this.props.dispatch({
+                              type: 'popup/getFileResultApi',
+                              payload: {
+                                taskid: item.id
+                              },
+                              callback: (data) =>{
+                                let audio = this.refs.audio;
+                                this.setState({
+                                  filePath: this.props.popup.fileResult.filePath,
+                                  cordLoading: false
+                                },() => {
+                                  audio.src = this.state.filePath;
+                                })
+                              }
+                            })
 
-                      { this.state.isLoading && <li className="loading"></li>}
+                            // 获取录音原文
+                            this.props.dispatch({
+                              type: 'popup/getOriginalList',
+                              payload: {
+                                taskid: item.id
+                              },
+                              callback: (d)=>{
+                                console.log(d)
+                              }
+                            })
+                          }}
+                          onMouseEnter={() => {
+                            this.setState({
+                              hoverIndex: index,
+                            });
+                          }}
+                          onMouseLeave={() => {
+                            this.setState({
+                              hoverIndex: -1,
+                            });
+                          }}>
+                          <span className="item-name">{item.fileName}</span>
+                          <span className="item-size">{item.size}</span>
+                        </li>
+                      ))
+                    }
+
+                    { this.state.isLoading && <li className="loading" />}
                   </div>
-                </ReactScrollbar>
+                </ScrollArea>
               </ul>
-          </div>   
+          </div>
         </DanaoWrapper>
       </div>
     );
